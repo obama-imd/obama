@@ -1,0 +1,35 @@
+version: '3.3'
+
+networks:
+  obama_network:
+    ipam:
+      driver: default
+      config:
+        - subnet: 145.0.0.0/16
+
+
+services:
+#  obama:
+#    container_name: obama
+#    build:
+#      context: ./
+#      dockerfile: Dockerfile
+#    image: obama:latest
+#    ports:
+#      - "8081:8081"
+#    networks:
+#      obama_network:
+#        ipv4_address: 145.0.0.4
+
+  postgres:
+    container_name: pflege_accounting_postgres
+    image: postgres:13.5
+    ports:
+      - "5432:5432"
+    networks:
+      pflege_accounting_network:
+        ipv4_address: 145.0.0.2
+    environment:
+      POSTGRES_USER: "OBAMA_ADMIN"
+      POSTGRES_PASSWORD: "OBAMA_LOCAL"
+
