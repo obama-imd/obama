@@ -10,14 +10,14 @@ plugins {
 
 group = "br.ufrn.imd"
 version = "0.0.1-SNAPSHOT"
-java.sourceCompatibility = JavaVersion.VERSION_17
+java.sourceCompatibility = JavaVersion.VERSION_11
 
 repositories {
 	mavenCentral()
 }
 
 extra["springCloudVersion"] = "2021.0.3"
-extra["testcontainersVersion"] = "1.17.2"
+extra["testcontainersVersion"] = "1.16.2"
 
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
@@ -48,7 +48,7 @@ dependencyManagement {
 tasks.withType<KotlinCompile> {
 	kotlinOptions {
 		freeCompilerArgs = listOf("-Xjsr305=strict")
-		jvmTarget = "17"
+		jvmTarget = "11"
 	}
 }
 
