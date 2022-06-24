@@ -149,7 +149,7 @@ CREATE TABLE public.objetoaprendizagem_avaliacao (
 CREATE TABLE public.objetoaprendizagem_comentario (
 	objeto_aprendizagem_id int8 NOT NULL,
 	comentario_id int8 NOT NULL,
-	CONSTRAINT objetoaprendizagem_avaliacao_pk PRIMARY KEY (objeto_aprendizagem_id, comentario_id),
+	CONSTRAINT objetoaprendizagem_comentario_pk PRIMARY KEY (objeto_aprendizagem_id, comentario_id),
 	CONSTRAINT objetoaprendizagem_comentario_fk01 FOREIGN KEY (comentario_id) REFERENCES public.comentario(id),
 	CONSTRAINT objetoaprendizagem_comentario_fk02 FOREIGN KEY (objeto_aprendizagem_id) REFERENCES public.objetoaprendizagem(id)
 );
@@ -318,7 +318,7 @@ CREATE TABLE public.objetoaprendizagem_habilidade (
 CREATE TABLE public.objetoaprendizagem_planodeaula (
 	objeto_aprendizagem_id int8 NOT NULL,
 	planos_de_aula_id int8 NOT NULL,
-	CONSTRAINT objetoaprendizagem_planodeaula_pk PRIMARY KEY (objetoaprendizagem, planos_de_aula_id),
+	CONSTRAINT objetoaprendizagem_planodeaula_pk PRIMARY KEY (objeto_aprendizagem_id, planos_de_aula_id),
 	CONSTRAINT objetoaprendizagem_planodeaula_fk01 FOREIGN KEY (objeto_aprendizagem_id) REFERENCES public.objetoaprendizagem(id),
 	CONSTRAINT objetoaprendizagem_planodeaula_fk02 FOREIGN KEY (planos_de_aula_id) REFERENCES public.planodeaula(id)
 );

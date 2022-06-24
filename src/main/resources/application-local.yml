@@ -5,5 +5,3 @@ spring:
     password: OBAMA_LOCAL
   jpa:
     show-sql: true
-  flyway:
-    enabled: false
