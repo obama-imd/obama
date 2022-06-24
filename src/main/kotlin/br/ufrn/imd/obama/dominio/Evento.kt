@@ -40,7 +40,7 @@ data class Evento (
 		joinColumns = [JoinColumn(name="evento", referencedColumnName="id")],
 		inverseJoinColumns=[JoinColumn(name="usuario_id", referencedColumnName="id")]
 	)
-	val colaboradores: HashSet<Usuario> = hashSetOf()
+	val colaboradores: Set<Usuario> = hashSetOf()
 
 	@OneToMany(mappedBy="evento")
 	val atividades: List<Atividade> = listOf()

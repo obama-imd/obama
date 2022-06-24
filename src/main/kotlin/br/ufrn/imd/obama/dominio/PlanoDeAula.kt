@@ -97,7 +97,7 @@ data class PlanoDeAula (
 		joinColumns = [JoinColumn(name="planodeaula_id", referencedColumnName="id")],
 		inverseJoinColumns= [JoinColumn(name="objetosaprendizagem_id", referencedColumnName="id")]
 	)
-	val objetosAprendizagem: HashSet<ObjetoAprendizagem> = hashSetOf()
+	val objetosAprendizagem: Set<ObjetoAprendizagem> = hashSetOf()
 
 	@ManyToMany(fetch=FetchType.EAGER)
 	@JoinTable(
@@ -106,7 +106,7 @@ data class PlanoDeAula (
 		joinColumns = [JoinColumn(name="planodeaula_id", referencedColumnName="id")],
 		inverseJoinColumns= [JoinColumn(name="usuario_id", referencedColumnName="id")]
 	)
-	val coautores: HashSet<Usuario> = hashSetOf()
+	val coautores: Set<Usuario> = hashSetOf()
 
 	@OneToMany(
 		mappedBy = "plano",
@@ -117,7 +117,7 @@ data class PlanoDeAula (
 
 	@OneToMany(fetch=FetchType.EAGER, cascade=[CascadeType.ALL])
 	@JoinTable(name="planodeaula_comentario", schema="public")
-	val comentarios: HashSet<Comentario> = hashSetOf()
+	val comentarios: Set<Comentario> = hashSetOf()
 
 	@Transient
 	val comentariosFeedback: List<Comentario> = emptyList()

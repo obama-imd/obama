@@ -91,7 +91,7 @@ data class ObjetoAprendizagem (
 		joinColumns = [JoinColumn(name="objetoaprendizagem", referencedColumnName="id")],
 		inverseJoinColumns=[JoinColumn(name="descritor_id", referencedColumnName="id")]
 	)
-	val descritores: HashSet<Descritor> = hashSetOf()
+	val descritores: Set<Descritor> = hashSetOf()
 
 	@ManyToMany(fetch=FetchType.EAGER)
 	@JoinTable(
@@ -100,7 +100,7 @@ data class ObjetoAprendizagem (
 		joinColumns = [JoinColumn(name="objetoaprendizagem", referencedColumnName="id")],
 		inverseJoinColumns=[JoinColumn(name="habilidade_id", referencedColumnName="id")]
 	)
-	val habilidades: HashSet<Habilidade> = hashSetOf()
+	val habilidades: Set<Habilidade> = hashSetOf()
 
 	@Transient
 	val conteudosPorNivel: HashMap<NivelEnsino, Set<TemaConteudo>> = hashMapOf()

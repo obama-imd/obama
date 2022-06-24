@@ -45,5 +45,5 @@ data class Atividade(
 ) {
 
 	@OneToMany(mappedBy="atividade", cascade =[CascadeType.ALL] ,fetch = FetchType.EAGER)
-	val participantes: HashSet<Participante> = hashSetOf()
+	val participantes: Set<Participante> = hashSetOf()
 }

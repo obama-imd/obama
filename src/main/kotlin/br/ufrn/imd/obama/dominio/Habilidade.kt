@@ -28,7 +28,7 @@ data class Habilidade (
 	@Column(name = "conhecimentos", columnDefinition="text")
 	val conhecimentos: String,
 
-	@Column(name = "conhecimentos")
+	@Column(name = "codigo")
 	val codigo: String,
 	
 	@ManyToOne
