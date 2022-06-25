@@ -16,7 +16,7 @@ docker-compose up --build -d
 **Subindo alguns serviços**
 
 ```shell
-docker-compose up [ service_name_01 | service_name_02] --build -d
+docker-compose up [ servico_01 | servico_02] --build -d
 ```
 
 **Parar todos os containers**
@@ -71,4 +71,3 @@ Você consegue adicionar o profile como mostra a seguir:
 ## Swagger
 
 Swagger está configurado para o link {HOST}/swagger-ui/index.html.
-
