@@ -1,0 +1,23 @@
+version: '3.3'
+
+networks:
+  obama_network:
+    ipam:
+      driver: default
+      config:
+        - subnet: 170.0.0.0/16
+
+
+services:
+  obama_postgres:
+    container_name: obama_postgres
+    image: postgres:13.5
+    ports:
+      - "5432:5432"
+    networks:
+      obama_network:
+        ipv4_address: 170.0.0.2
+    environment:
+      POSTGRES_USER: "OBAMA_ADMIN"
+      POSTGRES_PASSWORD: "OBAMA_LOCAL"
+

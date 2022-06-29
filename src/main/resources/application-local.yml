@@ -1,0 +1,7 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: OBAMA_ADMIN
+    password: OBAMA_LOCAL
+  jpa:
+    show-sql: true
