@@ -6,6 +6,7 @@ plugins {
 	id("org.flywaydb.flyway") version "7.1.1"
 	kotlin("jvm") version "1.6.21"
 	kotlin("plugin.spring") version "1.6.21"
+	id("jacoco")
 }
 
 group = "br.ufrn.imd"
@@ -51,6 +52,8 @@ tasks.withType<KotlinCompile> {
 }
 
 tasks.withType<Test> {
+	maxParallelForks = 4
+	setForkEvery(10)
 	useJUnitPlatform()
 }
 
@@ -58,4 +61,12 @@ flyway {
 	url = "jdbc:postgresql://localhost:5432/postgres"
 	user = "OBAMA_ADMIN"
 	password = "OBAMA_LOCAL"
+}
+
+tasks.jacocoTestReport{
+	reports{
+		xml.required.set(true)
+		csv.required.set(false)
+		html.outputLocation.set(layout.buildDirectory.dir("jacocoHtml"))
+	}
 }
