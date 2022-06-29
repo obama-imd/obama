@@ -13,14 +13,14 @@ import javax.persistence.Table
 data class AutorMantenedor (
 	@Id
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
-	val id: Long,
+	val id: Long = 0,
 
 	@Column(name="nome")
-	val nome: String,
+	val nome: String = "",
 
 	@Column(name="email")
-	val email: String,
+	val email: String = "",
 
 	@Column(name="site")
-	val site: String
+	val site: String = ""
 )

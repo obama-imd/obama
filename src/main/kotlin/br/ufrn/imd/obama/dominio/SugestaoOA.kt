@@ -17,23 +17,23 @@ import javax.persistence.Table
 data class SugestaoOA (
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long,
+    val id: Long = 0,
 
     @Column(name = "nome")
-    val nome: String,
+    val nome: String = "",
 
     @ManyToOne
-    val usuario: Usuario,
+    val usuario: Usuario = Usuario(),
 
     @Column(name = "descricao", columnDefinition = "text")
-    val descricao: String,
+    val descricao: String = "",
 
     @Column(name = "descritores", columnDefinition = "text")
-    val descritores: String,
+    val descritores: String = "",
 
     @Column(name = "link")
-    val link: String,
+    val link: String = "",
 
     @Enumerated(value = EnumType.STRING)
-    val status: StatusSubmissao,
+    val status: StatusSubmissao = StatusSubmissao.RASCUNHO,
 )

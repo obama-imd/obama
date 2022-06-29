@@ -15,19 +15,19 @@ import javax.persistence.Table
 class AvaliacaoPlanoDeAula  (
 	@Id
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
-	val id: Long,
-	
+	val id: Long = 0,
+
 	@ManyToOne
 	@JoinColumn(name = "id_plano")
-	val plano: PlanoDeAula,
+	val plano: PlanoDeAula = PlanoDeAula(),
 
 	@ManyToOne
 	@JoinColumn(name = "id_revisor")
-	val revisor: Usuario,
-	
-	@Column(columnDefinition="TEXT")
-	val resultadoAvaliacao: String,
-	
-	@Transient	
-	val finalizada: Boolean
-)
+	val revisor: Usuario = Usuario(),
+
+	@Column(columnDefinition="text")
+	val resultadoAvaliacao: String = "",
+) {
+	@Transient
+	val finalizada: Boolean = false
+}

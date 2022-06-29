@@ -24,66 +24,57 @@ data class PlanoDeAula (
 
 	@Id
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
-	val id: Long,
+	val id: Long = 0,
 
 	@Column(name="data_cadastro")
-	val dataCadastro: LocalDateTime,
-	
+	val dataCadastro: LocalDateTime = LocalDateTime.now(),
+
 	@Column(name="qtd_downloads")
-	val quantidadeDownloads: Int,
-	
+	val quantidadeDownloads: Int = 0,
+
 	@Column(name="escola")
-	val escola: String,
+	val escola: String = "",
 
 	@ManyToOne
-	val autor: Usuario,
-	
+	val autor: Usuario = Usuario(),
+
 	@ManyToOne(optional = true, fetch = FetchType.EAGER)
-	val nivelEnsino: NivelEnsino,
-	
+	val nivelEnsino: NivelEnsino = NivelEnsino(),
+
 	@Column(name="ano_ensino")
 	@MapKeyEnumerated(EnumType.ORDINAL)
-	val anoEnsino: Int,
-	
+	val anoEnsino: Int = 1,
+
 	@Column(name="duracao_em_minutos")
-	val duracaoEmMinutos: Int,
-	
+	val duracaoEmMinutos: Int = 0,
+
 	@Column(name="titulo")
-	val titulo: String,
-	
+	val titulo: String = "",
+
 	@Column(name = "resumo", columnDefinition="text")
-	val resumo: String,
-	
+	val resumo: String = "",
+
 	@Column(columnDefinition="text", name="objetivo_geral")
-	val objetivoGeral: String,
-	
+	val objetivoGeral: String = "",
+
 	@Column(columnDefinition="text", name="objetivos_especificos")
-	val objetivosEspecificos: String,
-	
+	val objetivosEspecificos: String = "",
+
 	@Column(name = "metodologia", columnDefinition="text")
-	val metodologia: String,
+	val metodologia: String = "",
 
 	@Column(name = "avaliacao", columnDefinition="text")
-	val avaliacao: String,
+	val avaliacao: String = "",
 
 	@Column(name = "referencias", columnDefinition="text")
-	val referencias: String,
+	val referencias: String = "",
 
 	@Column(name = "token", columnDefinition="text", unique = true, nullable = false)
-	val token: String,
+	val token: String = "",
 
 	@Column(name="status_id")
 	@MapKeyEnumerated(EnumType.ORDINAL)
-	val status: Int,
-	
-	@Transient
-	val planoEmRevisao: Boolean,
-	
-	@Transient
-	val planoEmRevisaoFinal: Boolean,
-	
-	@Transient
-	val revisorAtual: Usuario,
+	val status: Int = 0
 ) {
 
 	@OneToMany(fetch=FetchType.EAGER)
@@ -124,4 +115,13 @@ data class PlanoDeAula (
 
 	@Transient
 	val comentariosPublicos: List<Comentario> = emptyList()
+
+	@Transient
+	val planoEmRevisao: Boolean = false
+
+	@Transient
+	val planoEmRevisaoFinal: Boolean = false
+
+	@Transient
+	val revisorAtual: Usuario = Usuario()
 }

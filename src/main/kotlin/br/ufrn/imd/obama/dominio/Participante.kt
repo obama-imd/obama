@@ -15,23 +15,23 @@ data class Participante (
 
 	@Id
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
-	val id: Long,
+	val id: Long = 0,
 
 	@Column(name = "nome")
-	val nome: String,
+	val nome: String = "",
 
 	@Column(name = "cpf")
-	val cpf: String,
+	val cpf: String = "",
 
 	@Column(name = "email")
-	val email: String,
+	val email: String = "",
 
 	@Column(name = "tipo_participante")
-	val tipoParticipante: String,
+	val tipoParticipante: String = "",
 
 	@Column(name = "token")
-	val token: String,
+	val token: String = "",
 
 	@ManyToOne
-	val atividade: Atividade,
+	val atividade: Atividade = Atividade(),
 )

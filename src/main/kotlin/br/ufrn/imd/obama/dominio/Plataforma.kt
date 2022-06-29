@@ -13,8 +13,8 @@ import javax.persistence.Table
 data class Plataforma (
 	@Id
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
-	val id: Long,
+	val id: Long = 0,
 
 	@Column(name = "nome")
-	val nome: String,
+	val nome: String = "",
 )

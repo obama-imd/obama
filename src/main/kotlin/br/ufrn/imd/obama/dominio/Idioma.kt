@@ -13,8 +13,8 @@ import javax.persistence.Table
 data class Idioma (
 	@Id
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
-	val id: Long,
+	val id: Long = 0,
 
 	@Column(name = "idioma")
-	val idioma: String
+	val idioma: String = ""
 )

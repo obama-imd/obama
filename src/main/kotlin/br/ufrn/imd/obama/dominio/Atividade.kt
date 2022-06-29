@@ -17,31 +17,31 @@ import javax.persistence.Table
 data class Atividade(
 	@Id
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
-	val id: Long,
+	val id: Long = 0,
 
 	@Column(name="nome")
-	val nome: String,
+	val nome: String = "",
 
 	@Column(name="data_inicial")
-	val dataInicial: String,
+	val dataInicial: String = "",
 
 	@Column(name="data_final")
-	val dataFinal: String,
+	val dataFinal: String = "",
 
 	@Column(name="carga_horaria")
-	val cargaHoraria: Int,
+	val cargaHoraria: Int = 0,
 
 	@Column(name="local")
-	val local: String,
+	val local: String = "",
 
 	@Column(name="estado")
-	val estado: String,
+	val estado: String = "",
 
 	@Column(name="ativo")
-	val ativo: Boolean,
+	val ativo: Boolean = false,
 
 	@ManyToOne
-	val evento: Evento
+	val evento: Evento = Evento()
 ) {
 
 	@OneToMany(mappedBy="atividade", cascade =[CascadeType.ALL] ,fetch = FetchType.EAGER)

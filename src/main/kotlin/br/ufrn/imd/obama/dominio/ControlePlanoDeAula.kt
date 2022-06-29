@@ -14,11 +14,11 @@ import javax.persistence.Table
 data class ControlePlanoDeAula (
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long,
+    val id: Long = 0,
 
     @ManyToOne(fetch = FetchType.EAGER)
-    val usuario: Usuario,
+    val usuario: Usuario = Usuario(),
 
     @Column(name="token")
-    val token: String
+    val token: String = ""
 )

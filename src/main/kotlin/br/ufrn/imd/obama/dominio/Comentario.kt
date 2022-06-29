@@ -18,20 +18,20 @@ data class Comentario (
 
 	@Id
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
-	val id: Long,
-	
+	val id: Long = 0,
+
 	@ManyToOne
-	val usuario: Usuario,
+	val usuario: Usuario = Usuario(),
 
 	@Column(columnDefinition="text", name="texto")
-	val texto: String,
+	val texto: String = "",
 
 	@Column(name="data_comentario")
-	val dataComentario: LocalDateTime,
+	val dataComentario: LocalDateTime = LocalDateTime.now(),
 
 	@Column(nullable=true)
-	val deletado: Boolean,
+	val deletado: Boolean = false,
 
 	@Column(name="comentario_de_feedback")
-	val comentarioDeFeedback: Boolean
+	val comentarioDeFeedback: Boolean = false
 )

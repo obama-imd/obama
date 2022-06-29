@@ -14,13 +14,13 @@ data class NivelEnsino (
 	
 	@Id
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
-	val id: Long,
+	val id: Long = 0,
 
 	@Column(name = "denominacao")
-	val denominacao: String,
+	val denominacao: String = "",
 
 	@Column(name = "denominacao_abreviada")
-	val denominacaoAbreviada: String,
+	val denominacaoAbreviada: String = "",
 ) {
 	companion object {
 		val ID_NIVEL_ENSINO_PROVISORIO: Long = -1

@@ -19,19 +19,19 @@ data class Evento (
 	
 	@Id
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
-	val id: Long,
+	val id: Long = 0,
 
 	@Column(name="nome")
-	val nome: String,
+	val nome: String = "",
 
 	@Column(nullable=true)
-	val ativo: Boolean,
+	val ativo: Boolean = false,
 	
 	@Column(nullable=false)
-	val deletado: Boolean,
+	val deletado: Boolean = false,
 
 	@ManyToOne
-	val coordenador: Usuario
+	val coordenador: Usuario = Usuario()
 ){
 	@ManyToMany
 	@JoinTable(

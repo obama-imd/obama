@@ -13,10 +13,10 @@ import javax.persistence.Table
 data class Disciplina  (
 	@Id
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
-	val id: Long,
+	val id: Long = 0,
 
 	@Column(name="denominacao")
-	val denominacao: String,
+	val denominacao: String = "",
 ) {
 	@Transient
 	val temasConteudo: List<TemaConteudo> = emptyList()

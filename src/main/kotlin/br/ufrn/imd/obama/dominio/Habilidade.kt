@@ -20,27 +20,27 @@ data class Habilidade (
 
 	@Id
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
-	val id: Long,
-	
+	val id: Long = 0,
+
 	@Column(name="descricao", columnDefinition="text")
-	val descricao: String,
-	
+	val descricao: String = "",
+
 	@Column(name = "conhecimentos", columnDefinition="text")
-	val conhecimentos: String,
+	val conhecimentos: String = "",
 
 	@Column(name = "codigo")
-	val codigo: String,
-	
+	val codigo: String = "",
+
 	@ManyToOne
 	@JoinColumn(name="nivelensino")
-	val nivelEnsino: NivelEnsino,
-	
+	val nivelEnsino: NivelEnsino = NivelEnsino(),
+
 	@ManyToOne
 	@JoinColumn(name="temaconteudo")
-	val temaConteudo: TemaConteudo,
-	
+	val temaConteudo: TemaConteudo = TemaConteudo(),
+
 	@Enumerated(value = EnumType.ORDINAL)
-	val anoEnsino: AnoEnsino
+	val anoEnsino: AnoEnsino = AnoEnsino.ANO_0
 ) {
 
 	@ManyToMany(mappedBy="descritores")

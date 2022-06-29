@@ -17,21 +17,21 @@ data class Descritor  (
 	
 	@Id
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
-	val id: Long,
+	val id: Long = 0,
 
 	@Column(name="descricao")
-	val descricao: String,
+	val descricao: String = "",
 
 	@Column(name="codigo")
-	val codigo: String,
+	val codigo: String = "",
 	
 	@ManyToOne
 	@JoinColumn(name="nivelensino")
-	val nivelEnsino: NivelEnsino,
+	val nivelEnsino: NivelEnsino = NivelEnsino(),
 	
 	@ManyToOne
 	@JoinColumn(name="temaconteudo")
-	val temaConteudo: TemaConteudo,
+	val temaConteudo: TemaConteudo = TemaConteudo(),
 ){
 	@ManyToMany(mappedBy="descritores")
 	val objetosAprendizagem: List<ObjetoAprendizagem> = emptyList<ObjetoAprendizagem>()

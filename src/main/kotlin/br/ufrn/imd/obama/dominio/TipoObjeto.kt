@@ -13,8 +13,8 @@ import javax.persistence.Table
 data class TipoObjeto (
 	@Id
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
-	val id: Long,
+	val id: Long = 0,
 
 	@Column(name = "tipo_objeto")
-	val tipoObjeto: String,
+	val tipoObjeto: String = "",
 )

@@ -14,13 +14,13 @@ import javax.persistence.Table
 data class AvaliacaoOA  (
 	@Id
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
-	val id: Long,
-	
+	val id: Long = 0,
+
 	@ManyToOne
-	val usuario: Usuario,
-	
-	val dataAvaliacao: LocalDateTime,
-	
+	val usuario: Usuario = Usuario(),
+
+	val dataAvaliacao: LocalDateTime = LocalDateTime.now(),
+
 	@ManyToOne
-	val oa: ObjetoAprendizagem
+	val objetoAprendizagem: ObjetoAprendizagem = ObjetoAprendizagem()
 )

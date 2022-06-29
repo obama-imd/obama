@@ -17,17 +17,17 @@ import javax.persistence.Table
 data class TemaConteudo (
 	@Id
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
-	val id: Long,
+	val id: Long = 0,
 
 	@Column(name = "denominacao")
-	val denominacao: String,
+	val denominacao: String = "",
 
 	@ManyToOne
 	@JoinColumn(referencedColumnName="id", name="disciplina")
-	val disciplina: Disciplina,
+	val disciplina: Disciplina = Disciplina(),
 
 	@Enumerated(EnumType.STRING)
-	val curriculo: Curriculo,
+	val curriculo: Curriculo = Curriculo.PCN,
 ) {
 	@Transient
 	val descritores: List<Descritor> = listOf()

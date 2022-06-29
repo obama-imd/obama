@@ -21,52 +21,46 @@ data class ObjetoAprendizagem (
 
 	@Id
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
-	val id: Long,
+	val id: Long = 0,
 
 	@Column(name="nome")
-	val nome: String,
+	val nome: String = "",
 
 	@Column(name="descricao", columnDefinition="text")
-	val descricao: String,
+	var descricao: String = "",
 
 	@Column(name="qtd_acessos")
-	val quantidadeAcessos: Int,
+	val quantidadeAcessos: Int = 0,
 
 	@Column(name="link", columnDefinition="text")
-	val link: String,
+	val link: String = "",
 
 	@Column(name="path_arquivo")
-	val pathArquivo: String,
+	val pathArquivo: String = "",
 
 	@Column(name="data_lancamento")
-	val dataLancamento: LocalDate,
+	val dataLancamento: LocalDate = LocalDate.now(),
 
 	@JoinColumn(name="id_tipo_objeto")
 	@ManyToOne
-	val tipoObjeto: TipoObjeto,
+	var tipoObjeto: TipoObjeto = TipoObjeto(),
 
 	@Column(name="versao")
-	val versao: String,
+	val versao: String = "",
 
 	@Column(name="ativo")
-	val ativo: Boolean,
+	val ativo: Boolean = false,
 
 	@Column(name="tipo_visualizacao")
-	val tipoVisualizacao: Int,
+	val tipoVisualizacao: Int = 0,
 
 	@JoinColumn(name="id_plataforma")
 	@ManyToOne
-	val plataforma: Plataforma,
+	val plataforma: Plataforma = Plataforma(),
 
 	@JoinColumn(name="id_tipo_licenca_uso")
 	@ManyToOne
-	val licencaDeUso: TipoLicencaUso,
-
-	@Transient
-	val oaSelecionado: Boolean,
-
-	@Transient 
-	val oaFavorito: Boolean,
+	val licencaDeUso: TipoLicencaUso = TipoLicencaUso(),
 ) {
 	@ManyToMany
 	@JoinTable(name="objetoaprendizagem_idioma", schema="public")
@@ -104,4 +98,10 @@ data class ObjetoAprendizagem (
 
 	@Transient
 	val conteudosPorNivel: HashMap<NivelEnsino, Set<TemaConteudo>> = hashMapOf()
+
+	@Transient
+	val oaSelecionado: Boolean = false
+
+	@Transient
+	val oaFavorito: Boolean = false
 }
