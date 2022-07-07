@@ -1,8 +1,8 @@
 # OBAMA
 API para plataforma Objetos de Aprendizagem para Matemática (OBAMA)
 
-## Prerequisites
-* [Java] 1.11+;
+## Pre-requisitos
+* [Java] 1.17+;
 * [Gradle] 6/7+;
 
 ## Configurando os containers locais
