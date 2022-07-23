@@ -28,6 +28,14 @@ CREATE TABLE public.nivelensino (
 	CONSTRAINT nivelensino_pk PRIMARY KEY (id)
 );
 
+CREATE TABLE public.anoensino (
+	id int8 NOT NULL,
+	denominacao varchar(255) NOT NULL,
+	nivel_ensino_id int8 NOT NULL,
+	CONSTRAINT anoensino_pk PRIMARY KEY (id),
+	CONSTRAINT anoensino_fk01 FOREIGN KEY (nivel_ensino_id) REFERENCES nivelensino(id)
+);
+
 
 CREATE TABLE public.plataforma (
 	id int8 NOT NULL,
@@ -58,9 +66,9 @@ CREATE TABLE public.usuario (
 	nome varchar(255) NULL,
 	perfil varchar(255) NULL,
 	senha varchar(255) NULL,
-	status_usuario varchar(255) NULL,
+	status varchar(255) NULL,
 	tipo_cadastro varchar(255) NULL,
-	"token" varchar(255) NULL,
+	token varchar(255) NULL,
 	ultimo_acesso date NULL,
 	CONSTRAINT usuario_uk01 UNIQUE (email),
 	CONSTRAINT usuario_pK PRIMARY KEY (id)
@@ -112,19 +120,13 @@ CREATE TABLE public.objetoaprendizagem (
 	ativo bool NULL,
 	data_lancamento date NULL,
 	descricao text NULL,
-	link text NULL,
-	nome varchar(255) NULL,
+	nome varchar(255) NOT NULL,
 	path_arquivo varchar(255) NULL,
-	qtd_acessos int4 NULL,
-	tipo_visualizacao int4 NULL,
+	quantidade_acessos int4 NOT NULL,
 	versao varchar(255) NULL,
-	id_tipo_licenca_uso int8 NULL,
-	id_plataforma int8 NULL,
-	id_tipo_objeto int8 NULL,
+	tipo_licenca_uso_id int8 NULL,
 	CONSTRAINT objetoaprendizagem_pk PRIMARY KEY (id),
-	CONSTRAINT objetoaprendizagem_fk01 FOREIGN KEY (id_tipo_licenca_uso) REFERENCES public.tipo_licenca_uso(id),
-	CONSTRAINT objetoaprendizagem_fk02 FOREIGN KEY (id_tipo_objeto) REFERENCES public.tipoobjeto(id),
-	CONSTRAINT objetoaprendizagem_fk03 FOREIGN KEY (id_plataforma) REFERENCES public.plataforma(id)
+	CONSTRAINT objetoaprendizagem_fk01 FOREIGN KEY (tipo_licenca_uso_id) REFERENCES public.tipo_licenca_uso(id)
 );
 
 
@@ -139,11 +141,11 @@ CREATE TABLE public.objetoaprendizagem_autormantenedor (
 CREATE TABLE public.objetoaprendizagem_avaliacao (
 	id int8 NOT NULL,
 	data_avaliacao timestamp NULL,
-	oa_id int8 NULL,
+	objeto_aprendizagem_id int8 NULL,
 	usuario_id int8 NULL,
 	CONSTRAINT objetoaprendizagem_avaliacao_pk PRIMARY KEY (id),
 	CONSTRAINT objetoaprendizagem_avaliacao_fk01 FOREIGN KEY (usuario_id) REFERENCES public.usuario(id),
-	CONSTRAINT objetoaprendizagem_avaliacao_fk02 FOREIGN KEY (oa_id) REFERENCES public.objetoaprendizagem(id)
+	CONSTRAINT objetoaprendizagem_avaliacao_fk02 FOREIGN KEY (objeto_aprendizagem_id) REFERENCES public.objetoaprendizagem(id)
 );
 
 CREATE TABLE public.objetoaprendizagem_comentario (
@@ -173,7 +175,7 @@ CREATE TABLE public.planodeaula (
 	metodologia text NULL,
 	objetivo_geral text NULL,
 	objetivos_especificos text NULL,
-	qtd_downloads int4 NULL,
+	quantidade_downloads int4 NULL,
 	referencias text NULL,
 	resumo text NULL,
 	status_id int4 NULL,
@@ -189,11 +191,11 @@ CREATE TABLE public.planodeaula (
 
 
 CREATE TABLE public.planodeaula_coautor (
-	planodeaula_id int8 NOT NULL,
+	plano_de_aula_id int8 NOT NULL,
 	usuario_id int8 NOT NULL,
-	CONSTRAINT planodeaula_coautor_pk PRIMARY KEY (planodeaula_id, usuario_id),
+	CONSTRAINT planodeaula_coautor_pk PRIMARY KEY (plano_de_aula_id, usuario_id),
 	CONSTRAINT planodeaula_coautor_fk01 FOREIGN KEY (usuario_id) REFERENCES public.usuario(id),
-	CONSTRAINT planodeaula_coautor_fk02 FOREIGN KEY (planodeaula_id) REFERENCES public.planodeaula(id)
+	CONSTRAINT planodeaula_coautor_fk02 FOREIGN KEY (plano_de_aula_id) REFERENCES public.planodeaula(id)
 );
 
 
@@ -216,11 +218,11 @@ CREATE TABLE public.planodeaula_disciplina (
 
 
 CREATE TABLE public.planodeaula_objetoaprendizagem (
-	planodeaula_id int8 NOT NULL,
-	objetosaprendizagem_id int8 NOT NULL,
-	CONSTRAINT planodeaula_objetoaprendizagem_pk PRIMARY KEY (planodeaula_id, objetosaprendizagem_id),
-	CONSTRAINT planodeaula_objetoaprendizagem_fk01 FOREIGN KEY (planodeaula_id) REFERENCES public.planodeaula(id),
-	CONSTRAINT planodeaula_objetoaprendizagem_fk02 FOREIGN KEY (objetosaprendizagem_id) REFERENCES public.objetoaprendizagem(id)
+	plano_de_aula_id int8 NOT NULL,
+	objeto_aprendizagem_id int8 NOT NULL,
+	CONSTRAINT planodeaula_objetoaprendizagem_pk PRIMARY KEY (plano_de_aula_id, objeto_aprendizagem_id),
+	CONSTRAINT planodeaula_objetoaprendizagem_fk01 FOREIGN KEY (plano_de_aula_id) REFERENCES public.planodeaula(id),
+	CONSTRAINT planodeaula_objetoaprendizagem_fk02 FOREIGN KEY (objeto_aprendizagem_id) REFERENCES public.objetoaprendizagem(id)
 );
 
 
@@ -236,14 +238,21 @@ CREATE TABLE public.sugestao_oa (
 	CONSTRAINT sugestao_oa_fk01 FOREIGN KEY (usuario_id) REFERENCES public.usuario(id)
 );
 
+CREATE TABLE curriculo (
+	id int8 NOT NULL,
+	denominacao_abreviada varchar(255) NOT NULL,
+	denominacao_completa varchar(255) NOT NULL,
+	CONSTRAINT curriculo_pk PRIMARY KEY (id)
+);
+
 
 CREATE TABLE public.temaconteudo (
 	id int8 NOT NULL,
 	curriculo varchar(255) NULL,
 	denominacao varchar(255) NULL,
-	disciplina int8 NULL,
+	disciplina_id int8 NULL,
 	CONSTRAINT temaconteudo_pk PRIMARY KEY (id),
-	CONSTRAINT temaconteudo_fk01 FOREIGN KEY (disciplina) REFERENCES public.disciplina(id)
+	CONSTRAINT temaconteudo_fk01 FOREIGN KEY (disciplina_id) REFERENCES public.disciplina(id)
 );
 
 
@@ -251,8 +260,8 @@ CREATE TABLE public.atividade (
 	id int8 NOT NULL,
 	ativo bool NULL,
 	carga_horaria int4 NULL,
-	data_final varchar(255) NULL,
-	data_inicial varchar(255) NULL,
+	data_final date NOT NULL,
+	data_inicial date NOT NULL,
 	estado varchar(255) NULL,
 	"local" varchar(255) NULL,
 	nome varchar(255) NULL,
@@ -264,22 +273,22 @@ CREATE TABLE public.atividade (
 CREATE TABLE public.avaliacao_planodeaula (
 	id int8 NOT NULL,
 	resultado_avaliacao text NULL,
-	id_plano int8 NULL,
-	id_revisor int8 NULL,
+	plano_id int8 NULL,
+	revisor_id int8 NULL,
 	CONSTRAINT avaliacao_planodeaula_pk PRIMARY KEY (id),
-	CONSTRAINT avaliacao_planodeaula_fk01 FOREIGN KEY (id_revisor) REFERENCES public.usuario(id),
-	CONSTRAINT avaliacao_planodeaula_fk02 FOREIGN KEY (id_plano) REFERENCES public.planodeaula(id)
+	CONSTRAINT avaliacao_planodeaula_fk01 FOREIGN KEY (revisor_id) REFERENCES public.usuario(id),
+	CONSTRAINT avaliacao_planodeaula_fk02 FOREIGN KEY (plano_id) REFERENCES public.planodeaula(id)
 );
 
 CREATE TABLE public.descritor (
 	id int8 NOT NULL,
 	codigo varchar(255) NULL,
 	descricao varchar(255) NULL,
-	nivelensino int8 NULL,
-	temaconteudo int8 NULL,
+	nivel_ensino_id int8 NULL,
+	tema_conteudo_id int8 NULL,
 	CONSTRAINT descritor_pk PRIMARY KEY (id),
-	CONSTRAINT descritor_fk01 FOREIGN KEY (nivelensino) REFERENCES public.nivelensino(id),
-	CONSTRAINT descritor_fk02 FOREIGN KEY (temaconteudo) REFERENCES public.temaconteudo(id)
+	CONSTRAINT descritor_fk01 FOREIGN KEY (nivel_ensino_id) REFERENCES public.nivelensino(id),
+	CONSTRAINT descritor_fk02 FOREIGN KEY (tema_conteudo_id) REFERENCES public.temaconteudo(id)
 );
 
 
@@ -289,29 +298,29 @@ CREATE TABLE public.habilidade (
 	codigo varchar(255) NULL,
 	conhecimentos text NULL,
 	descricao text NULL,
-	nivelensino int8 NULL,
-	temaconteudo int8 NULL,
+	nivel_ensino_id int8 NULL,
+	tema_conteudo_id int8 NULL,
 	CONSTRAINT habilidade_pk PRIMARY KEY (id),
-	CONSTRAINT habilidade_fk01 FOREIGN KEY (temaconteudo) REFERENCES public.temaconteudo(id),
-	CONSTRAINT habilidade_fk02 FOREIGN KEY (nivelensino) REFERENCES public.nivelensino(id)
+	CONSTRAINT habilidade_fk01 FOREIGN KEY (tema_conteudo_id) REFERENCES public.temaconteudo(id),
+	CONSTRAINT habilidade_fk02 FOREIGN KEY (nivel_ensino_id) REFERENCES public.nivelensino(id)
 );
 
 
 CREATE TABLE public.objetoaprendizagem_descritor (
-	objetoaprendizagem int8 NOT NULL,
+	objeto_aprendizagem_id int8 NOT NULL,
 	descritor_id int8 NOT NULL,
-	CONSTRAINT objetoaprendizagem_descritor_pk PRIMARY KEY (objetoaprendizagem, descritor_id),
-	CONSTRAINT objetoaprendizagem_descritor_fk01 FOREIGN KEY (objetoaprendizagem) REFERENCES public.objetoaprendizagem(id),
+	CONSTRAINT objetoaprendizagem_descritor_pk PRIMARY KEY (objeto_aprendizagem_id, descritor_id),
+	CONSTRAINT objetoaprendizagem_descritor_fk01 FOREIGN KEY (objeto_aprendizagem_id) REFERENCES public.objetoaprendizagem(id),
 	CONSTRAINT objetoaprendizagem_descritor_fk02 FOREIGN KEY (descritor_id) REFERENCES public.descritor(id)
 );
 
 
 CREATE TABLE public.objetoaprendizagem_habilidade (
-	objetoaprendizagem int8 NOT NULL,
+	objeto_aprendizagem_id int8 NOT NULL,
 	habilidade_id int8 NOT NULL,
-	CONSTRAINT objetoaprendizagem_habilidade_pk PRIMARY KEY (objetoaprendizagem, habilidade_id),
+	CONSTRAINT objetoaprendizagem_habilidade_pk PRIMARY KEY (objeto_aprendizagem_id, habilidade_id),
 	CONSTRAINT objetoaprendizagem_habilidade_fk01 FOREIGN KEY (habilidade_id) REFERENCES public.habilidade(id),
-	CONSTRAINT objetoaprendizagem_habilidade_fk02 FOREIGN KEY (objetoaprendizagem) REFERENCES public.objetoaprendizagem(id)
+	CONSTRAINT objetoaprendizagem_habilidade_fk02 FOREIGN KEY (objeto_aprendizagem_id) REFERENCES public.objetoaprendizagem(id)
 );
 
 
@@ -334,4 +343,13 @@ CREATE TABLE public.participante (
 	atividade_id int8 NULL,
 	CONSTRAINT participante_pk PRIMARY KEY (id),
 	CONSTRAINT participante_fk01 FOREIGN KEY (atividade_id) REFERENCES public.atividade(id)
+);
+
+CREATE TABLE objetoaprendizagem_plataforma (
+	objeto_aprendizagem_id int8 NOT NULL,
+	plataforma_id int8 NOT NULL,
+	tipo_visualizacao varchar(255) NOT NULL,
+	link text NOT NULL,
+	CONSTRAINT objetoaprendizagem_plataforma_fk01 FOREIGN KEY (objeto_aprendizagem_id) REFERENCES objetoaprendizagem(id),
+	CONSTRAINT objetoaprendizagem_plataforma_fk02 FOREIGN KEY (plataforma_id) REFERENCES plataforma(id)
 );
