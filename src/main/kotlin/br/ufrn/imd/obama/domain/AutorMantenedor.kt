@@ -9,7 +9,7 @@ import javax.persistence.Table
 
 
 @Entity
-@Table(name = "AutorMantenedor", schema = "public")
+@Table(name = "autor_mantenedor", schema = "public")
 data class AutorMantenedor (
 	@Id
 	@GeneratedValue(strategy= GenerationType.IDENTITY)

@@ -132,8 +132,8 @@ CREATE TABLE public.objetoaprendizagem (
 
 CREATE TABLE public.objetoaprendizagem_autormantenedor (
 	objeto_aprendizagem_id int8 NOT NULL,
-	autores_mantenedores_id int8 NOT NULL,
-	CONSTRAINT objetoaprendizagem_autormantenedor_fk01 FOREIGN KEY (autores_mantenedores_id) REFERENCES public.autor_mantenedor(id),
+	autor_mantenedor_id int8 NOT NULL,
+	CONSTRAINT objetoaprendizagem_autormantenedor_fk01 FOREIGN KEY (autor_mantenedor_id) REFERENCES public.autor_mantenedor(id),
 	CONSTRAINT objetoaprendizagem_autormantenedor_fk02 FOREIGN KEY (objeto_aprendizagem_id) REFERENCES public.objetoaprendizagem(id)
 );
 
@@ -167,7 +167,7 @@ CREATE TABLE public.objetoaprendizagem_idioma (
 
 CREATE TABLE public.planodeaula (
 	id int8 NOT NULL,
-	ano_ensino int4 NULL,
+	ano_ensino_id int8 NULL,
 	avaliacao text NULL,
 	data_cadastro timestamp NULL,
 	duracao_em_minutos int4 NULL,
@@ -186,7 +186,8 @@ CREATE TABLE public.planodeaula (
 	CONSTRAINT planodeaula_pk PRIMARY KEY (id),
 	CONSTRAINT planodeaula_uk01 UNIQUE (token),
 	CONSTRAINT planodeaula_fk01 FOREIGN KEY (nivel_ensino_id) REFERENCES public.nivelensino(id),
-	CONSTRAINT planodeaula_fk02 FOREIGN KEY (autor_id) REFERENCES public.usuario(id)
+	CONSTRAINT planodeaula_fk02 FOREIGN KEY (autor_id) REFERENCES public.usuario(id),
+	CONSTRAINT planodeaula_fk03 FOREIGN KEY (ano_ensino_id) REFERENCES public.anoensino(id)
 );
 
 
@@ -294,7 +295,7 @@ CREATE TABLE public.descritor (
 
 CREATE TABLE public.habilidade (
 	id int8 NOT NULL,
-	ano_ensino int4 NULL,
+	ano_ensino_id int8 NULL,
 	codigo varchar(255) NULL,
 	conhecimentos text NULL,
 	descricao text NULL,
@@ -302,7 +303,8 @@ CREATE TABLE public.habilidade (
 	tema_conteudo_id int8 NULL,
 	CONSTRAINT habilidade_pk PRIMARY KEY (id),
 	CONSTRAINT habilidade_fk01 FOREIGN KEY (tema_conteudo_id) REFERENCES public.temaconteudo(id),
-	CONSTRAINT habilidade_fk02 FOREIGN KEY (nivel_ensino_id) REFERENCES public.nivelensino(id)
+	CONSTRAINT habilidade_fk02 FOREIGN KEY (nivel_ensino_id) REFERENCES public.nivelensino(id),
+	CONSTRAINT habilidade_fk03 FOREIGN KEY (ano_ensino_id) REFERENCES public.anoensino(id)
 );
 
 

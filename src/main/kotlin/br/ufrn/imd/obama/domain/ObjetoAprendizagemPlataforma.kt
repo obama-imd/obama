@@ -19,7 +19,7 @@ data class ObjetoAprendizagemPlataforma (
     @EmbeddedId
     val id: ObjetoAprendizagemPlataformaPK = ObjetoAprendizagemPlataformaPK(),
 
-    @Column(name="access_type", nullable = false)
+    @Column(name="tipo_visualizacao", nullable = false)
     @Enumerated(EnumType.STRING)
     val tipoVisualizacao: TipoVisualizacao = TipoVisualizacao.WEB,
 

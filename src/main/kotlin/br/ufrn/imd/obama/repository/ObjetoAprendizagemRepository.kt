@@ -19,9 +19,9 @@ interface ObjetoAprendizagemRepository: JpaRepository<ObjetoAprendizagem, Long> 
                 " WHERE lower(oa.nome) like CONCAT('%',:nome,'%') " +
                 " AND oa.ativo = true" +
                 " AND (:tipoVisualizacao IS NULL OR oap.tipoVisualizacao = :tipoVisualizacao) " +
-                " AND (:nivelEnsinoid IS NULL OR d.nivelEnsino.id = :nivelEnsinoId) " +
+                " AND (:nivelEnsinoId IS NULL OR d.nivelEnsino.id = :nivelEnsinoId) " +
                 " AND (:temaConteudoId IS NULL OR d.temaConteudo.id = :temaConteudoId) " +
-                " AND (:descritorId IS NULL OR d.id = :descritorId) ",
+                " AND (:descritorId IS NULL OR d.id = :descritorId) ORDER BY oa.nome",
     )
     fun procureTodosAtivosPorNomeETipoVisualizacaoENivelEnsinoIdETemaConteudoIdEDescritorId(
         @Param("nome") nome: String,
@@ -42,10 +42,10 @@ interface ObjetoAprendizagemRepository: JpaRepository<ObjetoAprendizagem, Long> 
                 " AND (:tipoVisualizacao IS NULL OR oap.tipoVisualizacao = :tipoVisualizacao) " +
                 " AND (:nivelEnsinoId IS NULL OR h.anoEnsino.nivelEnsino.id = :nivelEnsinoId) " +
                 " AND (:temaConteudoId IS NULL OR h.temaConteudo.id = :temaConteudoId) " +
-                " AND (:habilidadeId IS NULL OR h.id = :habilidadeId) ",
+                " AND (:habilidadeId IS NULL OR h.id = :habilidadeId) ORDER BY oa.nome",
     )
     fun procureTodosAtivosPorNomeETipoVisualizacaoENivelEnsinoIdETemaConteudoIdEHabilidadeId(
-        @Param("nome") name: String,
+        @Param("nome") nome: String,
         @Param("tipoVisualizacao") tipoVisualizacao: TipoVisualizacao?,
         @Param("nivelEnsinoId") nivelEnsinoId: Long?,
         @Param("temaConteudoId") temaConteudoId: Long?,

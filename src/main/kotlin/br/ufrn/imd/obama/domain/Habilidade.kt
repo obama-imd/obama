@@ -15,7 +15,7 @@ import javax.persistence.Table
 
 
 @Entity
-@Table(name="habilidade", schema="public")
+@Table(name= "habilidade", schema="public")
 data class Habilidade (
 
 	@Id
@@ -40,6 +40,7 @@ data class Habilidade (
 	val temaConteudo: TemaConteudo = TemaConteudo(),
 
 	@OneToOne
+	@JoinColumn(name = "ano_ensino_id")
 	val anoEnsino: AnoEnsino = AnoEnsino()
 ) {
 

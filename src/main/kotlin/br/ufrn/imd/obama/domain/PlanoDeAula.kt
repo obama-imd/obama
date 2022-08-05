@@ -15,6 +15,7 @@ import javax.persistence.ManyToMany
 import javax.persistence.ManyToOne
 import javax.persistence.MapKeyEnumerated
 import javax.persistence.OneToMany
+import javax.persistence.OneToOne
 import javax.persistence.Table
 
 
@@ -41,9 +42,9 @@ data class PlanoDeAula (
 	@ManyToOne(optional = true, fetch = FetchType.EAGER)
 	val nivelEnsino: NivelEnsino = NivelEnsino(),
 
-	@Column(name="ano_ensino")
-	@MapKeyEnumerated(EnumType.ORDINAL)
-	val anoEnsino: Int = 1,
+	@OneToOne
+	@JoinColumn(name = "ano_ensino_id")
+	val anoEnsino: AnoEnsino = AnoEnsino(),
 
 	@Column(name="duracao_em_minutos")
 	val duracaoEmMinutos: Int = 0,

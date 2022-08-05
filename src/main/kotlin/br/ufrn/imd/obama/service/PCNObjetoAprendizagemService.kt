@@ -19,7 +19,7 @@ class PCNObjetoAprendizagemService(
     ): Page<ObjetoAprendizagem> {
         return objetoAprendizagemRepository.procureTodosAtivosPorNomeETipoVisualizacaoENivelEnsinoIdETemaConteudoIdEHabilidadeId(
             pageable = pageable,
-            name = requisicao.nome,
+            nome = requisicao.nome,
             tipoVisualizacao = requisicao.tipoVisualizacao?.let { TipoVisualizacao.valueOf(it)},
             temaConteudoId = requisicao.temaConteudoId,
             nivelEnsinoId = requisicao.nivelEnsinoId,

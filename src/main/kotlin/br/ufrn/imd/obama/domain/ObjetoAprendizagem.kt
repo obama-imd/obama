@@ -44,10 +44,6 @@ data class ObjetoAprendizagem (
 	@Column(name="ativo")
 	val ativo: Boolean = false,
 
-	@JoinColumn(name="plataforma_id")
-	@ManyToOne
-	val plataforma: Plataforma = Plataforma(),
-
 	@JoinColumn(name="tipo_licenca_uso_id")
 	@ManyToOne
 	val licencaDeUso: TipoLicencaUso = TipoLicencaUso(),

@@ -30,7 +30,7 @@ class ObjetoAprendizagemController(
         produces = [MediaType.APPLICATION_JSON_VALUE]
     )
     fun buscarPorParametros(
-        @PageableDefault(page = 0, size = 10, sort = ["name"]) pageable: Pageable,
+        @PageableDefault(page = 0, size = 10, sort = ["nome"]) pageable: Pageable,
         @RequestBody @Valid requisicao: BuscaOAParametrosRequest
     ): Page<BuscaObjetoAprendizagemResponse> {
 
