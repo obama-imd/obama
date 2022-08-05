@@ -5,6 +5,6 @@ enum class TipoVisualizacao(
 	val denominacao: String,
 ) {
 	DISPOSITIVO_MOVEL(1, "Celular/Tablet"),
-	DESKTOP_WEB(2,"Online"),
+	WEB(2,"Online"),
 	DESKTOP_EXECUTAVEL(3,"Download");
 }
