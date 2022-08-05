@@ -32,10 +32,6 @@ data class Habilidade (
 	val codigo: String = "",
 
 	@ManyToOne
-	@JoinColumn(name="nivel_ensino_id")
-	val nivelEnsino: NivelEnsino = NivelEnsino(),
-
-	@ManyToOne
 	@JoinColumn(name="tema_conteudo_id")
 	val temaConteudo: TemaConteudo = TemaConteudo(),
 
