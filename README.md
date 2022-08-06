@@ -54,7 +54,7 @@ Para rodar a aplicação localmente é necessário configurar o profile local e 
 -Dspring.profiles.active=<profile_name>
 ```
 
-## Rodando a aplicação no terminal
+## Rodando a aplicação via gradle
 
 Para rodar a aplicação via terminal basta usar o seguinte comando:
 
@@ -68,6 +68,29 @@ Você consegue adicionar o profile como mostra a seguir:
 ./gradlew bootRun --args='--spring.profiles.active=<profile_name>'
 ```
 
+## Rodando a aplicação via docker
+
+É possível rodar a aplicação executando a construção da imagem pelo Dockerfile do projeto e depois executando essa.
+
+Para isso rode este comando para construir a imagem:
+
+```
+docker build -t obama .
+```
+
+Caso queira ver se a imagem for criado execute este comando:
+
+```
+docker images
+```
+
+Agora para executar (criar um container da imagem criada), execute esse comando:
+
+```
+docker run --net=host -p '8080:8080' -e SPRING_PROFILES_ACTIVE=local obama
+```
+
 ## Swagger
 
 Swagger está configurado para o link {HOST}/swagger-ui/index.html.
+
