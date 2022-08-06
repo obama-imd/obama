@@ -14,16 +14,21 @@ class BNCCObjetoAprendizagemService(
 ): CurriculoObjetoAprendizagemService {
 
     override fun buscarPeloCurriculo(
-        requisicao: BuscaOAParametrosRequest,
-        pageable: Pageable
+        nome: String,
+        nivelEnsinoId: Long?,
+        temaConteudoId: Long?,
+        descritorId: Long?,
+        habilidadeId: Long?,
+        pageable: Pageable,
+        tipoVisualizacao: String?
     ): Page<ObjetoAprendizagem> {
 
         return objetoAprendizagemRepository.procureTodosAtivosPorNomeETipoVisualizacaoENivelEnsinoIdETemaConteudoIdEDescritorId(
-            nome = requisicao.nome,
-            descritorId = requisicao.descritorId,
-            nivelEnsinoId = requisicao.nivelEnsinoId,
-            temaConteudoId = requisicao.temaConteudoId,
-            tipoVisualizacao = requisicao.tipoVisualizacao?.let { TipoVisualizacao.valueOf(it) },
+            nome = nome,
+            descritorId = descritorId,
+            nivelEnsinoId = nivelEnsinoId,
+            temaConteudoId = temaConteudoId,
+            tipoVisualizacao = tipoVisualizacao?.let { TipoVisualizacao.valueOf(it) },
             pageable = pageable
         )
     }

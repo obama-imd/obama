@@ -2,7 +2,6 @@ package br.ufrn.imd.obama.service
 
 import br.ufrn.imd.obama.domain.ObjetoAprendizagem
 import br.ufrn.imd.obama.enums.Curriculo
-import br.ufrn.imd.obama.request.BuscaOAParametrosRequest
 import org.springframework.beans.factory.support.AbstractBeanFactory
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
@@ -18,11 +17,16 @@ class ObjetoAprendizagemService(
 
     fun buscarPorParametros(
         pageable: Pageable,
-        requisicao: BuscaOAParametrosRequest,
+        nome: String,
+        nivelEnsinoId: Long?,
+        temaConteudoId: Long?,
+        descritorId: Long?,
+        habilidadeId: Long?,
+        curriculo: String?,
+        tipoVisualizacao: String?
     ): Page<ObjetoAprendizagem> {
-        val nomeCurriculo = requisicao.curriculo
 
-        val prefixoServicoCurriculo = if (!nomeCurriculo.isNullOrBlank()) { nomeCurriculo }
+        val prefixoServicoCurriculo = if (!curriculo.isNullOrBlank()) { curriculo }
         else { curriculoPadraoBusca }
 
         Curriculo.valueOf(prefixoServicoCurriculo)
@@ -30,7 +34,13 @@ class ObjetoAprendizagemService(
         return ( beanFactory.getBean(
             "${prefixoServicoCurriculo}ObjetoAprendizagemService"
         ) as CurriculoObjetoAprendizagemService).buscarPeloCurriculo(
-            requisicao, pageable
+            nome = nome,
+            nivelEnsinoId = nivelEnsinoId,
+            temaConteudoId = temaConteudoId,
+            descritorId = descritorId,
+            habilidadeId = habilidadeId,
+            tipoVisualizacao =  tipoVisualizacao,
+            pageable = pageable
         )
     }
 }
