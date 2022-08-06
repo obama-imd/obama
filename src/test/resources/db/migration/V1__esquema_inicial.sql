@@ -239,13 +239,6 @@ CREATE TABLE public.sugestao_oa (
 	CONSTRAINT sugestao_oa_fk01 FOREIGN KEY (usuario_id) REFERENCES public.usuario(id)
 );
 
-CREATE TABLE curriculo (
-	id int8 NOT NULL,
-	denominacao_abreviada varchar(255) NOT NULL,
-	denominacao_completa varchar(255) NOT NULL,
-	CONSTRAINT curriculo_pk PRIMARY KEY (id)
-);
-
 
 CREATE TABLE public.temaconteudo (
 	id int8 NOT NULL,
