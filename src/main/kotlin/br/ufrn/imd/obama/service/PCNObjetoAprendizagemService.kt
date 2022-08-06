@@ -14,16 +14,21 @@ class PCNObjetoAprendizagemService(
 ): CurriculoObjetoAprendizagemService {
 
     override fun buscarPeloCurriculo(
-        requisicao: BuscaOAParametrosRequest,
-        pageable: Pageable
+        nome: String,
+        nivelEnsinoId: Long?,
+        temaConteudoId: Long?,
+        descritorId: Long?,
+        habilidadeId: Long?,
+        pageable: Pageable,
+        tipoVisualizacao: String?
     ): Page<ObjetoAprendizagem> {
         return objetoAprendizagemRepository.procureTodosAtivosPorNomeETipoVisualizacaoENivelEnsinoIdETemaConteudoIdEHabilidadeId(
             pageable = pageable,
-            nome = requisicao.nome,
-            tipoVisualizacao = requisicao.tipoVisualizacao?.let { TipoVisualizacao.valueOf(it)},
-            temaConteudoId = requisicao.temaConteudoId,
-            nivelEnsinoId = requisicao.nivelEnsinoId,
-            habilidadeId = requisicao.habilidadeId
+            nome = nome,
+            tipoVisualizacao = tipoVisualizacao?.let { TipoVisualizacao.valueOf(it)},
+            temaConteudoId = temaConteudoId,
+            nivelEnsinoId = nivelEnsinoId,
+            habilidadeId = habilidadeId
         )
     }
 
