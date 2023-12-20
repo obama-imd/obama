@@ -33,7 +33,6 @@ class DatabaseMigration(
                 .dataSource(migrationDataSource)
                 .load()
 
-        flyway.baseline()
         flyway.migrate()
         migrationDataSource.close()
     }

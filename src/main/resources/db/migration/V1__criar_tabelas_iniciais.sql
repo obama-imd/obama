@@ -95,8 +95,8 @@ CREATE TABLE tema_conteudo (
 	curriculo_id int8 NULL,
 	disciplina_id int8 NULL,
 	CONSTRAINT tema_conteudo_pk PRIMARY KEY (id),
-	CONSTRAINT tema_conteudo_fk01 FOREIGN KEY (disciplina_id) REFERENCES disciplina(id)
-	--CONSTRAINT tema_conteudo_fk02 FOREIGN KEY (curriculo_id) REFERENCES curriculo(id)
+	CONSTRAINT tema_conteudo_fk01 FOREIGN KEY (disciplina_id) REFERENCES disciplina(id),
+	CONSTRAINT tema_conteudo_fk02 FOREIGN KEY (curriculo_id) REFERENCES curriculo(id)
 );
 
 
@@ -118,17 +118,17 @@ CREATE TABLE habilidade (
 	codigo varchar(255) NULL,
 	conhecimentos text NULL,
 	descricao text NULL,
-	nivel_ensino_id int8 NULL,
+	ano_ensino_id int8 NULL,
 	tema_conteudo_id int8 NULL,
 	CONSTRAINT habilidade_pk PRIMARY KEY (id),
 	CONSTRAINT habilidade_fk01 FOREIGN KEY (tema_conteudo_id) REFERENCES tema_conteudo(id),
-	CONSTRAINT habilidade_fk02 FOREIGN KEY (nivel_ensino_id) REFERENCES nivel_ensino(id)
+	CONSTRAINT habilidade_fk02 FOREIGN KEY (ano_ensino_id) REFERENCES ano_ensino(id)
 );
 
 
 CREATE TABLE objeto_aprendizagem_descritor (
 	objeto_aprendizagem_id int8 NOT NULL,
-	descriptor_id int8 NOT NULL,
+	descritor_id int8 NOT NULL,
 	CONSTRAINT objeto_aprendizagem_descritor_pk PRIMARY KEY (objeto_aprendizagem_id, descritor_id),
 	CONSTRAINT objeto_aprendizagem_descritor_fk01 FOREIGN KEY (objeto_aprendizagem_id) REFERENCES objeto_aprendizagem(id),
 	CONSTRAINT objeto_aprendizagem_descritor_fk02 FOREIGN KEY (descritor_id) REFERENCES descritor(id)

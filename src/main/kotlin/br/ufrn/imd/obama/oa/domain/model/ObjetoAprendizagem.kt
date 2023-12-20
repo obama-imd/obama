@@ -15,15 +15,15 @@ class ObjetoAprendizagem(
 
 	var thumbnailPath: String?,
 
-	val dataLancamento: LocalDate,
+	val dataLancamento: LocalDate?,
 
-	var versao: String,
+	var versao: String?,
 
 	var ativo: Boolean,
 
-	var tipoLicensaUso: TipoLicensaUso,
+	var tipoLicensaUso: TipoLicensaUso?,
 
-	val idiomas: Set<Idioma>,
+	val idiomas: Set<Idioma>?,
 
 	val autoresMantenedores: Set<AutorMantenedor>,
 

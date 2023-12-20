@@ -36,26 +36,26 @@ class ObjetoAprendizagemEntity(
 	@Column(name="caminho_thumbnail")
 	var thumbnailPath: String?,
 
-	@Column(name="data_lancamento")
-	val dataLancamento: LocalDate,
+	@Column(name="data_lancamento", nullable = true)
+	val dataLancamento: LocalDate?,
 
-	@Column(name="versao")
-	var versao: String,
+	@Column(name="versao", nullable = true)
+	var versao: String?,
 
-	@Column(name="active")
+	@Column(name="ativo")
 	var ativo: Boolean,
 
 	@JoinColumn(name="tipo_licensa_uso_id")
 	@ManyToOne
-	var tipoLicensaUso: TipoLicensaUsoEntity
+	var tipoLicensaUso: TipoLicensaUsoEntity?
 ) {
-	@ManyToMany
+	@ManyToMany(fetch= FetchType.EAGER)
 	@JoinTable(
 		name="objeto_aprendizagem_idioma",
 		joinColumns = [JoinColumn(name = "objeto_aprendizagem_id", referencedColumnName = "id")],
 		inverseJoinColumns=[JoinColumn(name="idioma_id", referencedColumnName="id")]
 	)
-	val idiomas: MutableSet<IdiomaEntity> = hashSetOf()
+	val idiomas: MutableSet<IdiomaEntity>? = hashSetOf()
 
 	@ManyToMany(fetch= FetchType.EAGER)
 	@JoinTable(

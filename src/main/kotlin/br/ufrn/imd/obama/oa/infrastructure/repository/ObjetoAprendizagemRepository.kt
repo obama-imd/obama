@@ -15,7 +15,7 @@ interface ObjetoAprendizagemRepository: JpaRepository<ObjetoAprendizagemEntity, 
             " SELECT distinct oa FROM ObjetoAprendizagemEntity oa " +
                     " LEFT JOIN oa.descritores d " +
                     " LEFT JOIN oa.objetoAprendizagemPlataformas oap " +
-                    " WHERE lower(oa.nome) like CONCAT('%',:nome,'%') " +
+                    " WHERE oa.nome like upper(CONCAT('%',:nome,'%'))" +
                     " AND oa.ativo = true" +
                     " AND (:tipoAcesso IS NULL OR oap.tipoAcesso = :tipoAcesso) " +
                     " AND (:nivelEnsinoId IS NULL OR d.nivelEnsino.id = :nivelEnsinoId) " +
