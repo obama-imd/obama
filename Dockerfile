@@ -1,5 +1,3 @@
-FROM openjdk:17-alpine
-
-COPY build/libs/obama-0.0.1-SNAPSHOT.jar obama.jar
-
-ENTRYPOINT ["java", "-jar", "/obama.jar"]
+FROM openjdk:17-jdk-alpine
+COPY build/libs/*.jar /app.jar
+ENTRYPOINT ["java", "-jar", "/app.jar"]
