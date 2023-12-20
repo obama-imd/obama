@@ -1,18 +1,10 @@
+springdoc:
+  api-docs:
+    enabled: true
+
 spring:
-  mvc:
-    pathmatch:
-      matching-strategy: ant_path_matcher
-  datasource:
-    platform: postgres
-    url: jdbc:postgresql://HOSTNAME:PORTA/NOMEBANCO
-    username: USUARIO
-    password: SENHA
   jpa:
-    database: POSTGRESQL
-    hibernate:
-      ddl-auto: none
-    show-sql: false
-  database:
-    driverClassName: org.postgresql.Driver
-  flyway:
-    enabled: false
+    open-in-view: false
+
+server:
+  port: 8081
