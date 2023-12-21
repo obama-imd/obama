@@ -4,6 +4,7 @@ import br.ufrn.imd.obama.oa.domain.model.TipoAcesso
 import br.ufrn.imd.obama.oa.domain.usecase.BuscarOa
 import br.ufrn.imd.obama.oa.infrastructure.mapper.toBuscarOaResponse
 import br.ufrn.imd.obama.oa.infrastructure.resource.exchange.BuscarOaResponse
+import org.slf4j.LoggerFactory
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.http.MediaType
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController
 class ObjetoAprendizagemResourceImpl(
         private val buscarOa: BuscarOa
 ): ObjetoAprendizagemResource {
+    private val logger = LoggerFactory.getLogger(javaClass)
 
     @GetMapping(produces = [MediaType.APPLICATION_JSON_VALUE])
     override fun buscarPorParametros(
@@ -33,6 +35,8 @@ class ObjetoAprendizagemResourceImpl(
             @RequestParam("tipoAcesso", required = false) tipoAcesso: TipoAcesso?,
             @RequestParam("curriculo", required = true) curriculo: String
     ): Page<BuscarOaResponse> {
+        logger.info("method={};", "buscarPorParametros")
+
         return buscarOa.buscarPorParametros(
                 pageable,
                 nome,

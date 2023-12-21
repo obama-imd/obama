@@ -5,6 +5,10 @@ API para plataforma Objetos de Aprendizagem para Matemática (OBAMA)
 * [Java] 1.17+;
 * [Gradle] 6/7+;
 
+## Arquitetura
+
+Esse projeto segue os conceitos da arquitetura limpa.
+
 ## Configurando os containers locais
 
 O projeto possui arquivo docker-compose permite você configura os containers essenciais para rodar a aplicação local numa rede. No Linux, para rodar esse arquivo basta executar o seguinte comando:
@@ -40,11 +44,6 @@ Inicialmente a base do container está vázia, então é importante popula-la. P
 ```shell
 ./gradlew flywayMigrate -DServer=local_database
 ```
-
-**Observação:** Essas são as configurações iniciais para acesso do banco de dados local por algum Sistema Gerenciador de Banco de Dados(SGBD):
-* URL: ``` jdbc:postgres:thin@//localhost:5432/postgres ```
-* POSTGRES_USER: OBAMA_ADMIN
-* POSTGRES_PASSWORD: OBAMA_LOCAL
 
 ## Configurando o ambiente local
 
@@ -90,7 +89,16 @@ Agora para executar (criar um container da imagem criada), execute esse comando:
 docker run --net=host -p '8080:8080' -e SPRING_PROFILES_ACTIVE=local obama
 ```
 
-## Swagger
+## Swaggers
 
 Swagger está configurado para o link {HOST}/swagger-ui/index.html.
 
+## Jacoco
+s
+O projeto possui o Jacoco configurado para ser executado após a execução dos testes:
+
+```
+./gradlew clean build'
+```
+
+Você pode verificar os relatórios de cobertura de teste no caminho `/build/reports/jacoco/html/index.html` do seu projeto.
