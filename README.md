@@ -37,15 +37,18 @@ Para deletar images/containers/volumes/network não utilizados.
 docker system prune -f && docker network prune -f && docker image prune -a -f && docker volume prune -f
 ```
 
-## Configurando a base de dados
+## Configurando o ambiente local
 
-Inicialmente a base do container está vázia, então é importante popula-la. Para isso basta executar o seguinte comando:
+### Configurando a base de dados
+
+Inicialmente a base de dados da aplicação pode estar vázia. Caso sim, é importante estrutura-la com o seguinte comando:
 
 ```shell
 ./gradlew flywayMigrate -DServer=local_database
 ```
 
-## Configurando o ambiente local
+
+### Profile
 
 Para rodar a aplicação localmente é necessário configurar o profile local e para isso basta usar o seguinte trecho:
 
@@ -53,7 +56,7 @@ Para rodar a aplicação localmente é necessário configurar o profile local e 
 -Dspring.profiles.active=<profile_name>
 ```
 
-## Rodando a aplicação via gradle
+### Rodando a aplicação via gradle
 
 Para rodar a aplicação via terminal basta usar o seguinte comando:
 
@@ -67,7 +70,7 @@ Você consegue adicionar o profile como mostra a seguir:
 ./gradlew bootRun --args='--spring.profiles.active=<profile_name>'
 ```
 
-## Rodando a aplicação via docker
+### Rodando a aplicação via docker
 
 É possível rodar a aplicação executando a construção da imagem pelo Dockerfile do projeto e depois executando essa.
 
