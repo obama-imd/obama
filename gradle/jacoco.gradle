@@ -7,7 +7,7 @@ tasks.named("jacocoTestReport") {
 
     reports {
         html.required.set(true);
-        html.outputLocation.set(file("$buildDir/reports/jacoco/html"))
+        html.outputLocation.set(file("$buildDir/reports/jacoco/all-tests/html"))
     }
 
     classDirectories.setFrom(

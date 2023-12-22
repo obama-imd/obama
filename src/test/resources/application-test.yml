@@ -3,15 +3,14 @@ spring:
     pathmatch:
       matching-strategy: ant_path_matcher
   datasource:
-    platform: postgres
-    url: jdbc:postgresql://HOSTNAME:PORTA/NOMEBANCO
-    username: USUARIO
-    password: SENHA
+    url: jdbc:h2:mem:obama;DB_CLOSE_ON_EXIT=FALSE;
+    username: sa
+    password: password
+    driverClassName: org.h2.Driver
   jpa:
-    database: POSTGRESQL
+    database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
       ddl-auto: none
-    show-sql: false
   database:
     driverClassName: org.postgresql.Driver
   flyway:
