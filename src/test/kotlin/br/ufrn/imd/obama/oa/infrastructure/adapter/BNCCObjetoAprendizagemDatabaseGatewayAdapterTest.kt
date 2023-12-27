@@ -41,5 +41,15 @@ class BNCCObjetoAprendizagemDatabaseGatewayAdapterTest {
         ).thenReturn(
             resultado
         )
+
+        gatewayAdapter.procurarPorCurriculo(
+            pageable,
+            nome,
+            null,
+            null,
+            null,
+            null,
+            null,
+        )
     }
 }

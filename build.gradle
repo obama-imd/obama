@@ -14,8 +14,6 @@ plugins {
 group = 'br.ufrn.imd'
 version = '0.0.1-SNAPSHOT'
 
-apply from: "./gradle/jacoco.gradle"
-
 java {
 	sourceCompatibility = '17'
 }
@@ -81,9 +79,34 @@ tasks.named('bootBuildImage') {
 tasks.named('test') {
 	outputs.dir snippetsDir
 	useJUnitPlatform()
+	finalizedBy(tasks.jacocoTestReport)
 }
 
 tasks.named('asciidoctor') {
 	inputs.dir snippetsDir
 	dependsOn test
+}
+
+tasks.named("jacocoTestReport") {
+	executionData(file("${project.buildDir}/jacoco/test.exec"))
+
+	reports {
+		html.required.set(true)
+	}
+
+	classDirectories.setFrom(
+			files(
+					classDirectories.files.collect {
+						fileTree(it) {
+							exclude("**/obama/ObamaApplication**")
+							exclude("**/model/**")
+							exclude("**/entity/**")
+							exclude("**/handler/**")
+							exclude("**/exception/**")
+							exclude("**/configuration/")
+							exclude("**/exchange/**")
+						}
+					}
+			)
+	)
 }
