@@ -1,8 +1,3 @@
-#logging:
-#  level:
-#    org:
-#      flywaydb: DEBUG
-
 spring:
   datasource:
     url: jdbc:h2:mem:obama;DB_CLOSE_ON_EXIT=FALSE;
@@ -13,6 +8,7 @@ spring:
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
       ddl-auto: none
+      show_sql: true
   flyway:
     enabled: true
     baseline-on-migrate: true

@@ -22,7 +22,7 @@ interface ObjetoAprendizagemRepository: JpaRepository<ObjetoAprendizagemEntity, 
                     " AND (:temaConteudoId IS NULL OR d.temaConteudo.id = :temaConteudoId) " +
                     " AND (:descritorId IS NULL OR d.id = :descritorId) ",
     )
-    fun findAllAtivoByNomeAndTipoAcessoAndNivelEnsinoIdAndTemaConteudoIdAndDescritorId(
+    fun buscarTodosAtivoPorNomeETipoAcessoENivelEnsinoIdETemaConteudoIdEDescritorId(
             @Param("nome") nome: String,
             @Param("tipoAcesso") tipoAcesso: TipoAcesso?,
             @Param("nivelEnsinoId") nivelEnsinoId: Long?,

@@ -27,7 +27,7 @@ class BNCCObjetoAprendizagemDatabaseGatewayAdapter(
     ): Page<ObjetoAprendizagem> {
         logger.info("method={};", "procurarPorCurriculo")
 
-        return objetoAprendizagemRepository.findAllAtivoByNomeAndTipoAcessoAndNivelEnsinoIdAndTemaConteudoIdAndDescritorId(
+        return objetoAprendizagemRepository.buscarTodosAtivoPorNomeETipoAcessoENivelEnsinoIdETemaConteudoIdEDescritorId(
            nome,
            tipoAcesso,
            nivelEnsinoId,
