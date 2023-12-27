@@ -1,15 +1,24 @@
 package br.ufrn.imd.obama.oa.infrastructure.resource
 
 import br.ufrn.imd.obama.oa.domain.gateway.ObjetoAprendizagemDatabaseGateway
+import br.ufrn.imd.obama.oa.domain.model.ObjetoAprendizagem
+import br.ufrn.imd.obama.oa.domain.usecase.BuscarOa
 import br.ufrn.imd.obama.oa.domain.usecase.BuscarOaImpl
+import br.ufrn.imd.obama.oa.infrastructure.adapter.BNCCObjetoAprendizagemDatabaseGatewayAdapter
 import br.ufrn.imd.obama.oa.infrastructure.configuration.BuscarOaConfig
 import br.ufrn.imd.obama.oa.infrastructure.handler.ObjetoAprendizagemExceptionHandler
+import br.ufrn.imd.obama.oa.infrastructure.repository.ObjetoAprendizagemRepository
+import br.ufrn.imd.obama.oa.util.NOME_BNCC_CURRICULO
 import br.ufrn.imd.obama.oa.util.NOME_CURRICULO_INVALIDO
-import java.math.BigDecimal
-import java.time.LocalDate
+import br.ufrn.imd.obama.oa.util.criarObjetoAprendizagem
 import org.junit.jupiter.api.Test
-import org.mockito.ArgumentMatchers
 import org.mockito.Mockito
+import org.mockito.Mockito.any
+import org.mockito.Mockito.anyString
+import org.mockito.Mockito.times
+import org.mockito.Mockito.verify
+import org.mockito.Mockito.`when`
+import org.springframework.beans.factory.NoSuchBeanDefinitionException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.support.AbstractBeanFactory
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration
@@ -19,6 +28,9 @@ import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfigurat
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.mock.mockito.MockBean
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageImpl
+import org.springframework.data.domain.Pageable
 import org.springframework.http.MediaType
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.ContextConfiguration
@@ -37,10 +49,10 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 ])
 @ContextConfiguration(classes = [
     ObjetoAprendizagemExceptionHandler::class,
-    BuscarOaImpl::class,
+    BuscarOa::class,
     BuscarOaConfig::class,
-    ObjetoAprendizagemDatabaseGateway::class,
-    AbstractBeanFactory::class
+    BNCCObjetoAprendizagemDatabaseGatewayAdapter::class,
+    ObjetoAprendizagemRepository::class
 ])
 class ObjetoAprendizagemResourceImplTest {
 
@@ -49,37 +61,89 @@ class ObjetoAprendizagemResourceImplTest {
     private lateinit var mockMvc: MockMvc
 
     @MockBean
-    private  lateinit var buscarOaImpl: BuscarOaImpl
+    private  lateinit var buscarOa: BuscarOa
 
     @MockBean
-    private lateinit var beanFactory: AbstractBeanFactory
+    private lateinit var bnccObjetoAprendizagemDatabaseGatewayAdapter: BNCCObjetoAprendizagemDatabaseGatewayAdapter
 
-//    @Throws(Exception::class)
-//    fun shouldCreatePurchaseSuccess() {
-//        val savedPurchaseModel: Unit = createSavedPurchaseModel()
-//        Mockito.`when`(createPurchaseUseCase.createPurchase(ArgumentMatchers.any())).thenReturn(savedPurchaseModel)
-//        mockMvc.perform(
-//            MockMvcRequestBuilders.post("/v1/purchase")
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .content(getCreatePurchaseModelString("Description", BigDecimal("10.33")))
-//        ).andDo(MockMvcResultHandlers.print())
-//            .andExpect(MockMvcResultMatchers.status().isOk())
-//            .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
-//            .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(1L))
-//            .andExpect(MockMvcResultMatchers.jsonPath("$.description").value("A beautiful description"))
-//            .andExpect(MockMvcResultMatchers.jsonPath("$.amount").value(10.33))
-//            .andExpect(MockMvcResultMatchers.jsonPath("$.createdAt").value(LocalDate.now().toString()))
-//    }
+    @MockBean
+    private lateinit var objetoAprendizagemRepository: ObjetoAprendizagemRepository
+
 
     @Test
-    fun `Deve retorn bad request quando informa um curriculo inválido`() {
+    fun `Deve retornar bad request quando informa um curriculo inválido`() {
+        var pageable: Pageable = Pageable.ofSize(10)
+
+        `when`(
+            buscarOa.buscarPorParametros(
+                pageable,
+                "Math",
+                null,
+                null,
+                null,
+                null,
+                null,
+                NOME_CURRICULO_INVALIDO
+            )
+        ).thenThrow(NoSuchBeanDefinitionException::class.java)
+
         mockMvc.perform(
             MockMvcRequestBuilders.get("/v1/oa")
                 .contentType(MediaType.APPLICATION_JSON)
+                .param("page", "0")
+                .param("size", "10")
                 .param("nome", "Math")
                 .param("curriculo", NOME_CURRICULO_INVALIDO)
         ).andDo(MockMvcResultHandlers.print())
             .andExpect(MockMvcResultMatchers.status().isBadRequest())
 
+    }
+
+    @Test
+    fun `Deve retornar retornar lista de objetos com curriculo válido`() {
+        var resultado: Page<ObjetoAprendizagem> = PageImpl(
+            listOf(
+                criarObjetoAprendizagem(),
+                criarObjetoAprendizagem()
+            ),
+        )
+
+        var pageable: Pageable = Pageable.ofSize(10)
+
+        `when`(
+            buscarOa.buscarPorParametros(
+                pageable,
+                "Math",
+                null,
+                null,
+                null,
+                null,
+                null,
+                NOME_BNCC_CURRICULO
+            )
+        ).thenReturn(
+            resultado
+        )
+
+        mockMvc.perform (
+                MockMvcRequestBuilders.get("/v1/oa")
+                    .param("page", "0")
+                    .param("size", "10")
+                    .param("nome", "Math")
+                    .param("curriculo", NOME_BNCC_CURRICULO)
+        ).andDo(MockMvcResultHandlers.print())
+        .andExpect(MockMvcResultMatchers.status().isOk())
+        .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
+
+        verify(buscarOa, times(1)).buscarPorParametros(
+            pageable,
+            "Math",
+            null,
+            null,
+            null,
+            null,
+            null,
+            NOME_BNCC_CURRICULO
+        )
     }
 }
