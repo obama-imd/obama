@@ -9,34 +9,6 @@ API para plataforma Objetos de Aprendizagem para Matemática (OBAMA)
 
 Esse projeto segue os conceitos da arquitetura limpa.
 
-## Configurando os containers locais
-
-O projeto possui arquivo docker-compose permite você configura os containers essenciais para rodar a aplicação local numa rede. No Linux, para rodar esse arquivo basta executar o seguinte comando:
-
-```shell
-docker-compose up --build -d
-```
-
-**Subindo alguns serviços**
-
-```shell
-docker-compose up [ servico_01 | servico_02] --build -d
-```
-
-**Parar todos os containers**
-
-```shell
-docker-compose down
-```
-
-**Outros comandos**
-
-Para deletar images/containers/volumes/network não utilizados.
-
-```shell
-docker system prune -f && docker network prune -f && docker image prune -a -f && docker volume prune -f
-```
-
 ## Configurando o ambiente local
 
 ### Configurando a base de dados
@@ -46,7 +18,6 @@ Inicialmente a base de dados da aplicação pode estar vázia. Caso sim, é impo
 ```shell
 ./gradlew flywayMigrate -DServer=local_database
 ```
-
 
 ### Profile
 
@@ -70,27 +41,22 @@ Você consegue adicionar o profile como mostra a seguir:
 ./gradlew bootRun --args='--spring.profiles.active=<profile_name>'
 ```
 
-### Rodando a aplicação via docker
+### Acessar o banco
 
-É possível rodar a aplicação executando a construção da imagem pelo Dockerfile do projeto e depois executando essa.
-
-Para isso rode este comando para construir a imagem:
+O banco da aplicação por enquanto está em memória e para acessa-lo basta acessar o seguinte link:
 
 ```
-docker build -t obama .
+http://localhost:8081/h2-console
 ```
 
-Caso queira ver se a imagem for criado execute este comando:
+E coloca as seguintes informações:
 
-```
-docker images
-```
+- Driver Class: org.h2.Driver
+- JDBC URL: jdbc:h2:mem:obama;
+- User Name: sa
+- Password: password
 
-Agora para executar (criar um container da imagem criada), execute esse comando:
-
-```
-docker run --net=host -p '8080:8080' -e SPRING_PROFILES_ACTIVE=local obama
-```
+E seleciona o botão Connect
 
 ## Swaggers
 
