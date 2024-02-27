@@ -9,9 +9,9 @@ import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 
 
-class BuscarOaImpl(
+class ObjetoAprendizagemImpl(
    private val beanFactory: AbstractBeanFactory
-): BuscarOa {
+): br.ufrn.imd.obama.oa.domain.usecase.ObjetoAprendizagem {
 
     private val OBJETO_APRENDIZAGEM_DATABASE_GATEWAY_ADAPTER_SUFIXO = "ObjetoAprendizagemDatabaseGatewayAdapter"
 

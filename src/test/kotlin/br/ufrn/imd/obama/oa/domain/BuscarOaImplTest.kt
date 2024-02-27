@@ -1,7 +1,7 @@
 package br.ufrn.imd.obama.oa.domain
 
 import br.ufrn.imd.obama.oa.domain.model.ObjetoAprendizagem
-import br.ufrn.imd.obama.oa.domain.usecase.BuscarOaImpl
+import br.ufrn.imd.obama.oa.domain.usecase.ObjetoAprendizagemImpl
 import br.ufrn.imd.obama.oa.infrastructure.adapter.BNCCObjetoAprendizagemDatabaseGatewayAdapter
 import br.ufrn.imd.obama.oa.util.NOME_BNCC_CURRICULO
 import br.ufrn.imd.obama.oa.util.NOME_CURRICULO_INVALIDO
@@ -19,11 +19,11 @@ import org.springframework.data.domain.Pageable
 import org.springframework.test.context.ActiveProfiles
 
 @ActiveProfiles(profiles = ["test"])
-@SpringBootTest(classes = [BuscarOaImpl::class, BNCCObjetoAprendizagemDatabaseGatewayAdapter::class])
+@SpringBootTest(classes = [ObjetoAprendizagemImpl::class, BNCCObjetoAprendizagemDatabaseGatewayAdapter::class])
 class BuscarOaImplTest {
 
     @Autowired
-    private lateinit var buscarOaImpl: BuscarOaImpl;
+    private lateinit var buscarOaImpl: ObjetoAprendizagemImpl;
 
     @MockBean
     private lateinit var databaseGateway: BNCCObjetoAprendizagemDatabaseGatewayAdapter;
