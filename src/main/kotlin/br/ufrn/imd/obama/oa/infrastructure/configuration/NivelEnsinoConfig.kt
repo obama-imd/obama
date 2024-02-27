@@ -1,15 +1,15 @@
 package br.ufrn.imd.obama.oa.infrastructure.configuration
 
 import br.ufrn.imd.obama.oa.domain.gateway.NivelEnsinoDatabaseGateway
-import br.ufrn.imd.obama.oa.domain.usecase.ListarNivelEnsino
-import br.ufrn.imd.obama.oa.domain.usecase.ListarNivelEnsinoImpl
+import br.ufrn.imd.obama.oa.domain.usecase.NivelEnsino
+import br.ufrn.imd.obama.oa.domain.usecase.NivelEnsinoImpl
 import br.ufrn.imd.obama.oa.infrastructure.adapter.NivelEnsinoDatabaseGatewayAdapter
 import br.ufrn.imd.obama.oa.infrastructure.repository.NivelEnsinoRepository
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
 @Configuration
-class ListarNivelEnsinoConfig {
+class NivelEnsinoConfig {
 
     @Bean
     fun setUpNivelEnsinoDatabaseGateway(
@@ -21,7 +21,7 @@ class ListarNivelEnsinoConfig {
     @Bean
     fun setUpListarNivelEnsino(
         nivelEnsinoDatabaseGateway: NivelEnsinoDatabaseGateway
-    ): ListarNivelEnsino {
-        return ListarNivelEnsinoImpl(nivelEnsinoDatabaseGateway)
+    ): NivelEnsino {
+        return NivelEnsinoImpl(nivelEnsinoDatabaseGateway)
     }
 }

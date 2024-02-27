@@ -1,26 +1,21 @@
 package br.ufrn.imd.obama.oa.infrastructure.resource
 
-import br.ufrn.imd.obama.oa.domain.gateway.ObjetoAprendizagemDatabaseGateway
 import br.ufrn.imd.obama.oa.domain.model.ObjetoAprendizagem
-import br.ufrn.imd.obama.oa.domain.usecase.BuscarOa
-import br.ufrn.imd.obama.oa.domain.usecase.BuscarOaImpl
+import br.ufrn.imd.obama.oa.domain.usecase.ObjetoAprendizagem
+import br.ufrn.imd.obama.oa.domain.usecase.ObjetoAprendizagemImpl
 import br.ufrn.imd.obama.oa.infrastructure.adapter.BNCCObjetoAprendizagemDatabaseGatewayAdapter
-import br.ufrn.imd.obama.oa.infrastructure.configuration.BuscarOaConfig
+import br.ufrn.imd.obama.oa.infrastructure.configuration.OaConfig
 import br.ufrn.imd.obama.oa.infrastructure.handler.ObjetoAprendizagemExceptionHandler
 import br.ufrn.imd.obama.oa.infrastructure.repository.ObjetoAprendizagemRepository
 import br.ufrn.imd.obama.oa.util.NOME_BNCC_CURRICULO
 import br.ufrn.imd.obama.oa.util.NOME_CURRICULO_INVALIDO
 import br.ufrn.imd.obama.oa.util.criarObjetoAprendizagem
 import org.junit.jupiter.api.Test
-import org.mockito.Mockito
-import org.mockito.Mockito.any
-import org.mockito.Mockito.anyString
 import org.mockito.Mockito.times
 import org.mockito.Mockito.verify
 import org.mockito.Mockito.`when`
 import org.springframework.beans.factory.NoSuchBeanDefinitionException
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.beans.factory.support.AbstractBeanFactory
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
 import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration
@@ -40,7 +35,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 
 @ActiveProfiles(profiles = ["test"])
-@SpringBootTest(classes = [ObjetoAprendizagemResourceImpl::class, BuscarOaImpl::class])
+@SpringBootTest(classes = [ObjetoAprendizagemResourceImpl::class, ObjetoAprendizagemImpl::class])
 @AutoConfigureMockMvc
 @EnableAutoConfiguration(exclude = [
     DataSourceAutoConfiguration::class,
@@ -49,8 +44,8 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 ])
 @ContextConfiguration(classes = [
     ObjetoAprendizagemExceptionHandler::class,
-    BuscarOa::class,
-    BuscarOaConfig::class,
+    ObjetoAprendizagem::class,
+    OaConfig::class,
     BNCCObjetoAprendizagemDatabaseGatewayAdapter::class,
     ObjetoAprendizagemRepository::class
 ])
@@ -61,7 +56,7 @@ class ObjetoAprendizagemResourceImplTest {
     private lateinit var mockMvc: MockMvc
 
     @MockBean
-    private  lateinit var buscarOa: BuscarOa
+    private  lateinit var buscarOa: br.ufrn.imd.obama.oa.domain.usecase.ObjetoAprendizagem
 
     @MockBean
     private lateinit var bnccObjetoAprendizagemDatabaseGatewayAdapter: BNCCObjetoAprendizagemDatabaseGatewayAdapter
@@ -101,7 +96,7 @@ class ObjetoAprendizagemResourceImplTest {
 
     @Test
     fun `Deve retornar retornar lista de objetos com curriculo válido`() {
-        var resultado: Page<ObjetoAprendizagem> = PageImpl(
+        var resultado: Page<br.ufrn.imd.obama.oa.domain.model.ObjetoAprendizagem> = PageImpl(
             listOf(
                 criarObjetoAprendizagem(),
                 criarObjetoAprendizagem()

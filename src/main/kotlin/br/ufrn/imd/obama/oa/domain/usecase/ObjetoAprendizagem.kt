@@ -5,7 +5,7 @@ import br.ufrn.imd.obama.oa.domain.model.TipoAcesso
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Page
 
-interface BuscarOa {
+interface ObjetoAprendizagem {
     fun buscarPorParametros(
             pageable: Pageable,
             nome: String,

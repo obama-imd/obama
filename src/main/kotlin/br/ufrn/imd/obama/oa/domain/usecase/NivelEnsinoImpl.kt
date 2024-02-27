@@ -3,9 +3,9 @@ package br.ufrn.imd.obama.oa.domain.usecase
 import br.ufrn.imd.obama.oa.domain.gateway.NivelEnsinoDatabaseGateway
 import br.ufrn.imd.obama.oa.domain.model.NivelEnsino
 
-class ListarNivelEnsinoImpl(
+class NivelEnsinoImpl(
     private val nivelEnsinoDatabaseGateway: NivelEnsinoDatabaseGateway
-): ListarNivelEnsino {
+): br.ufrn.imd.obama.oa.domain.usecase.NivelEnsino {
 
     override fun listarNiveisEnsino(): Set<NivelEnsino> {
         return nivelEnsinoDatabaseGateway.listarNivelEnsino()
