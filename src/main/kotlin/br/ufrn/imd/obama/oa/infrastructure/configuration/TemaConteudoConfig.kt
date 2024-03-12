@@ -1,13 +1,12 @@
 package br.ufrn.imd.obama.oa.infrastructure.configuration
 
 import br.ufrn.imd.obama.oa.domain.gateway.TemaConteudoDatabaseGateway
-import br.ufrn.imd.obama.oa.domain.usecase.TemaConteudo
-import br.ufrn.imd.obama.oa.domain.usecase.TemaConteudoImpl
+import br.ufrn.imd.obama.oa.domain.usecase.TemaConteudoUseCase
+import br.ufrn.imd.obama.oa.domain.usecase.TemaConteudoUseCaseImpl
 import br.ufrn.imd.obama.oa.infrastructure.adapter.TemaConteudoDatabaseGatewayAdapter
 import br.ufrn.imd.obama.oa.infrastructure.repository.TemaConteudoRepository
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.context.annotation.Profile
 
 @Configuration
 class TemaConteudoConfig {
@@ -24,8 +23,8 @@ class TemaConteudoConfig {
     @Bean
     fun setUpTemaConteudoUseCase(
         temaConteudoDatabaseGateway: TemaConteudoDatabaseGateway
-    ): TemaConteudo {
-        return TemaConteudoImpl(
+    ): TemaConteudoUseCase {
+        return TemaConteudoUseCaseImpl(
             temaConteudoDatabaseGateway
         )
     }

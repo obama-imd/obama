@@ -1,13 +1,14 @@
 package br.ufrn.imd.obama.oa.infrastructure.resource
 
-import br.ufrn.imd.obama.oa.infrastructure.resource.exchange.ListarNivelEnsinoResponse
+import br.ufrn.imd.obama.oa.infrastructure.resource.exchange.ListarDescritorResponse
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.http.MediaType
-import org.springframework.http.ResponseEntity
 
 interface DescritorResource {
 
@@ -24,5 +25,7 @@ interface DescritorResource {
             ]
         )
     ])
-    fun listarNivelEnsino(): ResponseEntity<Set<ListarNivelEnsinoResponse>>
+    fun listarDescritores(
+        pageable: Pageable
+    ): Page<ListarDescritorResponse>
 }

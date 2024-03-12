@@ -1,8 +1,7 @@
 package br.ufrn.imd.obama.oa.infrastructure.resource
 
 import br.ufrn.imd.obama.oa.domain.model.ObjetoAprendizagem
-import br.ufrn.imd.obama.oa.domain.usecase.ObjetoAprendizagem
-import br.ufrn.imd.obama.oa.domain.usecase.ObjetoAprendizagemImpl
+import br.ufrn.imd.obama.oa.domain.usecase.ObjetoAprendizagemUseCaseImpl
 import br.ufrn.imd.obama.oa.infrastructure.adapter.BNCCObjetoAprendizagemDatabaseGatewayAdapter
 import br.ufrn.imd.obama.oa.infrastructure.configuration.OaConfig
 import br.ufrn.imd.obama.oa.infrastructure.handler.ObjetoAprendizagemExceptionHandler
@@ -35,7 +34,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 
 @ActiveProfiles(profiles = ["test"])
-@SpringBootTest(classes = [ObjetoAprendizagemResourceImpl::class, ObjetoAprendizagemImpl::class])
+@SpringBootTest(classes = [ObjetoAprendizagemResourceImpl::class, ObjetoAprendizagemUseCaseImpl::class])
 @AutoConfigureMockMvc
 @EnableAutoConfiguration(exclude = [
     DataSourceAutoConfiguration::class,
@@ -56,7 +55,7 @@ class ObjetoAprendizagemResourceImplTest {
     private lateinit var mockMvc: MockMvc
 
     @MockBean
-    private  lateinit var buscarOa: br.ufrn.imd.obama.oa.domain.usecase.ObjetoAprendizagem
+    private  lateinit var buscarOa: br.ufrn.imd.obama.oa.domain.usecase.ObjetoAprendizagemUseCase
 
     @MockBean
     private lateinit var bnccObjetoAprendizagemDatabaseGatewayAdapter: BNCCObjetoAprendizagemDatabaseGatewayAdapter
