@@ -7,6 +7,7 @@ import br.ufrn.imd.obama.oa.infrastructure.adapter.TemaConteudoDatabaseGatewayAd
 import br.ufrn.imd.obama.oa.infrastructure.repository.TemaConteudoRepository
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.Primary
 
 @Configuration
 class TemaConteudoConfig {
@@ -21,6 +22,7 @@ class TemaConteudoConfig {
     }
 
     @Bean
+    @Primary
     fun setUpTemaConteudoUseCase(
         temaConteudoDatabaseGateway: TemaConteudoDatabaseGateway
     ): TemaConteudoUseCase {

@@ -1,6 +1,7 @@
 package br.ufrn.imd.obama.oa.infrastructure.resource
 
 import br.ufrn.imd.obama.oa.domain.model.ObjetoAprendizagem
+import br.ufrn.imd.obama.oa.domain.usecase.ObjetoAprendizagemUseCase
 import br.ufrn.imd.obama.oa.domain.usecase.ObjetoAprendizagemUseCaseImpl
 import br.ufrn.imd.obama.oa.infrastructure.adapter.BNCCObjetoAprendizagemDatabaseGatewayAdapter
 import br.ufrn.imd.obama.oa.infrastructure.configuration.OaConfig
@@ -27,26 +28,25 @@ import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.Pageable
 import org.springframework.http.MediaType
 import org.springframework.test.context.ActiveProfiles
-import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 
 @ActiveProfiles(profiles = ["test"])
-@SpringBootTest(classes = [ObjetoAprendizagemResourceImpl::class, ObjetoAprendizagemUseCaseImpl::class])
+@SpringBootTest(classes = [
+    ObjetoAprendizagemExceptionHandler::class,
+    ObjetoAprendizagemUseCase::class,
+    OaConfig::class,
+    BNCCObjetoAprendizagemDatabaseGatewayAdapter::class,
+    ObjetoAprendizagemRepository::class,
+    ObjetoAprendizagemResourceImpl::class,
+])
 @AutoConfigureMockMvc
 @EnableAutoConfiguration(exclude = [
     DataSourceAutoConfiguration::class,
     HibernateJpaAutoConfiguration::class,
     DataSourceTransactionManagerAutoConfiguration::class
-])
-@ContextConfiguration(classes = [
-    ObjetoAprendizagemExceptionHandler::class,
-    ObjetoAprendizagem::class,
-    OaConfig::class,
-    BNCCObjetoAprendizagemDatabaseGatewayAdapter::class,
-    ObjetoAprendizagemRepository::class
 ])
 class ObjetoAprendizagemResourceImplTest {
 
@@ -55,7 +55,7 @@ class ObjetoAprendizagemResourceImplTest {
     private lateinit var mockMvc: MockMvc
 
     @MockBean
-    private  lateinit var buscarOa: br.ufrn.imd.obama.oa.domain.usecase.ObjetoAprendizagemUseCase
+    private  lateinit var objetoAprendizagemUseCase: ObjetoAprendizagemUseCase
 
     @MockBean
     private lateinit var bnccObjetoAprendizagemDatabaseGatewayAdapter: BNCCObjetoAprendizagemDatabaseGatewayAdapter
@@ -63,13 +63,12 @@ class ObjetoAprendizagemResourceImplTest {
     @MockBean
     private lateinit var objetoAprendizagemRepository: ObjetoAprendizagemRepository
 
-
     @Test
     fun `Deve retornar bad request quando informa um curriculo inválido`() {
         var pageable: Pageable = Pageable.ofSize(10)
 
         `when`(
-            buscarOa.buscarPorParametros(
+            objetoAprendizagemUseCase.buscarPorParametros(
                 pageable,
                 "Math",
                 null,
@@ -95,7 +94,7 @@ class ObjetoAprendizagemResourceImplTest {
 
     @Test
     fun `Deve retornar retornar lista de objetos com curriculo válido`() {
-        var resultado: Page<br.ufrn.imd.obama.oa.domain.model.ObjetoAprendizagem> = PageImpl(
+        var resultado: Page<ObjetoAprendizagem> = PageImpl(
             listOf(
                 criarObjetoAprendizagem(),
                 criarObjetoAprendizagem()
@@ -105,7 +104,7 @@ class ObjetoAprendizagemResourceImplTest {
         var pageable: Pageable = Pageable.ofSize(10)
 
         `when`(
-            buscarOa.buscarPorParametros(
+            objetoAprendizagemUseCase.buscarPorParametros(
                 pageable,
                 "Math",
                 null,
@@ -129,7 +128,7 @@ class ObjetoAprendizagemResourceImplTest {
         .andExpect(MockMvcResultMatchers.status().isOk())
         .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
 
-        verify(buscarOa, times(1)).buscarPorParametros(
+        verify(objetoAprendizagemUseCase, times(1)).buscarPorParametros(
             pageable,
             "Math",
             null,

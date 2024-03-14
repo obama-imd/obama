@@ -1,13 +1,14 @@
-package br.ufrn.imd.obama.oa.domain
+package br.ufrn.imd.obama.oa.domain.usecase
 
+import br.ufrn.imd.obama.oa.domain.model.Descritor
 import br.ufrn.imd.obama.oa.domain.model.ObjetoAprendizagem
-import br.ufrn.imd.obama.oa.domain.usecase.ObjetoAprendizagemUseCaseImpl
 import br.ufrn.imd.obama.oa.infrastructure.adapter.BNCCObjetoAprendizagemDatabaseGatewayAdapter
 import br.ufrn.imd.obama.oa.util.NOME_BNCC_CURRICULO
 import br.ufrn.imd.obama.oa.util.NOME_CURRICULO_INVALIDO
 import br.ufrn.imd.obama.oa.util.criarObjetoAprendizagem
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertDoesNotThrow
 import org.mockito.Mockito.`when`
 import org.springframework.beans.factory.NoSuchBeanDefinitionException
 import org.springframework.beans.factory.annotation.Autowired
@@ -20,13 +21,13 @@ import org.springframework.test.context.ActiveProfiles
 
 @ActiveProfiles(profiles = ["test"])
 @SpringBootTest(classes = [ObjetoAprendizagemUseCaseImpl::class, BNCCObjetoAprendizagemDatabaseGatewayAdapter::class])
-class BuscarOaImplTest {
+class ObjetoAprendizagemUseCasemplTest {
 
     @Autowired
-    private lateinit var buscarOaImpl: ObjetoAprendizagemUseCaseImpl;
+    private lateinit var objetoAprendizagemUseCase: ObjetoAprendizagemUseCaseImpl
 
     @MockBean
-    private lateinit var databaseGateway: BNCCObjetoAprendizagemDatabaseGatewayAdapter;
+    private lateinit var databaseGateway: BNCCObjetoAprendizagemDatabaseGatewayAdapter
 
     @Test
     fun `Deve achar algum objeto de aprendizagem quando o curriculo é BNCC`() {
@@ -54,18 +55,22 @@ class BuscarOaImplTest {
             )
         ).thenReturn(resultado);
 
-        val paginas = buscarOaImpl.buscarPorParametros(
-            pageable,
-            nome,
-            null,
-            null,
-            null,
-            null,
-            null,
-            curriculo
-        )
+        var paginas: Page<ObjetoAprendizagem>? = null
 
-        Assertions.assertEquals(paginas.isEmpty, false)
+        assertDoesNotThrow {
+            paginas = objetoAprendizagemUseCase.buscarPorParametros(
+                pageable,
+                nome,
+                null,
+                null,
+                null,
+                null,
+                null,
+                curriculo
+            )
+        }
+
+        Assertions.assertEquals(paginas?.isEmpty, false)
     }
 
     @Test
@@ -89,18 +94,22 @@ class BuscarOaImplTest {
             )
         ).thenReturn(resultado);
 
-        val paginas = buscarOaImpl.buscarPorParametros(
-            pageable,
-            nome,
-            null,
-            null,
-            null,
-            null,
-            null,
-            curriculo
-        )
+        var paginas: Page<ObjetoAprendizagem>? = null
 
-        Assertions.assertEquals(paginas.isEmpty, true)
+        assertDoesNotThrow {
+            paginas = objetoAprendizagemUseCase.buscarPorParametros(
+                pageable,
+                nome,
+                null,
+                null,
+                null,
+                null,
+                null,
+                curriculo
+            )
+        }
+
+        Assertions.assertEquals(paginas?.isEmpty, true)
     }
 
     @Test
@@ -113,7 +122,7 @@ class BuscarOaImplTest {
         Assertions.assertThrows(
             NoSuchBeanDefinitionException::class.java
         ) {
-            buscarOaImpl.buscarPorParametros(
+            objetoAprendizagemUseCase.buscarPorParametros(
                 pageable,
                 nome,
                 null,

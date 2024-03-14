@@ -11,7 +11,7 @@ import org.springframework.data.domain.Pageable
 
 class ObjetoAprendizagemUseCaseImpl(
    private val beanFactory: AbstractBeanFactory
-): br.ufrn.imd.obama.oa.domain.usecase.ObjetoAprendizagemUseCase {
+): ObjetoAprendizagemUseCase {
 
     private val OBJETO_APRENDIZAGEM_DATABASE_GATEWAY_ADAPTER_SUFIXO = "ObjetoAprendizagemDatabaseGatewayAdapter"
 
