@@ -42,7 +42,7 @@ class ObjetoAprendizagemResourceImpl(
                 nome,
                 nivelEnsinoId,
                 temaConteudoId,
-                temaConteudoId,
+                descritorId,
                 habilidadeId,
                 tipoAcesso,
                 curriculo
