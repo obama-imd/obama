@@ -1,7 +1,7 @@
 package br.ufrn.imd.obama.oa.infrastructure.resource
 
 import br.ufrn.imd.obama.oa.domain.model.TipoAcesso
-import br.ufrn.imd.obama.oa.domain.usecase.ObjetoAprendizagem
+import br.ufrn.imd.obama.oa.domain.usecase.ObjetoAprendizagemUseCase
 import br.ufrn.imd.obama.oa.infrastructure.mapper.toBuscarOaResponse
 import br.ufrn.imd.obama.oa.infrastructure.resource.exchange.BuscarOaResponse
 import org.slf4j.LoggerFactory
@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController
 )
 @Validated
 class ObjetoAprendizagemResourceImpl(
-        private val objetoAprendizagemUseCase: ObjetoAprendizagem
+        private val objetoAprendizagemUseCase: ObjetoAprendizagemUseCase
 ): ObjetoAprendizagemResource {
     private val logger = LoggerFactory.getLogger(javaClass)
 

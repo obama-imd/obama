@@ -1,6 +1,6 @@
 package br.ufrn.imd.obama.oa.infrastructure.resource
 
-import br.ufrn.imd.obama.oa.domain.usecase.NivelEnsino
+import br.ufrn.imd.obama.oa.domain.usecase.NivelEnsinoUseCase
 import br.ufrn.imd.obama.oa.infrastructure.mapper.toResponse
 import br.ufrn.imd.obama.oa.infrastructure.resource.exchange.ListarNivelEnsinoResponse
 import java.util.stream.Collectors
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController
 )
 @Validated
 class NivelEnsinoResourceImpl(
-    private val nivelEnsinoUseCase: NivelEnsino
+    private val nivelEnsinoUseCase: NivelEnsinoUseCase
 ): NivelEnsinoResource {
 
     @GetMapping(produces = [MediaType.APPLICATION_JSON_VALUE])

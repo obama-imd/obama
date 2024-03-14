@@ -1,6 +1,6 @@
 package br.ufrn.imd.obama.oa.infrastructure.resource
 
-import br.ufrn.imd.obama.oa.domain.usecase.TemaConteudo
+import br.ufrn.imd.obama.oa.domain.usecase.TemaConteudoUseCase
 import br.ufrn.imd.obama.oa.infrastructure.mapper.toResponse
 import br.ufrn.imd.obama.oa.infrastructure.resource.exchange.ListarTemaConteudoResponse
 import java.util.stream.Collectors
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController
 )
 @Validated
 class TemaConteudoResourceImpl(
-    private val temaConteudoUseCase: TemaConteudo
+    private val temaConteudoUseCase: TemaConteudoUseCase
 ): TemaConteudoResource {
 
     @GetMapping(produces = [MediaType.APPLICATION_JSON_VALUE])
