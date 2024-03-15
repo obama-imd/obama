@@ -4,6 +4,7 @@ import br.ufrn.imd.obama.oa.domain.usecase.TemaConteudoUseCase
 import br.ufrn.imd.obama.oa.infrastructure.mapper.toResponse
 import br.ufrn.imd.obama.oa.infrastructure.resource.exchange.ListarTemaConteudoResponse
 import java.util.stream.Collectors
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
@@ -20,6 +21,7 @@ class TemaConteudoResourceImpl(
     private val temaConteudoUseCase: TemaConteudoUseCase
 ): TemaConteudoResource {
 
+    @Cacheable(cacheNames = ["temaconteudos"])
     @GetMapping(produces = [MediaType.APPLICATION_JSON_VALUE])
     override fun listarTemasConteudos(): ResponseEntity<Set<ListarTemaConteudoResponse>> {
         val stream = temaConteudoUseCase.listarTemaConteudos().stream().map { it.toResponse() }

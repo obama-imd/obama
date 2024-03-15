@@ -5,6 +5,12 @@ springdoc:
 spring:
   jpa:
     open-in-view: false
+  cache:
+    cache-names: temaconteudos,niveisensino
+    caffeine:
+      spec:
+        maximumSizes: 10000
+        expireAfterAccess: 600
 
 server:
   port: 8081
