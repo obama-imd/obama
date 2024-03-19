@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
@@ -23,8 +24,10 @@ class TemaConteudoResourceImpl(
 
     @Cacheable(cacheNames = ["temaconteudos"])
     @GetMapping(produces = [MediaType.APPLICATION_JSON_VALUE])
-    override fun listarTemasConteudos(): ResponseEntity<Set<ListarTemaConteudoResponse>> {
-        val stream = temaConteudoUseCase.listarTemaConteudos().stream().map { it.toResponse() }
+    override fun listarTemasConteudos(
+        @RequestParam( value="idCurriculo",required = false) idCurriculo: Long
+    ): ResponseEntity<Set<ListarTemaConteudoResponse>> {
+        val stream = temaConteudoUseCase.listarTemaConteudos(idCurriculo).stream().map { it.toResponse() }
 
         return ResponseEntity.ok(stream.collect(Collectors.toSet()));
     }

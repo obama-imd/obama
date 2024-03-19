@@ -4,5 +4,5 @@ import br.ufrn.imd.obama.oa.domain.model.TemaConteudo
 
 interface TemaConteudoDatabaseGateway {
 
-    fun listarTemaConteudo(): Set<TemaConteudo>
+    fun listarTemaConteudo(idCurriculo: Long): Set<TemaConteudo>
 }

@@ -1,12 +1,10 @@
 package br.ufrn.imd.obama.oa.infrastructure.resource
 
-import br.ufrn.imd.obama.oa.domain.model.NivelEnsino
 import br.ufrn.imd.obama.oa.domain.model.TemaConteudo
 import br.ufrn.imd.obama.oa.domain.usecase.TemaConteudoUseCase
 import br.ufrn.imd.obama.oa.infrastructure.adapter.TemaConteudoDatabaseGatewayAdapter
 import br.ufrn.imd.obama.oa.infrastructure.configuration.TemaConteudoConfig
 import br.ufrn.imd.obama.oa.infrastructure.repository.TemaConteudoRepository
-import br.ufrn.imd.obama.oa.util.criarNivelEnsino
 import br.ufrn.imd.obama.oa.util.criarTemaConteudo
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.`when`
@@ -64,13 +62,14 @@ class TemaConteudoResourceImplTest {
             )
 
         `when`(
-            temaConteudoUseCase.listarTemaConteudos()
+            temaConteudoUseCase.listarTemaConteudos(1L)
         ).thenReturn(
             resultado
         )
 
         mockMvc.perform(
             MockMvcRequestBuilders.get("/v1/temaconteudo")
+                .param("idCurriculo", "1")
                 .contentType(MediaType.APPLICATION_JSON)
         ).andDo(MockMvcResultHandlers.print())
          .andExpect(MockMvcResultMatchers.status().isOk())

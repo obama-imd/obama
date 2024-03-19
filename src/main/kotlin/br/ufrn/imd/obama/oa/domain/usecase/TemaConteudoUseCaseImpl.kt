@@ -7,7 +7,7 @@ class TemaConteudoUseCaseImpl(
     private val temaConteudoDatabaseGateway: TemaConteudoDatabaseGateway
 ): TemaConteudoUseCase {
 
-    override fun listarTemaConteudos(): Set<TemaConteudo> {
-        return temaConteudoDatabaseGateway.listarTemaConteudo()
+    override fun listarTemaConteudos(idCurriculo: Long): Set<TemaConteudo> {
+        return temaConteudoDatabaseGateway.listarTemaConteudo(idCurriculo)
     }
 }

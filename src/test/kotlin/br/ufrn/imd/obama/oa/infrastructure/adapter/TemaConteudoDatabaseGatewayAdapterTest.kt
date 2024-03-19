@@ -32,7 +32,7 @@ class TemaConteudoDatabaseGatewayAdapterTest {
         )
 
         assertDoesNotThrow {
-            gatewayAdapter.listarTemaConteudo()
+            gatewayAdapter.listarTemaConteudo(1L)
         }
     }
 }

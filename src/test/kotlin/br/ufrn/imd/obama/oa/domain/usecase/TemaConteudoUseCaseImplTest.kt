@@ -1,10 +1,7 @@
 package br.ufrn.imd.obama.oa.domain.usecase
 
-import br.ufrn.imd.obama.oa.domain.model.NivelEnsino
 import br.ufrn.imd.obama.oa.domain.model.TemaConteudo
-import br.ufrn.imd.obama.oa.infrastructure.adapter.NivelEnsinoDatabaseGatewayAdapter
 import br.ufrn.imd.obama.oa.infrastructure.adapter.TemaConteudoDatabaseGatewayAdapter
-import br.ufrn.imd.obama.oa.util.criarNivelEnsino
 import br.ufrn.imd.obama.oa.util.criarTemaConteudo
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
@@ -34,13 +31,13 @@ class TemaConteudoUseCaseImplTest {
         )
 
         `when`(
-            databaseGateway.listarTemaConteudo()
+            databaseGateway.listarTemaConteudo(1L)
         ).thenReturn(resultado)
 
         var descritor: Set<TemaConteudo>? = null
 
         assertDoesNotThrow {
-            descritor = nivelEnsinoUseCase.listarTemaConteudos()
+            descritor = nivelEnsinoUseCase.listarTemaConteudos(1L)
         }
 
         Assertions.assertEquals(descritor?.isEmpty(), false)
@@ -52,13 +49,13 @@ class TemaConteudoUseCaseImplTest {
         var resultado: Set<TemaConteudo> = setOf()
 
         `when`(
-            databaseGateway.listarTemaConteudo()
+            databaseGateway.listarTemaConteudo(1L)
         ).thenReturn(resultado)
 
         var descritor: Set<TemaConteudo>? = null
 
         assertDoesNotThrow {
-            descritor = nivelEnsinoUseCase.listarTemaConteudos()
+            descritor = nivelEnsinoUseCase.listarTemaConteudos(1L)
         }
 
         Assertions.assertEquals(descritor?.isEmpty(), true)
