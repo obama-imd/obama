@@ -29,11 +29,16 @@ jobs:
         id: jacoco
         uses: madrapps/jacoco-report@v1.6.1
         with:
-          paths: |
-            ${{ github.workspace }}/**/build/reports/jacoco/test/jacocoTestReport.xml,
+          paths: ${{ github.workspace }}/**/build/reports/jacoco/test/jacocoTestReport.xml
           token: ${{ secrets.GITHUB_TOKEN }}
           min-coverage-overall: 80
           min-coverage-changed-files: 80
+      - name: Informa que a PR tem falha quando a cobvertura é menor que 80%
+        if: ${{ steps.jacoco.outputs.coverage-overall < 80.0 }}
+        uses: actions/github-script@v6
+        with:
+          script: |
+            core.setFailed('Cobertura geral é menor que 80%!')
   dependency-submission:
     runs-on: ubuntu-latest
     permissions:
