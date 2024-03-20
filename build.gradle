@@ -80,6 +80,7 @@ tasks.named('bootBuildImage') {
 }
 
 tasks.named('test') {
+	maxParallelForks = Runtime.runtime.availableProcessors().intdiv(2) ?: 1
 	outputs.dir snippetsDir
 	useJUnitPlatform()
 	finalizedBy(tasks.jacocoTestReport)
@@ -95,6 +96,7 @@ tasks.named("jacocoTestReport") {
 
 	reports {
 		html.required.set(true)
+		xml.required.set(true)
 	}
 
 	classDirectories.setFrom(
