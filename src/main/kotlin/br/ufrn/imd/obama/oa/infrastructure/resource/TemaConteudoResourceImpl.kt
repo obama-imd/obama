@@ -25,7 +25,7 @@ class TemaConteudoResourceImpl(
     @Cacheable(cacheNames = ["temaconteudos"])
     @GetMapping(produces = [MediaType.APPLICATION_JSON_VALUE])
     override fun listarTemasConteudos(
-        @RequestParam( value="idCurriculo",required = false) idCurriculo: Long
+        @RequestParam( value="idCurriculo",required = true) idCurriculo: Long
     ): ResponseEntity<Set<ListarTemaConteudoResponse>> {
         val stream = temaConteudoUseCase.listarTemaConteudos(idCurriculo).stream().map { it.toResponse() }
 
