@@ -33,6 +33,8 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           min-coverage-overall: 80
           min-coverage-changed-files: 80
+          title: 'Relatório de cobertura'
+          update-comment: true
       - name: Informa que a PR tem falha quando a cobvertura é menor que 80%
         if: ${{ steps.jacoco.outputs.coverage-overall < 80.0 }}
         uses: actions/github-script@v6
