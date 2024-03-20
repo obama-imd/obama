@@ -93,6 +93,7 @@ tasks.named("jacocoTestReport") {
 
 	reports {
 		html.required.set(true)
+		xml.required.set(true)
 	}
 
 	classDirectories.setFrom(
