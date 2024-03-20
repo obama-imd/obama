@@ -9,19 +9,38 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+      pull-requests: write
     steps:
       - uses: actions/checkout@v4
-      - name: Set up JDK 17
+      - name: Define o JDK 17
         uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
-      - name: Setup Gradle
+      - name: Configura gradle
         uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5
-      - name: Make gradlew executable
+      - name: Torna o gradle executável
         run: chmod +x ./gradlew
-      - name: Build with Gradle Wrapper
+      - name: Executa o build da aplicação
         run: ./gradlew build
+      - name: Cria relatório de cobertura dos testes
+        run: ./gradlew jacocoTestReport
+      - name: Adiciona cobertura na PR
+        id: jacoco
+        uses: madrapps/jacoco-report@v1.6.1
+        with:
+          paths: ${{ github.workspace }}/**/build/reports/jacoco/test/jacocoTestReport.xml
+          token: ${{ secrets.GITHUB_TOKEN }}
+          min-coverage-overall: 80
+          min-coverage-changed-files: 80
+          title: 'Relatório de cobertura'
+          update-comment: true
+      - name: Informa que a PR tem falha quando a cobvertura é menor que 80%
+        if: ${{ steps.jacoco.outputs.coverage-overall < 80.0 }}
+        uses: actions/github-script@v6
+        with:
+          script: |
+            core.setFailed('Cobertura geral é menor que 80%!')
   dependency-submission:
     runs-on: ubuntu-latest
     permissions:
