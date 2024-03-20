@@ -23,7 +23,7 @@ jobs:
       - name: Executa o build da aplicação
         run: ./gradlew build
       - name: Roda a checagem de cobertura dos testes
-        run: ./gradlew testCoverage
+        run: ./gradlew jacocoTestReport
       - name: Adiciona cobertura na PR
         id: jacoco
         uses: madrapps/jacoco-report@v1.6.1
