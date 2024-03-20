@@ -23,7 +23,7 @@ jobs:
         run: chmod +x ./gradlew
       - name: Executa o build da aplicação
         run: ./gradlew build
-      - name: Roda a checagem de cobertura dos testes
+      - name: Cria relatório de cobertura dos testes
         run: ./gradlew jacocoTestReport
       - name: Adiciona cobertura na PR
         id: jacoco
