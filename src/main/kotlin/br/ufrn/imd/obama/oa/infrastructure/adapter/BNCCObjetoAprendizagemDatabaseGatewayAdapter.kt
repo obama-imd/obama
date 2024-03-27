@@ -1,6 +1,7 @@
 package br.ufrn.imd.obama.oa.infrastructure.adapter
 
 import br.ufrn.imd.obama.oa.domain.gateway.ObjetoAprendizagemDatabaseGateway
+import br.ufrn.imd.obama.oa.domain.model.Curriculo
 import br.ufrn.imd.obama.oa.domain.model.ObjetoAprendizagem
 import br.ufrn.imd.obama.oa.domain.model.TipoAcesso
 import br.ufrn.imd.obama.oa.infrastructure.mapper.toModel
@@ -16,23 +17,23 @@ class BNCCObjetoAprendizagemDatabaseGatewayAdapter(
 ): ObjetoAprendizagemDatabaseGateway {
     private val logger = LoggerFactory.getLogger(javaClass)
 
-    override fun procurarPorCurriculo(
-            pageable: Pageable,
-            nome: String,
-            nivelEnsinoId: Long?,
-            temaConteudoId: Long?,
-            descritorId: Long?,
-            habilidadeId: Long?,
-            tipoAcesso: TipoAcesso?
-    ): Page<ObjetoAprendizagem> {
-        logger.info("method={};", "procurarPorCurriculo")
+        override fun procurarPorCurriculo(
+                pageable: Pageable,
+                nome: String,
+                nivelEnsinoId: Long?,
+                temaConteudoId: Long?,
+                descritorId: Long?,
+                habilidadeId: Long?,
+                tipoAcesso: TipoAcesso?,
+        ): Page<ObjetoAprendizagem> {
+            logger.info("method={};", "procurarPorCurriculo")
 
-        return objetoAprendizagemRepository.buscarTodosAtivoPorNomeETipoAcessoENivelEnsinoIdETemaConteudoIdEDescritorId(
+        return objetoAprendizagemRepository.buscarTodosAtivoPorNomeETipoAcessoEAnoEnsinoIdETemaConteudoIdEHabilidadeId(
            nome,
            tipoAcesso,
            nivelEnsinoId,
            temaConteudoId,
-           descritorId,
+           habilidadeId,
            pageable
         ).map {
             it.toModel()

@@ -34,6 +34,7 @@ interface ObjetoAprendizagemResource {
             descritorId: Long?,
             habilidadeId: Long?,
             tipoAcesso: TipoAcesso?,
-            curriculo: String
+            curriculo: String,
+            anoEnsinoId: Long
     ): Page<BuscarOaResponse>
 }

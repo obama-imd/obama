@@ -25,7 +25,8 @@ class ObjetoAprendizagemUseCaseImpl(
             descritorId: Long?,
             habilidadeId: Long?,
             tipoAcesso: TipoAcesso?,
-            curriculo: String
+            curriculo: String,
+            anoEnsinoId: Long?
     ): Page<ObjetoAprendizagem> {
         logger.info("method={};", "buscarPorParametros")
         return (
@@ -39,7 +40,9 @@ class ObjetoAprendizagemUseCaseImpl(
                         temaConteudoId,
                         descritorId,
                         habilidadeId,
-                        tipoAcesso
+                        tipoAcesso,
+                        curriculo,
+                        anoEnsinoId
                 )
     }
 }

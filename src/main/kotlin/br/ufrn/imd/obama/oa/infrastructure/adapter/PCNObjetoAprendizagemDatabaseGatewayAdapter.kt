@@ -23,17 +23,17 @@ class PCNObjetoAprendizagemDatabaseGatewayAdapter(
             temaConteudoId: Long?,
             descritorId: Long?,
             habilidadeId: Long?,
-            tipoAcesso: TipoAcesso?
+            tipoAcesso: TipoAcesso?,
     ): Page<ObjetoAprendizagem> {
         logger.info("method={};", "procurarPorCurriculo")
 
-        return objetoAprendizagemRepository.buscarTodosAtivoPorNomeETipoAcessoEAnoEnsinoIdETemaConteudoIdEHabilidadeId(
-           nome,
-           tipoAcesso,
-           nivelEnsinoId,
-           temaConteudoId,
-           habilidadeId,
-           pageable
+        return objetoAprendizagemRepository.buscarTodosAtivoPorNomeETipoAcessoENivelEnsinoIdETemaConteudoIdEDescritorId(
+            nome,
+            tipoAcesso,
+            nivelEnsinoId,
+            temaConteudoId,
+            descritorId,
+            pageable
         ).map {
             it.toModel()
         }
