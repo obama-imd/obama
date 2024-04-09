@@ -4,6 +4,7 @@ import br.ufrn.imd.obama.oa.domain.usecase.NivelEnsinoUseCase
 import br.ufrn.imd.obama.oa.infrastructure.mapper.toResponse
 import br.ufrn.imd.obama.oa.infrastructure.resource.exchange.ListarNivelEnsinoResponse
 import java.util.stream.Collectors
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
@@ -20,6 +21,7 @@ class NivelEnsinoResourceImpl(
     private val nivelEnsinoUseCase: NivelEnsinoUseCase
 ): NivelEnsinoResource {
 
+    @Cacheable(cacheNames = ["niveisensino"])
     @GetMapping(produces = [MediaType.APPLICATION_JSON_VALUE])
     override fun listarNivelEnsino(): ResponseEntity<Set<ListarNivelEnsinoResponse>> {
         val stream = nivelEnsinoUseCase.listarNiveisEnsino()

@@ -36,7 +36,7 @@ class DescritorUseCaseImplTest {
 
         val pageable: Pageable = Pageable.ofSize(10)
 
-        var resultado: Page<Descritor> = PageImpl(
+        val resultado: Page<Descritor> = PageImpl(
             listOf(
                 criarDescritor(),
                 criarDescritor()

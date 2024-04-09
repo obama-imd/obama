@@ -11,8 +11,8 @@ class TemaConteudoDatabaseGatewayAdapter(
 ): TemaConteudoDatabaseGateway {
 
 
-    override fun listarTemaConteudo(): Set<TemaConteudo> {
-        val stream = temaConteudoRepository.findAll().stream().map {
+    override fun listarTemaConteudo(idCurriculo: Long): Set<TemaConteudo> {
+        val stream = temaConteudoRepository.buscarTodosPeloCurriculo(idCurriculo).stream().map {
             it.toModel()
         }
 

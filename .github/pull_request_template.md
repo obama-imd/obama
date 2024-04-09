@@ -4,6 +4,8 @@
 - [ ] Arquivos alterados/adicionados seguem o padrão _Camel Case_;
 - [ ] Integração com swagger funcionando;
 - [ ] Testes das camadas repository, service e controller.
+- [ ] Verificao a necessidade de cache e se sim, implementado?
+- [ ] A última linha de todos os arquivos estão com uma linha em branco?
 
 **Motivação para a criação da PR**
 <!---Descreva de maneira clara e concisa a motivação para a criação da PR na linha abaixo.-->

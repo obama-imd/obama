@@ -57,6 +57,9 @@ dependencies {
 	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
 	testImplementation 'org.testcontainers:junit-jupiter'
 	testImplementation 'org.testcontainers:postgresql'
+
+	implementation("com.github.ben-manes.caffeine:caffeine:2.9.1")
+	implementation("org.springframework.boot:spring-boot-starter-cache")
 }
 
 dependencyManagement {
