@@ -1,5 +1,6 @@
 package br.ufrn.imd.obama.oa.domain.usecase
 
+import br.ufrn.imd.obama.oa.domain.gateway.IdObjetoAprendizagemGateway
 import br.ufrn.imd.obama.oa.domain.gateway.ObjetoAprendizagemDatabaseGateway
 import br.ufrn.imd.obama.oa.domain.model.ObjetoAprendizagem
 import br.ufrn.imd.obama.oa.domain.model.TipoAcesso
@@ -14,8 +15,25 @@ class ObjetoAprendizagemUseCaseImpl(
 ): ObjetoAprendizagemUseCase {
 
     private val OBJETO_APRENDIZAGEM_DATABASE_GATEWAY_ADAPTER_SUFIXO = "ObjetoAprendizagemDatabaseGatewayAdapter"
+    private val OBJETO_APRENDIZAGEM_DATABASE_GATEWAY_ADAPTER = OBJETO_APRENDIZAGEM_DATABASE_GATEWAY_ADAPTER_SUFIXO
 
     private val logger = LoggerFactory.getLogger(javaClass)
+
+    override fun buscarPorId(
+        id: Long,
+        pageable: Pageable
+    ): Page<ObjetoAprendizagem> {
+        logger.info("method={};", "buscarPorId")
+
+        return (
+                    beanFactory.getBean(
+                        OBJETO_APRENDIZAGEM_DATABASE_GATEWAY_ADAPTER)
+                     as IdObjetoAprendizagemGateway
+                ).procurarPorID(
+                    id,
+                    pageable
+                )
+    }
 
     override fun buscarPorParametros(
             pageable: Pageable,
