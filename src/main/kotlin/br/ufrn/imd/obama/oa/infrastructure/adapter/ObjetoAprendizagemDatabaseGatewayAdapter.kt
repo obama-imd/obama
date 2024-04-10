@@ -1,0 +1,28 @@
+package br.ufrn.imd.obama.oa.infrastructure.adapter
+
+import br.ufrn.imd.obama.oa.domain.gateway.IdObjetoAprendizagemGateway
+import br.ufrn.imd.obama.oa.domain.gateway.ObjetoAprendizagemDatabaseGateway
+import br.ufrn.imd.obama.oa.domain.model.ObjetoAprendizagem
+import br.ufrn.imd.obama.oa.infrastructure.mapper.toModel
+import br.ufrn.imd.obama.oa.infrastructure.repository.ObjetoAprendizagemRepository
+import org.slf4j.LoggerFactory
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
+import org.springframework.stereotype.Service
+
+@Service("ObjetoAprendizagemDatabaseGatewayAdapter")
+class ObjetoAprendizagemDatabaseGatewayAdapter(
+    private val objetoAprendizagemRepository: ObjetoAprendizagemRepository
+): IdObjetoAprendizagemGateway  {
+    private val logger = LoggerFactory.getLogger(javaClass)
+
+    override fun procurarPorID(
+        id: Long,
+        pageable: Pageable
+    ): Page<ObjetoAprendizagem> {
+        logger.info("method={};", "procurarPorId")
+
+        return objetoAprendizagemRepository
+            .findById(id, pageable).map { it.toModel() }
+    }
+}
