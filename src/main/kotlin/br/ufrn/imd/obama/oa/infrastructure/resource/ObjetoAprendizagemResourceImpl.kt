@@ -2,8 +2,11 @@ package br.ufrn.imd.obama.oa.infrastructure.resource
 
 import br.ufrn.imd.obama.oa.domain.model.TipoAcesso
 import br.ufrn.imd.obama.oa.domain.usecase.ObjetoAprendizagemUseCase
+import br.ufrn.imd.obama.oa.infrastructure.mapper.toBuscarOaIdResponse
 import br.ufrn.imd.obama.oa.infrastructure.mapper.toBuscarOaResponse
+import br.ufrn.imd.obama.oa.infrastructure.resource.exchange.BuscarOaIdResponse
 import br.ufrn.imd.obama.oa.infrastructure.resource.exchange.BuscarOaResponse
+import jakarta.websocket.server.PathParam
 import org.slf4j.LoggerFactory
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
@@ -23,6 +26,19 @@ class ObjetoAprendizagemResourceImpl(
         private val objetoAprendizagemUseCase: ObjetoAprendizagemUseCase
 ): ObjetoAprendizagemResource {
     private val logger = LoggerFactory.getLogger(javaClass)
+
+
+    @GetMapping(path = ["/{id}"], produces = [MediaType.APPLICATION_JSON_VALUE])
+    override fun buscarPorId(
+        @PathParam("id") id: Long,
+        pageable: Pageable): Page<BuscarOaIdResponse> {
+        logger.info("method={};", "buscarPorId")
+
+        return objetoAprendizagemUseCase.buscarPorId(
+            id,
+            pageable
+        ).map { it.toBuscarOaIdResponse() }
+    }
 
     @GetMapping(produces = [MediaType.APPLICATION_JSON_VALUE])
     override fun buscarPorParametros(
@@ -48,4 +64,5 @@ class ObjetoAprendizagemResourceImpl(
                 curriculo
         ).map { it.toBuscarOaResponse() }
     }
+
 }

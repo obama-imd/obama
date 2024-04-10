@@ -1,6 +1,7 @@
 package br.ufrn.imd.obama.oa.infrastructure.resource
 
 import br.ufrn.imd.obama.oa.domain.model.TipoAcesso
+import br.ufrn.imd.obama.oa.infrastructure.resource.exchange.BuscarOaIdResponse
 import br.ufrn.imd.obama.oa.infrastructure.resource.exchange.BuscarOaResponse
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.Content
@@ -36,4 +37,22 @@ interface ObjetoAprendizagemResource {
             tipoAcesso: TipoAcesso?,
             curriculo: String
     ): Page<BuscarOaResponse>
+
+    @Operation(summary = "Endpoint para consulta de objetos de aprendizagem por id")
+    @ApiResponses(value = [
+        ApiResponse(
+            responseCode = "200",
+            description = "Objetos de aprendizagem encontrados",
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = Page::class)
+                )
+            ]
+        )
+    ])
+    fun buscarPorId(
+        id: Long,
+        pageable: Pageable
+    ): Page<BuscarOaIdResponse>
 }
