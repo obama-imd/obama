@@ -10,9 +10,10 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface HabilidadeRepository: JpaRepository<HabilidadeEntity, Long> {
-
-    @Query("SELECT h FROM HabilidadeEntity h WHERE h.anoEnsino.id = :anoEnsinoId AND h.temaConteudo.id = :temaConteudoId")
-    fun buscarHabilidadesPorAnoDeEnsinoIdETemaConteudoId(@Param("anoEnsinoId") anoEnsinoId: Long
-                                                         , @Param("temaConteudoId") temaConteudoId: Long
+    @Query("SELECT h FROM HabilidadeEntity h WHERE " +
+            "(:anoEnsinoId IS NULL OR h.anoEnsino.id = :anoEnsinoId)" +
+            " AND (:temaConteudoId IS NULL OR h.temaConteudo.id = :temaConteudoId)")
+    fun buscarHabilidadesPorAnoDeEnsinoIdETemaConteudoId(@Param("anoEnsinoId") anoEnsinoId: Long?
+                                                         , @Param("temaConteudoId") temaConteudoId: Long?
                                                          , pageable: Pageable): Page<HabilidadeEntity>
 }
