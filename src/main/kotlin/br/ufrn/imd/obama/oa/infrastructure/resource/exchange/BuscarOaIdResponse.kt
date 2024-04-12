@@ -16,5 +16,5 @@ class BuscarOaIdResponse (
 
     val habilidades: List<Habilidade>,
 
-    val acessos: List<Plataforma>
+    val acessos: List<ObjetoAprendizagemPlataforma>
 )
