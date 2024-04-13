@@ -1,8 +1,8 @@
 package br.ufrn.imd.obama.oa.infrastructure.mapper
 
 import br.ufrn.imd.obama.oa.domain.model.Habilidade
-import br.ufrn.imd.obama.oa.domain.model.HabilidadeV2
 import br.ufrn.imd.obama.oa.infrastructure.entity.HabilidadeEntity
+import br.ufrn.imd.obama.oa.infrastructure.resource.exchange.HabilidadeResponse
 
 fun HabilidadeEntity.toModel(): Habilidade {
     return Habilidade(
@@ -15,11 +15,11 @@ fun HabilidadeEntity.toModel(): Habilidade {
     )
 }
 
-fun HabilidadeEntity.toModelV2(): HabilidadeV2 {
-    return HabilidadeV2(
+fun Habilidade.toResponse(): HabilidadeResponse {
+    return HabilidadeResponse(
         id = this.id,
         codigo = this.codigo,
         descricao = this.descricao,
-        nomeAnoEnsino = this.anoEnsino.nome,
+        nomeAnoEnsino = this.anoEnsino.nome
     )
 }
