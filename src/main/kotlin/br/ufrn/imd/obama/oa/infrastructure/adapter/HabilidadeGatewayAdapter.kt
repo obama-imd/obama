@@ -12,8 +12,8 @@ import org.springframework.stereotype.Service
 class HabilidadeGatewayAdapter(
     private val habilidadeRepository: HabilidadeRepository
 ): HabilidadeGateway {
-    override  fun buscarHabilidadesPorAnoDeEnsinoIdETemaConteudoId(anoEnsinoId: Long,
-                                                                   temaConteudoId: Long,
+    override  fun buscarHabilidadesPorAnoDeEnsinoIdETemaConteudoId(anoEnsinoId: Long?,
+                                                                   temaConteudoId: Long?,
                                                                    pageable: Pageable
     ): Page<Habilidade> {
         val habilidadesPage = habilidadeRepository.buscarHabilidadesPorAnoDeEnsinoIdETemaConteudoId(anoEnsinoId, temaConteudoId, pageable)
