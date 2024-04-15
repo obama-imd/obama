@@ -15,6 +15,17 @@ fun HabilidadeEntity.toModel(): Habilidade {
     )
 }
 
+fun Habilidade.toEntity(): HabilidadeEntity {
+    return HabilidadeEntity(
+        id = this.id,
+        descricao = this.descricao,
+        conhecimentos = this.conhecimentos,
+        codigo = this.codigo,
+        temaConteudo = this.temaConteudo.toEntity(),
+        anoEnsino =  this.anoEnsino.toEntity()
+    )
+}
+
 fun Habilidade.toResponse(): HabilidadeResponse {
     return HabilidadeResponse(
         id = this.id,
