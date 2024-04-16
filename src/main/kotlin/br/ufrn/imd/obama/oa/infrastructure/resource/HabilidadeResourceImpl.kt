@@ -24,9 +24,8 @@ class HabilidadeResourceImpl(
         @RequestParam("temaConteudoId", required = false) temaConteudoId: Long,
         pageable: Pageable
     ): Page<HabilidadeResponse> {
-        return habilidadeUseCase.buscarHabilidadesPorAnoDeEnsinoIdETemaConteudoId(anoEnsinoId, temaConteudoId, pageable).map {
-            it.toResponse()
-        }
+        return habilidadeUseCase.buscarHabilidadesPorAnoDeEnsinoIdETemaConteudoId(anoEnsinoId, temaConteudoId, pageable)
+            .map { it.toResponse() }
     }
 
 }
