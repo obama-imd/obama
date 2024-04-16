@@ -79,8 +79,8 @@ class HabilidadeResourceImplTest {
         mockMvc.perform(
             MockMvcRequestBuilders.get("/v1/habilidade")
                 .contentType(MediaType.APPLICATION_JSON)
-                .param("anoEnsinoId", "1L")
-                .param("temaConteudoId", "1L")
+                .param("anoEnsinoId", "1")
+                .param("temaConteudoId", "1")
                 .param("page", "0")
                 .param("size", "10")
         ).andDo(MockMvcResultHandlers.print())
