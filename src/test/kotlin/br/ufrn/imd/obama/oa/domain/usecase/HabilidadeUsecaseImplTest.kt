@@ -16,7 +16,7 @@ import org.springframework.data.domain.Pageable
 import org.springframework.test.context.ActiveProfiles
 
 @ActiveProfiles(profiles = ["test"])
-@SpringBootTest(classes = [HabilidadeUseCaseImpl:class, HabilidadeGatewayAdapter::class])
+@SpringBootTest(classes = [HabilidadeUseCaseImpl::class, HabilidadeGatewayAdapter::class])
 class HabilidadeUsecaseImplTest {
     @Autowired
     private lateinit var habilidadeUseCase: HabilidadeUseCaseImpl
