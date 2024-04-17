@@ -5,7 +5,7 @@ import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 
 interface HabilidadeUseCase {
-    fun buscarHabilidadesPorAnoDeEnsinoIdETemaConteudoId(anoEnsinoId: Long,
-                                                         temaConteudoId: Long,
+    fun buscarHabilidadesPorAnoDeEnsinoIdETemaConteudoId(anoEnsinoId: Long?,
+                                                         temaConteudoId: Long?,
                                                          pageable: Pageable): Page<Habilidade>
 }

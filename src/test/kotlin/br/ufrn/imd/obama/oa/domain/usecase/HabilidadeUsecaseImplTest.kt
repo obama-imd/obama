@@ -52,4 +52,79 @@ class HabilidadeUsecaseImplTest {
 
         Assertions.assertEquals(paginas?.isEmpty, false)
     }
+
+    @Test
+    fun `Deve achar nenhuma Habilidade`() {
+        val pageable: Pageable = Pageable.ofSize(10)
+
+        var resultado: Page<Habilidade> = Page.empty(pageable)
+
+        Mockito.`when`(
+            habilidadeGateway.buscarHabilidadesPorAnoDeEnsinoIdETemaConteudoId(
+                1L,
+                1L,
+                pageable,
+            )
+        ).thenReturn(resultado);
+
+        var paginas: Page<Habilidade>? = null
+
+        assertDoesNotThrow {
+            paginas = habilidadeUseCase.buscarHabilidadesPorAnoDeEnsinoIdETemaConteudoId(1L, 1L, pageable)
+        }
+
+        Assertions.assertEquals(paginas?.isEmpty, true)
+    }
+
+    @Test
+    fun `Deve achar nenhuma Habilidade passando os dois parametros como nulo`() {
+        val pageable: Pageable = Pageable.ofSize(10)
+
+        var resultado: Page<Habilidade> = Page.empty(pageable)
+
+        Mockito.`when`(
+            habilidadeGateway.buscarHabilidadesPorAnoDeEnsinoIdETemaConteudoId(
+                null,
+                null,
+                pageable,
+            )
+        ).thenReturn(resultado);
+
+        var paginas: Page<Habilidade>? = null
+
+        assertDoesNotThrow {
+            paginas = habilidadeUseCase.buscarHabilidadesPorAnoDeEnsinoIdETemaConteudoId(null, null, pageable)
+        }
+
+        Assertions.assertEquals(paginas?.isEmpty, true)
+    }
+
+    @Test
+    fun `Deve achar alguma Habilidade passando um dos parametros nulos`() {
+
+        val pageable: Pageable = Pageable.ofSize(10)
+
+        var resultado: Page<Habilidade> = PageImpl(
+            listOf(
+                criarHabilidade(),
+                criarHabilidade()
+            ),
+        )
+
+        Mockito.`when`(
+            habilidadeGateway.buscarHabilidadesPorAnoDeEnsinoIdETemaConteudoId(
+                1L,
+                null,
+                pageable,
+            )
+        ).thenReturn(resultado);
+
+        var paginas: Page<Habilidade>? = null
+
+        assertDoesNotThrow {
+            paginas = habilidadeUseCase.buscarHabilidadesPorAnoDeEnsinoIdETemaConteudoId(1L, null, pageable)
+        }
+
+        Assertions.assertEquals(paginas?.isEmpty, false)
+    }
 }

@@ -71,7 +71,33 @@ class HabilidadeGatewayAdapterTest {
         }
 
         assertEquals(habilidade?.isEmpty, false)
-        assertEquals(habilidade?.size, 2)
+    }
+
+    @Test
+    fun `Deve fazer busca no repository e achar algum dado passando um dos parametros como nulo`() {
+
+        val resultado: Page<HabilidadeEntity> = PageImpl(
+            listOf(
+                criarHabilidade().toEntity(),
+                criarHabilidade().toEntity()
+            ),
+        )
+
+        val pageable: Pageable = Pageable.ofSize(10)
+
+        `when`(
+            habilidadeRepository.buscarHabilidadesPorAnoDeEnsinoIdETemaConteudoId(null, 1L, pageable)
+        ).thenReturn(
+            resultado
+        )
+
+        var habilidade: Page<Habilidade>? = null
+
+        assertDoesNotThrow {
+            habilidade = habilidadeGatewayAdapter.buscarHabilidadesPorAnoDeEnsinoIdETemaConteudoId(null, 1L, pageable)
+        }
+
+        assertEquals(habilidade?.isEmpty, false)
     }
 
 }

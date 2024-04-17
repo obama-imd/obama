@@ -3,6 +3,7 @@ package br.ufrn.imd.obama.oa.infrastructure.resource
 import br.ufrn.imd.obama.oa.domain.usecase.HabilidadeUseCase
 import br.ufrn.imd.obama.oa.infrastructure.mapper.toResponse
 import br.ufrn.imd.obama.oa.infrastructure.resource.exchange.HabilidadeResponse
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.http.MediaType
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController
 class HabilidadeResourceImpl(
     private val habilidadeUseCase: HabilidadeUseCase
 ):HabilidadeResource {
+    @Cacheable(cacheNames = ["Habilidades"])
     @GetMapping(produces = [MediaType.APPLICATION_JSON_VALUE])
     override fun buscarHabilidadesPorAnoDeEnsinoIdETemaConteudoId(
         @RequestParam("anoEnsinoId", required = false) anoEnsinoId: Long,

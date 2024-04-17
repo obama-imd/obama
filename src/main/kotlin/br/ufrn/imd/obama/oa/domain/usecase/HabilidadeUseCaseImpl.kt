@@ -9,8 +9,8 @@ class HabilidadeUseCaseImpl(
     private val habilidadeGateway: HabilidadeGateway
 ): HabilidadeUseCase {
     override fun buscarHabilidadesPorAnoDeEnsinoIdETemaConteudoId(
-        anoEnsinoId: Long,
-        temaConteudoId: Long,
+        anoEnsinoId: Long?,
+        temaConteudoId: Long?,
         pageable: Pageable
     ): Page<Habilidade> {
         return habilidadeGateway.buscarHabilidadesPorAnoDeEnsinoIdETemaConteudoId(anoEnsinoId, temaConteudoId, pageable)
