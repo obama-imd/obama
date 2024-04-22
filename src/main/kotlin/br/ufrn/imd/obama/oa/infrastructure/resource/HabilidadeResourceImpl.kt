@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController
 class HabilidadeResourceImpl(
     private val habilidadeUseCase: HabilidadeUseCase
 ):HabilidadeResource {
-    @Cacheable(cacheNames = ["Habilidades"])
     @GetMapping(produces = [MediaType.APPLICATION_JSON_VALUE])
     override fun buscarHabilidadesPorAnoDeEnsinoIdETemaConteudoId(
         @RequestParam("anoEnsinoId", required = false) anoEnsinoId: Long,
