@@ -12,7 +12,7 @@ import org.springframework.http.MediaType
 
 interface HabilidadeResource {
 
-    @Operation(summary = "Endpoint para listar de forma páginada habilidades buscadas pelo Id da habilidade e do tema curricular")
+    @Operation(summary = "Endpoint para listar de forma páginada habilidades filtradas pelo Id da habilidade e do tema curricular")
     @ApiResponses(value = [
         ApiResponse(
             responseCode = "200",
