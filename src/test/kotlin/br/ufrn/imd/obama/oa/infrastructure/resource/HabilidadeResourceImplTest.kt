@@ -57,7 +57,7 @@ class HabilidadeResourceImplTest {
     private lateinit var habilidadeRepository: HabilidadeRepository
 
     @Test
-    fun `Deve retornar ok quando lista descritores passando os dois parametros corretos`() {
+    fun `Deve retornar ok quando lista habilidades passando os dois parametros corretos`() {
         var pageable: Pageable = Pageable.ofSize(10)
 
         var resultado: Page<Habilidade> = PageImpl(
