@@ -9,6 +9,6 @@ data class HabilidadeResponse(
     val id: Long,
     val codigo: String,
     val descricao: String,
-    @JsonProperty("nome-ano-ensino")
+    @JsonProperty("nome_ano_ensino")
     val nomeAnoEnsino: String
 )
