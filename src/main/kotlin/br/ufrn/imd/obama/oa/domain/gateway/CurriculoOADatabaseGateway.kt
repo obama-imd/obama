@@ -5,7 +5,7 @@ import br.ufrn.imd.obama.oa.domain.model.TipoAcesso
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Page
 
-interface ObjetoAprendizagemDatabaseGateway {
+interface CurriculoOADatabaseGateway {
     fun procurarPorCurriculo(
             pageable: Pageable,
             nome: String,

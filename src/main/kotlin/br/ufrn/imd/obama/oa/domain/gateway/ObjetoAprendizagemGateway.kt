@@ -5,7 +5,7 @@ import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 
 
-interface IdObjetoAprendizagemGateway {
+interface ObjetoAprendizagemGateway {
 
     fun procurarPorID(
         id: Long,

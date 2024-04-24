@@ -1,6 +1,6 @@
 package br.ufrn.imd.obama.oa.infrastructure.adapter
 
-import br.ufrn.imd.obama.oa.domain.gateway.ObjetoAprendizagemDatabaseGateway
+import br.ufrn.imd.obama.oa.domain.gateway.CurriculoOADatabaseGateway
 import br.ufrn.imd.obama.oa.domain.model.ObjetoAprendizagem
 import br.ufrn.imd.obama.oa.domain.model.TipoAcesso
 import br.ufrn.imd.obama.oa.infrastructure.mapper.toModel
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service
 @Service("BNCCObjetoAprendizagemDatabaseGatewayAdapter")
 class BNCCObjetoAprendizagemDatabaseGatewayAdapter(
     private val objetoAprendizagemRepository: ObjetoAprendizagemRepository
-): ObjetoAprendizagemDatabaseGateway {
+): CurriculoOADatabaseGateway {
     private val logger = LoggerFactory.getLogger(javaClass)
 
     override fun procurarPorCurriculo(

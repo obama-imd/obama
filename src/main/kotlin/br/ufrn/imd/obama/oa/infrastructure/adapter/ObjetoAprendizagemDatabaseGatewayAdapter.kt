@@ -1,7 +1,6 @@
 package br.ufrn.imd.obama.oa.infrastructure.adapter
 
-import br.ufrn.imd.obama.oa.domain.gateway.IdObjetoAprendizagemGateway
-import br.ufrn.imd.obama.oa.domain.gateway.ObjetoAprendizagemDatabaseGateway
+import br.ufrn.imd.obama.oa.domain.gateway.ObjetoAprendizagemGateway
 import br.ufrn.imd.obama.oa.domain.model.ObjetoAprendizagem
 import br.ufrn.imd.obama.oa.infrastructure.mapper.toModel
 import br.ufrn.imd.obama.oa.infrastructure.repository.ObjetoAprendizagemRepository
@@ -13,7 +12,7 @@ import org.springframework.stereotype.Service
 @Service("ObjetoAprendizagemDatabaseGatewayAdapter")
 class ObjetoAprendizagemDatabaseGatewayAdapter(
     private val objetoAprendizagemRepository: ObjetoAprendizagemRepository
-): IdObjetoAprendizagemGateway  {
+): ObjetoAprendizagemGateway  {
     private val logger = LoggerFactory.getLogger(javaClass)
 
     override fun procurarPorID(

@@ -1,7 +1,7 @@
 package br.ufrn.imd.obama.oa.domain.usecase
 
-import br.ufrn.imd.obama.oa.domain.gateway.IdObjetoAprendizagemGateway
-import br.ufrn.imd.obama.oa.domain.gateway.ObjetoAprendizagemDatabaseGateway
+import br.ufrn.imd.obama.oa.domain.gateway.ObjetoAprendizagemGateway
+import br.ufrn.imd.obama.oa.domain.gateway.CurriculoOADatabaseGateway
 import br.ufrn.imd.obama.oa.domain.model.ObjetoAprendizagem
 import br.ufrn.imd.obama.oa.domain.model.TipoAcesso
 import org.slf4j.LoggerFactory
@@ -28,7 +28,7 @@ class ObjetoAprendizagemUseCaseImpl(
         return (
                     beanFactory.getBean(
                         OBJETO_APRENDIZAGEM_DATABASE_GATEWAY_ADAPTER)
-                     as IdObjetoAprendizagemGateway
+                     as ObjetoAprendizagemGateway
                 ).procurarPorID(
                     id,
                     pageable
@@ -49,7 +49,7 @@ class ObjetoAprendizagemUseCaseImpl(
         return (
                     beanFactory.getBean(
                         curriculo.plus(OBJETO_APRENDIZAGEM_DATABASE_GATEWAY_ADAPTER_SUFIXO)
-                    ) as ObjetoAprendizagemDatabaseGateway
+                    ) as CurriculoOADatabaseGateway
                 ).procurarPorCurriculo(
                         pageable,
                         nome,
