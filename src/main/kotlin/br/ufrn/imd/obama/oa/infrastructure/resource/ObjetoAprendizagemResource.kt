@@ -11,8 +11,27 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.http.MediaType
+import org.springframework.http.ResponseEntity
+import org.springframework.web.ErrorResponse
 
 interface ObjetoAprendizagemResource {
+
+    @Operation(summary = "Endpoint para consulta de objeto de aprendizagem por id")
+    @ApiResponses(value = [
+        ApiResponse(
+            responseCode = "200",
+            description = "Objeto de aprendizagem encontrado",
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = Page::class)
+                )
+            ]
+        )
+    ])
+    fun buscarPorId(
+        id: Long
+    ): ResponseEntity<BuscarOaIdResponse>
 
     @Operation(summary = "Endpoint para consulta de objetos de aprendizagem por parâmetros")
     @ApiResponses(value = [
@@ -38,21 +57,4 @@ interface ObjetoAprendizagemResource {
             curriculo: String
     ): Page<BuscarOaResponse>
 
-    @Operation(summary = "Endpoint para consulta de objetos de aprendizagem por id")
-    @ApiResponses(value = [
-        ApiResponse(
-            responseCode = "200",
-            description = "Objetos de aprendizagem encontrados",
-            content = [
-                Content(
-                    mediaType = MediaType.APPLICATION_JSON_VALUE,
-                    schema = Schema(implementation = Page::class)
-                )
-            ]
-        )
-    ])
-    fun buscarPorId(
-        id: Long,
-        pageable: Pageable
-    ): Page<BuscarOaIdResponse>
 }

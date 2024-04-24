@@ -16,12 +16,12 @@ class ObjetoAprendizagemDatabaseGatewayAdapter(
     private val logger = LoggerFactory.getLogger(javaClass)
 
     override fun procurarPorID(
-        id: Long,
-        pageable: Pageable
-    ): Page<ObjetoAprendizagem> {
+        id: Long
+    ): ObjetoAprendizagem {
         logger.info("method={};", "procurarPorId")
 
         return objetoAprendizagemRepository
-            .findById(id, pageable).map { it.toModel() }
+                    .findById(id).map { it.toModel() }
+                    .orElseThrow()
     }
 }

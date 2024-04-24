@@ -12,11 +12,6 @@ import org.springframework.stereotype.Repository
 @Repository
 interface ObjetoAprendizagemRepository: JpaRepository<ObjetoAprendizagemEntity, Long> {
 
-    fun findById(
-        id: Long,
-        pageable: Pageable
-    ): Page<ObjetoAprendizagemEntity>
-
     @Query(
             " SELECT distinct oa FROM ObjetoAprendizagemEntity oa " +
                     " LEFT JOIN oa.descritores d " +

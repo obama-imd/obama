@@ -10,7 +10,9 @@ import jakarta.websocket.server.PathParam
 import org.slf4j.LoggerFactory
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
+import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
+import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
@@ -31,13 +33,17 @@ class ObjetoAprendizagemResourceImpl(
     @GetMapping(path = ["/{id}"], produces = [MediaType.APPLICATION_JSON_VALUE])
     override fun buscarPorId(
         @PathParam("id") id: Long,
-        pageable: Pageable): Page<BuscarOaIdResponse> {
-        logger.info("method={};", "buscarPorId")
+        ): ResponseEntity<BuscarOaIdResponse> {
 
-        return objetoAprendizagemUseCase.buscarPorId(
-            id,
-            pageable
-        ).map { it.toBuscarOaIdResponse() }
+        try {
+            logger.info("method={};", "buscarPorId")
+            logger.info("id={};", id)
+
+            return  ResponseEntity.ok(objetoAprendizagemUseCase.buscarPorId(id).toBuscarOaIdResponse())
+        } catch (e: NoSuchElementException) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null)
+        }
+
     }
 
     @GetMapping(produces = [MediaType.APPLICATION_JSON_VALUE])

@@ -8,9 +8,8 @@ import org.springframework.data.domain.Page
 interface ObjetoAprendizagemUseCase {
 
     fun buscarPorId(
-        id: Long,
-        pageable: Pageable
-    ): Page<ObjetoAprendizagem>
+        id: Long
+    ): ObjetoAprendizagem
 
     fun buscarPorParametros(
             pageable: Pageable,

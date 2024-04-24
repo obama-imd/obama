@@ -8,7 +8,6 @@ import org.springframework.data.domain.Pageable
 interface ObjetoAprendizagemGateway {
 
     fun procurarPorID(
-        id: Long,
-        pageable: Pageable
-    ): Page<ObjetoAprendizagem>
+        id: Long
+    ): ObjetoAprendizagem
 }
