@@ -24,5 +24,7 @@ interface TemaConteudoResource {
             ]
         )
     ])
-    fun listarTemasConteudos(): ResponseEntity<Set<ListarTemaConteudoResponse>>
+    fun listarTemasConteudos(
+        idCurriculo: Long
+    ): ResponseEntity<Set<ListarTemaConteudoResponse>>
 }

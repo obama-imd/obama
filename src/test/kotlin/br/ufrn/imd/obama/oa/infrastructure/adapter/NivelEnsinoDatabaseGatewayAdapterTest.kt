@@ -1,7 +1,11 @@
 package br.ufrn.imd.obama.oa.infrastructure.adapter
 
+import br.ufrn.imd.obama.oa.domain.model.NivelEnsino
 import br.ufrn.imd.obama.oa.infrastructure.entity.NivelEnsinoEntity
+import br.ufrn.imd.obama.oa.infrastructure.mapper.toEntity
 import br.ufrn.imd.obama.oa.infrastructure.repository.NivelEnsinoRepository
+import br.ufrn.imd.obama.oa.util.criarNivelEnsino
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.mockito.Mockito.`when`
@@ -34,5 +38,27 @@ class NivelEnsinoDatabaseGatewayAdapterTest {
         assertDoesNotThrow {
             gatewayAdapter.listarNivelEnsino()
         }
+    }
+
+    @Test
+    fun `Deve fazer busca no repository e achar algum dado`() {
+
+        val resultado: List<NivelEnsinoEntity> = listOf(
+            criarNivelEnsino().toEntity()
+        )
+
+        `when`(
+            nivelEnsinoRepository.findAll()
+        ).thenReturn(
+            resultado
+        )
+
+        var niveisEnsino: Set<NivelEnsino> = setOf()
+
+        assertDoesNotThrow {
+            niveisEnsino = gatewayAdapter.listarNivelEnsino()
+        }
+
+        Assertions.assertEquals(niveisEnsino.isEmpty(), false)
     }
 }

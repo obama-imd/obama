@@ -13,3 +13,13 @@ fun Descritor.toResponse(): ListarDescritorResponse {
         nomeTemaConteudo = this.temaConteudo.nome
     )
 }
+
+fun Descritor.toEntity(): DescritorEntity {
+    return DescritorEntity(
+        id = this.id,
+        nivelEnsino = this.nivelEnsino.toEntity(),
+        descricao = this.descricao,
+        codigo = this.codigo,
+        temaConteudo = this.temaConteudo.toEntity()
+    )
+}
