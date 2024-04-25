@@ -56,6 +56,11 @@ class OACurriculoResourceImplTest {
     @MockBean
     private  lateinit var objetoAprendizagemUseCase: ObjetoAprendizagemUseCase
 
+    @MockBean
+    private lateinit var bnccObjetoAprendizagemDatabaseGatewayAdapter: BNCCObjetoAprendizagemDatabaseGatewayAdapter
+
+    @MockBean
+    private lateinit var objetoAprendizagemRepository: ObjetoAprendizagemRepository
 
     @Test
     fun `Deve retornar bad request quando informa um curriculo inválido`() {

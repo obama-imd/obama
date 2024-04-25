@@ -18,7 +18,10 @@ import org.springframework.data.domain.Pageable
 import org.springframework.test.context.ActiveProfiles
 
 @ActiveProfiles(profiles = ["test"])
-@SpringBootTest(classes = [BNCCObjetoAprendizagemDatabaseGatewayAdapter::class, ObjetoAprendizagemRepository::class])
+@SpringBootTest(classes = [
+    BNCCObjetoAprendizagemDatabaseGatewayAdapter::class,
+    ObjetoAprendizagemRepository::class
+])
 class BNCCObjetoAprendizagemDatabaseGatewayAdapterTest {
 
     @Autowired
