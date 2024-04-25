@@ -13,10 +13,10 @@ import org.springframework.data.domain.Pageable
 
 class ObjetoAprendizagemUseCaseImpl(
     private val beanFactory: AbstractBeanFactory,
+    private val oaGatewayAdapter: ObjetoAprendizagemDatabaseGatewayAdapter
 ): ObjetoAprendizagemUseCase {
 
     private val OBJETO_APRENDIZAGEM_DATABASE_GATEWAY_ADAPTER_SUFIXO = "ObjetoAprendizagemDatabaseGatewayAdapter"
-    private val OBJETO_APRENDIZAGEM_DATABASE_GATEWAY_ADAPTER = OBJETO_APRENDIZAGEM_DATABASE_GATEWAY_ADAPTER_SUFIXO
 
     private val logger = LoggerFactory.getLogger(javaClass)
 
@@ -26,13 +26,7 @@ class ObjetoAprendizagemUseCaseImpl(
         logger.info("method={};", "buscarPorId")
         logger.info("id={};", id)
 
-        return (
-                    beanFactory.getBean(
-                        OBJETO_APRENDIZAGEM_DATABASE_GATEWAY_ADAPTER)
-                     as ObjetoAprendizagemGateway
-                ).procurarPorID(
-                    id
-                )
+        return oaGatewayAdapter.procurarPorID(id)
     }
 
     override fun buscarPorParametros(
