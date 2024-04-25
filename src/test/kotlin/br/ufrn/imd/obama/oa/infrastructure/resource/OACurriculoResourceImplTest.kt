@@ -2,7 +2,6 @@ package br.ufrn.imd.obama.oa.infrastructure.resource
 
 import br.ufrn.imd.obama.oa.domain.model.ObjetoAprendizagem
 import br.ufrn.imd.obama.oa.domain.usecase.ObjetoAprendizagemUseCase
-import br.ufrn.imd.obama.oa.domain.usecase.ObjetoAprendizagemUseCaseImpl
 import br.ufrn.imd.obama.oa.infrastructure.adapter.BNCCObjetoAprendizagemDatabaseGatewayAdapter
 import br.ufrn.imd.obama.oa.infrastructure.configuration.OaConfig
 import br.ufrn.imd.obama.oa.infrastructure.handler.ObjetoAprendizagemExceptionHandler
@@ -48,7 +47,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers
     HibernateJpaAutoConfiguration::class,
     DataSourceTransactionManagerAutoConfiguration::class
 ])
-class ObjetoAprendizagemResourceImplTest {
+class OACurriculoResourceImplTest {
 
 
     @Autowired
@@ -57,11 +56,6 @@ class ObjetoAprendizagemResourceImplTest {
     @MockBean
     private  lateinit var objetoAprendizagemUseCase: ObjetoAprendizagemUseCase
 
-    @MockBean
-    private lateinit var bnccObjetoAprendizagemDatabaseGatewayAdapter: BNCCObjetoAprendizagemDatabaseGatewayAdapter
-
-    @MockBean
-    private lateinit var objetoAprendizagemRepository: ObjetoAprendizagemRepository
 
     @Test
     fun `Deve retornar bad request quando informa um curriculo inválido`() {
