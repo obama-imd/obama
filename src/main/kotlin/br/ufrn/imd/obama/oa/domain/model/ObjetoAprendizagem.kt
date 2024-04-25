@@ -31,5 +31,5 @@ class ObjetoAprendizagem(
 
 	val habilidades: Set<Habilidade>,
 
-	val plataformas: List<ObjetoAprendizagemPlataforma>,
+	val plataformas: List<Plataforma>,
 )
