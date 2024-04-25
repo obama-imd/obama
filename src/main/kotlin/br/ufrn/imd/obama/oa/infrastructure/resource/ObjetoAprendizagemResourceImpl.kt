@@ -41,7 +41,7 @@ class ObjetoAprendizagemResourceImpl(
 
             return  ResponseEntity.ok(objetoAprendizagemUseCase.buscarPorId(id).toBuscarOaIdResponse())
         } catch (e: NoSuchElementException) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null)
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null)
         }
 
     }

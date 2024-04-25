@@ -27,6 +27,16 @@ interface ObjetoAprendizagemResource {
                     schema = Schema(implementation = Page::class)
                 )
             ]
+        ),
+        ApiResponse(
+            responseCode = "404",
+            description = "Objeto de aprendizagem não encontrado",
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         )
     ])
     fun buscarPorId(
