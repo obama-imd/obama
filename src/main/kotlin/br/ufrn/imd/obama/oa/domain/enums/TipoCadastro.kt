@@ -1,7 +1,7 @@
 package br.ufrn.imd.obama.oa.domain.enums
 
-enum class Role {
-    ADMIN,
+enum class TipoCadastro {
     PADRAO,
-    REVisOR
+    GOOGLE,
+    FACEBOOK
 }
