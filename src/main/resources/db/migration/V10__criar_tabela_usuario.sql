@@ -1,4 +1,3 @@
-//cria a tabela usuario com id e nome obrigatorios
 CREATE TABLE Usuario (
     id int8 NOT NULL,
     nome VARCHAR(255) NOT NULL,
