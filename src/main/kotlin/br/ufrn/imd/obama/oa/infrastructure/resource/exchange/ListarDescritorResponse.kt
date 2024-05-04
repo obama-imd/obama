@@ -1,10 +1,10 @@
 package br.ufrn.imd.obama.oa.infrastructure.resource.exchange
 
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.PropertyNamingStrategy
+import com.fasterxml.jackson.databind.PropertyNamingStrategies
 import com.fasterxml.jackson.databind.annotation.JsonNaming
 
-@JsonNaming(value=PropertyNamingStrategy.SnakeCaseStrategy::class)
+@JsonNaming(value=PropertyNamingStrategies.SnakeCaseStrategy::class)
 class ListarDescritorResponse(
     val id: Long,
     val descricao: String,
