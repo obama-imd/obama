@@ -3,6 +3,7 @@ package br.ufrn.imd.obama.oa.infrastructure.entity
 import br.ufrn.imd.obama.oa.domain.enums.Role
 import br.ufrn.imd.obama.oa.domain.enums.TipoCadastro
 import jakarta.persistence.*
+import jakarta.validation.constraints.NotNull
 
 @Entity
 @Table(name = "usuario")
@@ -13,15 +14,19 @@ class UsuarioEntity (
     val id: Long,
 
     @Column(name = "nome")
+    @NotNull
     val nome: String,
 
     @Column(name = "sobrenome")
+    @NotNull
     val sobrenome: String,
 
     @Column(name = "email")
+    @NotNull
     val email: String,
 
     @Column(name = "senha")
+    @NotNull
     val senha: String,
 
     @Enumerated(EnumType.STRING)
@@ -36,5 +41,6 @@ class UsuarioEntity (
     val tipoCadastro: TipoCadastro,
 
     @Column(name = "token")
+    @NotNull
     val token: String
 )
