@@ -18,13 +18,13 @@ class TokenService(
     private val tokenSecret: String
 ) {
 
-    fun generateToken(usuario: UsuarioEntity): String {
+    fun gerarToken(usuario: UsuarioEntity): String {
         try {
             val algorithm = Algorithm.HMAC256(tokenSecret)
 
             return JWT.create().withIssuer("obama-api")
                 .withSubject(usuario.email)
-                .withExpiresAt(generateExpirationDate())
+                .withExpiresAt(gerarDataExpiracaoToken())
                 .sign(algorithm)
 
         } catch (ex: JWTCreationException) {
@@ -32,11 +32,11 @@ class TokenService(
         }
     }
 
-    private fun generateExpirationDate(): Instant {
+    private fun gerarDataExpiracaoToken(): Instant {
         return LocalDateTime.now().plusMinutes(5).toInstant(ZoneOffset.of("-03:00"))
     }
 
-    fun validateToken(token: String): String {
+    fun validarToken(token: String): String {
         try {
             val algorithm = Algorithm.HMAC256(tokenSecret)
 

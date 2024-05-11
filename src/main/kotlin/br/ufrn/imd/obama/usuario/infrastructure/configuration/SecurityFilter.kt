@@ -4,7 +4,6 @@ import br.ufrn.imd.obama.usuario.domain.gateway.UsuarioDatabaseGateway
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.core.userdetails.UserDetails
@@ -24,10 +23,10 @@ class SecurityFilter(
         response: HttpServletResponse,
         filterChain: FilterChain
     ) {
-        val token = this.recoverToken(request)
+        val token = this.recuperarToken(request)
 
         if(!token.isNullOrBlank()) {
-            var login = tokenService.validateToken(token)
+            var login = tokenService.validarToken(token)
 
             val usuario: UserDetails = usuarioDatabaseGateway.buscarPorEmail(login)
 
@@ -40,7 +39,7 @@ class SecurityFilter(
         return filterChain.doFilter(request, response)
     }
 
-    private fun recoverToken(request: HttpServletRequest): String? {
+    private fun recuperarToken(request: HttpServletRequest): String? {
         val authHeader = request.getHeader("Authorization")
 
         if(authHeader.isNullOrBlank()) return null

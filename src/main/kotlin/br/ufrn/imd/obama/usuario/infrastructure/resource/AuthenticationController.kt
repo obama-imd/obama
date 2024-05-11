@@ -37,7 +37,7 @@ class AuthenticationController(
 
         val auth = authenticationManager.authenticate(usernamePassword)
 
-        val token = tokenService.generateToken( auth.principal as UsuarioEntity)
+        val token = tokenService.gerarToken( auth.principal as UsuarioEntity)
 
         return ResponseEntity.ok().body(LoginResponse(token))
     }
