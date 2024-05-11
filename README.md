@@ -1,4 +1,10 @@
 # OBAMA
+
+![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white)
+![Spring](https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white)
+![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
+![JWT](https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=JSON%20web%20tokens)
+
 API para plataforma Objetos de Aprendizagem para Matemática (OBAMA)
 
 ## Pre-requisitos
@@ -71,3 +77,6 @@ O projeto possui o Jacoco configurado para ser executado após a execução dos 
 ```
 
 Você pode verificar os relatórios de cobertura de teste no caminho `/build/reports/jacoco/html/index.html` do seu projeto.
+
+
+TODO: Adicionar descrição da necessidade de adicionar uma variável de ambiente chamada JWT_SECRET

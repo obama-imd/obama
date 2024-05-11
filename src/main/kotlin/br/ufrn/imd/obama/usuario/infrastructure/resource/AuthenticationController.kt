@@ -2,9 +2,11 @@ package br.ufrn.imd.obama.usuario.infrastructure.resource
 
 import br.ufrn.imd.obama.usuario.domain.enums.Papel
 import br.ufrn.imd.obama.usuario.domain.enums.TipoCadastro
+import br.ufrn.imd.obama.usuario.infrastructure.configuration.TokenService
 import br.ufrn.imd.obama.usuario.infrastructure.entity.UsuarioEntity
 import br.ufrn.imd.obama.usuario.infrastructure.repository.UsuarioRepository
-import br.ufrn.imd.obama.usuario.infrastructure.resource.exchange.AuthenticationRequest
+import br.ufrn.imd.obama.usuario.infrastructure.resource.exchange.LoginRequest
+import br.ufrn.imd.obama.usuario.infrastructure.resource.exchange.LoginResponse
 import jakarta.validation.Valid
 import java.util.UUID
 import org.springframework.http.ResponseEntity
@@ -22,17 +24,22 @@ import org.springframework.web.bind.annotation.RestController
 )
 class AuthenticationController(
     private val authenticationManager: AuthenticationManager,
+
+    private val tokenService: TokenService,
+
     //TODO: Remover. Criado de maneira simplificada apenas para facilitar o teste manual.
     private val usuarioRepository: UsuarioRepository
 ) {
 
     @PostMapping("/login")
-    fun login(@RequestBody @Valid request: AuthenticationRequest): ResponseEntity<*> {
-        var usernamePassword = UsernamePasswordAuthenticationToken(request.login, request.senha)
+    fun login(@RequestBody @Valid request: LoginRequest): ResponseEntity<*> {
+        val usernamePassword = UsernamePasswordAuthenticationToken(request.login, request.senha)
 
-        var auth = authenticationManager.authenticate(usernamePassword)
+        val auth = authenticationManager.authenticate(usernamePassword)
 
-        return ResponseEntity.ok().body(null)
+        val token = tokenService.generateToken( auth.principal as UsuarioEntity)
+
+        return ResponseEntity.ok().body(LoginResponse(token))
     }
 
     //TODO: Remover. Criado de maneira simplificada apenas para facilitar o teste manual.
