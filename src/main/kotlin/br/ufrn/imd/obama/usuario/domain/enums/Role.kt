@@ -1,4 +1,4 @@
-package br.ufrn.imd.obama.oa.domain.enums
+package br.ufrn.imd.obama.usuario.domain.enums
 
 enum class Role {
     ADMIN,
