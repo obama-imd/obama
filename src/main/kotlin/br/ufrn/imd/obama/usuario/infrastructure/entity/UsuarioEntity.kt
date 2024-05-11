@@ -1,7 +1,7 @@
-package br.ufrn.imd.obama.oa.infrastructure.entity
+package br.ufrn.imd.obama.usuario.infrastructure.entity
 
-import br.ufrn.imd.obama.oa.domain.enums.Role
-import br.ufrn.imd.obama.oa.domain.enums.TipoCadastro
+import br.ufrn.imd.obama.usuario.domain.enums.Role
+import br.ufrn.imd.obama.usuario.domain.enums.TipoCadastro
 import jakarta.persistence.*
 import jakarta.validation.constraints.NotNull
 
