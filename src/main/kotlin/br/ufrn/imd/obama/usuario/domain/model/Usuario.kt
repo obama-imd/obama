@@ -1,6 +1,6 @@
 package br.ufrn.imd.obama.usuario.domain.model
 
-import br.ufrn.imd.obama.usuario.domain.enums.Role
+import br.ufrn.imd.obama.usuario.domain.enums.Papel
 import br.ufrn.imd.obama.usuario.domain.enums.TipoCadastro
 
 class Usuario (
@@ -9,7 +9,7 @@ class Usuario (
         val sobrenome: String,
         val email: String,
         val senha: String,
-        val role: Role,
+        val role: Papel,
         val ativo: Boolean,
         val tipoCadastro: TipoCadastro,
         val token: String,
