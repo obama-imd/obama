@@ -14,6 +14,9 @@ import org.springframework.stereotype.Service
 
 @Service
 class TokenService(
+    @Value("\${api.security.token.issuer}")
+    private val tokenIssuer: String,
+
     @Value("\${api.security.token.secret}")
     private val tokenSecret: String
 ) {
@@ -22,7 +25,7 @@ class TokenService(
         try {
             val algorithm = Algorithm.HMAC256(tokenSecret)
 
-            return JWT.create().withIssuer("obama-api")
+            return JWT.create().withIssuer(tokenIssuer)
                 .withSubject(usuario.email)
                 .withExpiresAt(gerarDataExpiracaoToken())
                 .sign(algorithm)
@@ -40,7 +43,7 @@ class TokenService(
         try {
             val algorithm = Algorithm.HMAC256(tokenSecret)
 
-            return JWT.require(algorithm).withIssuer("obama-api")
+            return JWT.require(algorithm).withIssuer(tokenIssuer)
                 .build()
                 .verify(token)
                 .subject
