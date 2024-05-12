@@ -1,6 +1,6 @@
-package br.ufrn.imd.obama.oa.domain.usecase
+package br.ufrn.imd.obama.usuario.domain.usecase
 
-import br.ufrn.imd.obama.oa.domain.gateway.UsuarioGateway
+import br.ufrn.imd.obama.usuario.domain.gateway.UsuarioGateway
 import br.ufrn.imd.obama.oa.domain.model.Usuario
 
 class UsuarioUseCaseImpl(

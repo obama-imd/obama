@@ -1,7 +1,7 @@
-package br.ufrn.imd.obama.oa.infrastructure.mapper
+package br.ufrn.imd.obama.usuario.infrastructure.mapper
 
-import br.ufrn.imd.obama.oa.domain.model.Usuario
-import br.ufrn.imd.obama.oa.infrastructure.entity.UsuarioEntity
+import br.ufrn.imd.obama.usuario.domain.model.Usuario
+import br.ufrn.imd.obama.usuario.infrastructure.entity.UsuarioEntity
 
 fun UsuarioEntity.toModel(): Usuario {
     return Usuario(

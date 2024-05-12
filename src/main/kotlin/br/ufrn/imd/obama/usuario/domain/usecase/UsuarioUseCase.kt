@@ -1,7 +1,7 @@
-package br.ufrn.imd.obama.oa.domain.gateway
+package br.ufrn.imd.obama.usuario.domain.usecase
 
 import br.ufrn.imd.obama.oa.domain.model.Usuario
 
-interface UsuarioGateway {
+interface UsuarioUseCase {
     fun salvarUsuario(usuario: Usuario): Usuario
 }

@@ -1,7 +1,7 @@
-package br.ufrn.imd.obama.oa.infrastructure.resource
+package br.ufrn.imd.obama.usuario.infrastructure.resource
 
-import br.ufrn.imd.obama.oa.domain.model.Usuario
-import br.ufrn.imd.obama.oa.infrastructure.resource.exchange.UsuarioResponse
+import br.ufrn.imd.obama.usuario.domain.model.Usuario
+import br.ufrn.imd.obama.usuario.infrastructure.resource.exchange.UsuarioResponse
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.media.Schema
