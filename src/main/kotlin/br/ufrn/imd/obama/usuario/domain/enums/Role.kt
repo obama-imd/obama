@@ -4,8 +4,4 @@ enum class Role(val role: String) {
     ADMIN("admin"),
     PADRAO("padrao"),
     REVISOR("revisor");
-
-    fun getRole(): String {
-        return role
-    }
 }
