@@ -3,7 +3,6 @@ package br.ufrn.imd.obama.oa.infrastructure.resource
 import br.ufrn.imd.obama.oa.domain.usecase.HabilidadeUseCase
 import br.ufrn.imd.obama.oa.infrastructure.mapper.toResponse
 import br.ufrn.imd.obama.oa.infrastructure.resource.exchange.HabilidadeResponse
-import org.springframework.cache.annotation.Cacheable
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.http.MediaType
