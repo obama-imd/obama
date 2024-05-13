@@ -1,7 +1,11 @@
 package br.ufrn.imd.obama.usuario.domain.enums
 
-enum class Role {
-    ADMIN,
-    PADRAO,
-    REVisOR
+enum class Role(val role: String) {
+    ADMIN("admin"),
+    PADRAO("padrao"),
+    REVISOR("revisor");
+
+    fun getRole(): String {
+        return role
+    }
 }
