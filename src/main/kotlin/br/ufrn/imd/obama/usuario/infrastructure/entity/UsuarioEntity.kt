@@ -4,6 +4,9 @@ import br.ufrn.imd.obama.usuario.domain.enums.Role
 import br.ufrn.imd.obama.usuario.domain.enums.TipoCadastro
 import jakarta.persistence.*
 import jakarta.validation.constraints.NotNull
+import org.springframework.security.core.GrantedAuthority
+import org.springframework.security.core.authority.SimpleGrantedAuthority
+import org.springframework.security.core.userdetails.UserDetails
 
 @Entity
 @Table(name = "usuario")
@@ -20,6 +23,10 @@ class UsuarioEntity (
     @Column(name = "sobrenome")
     @NotNull
     val sobrenome: String,
+
+    @Column(name = "username")
+    @NotNull
+    val username: String,
 
     @Column(name = "email")
     @NotNull
@@ -43,4 +50,40 @@ class UsuarioEntity (
     @Column(name = "token")
     @NotNull
     val token: String
-)
+): UserDetails {
+    override fun getAuthorities(): MutableCollection<out GrantedAuthority> {
+        if (this.role == Role.ADMIN) {
+            return mutableListOf(SimpleGrantedAuthority("ROLE_ADMIN"), SimpleGrantedAuthority("ROLE_PADRAO"), SimpleGrantedAuthority("ROLE_REVISOR"))
+        }
+        else if(this.role == Role.REVISOR) {
+            return mutableListOf(SimpleGrantedAuthority("ROLE_REVISOR"), SimpleGrantedAuthority("ROLE_PADRAO"))
+        }
+        else {
+            return mutableListOf(SimpleGrantedAuthority("ROLE_PADRAO"))
+        }
+    }
+
+    override fun getPassword(): String {
+        return this.senha
+    }
+
+    override fun getUsername(): String {
+        return this.username
+    }
+
+    override fun isAccountNonExpired(): Boolean {
+        return true
+    }
+
+    override fun isAccountNonLocked(): Boolean {
+        return true
+    }
+
+    override fun isCredentialsNonExpired(): Boolean {
+        return true
+    }
+
+    override fun isEnabled(): Boolean {
+        return true
+    }
+}
