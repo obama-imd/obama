@@ -6,7 +6,6 @@ import br.ufrn.imd.obama.oa.infrastructure.mapper.toBuscarOaIdResponse
 import br.ufrn.imd.obama.oa.infrastructure.mapper.toBuscarOaResponse
 import br.ufrn.imd.obama.oa.infrastructure.resource.exchange.BuscarOaIdResponse
 import br.ufrn.imd.obama.oa.infrastructure.resource.exchange.BuscarOaResponse
-import jakarta.websocket.server.PathParam
 import org.slf4j.LoggerFactory
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
@@ -14,10 +13,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping(
@@ -32,7 +28,7 @@ class ObjetoAprendizagemResourceImpl(
 
     @GetMapping(path = ["/{id}"], produces = [MediaType.APPLICATION_JSON_VALUE])
     override fun buscarPorId(
-        @PathParam("id") id: Long,
+        @PathVariable("id", required = true) id: Long,
         ): ResponseEntity<BuscarOaIdResponse> {
 
         try {

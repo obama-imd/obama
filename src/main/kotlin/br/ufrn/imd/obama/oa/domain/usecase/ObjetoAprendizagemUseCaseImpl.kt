@@ -9,6 +9,8 @@ import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.support.AbstractBeanFactory
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 
 
 class ObjetoAprendizagemUseCaseImpl(
@@ -26,7 +28,13 @@ class ObjetoAprendizagemUseCaseImpl(
         logger.info("method={};", "buscarPorId")
         logger.info("id={};", id)
 
-        return oaGatewayAdapter.procurarPorID(id)
+        return try {
+            oaGatewayAdapter.procurarPorID(id)
+        } catch (e: NoSuchElementException) {
+            throw e
+        } catch (e: Exception) {
+            throw e
+        }
     }
 
     override fun buscarPorParametros(

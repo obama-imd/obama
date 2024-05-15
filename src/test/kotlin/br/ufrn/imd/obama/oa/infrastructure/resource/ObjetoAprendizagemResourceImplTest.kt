@@ -1,11 +1,11 @@
 package br.ufrn.imd.obama.oa.infrastructure.resource
 
-import br.ufrn.imd.obama.oa.domain.model.ObjetoAprendizagem
 import br.ufrn.imd.obama.oa.domain.usecase.ObjetoAprendizagemUseCase
 import br.ufrn.imd.obama.oa.domain.usecase.ObjetoAprendizagemUseCaseImpl
+import br.ufrn.imd.obama.oa.infrastructure.handler.ObjetoAprendizagemExceptionHandler
+import br.ufrn.imd.obama.oa.infrastructure.repository.ObjetoAprendizagemRepository
 import br.ufrn.imd.obama.oa.util.criarObjetoAprendizagem
-import org.junit.Test
-import org.junit.runner.RunWith
+import org.junit.jupiter.api.Test
 import org.mockito.Mockito.`when`
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration
@@ -26,7 +26,10 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 @ActiveProfiles(profiles = ["test"])
 @SpringBootTest(
     classes = [
-        ObjetoAprendizagemUseCaseImpl::class,
+        ObjetoAprendizagemExceptionHandler::class,
+        ObjetoAprendizagemUseCase::class,
+        ObjetoAprendizagemRepository::class,
+        ObjetoAprendizagemResourceImpl::class,
     ]
 )
 @AutoConfigureMockMvc
@@ -35,7 +38,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers
     HibernateJpaAutoConfiguration::class,
     DataSourceTransactionManagerAutoConfiguration::class
 ])
-class ObjetoAprendizagemResoureImplTest {
+class ObjetoAprendizagemResourceImplTest {
 
     @Autowired
     private lateinit var mockMvc: MockMvc
@@ -44,8 +47,8 @@ class ObjetoAprendizagemResoureImplTest {
     private  lateinit var objetoAprendizagemUseCase: ObjetoAprendizagemUseCaseImpl
 
     @Test
-    fun `Deve retornar ok quando informado id existente`() {
-        var resultado = criarObjetoAprendizagem()
+    fun `Deve retornar OK quando informado id existente`() {
+        val resultado = criarObjetoAprendizagem()
 
         `when`(
             objetoAprendizagemUseCase.buscarPorId(resultado.id)
@@ -54,12 +57,27 @@ class ObjetoAprendizagemResoureImplTest {
         )
 
         mockMvc.perform(
-            MockMvcRequestBuilders.get("v1/oa/{id}", resultado.id)
+            MockMvcRequestBuilders.get("/v1/oa/{id}", resultado.id)
                 .contentType(MediaType.APPLICATION_JSON)
         ).andDo(MockMvcResultHandlers.print())
             .andExpect(MockMvcResultMatchers.status().isOk())
             .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
 
+    }
+
+    @Test
+    fun `Deve retornar NOT FOUND quando informado id inexistente`() {
+        val idInexistente = 0L
+
+        `when`(
+            objetoAprendizagemUseCase.buscarPorId(idInexistente)
+        ).thenThrow(NoSuchElementException::class.java)
+
+        mockMvc.perform(
+            MockMvcRequestBuilders.get("/v1/oa/{id}", idInexistente)
+                .contentType(MediaType.APPLICATION_JSON)
+        ).andDo(MockMvcResultHandlers.print())
+            .andExpect(MockMvcResultMatchers.status().isNotFound)
     }
 
 }
