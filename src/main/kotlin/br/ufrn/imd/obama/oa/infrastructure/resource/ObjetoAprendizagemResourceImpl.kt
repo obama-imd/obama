@@ -4,6 +4,7 @@ import br.ufrn.imd.obama.oa.domain.model.TipoAcesso
 import br.ufrn.imd.obama.oa.domain.usecase.ObjetoAprendizagemUseCase
 import br.ufrn.imd.obama.oa.infrastructure.mapper.toBuscarOaResponse
 import br.ufrn.imd.obama.oa.infrastructure.resource.exchange.BuscarOaResponse
+import io.swagger.v3.oas.annotations.tags.Tag
 import org.slf4j.LoggerFactory
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
@@ -19,6 +20,10 @@ import org.springframework.web.bind.annotation.RestController
         "/v1/oa"
 )
 @Validated
+@Tag(
+    name = "ObjetoAprendizagemResource",
+    description = "Recurso que lida com objetos de aprendizagem"
+)
 class ObjetoAprendizagemResourceImpl(
         private val objetoAprendizagemUseCase: ObjetoAprendizagemUseCase
 ): ObjetoAprendizagemResource {

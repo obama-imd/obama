@@ -8,6 +8,4 @@ data class LoginRequest(
 
     @NotBlank
     val senha: String
-) {
-
-}
+)
