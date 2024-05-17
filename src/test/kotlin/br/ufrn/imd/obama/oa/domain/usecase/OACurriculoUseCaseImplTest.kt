@@ -21,7 +21,7 @@ import org.springframework.test.context.ActiveProfiles
 
 @ActiveProfiles(profiles = ["test"])
 @SpringBootTest(classes = [ObjetoAprendizagemUseCaseImpl::class, BNCCObjetoAprendizagemDatabaseGatewayAdapter::class])
-class ObjetoAprendizagemUseCasemplTest {
+class OACurriculoUseCaseImplTest {
 
     @Autowired
     private lateinit var objetoAprendizagemUseCase: ObjetoAprendizagemUseCaseImpl

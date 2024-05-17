@@ -31,9 +31,9 @@ class ObjetoAprendizagemUseCaseImpl(
         return try {
             oaGatewayAdapter.procurarPorID(id)
         } catch (e: NoSuchElementException) {
-            throw e
+            throw NoSuchElementException(e.message)
         } catch (e: Exception) {
-            throw e
+            throw InternalError(e.message)
         }
     }
 
