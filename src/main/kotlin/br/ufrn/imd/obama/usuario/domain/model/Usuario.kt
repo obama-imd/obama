@@ -1,7 +1,7 @@
-package br.ufrn.imd.obama.oa.domain.model
+package br.ufrn.imd.obama.usuario.domain.model
 
-import br.ufrn.imd.obama.oa.domain.enums.Role
-import br.ufrn.imd.obama.oa.domain.enums.TipoCadastro
+import br.ufrn.imd.obama.usuario.domain.enums.Role
+import br.ufrn.imd.obama.usuario.domain.enums.TipoCadastro
 
 class Usuario (
         val id: Long,
