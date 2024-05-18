@@ -2,7 +2,6 @@ package br.ufrn.imd.obama.oa.util
 
 import br.ufrn.imd.obama.oa.domain.model.Descritor
 import br.ufrn.imd.obama.oa.domain.model.ObjetoAprendizagem
-import br.ufrn.imd.obama.oa.domain.model.TemaConteudo
 import java.time.LocalDate
 
 fun criarObjetoAprendizagem(): ObjetoAprendizagem {
@@ -37,7 +36,7 @@ fun descritor(): Descritor {
         id=1L,
         descricao="D0",
         codigo="DO",
-        temaConteudo = criarTemaConteudo(),
+        temaConteudo = criarTemaConteudoBNCC(),
         nivelEnsino = criarNivelEnsino()
     )
 }

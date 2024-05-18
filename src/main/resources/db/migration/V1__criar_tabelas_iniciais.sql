@@ -6,13 +6,6 @@ CREATE TABLE autor_mantenedor (
 	CONSTRAINT autor_mantenedor_pk PRIMARY KEY (id)
 );
 
-CREATE TABLE curriculo (
-	id int8 NOT NULL,
-	nome_abreviado varchar(255) NOT NULL,
-	nome_completo varchar(255) NOT NULL,
-	CONSTRAINT curriculo_pk PRIMARY KEY (id)
-);
-
 CREATE TABLE disciplina (
 	id int8 NOT NULL,
 	nome varchar(255) NOT NULL,
@@ -92,11 +85,10 @@ CREATE TABLE objeto_aprendizagem_idioma (
 CREATE TABLE tema_conteudo (
 	id int8 NOT NULL,
 	nome varchar(255) NOT NULL,
-	curriculo_id int8 NULL,
+	curriculo varchar(255) NOT NULL,
 	disciplina_id int8 NULL,
 	CONSTRAINT tema_conteudo_pk PRIMARY KEY (id),
-	CONSTRAINT tema_conteudo_fk01 FOREIGN KEY (disciplina_id) REFERENCES disciplina(id),
-	CONSTRAINT tema_conteudo_fk02 FOREIGN KEY (curriculo_id) REFERENCES curriculo(id)
+	CONSTRAINT tema_conteudo_fk01 FOREIGN KEY (disciplina_id) REFERENCES disciplina(id)
 );
 
 
