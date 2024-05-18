@@ -41,8 +41,7 @@ class ObjetoAprendizagemUseCaseImpl(
                         descritorId,
                         habilidadeId,
                         tipoAcesso,
-                        curriculo,
-                        anoEnsinoId
+
                 )
     }
 }

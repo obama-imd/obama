@@ -76,7 +76,8 @@ class ObjetoAprendizagemResourceImplTest {
                 null,
                 null,
                 null,
-                NOME_CURRICULO_INVALIDO
+                NOME_CURRICULO_INVALIDO,
+                null
             )
         ).thenThrow(NoSuchBeanDefinitionException::class.java)
 
@@ -112,7 +113,8 @@ class ObjetoAprendizagemResourceImplTest {
                 null,
                 null,
                 null,
-                NOME_BNCC_CURRICULO
+                NOME_BNCC_CURRICULO,
+                null
             )
         ).thenReturn(
             resultado
@@ -136,7 +138,8 @@ class ObjetoAprendizagemResourceImplTest {
             null,
             null,
             null,
-            NOME_BNCC_CURRICULO
+            NOME_BNCC_CURRICULO,
+            null
         )
     }
 }

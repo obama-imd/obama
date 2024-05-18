@@ -1,7 +1,6 @@
 package br.ufrn.imd.obama.oa.infrastructure.adapter
 
 import br.ufrn.imd.obama.oa.domain.gateway.ObjetoAprendizagemDatabaseGateway
-import br.ufrn.imd.obama.oa.domain.model.Curriculo
 import br.ufrn.imd.obama.oa.domain.model.ObjetoAprendizagem
 import br.ufrn.imd.obama.oa.domain.model.TipoAcesso
 import br.ufrn.imd.obama.oa.infrastructure.mapper.toModel

@@ -66,7 +66,9 @@ class ObjetoAprendizagemUseCasemplTest {
                 null,
                 null,
                 null,
-                curriculo
+                curriculo,
+                null,
+
             )
         }
 
@@ -105,7 +107,8 @@ class ObjetoAprendizagemUseCasemplTest {
                 null,
                 null,
                 null,
-                curriculo
+                curriculo,
+                null
             )
         }
 
@@ -130,7 +133,8 @@ class ObjetoAprendizagemUseCasemplTest {
                 null,
                 null,
                 null,
-                curriculo
+                curriculo,
+                null
             )
         }
     }

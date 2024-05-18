@@ -8,4 +8,5 @@ class ObamaApplication
 
 fun main(args: Array<String>) {
 	runApplication<ObamaApplication>(*args)
+
 }
