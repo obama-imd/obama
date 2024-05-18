@@ -5,11 +5,13 @@ import br.ufrn.imd.obama.usuario.infrastructure.adapter.UsuarioDatabaseGatewayAd
 import br.ufrn.imd.obama.usuario.infrastructure.repository.UsuarioRepository
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.Primary
 
 @Configuration
 class UsuarioConfig {
 
     @Bean
+    @Primary
     fun usuarioDatabaseGateway(usuarioRepository: UsuarioRepository): UsuarioDatabaseGateway {
         return UsuarioDatabaseGatewayAdapter(usuarioRepository);
     }
