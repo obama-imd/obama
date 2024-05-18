@@ -33,7 +33,9 @@ class ObjetoAprendizagemResourceImpl(
             @RequestParam("descritorId", required = false) descritorId: Long?,
             @RequestParam("habilidadeId", required = false) habilidadeId: Long?,
             @RequestParam("tipoAcesso", required = false) tipoAcesso: TipoAcesso?,
-            @RequestParam("curriculo", required = true) curriculo: String
+            @RequestParam("curriculo", required = true) curriculo: String,
+            @RequestParam("anoEnsinoId", required = true) anoEnsinoId: Long
+
     ): Page<BuscarOaResponse> {
         logger.info("method={};", "buscarPorParametros")
 
@@ -45,7 +47,8 @@ class ObjetoAprendizagemResourceImpl(
                 descritorId,
                 habilidadeId,
                 tipoAcesso,
-                curriculo
+                curriculo,
+                anoEnsinoId
         ).map { it.toBuscarOaResponse() }
     }
 }
