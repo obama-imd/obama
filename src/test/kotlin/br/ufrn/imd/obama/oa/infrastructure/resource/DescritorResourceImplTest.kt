@@ -6,6 +6,11 @@ import br.ufrn.imd.obama.oa.infrastructure.adapter.DescritorDatabaseGatewayAdapt
 import br.ufrn.imd.obama.oa.infrastructure.configuration.DescritorConfig
 import br.ufrn.imd.obama.oa.infrastructure.repository.DescritorRepository
 import br.ufrn.imd.obama.oa.util.criarDescritor
+import br.ufrn.imd.obama.usuario.infrastructure.adapter.UsuarioDatabaseGatewayAdapter
+import br.ufrn.imd.obama.usuario.infrastructure.configuration.SecurityConfiguration
+import br.ufrn.imd.obama.usuario.infrastructure.configuration.SecurityFilter
+import br.ufrn.imd.obama.usuario.infrastructure.configuration.TokenService
+import br.ufrn.imd.obama.usuario.infrastructure.repository.UsuarioRepository
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.`when`
 import org.springframework.beans.factory.annotation.Autowired
@@ -34,6 +39,11 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers
         DescritorUseCase::class,
         DescritorRepository::class,
         DescritorResourceImpl::class,
+        SecurityConfiguration::class,
+        SecurityFilter::class,
+        TokenService::class,
+        UsuarioDatabaseGatewayAdapter::class,
+        UsuarioRepository::class
     ]
 )
 @AutoConfigureMockMvc
@@ -56,6 +66,9 @@ class DescritorResourceImplTest {
 
     @MockBean
     private lateinit var descritorRepository: DescritorRepository
+
+    @MockBean
+    private lateinit var usuarioRepository: UsuarioRepository
 
     @Test
     fun `Deve retornar ok quando lista descritores`() {
