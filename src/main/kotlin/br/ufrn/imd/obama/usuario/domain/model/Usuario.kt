@@ -9,7 +9,7 @@ class Usuario (
         val sobrenome: String,
         val email: String,
         val senha: String,
-        val role: Papel,
+        val papel: Papel,
         val ativo: Boolean,
         val tipoCadastro: TipoCadastro,
         val token: String,

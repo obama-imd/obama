@@ -1,6 +1,7 @@
 package br.ufrn.imd.obama.usuario.infrastructure.configuration
 
 import br.ufrn.imd.obama.usuario.domain.gateway.UsuarioDatabaseGateway
+import br.ufrn.imd.obama.usuario.infrastructure.mapper.toEntity
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
@@ -26,13 +27,12 @@ class SecurityFilter(
         val token = this.recuperarToken(request)
 
         if(!token.isNullOrBlank()) {
-            var login = tokenService.validarToken(token)
+            val login = tokenService.validarToken(token)
 
-            val usuario: UserDetails = usuarioDatabaseGateway.buscarPorEmail(login)
+            val usuario: UserDetails = usuarioDatabaseGateway.buscarPorEmail(login).toEntity()
 
             val authentication = UsernamePasswordAuthenticationToken(usuario, null, usuario.authorities)
 
-            //Salva no contexto da aplicação
             SecurityContextHolder.getContext().authentication = authentication
         }
 
