@@ -114,6 +114,7 @@ tasks.named("jacocoTestReport") {
 							exclude("**/model/**")
 							exclude("**/entity/**")
 							exclude("**/handler/**")
+							exclude("**/mapper/**")
 							exclude("**/exception/**")
 							exclude("**/configuration/")
 							exclude("**/exchange/**")
