@@ -85,7 +85,7 @@ class UsuarioEntity (
     }
 
     override fun isEnabled(): Boolean {
-        return true
+        return ativo
     }
 
 }
