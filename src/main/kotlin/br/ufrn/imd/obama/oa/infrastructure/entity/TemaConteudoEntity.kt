@@ -1,8 +1,11 @@
 package br.ufrn.imd.obama.oa.infrastructure.entity;
 
+import br.ufrn.imd.obama.oa.domain.enums.Curriculo
 import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
+import jakarta.persistence.EnumType
+import jakarta.persistence.Enumerated
 import jakarta.persistence.FetchType
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
@@ -32,9 +35,9 @@ class TemaConteudoEntity (
 	@JoinColumn(referencedColumnName="id", name="disciplina_id")
 	val disciplina: DisciplinaEntity,
 
-	@ManyToOne
-	@JoinColumn(referencedColumnName="id", name="curriculo_id")
-	val curriculo: CurriculoEntity,
+	@Enumerated(EnumType.STRING)
+	@Column(name = "curriculo")
+	val curriculo: Curriculo,
 ){
 
 	@OneToMany(mappedBy = "temaConteudo", cascade = [CascadeType.ALL], fetch = FetchType.LAZY, )

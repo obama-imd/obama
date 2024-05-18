@@ -8,7 +8,7 @@ fun criarHabilidade(): Habilidade {
         "Teste",
         "Teste",
         "Teste",
-        criarTemaConteudo(),
+        criarTemaConteudoBNCC(),
         criarAnoEnsino()
     )
 }

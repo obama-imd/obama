@@ -1,4 +1,6 @@
-package br.ufrn.imd.obama.oa.domain.model;
+package br.ufrn.imd.obama.oa.domain.model
+
+import br.ufrn.imd.obama.oa.domain.enums.Curriculo
 
 
 class TemaConteudo (
