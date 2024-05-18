@@ -117,6 +117,7 @@ tasks.named("jacocoTestReport") {
 							exclude("**/exception/**")
 							exclude("**/configuration/")
 							exclude("**/exchange/**")
+							exclude("**/enums/**")
 						}
 					}
 			)
