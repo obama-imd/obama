@@ -7,7 +7,7 @@ fun criarDescritor(): Descritor {
         1L,
         "Teste",
         "Teste",
-        criarTemaConteudo(),
+        criarTemaConteudoBNCC(),
         criarNivelEnsino()
     )
 }
