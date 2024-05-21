@@ -20,6 +20,6 @@ class ObjetoAprendizagemDatabaseGatewayAdapter(
         logger.info("method={};", "procurarPorId")
         logger.info("id={};", id)
 
-        return (objetoAprendizagemRepository.buscarPorId(id) ?: throw OANaoEncontradoException("OA nao encontrada por ID: " + id)).toModel()
+        return objetoAprendizagemRepository.buscarPorId(id)?.toModel() ?: throw OANaoEncontradoException("OA nao encontrada por ID: " + id)
     }
 }

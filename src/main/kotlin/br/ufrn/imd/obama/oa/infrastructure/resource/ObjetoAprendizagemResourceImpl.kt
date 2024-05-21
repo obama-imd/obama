@@ -36,17 +36,10 @@ class ObjetoAprendizagemResourceImpl(
         @PathVariable("id", required = true) id: Long,
         ): ResponseEntity<BuscarOaIdResponse> {
 
-        return try {
             logger.info("method={};", "buscarPorId")
             logger.info("id={};", id)
 
-            ResponseEntity.ok(objetoAprendizagemUseCase.buscarPorId(id).toBuscarOaIdResponse())
-        } catch (e: OANaoEncontradoException) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null)
-        } catch (e: Exception) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null)
-        }
-
+            return ResponseEntity.ok(objetoAprendizagemUseCase.buscarPorId(id).toBuscarOaIdResponse())
     }
 
     @GetMapping(produces = [MediaType.APPLICATION_JSON_VALUE])
