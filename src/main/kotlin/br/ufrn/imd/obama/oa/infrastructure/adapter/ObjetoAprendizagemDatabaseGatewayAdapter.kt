@@ -19,6 +19,7 @@ class ObjetoAprendizagemDatabaseGatewayAdapter(
         id: Long
     ): ObjetoAprendizagem {
         logger.info("method={};", "procurarPorId")
+        logger.info("id={};", id)
 
         return objetoAprendizagemRepository
                     .findById(id).map { it.toModel() }
