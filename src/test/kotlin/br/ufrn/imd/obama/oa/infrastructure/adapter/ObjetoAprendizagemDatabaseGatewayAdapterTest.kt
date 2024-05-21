@@ -3,7 +3,6 @@ package br.ufrn.imd.obama.oa.infrastructure.adapter
 import br.ufrn.imd.obama.oa.domain.model.ObjetoAprendizagem
 import br.ufrn.imd.obama.oa.infrastructure.entity.ObjetoAprendizagemEntity
 import br.ufrn.imd.obama.oa.infrastructure.mapper.toEntity
-import br.ufrn.imd.obama.oa.infrastructure.mapper.toModel
 import br.ufrn.imd.obama.oa.infrastructure.repository.ObjetoAprendizagemRepository
 import br.ufrn.imd.obama.oa.util.criarObjetoAprendizagem
 import org.junit.jupiter.api.Assertions
@@ -14,8 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.test.context.ActiveProfiles
-import java.util.*
-import kotlin.NoSuchElementException
+import java.util.Optional
 
 @ActiveProfiles(profiles = ["test"])
 @SpringBootTest(classes = [
