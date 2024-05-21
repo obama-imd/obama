@@ -5,6 +5,7 @@ import br.ufrn.imd.obama.oa.domain.gateway.CurriculoOADatabaseGateway
 import br.ufrn.imd.obama.oa.domain.model.ObjetoAprendizagem
 import br.ufrn.imd.obama.oa.domain.model.TipoAcesso
 import br.ufrn.imd.obama.oa.infrastructure.adapter.ObjetoAprendizagemDatabaseGatewayAdapter
+import br.ufrn.imd.obama.oa.infrastructure.exception.OANaoEncontradoException
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.support.AbstractBeanFactory
 import org.springframework.data.domain.Page
@@ -30,8 +31,8 @@ class ObjetoAprendizagemUseCaseImpl(
 
         return try {
             oaGatewayAdapter.procurarPorID(id)
-        } catch (e: NoSuchElementException) {
-            throw NoSuchElementException(e.message)
+        } catch (e: OANaoEncontradoException) {
+            throw OANaoEncontradoException(e.message)
         } catch (e: Exception) {
             throw InternalError(e.message)
         }

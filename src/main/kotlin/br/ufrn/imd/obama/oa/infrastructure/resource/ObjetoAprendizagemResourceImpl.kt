@@ -2,6 +2,7 @@ package br.ufrn.imd.obama.oa.infrastructure.resource
 
 import br.ufrn.imd.obama.oa.domain.model.TipoAcesso
 import br.ufrn.imd.obama.oa.domain.usecase.ObjetoAprendizagemUseCase
+import br.ufrn.imd.obama.oa.infrastructure.exception.OANaoEncontradoException
 import br.ufrn.imd.obama.oa.infrastructure.mapper.toBuscarOaIdResponse
 import br.ufrn.imd.obama.oa.infrastructure.mapper.toBuscarOaResponse
 import br.ufrn.imd.obama.oa.infrastructure.resource.exchange.BuscarOaIdResponse
@@ -35,12 +36,12 @@ class ObjetoAprendizagemResourceImpl(
         @PathVariable("id", required = true) id: Long,
         ): ResponseEntity<BuscarOaIdResponse> {
 
-        try {
+        return try {
             logger.info("method={};", "buscarPorId")
             logger.info("id={};", id)
 
-            return  ResponseEntity.ok(objetoAprendizagemUseCase.buscarPorId(id).toBuscarOaIdResponse())
-        } catch (e: NoSuchElementException) {
+            ResponseEntity.ok(objetoAprendizagemUseCase.buscarPorId(id).toBuscarOaIdResponse())
+        } catch (e: OANaoEncontradoException) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null)
         } catch (e: Exception) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null)

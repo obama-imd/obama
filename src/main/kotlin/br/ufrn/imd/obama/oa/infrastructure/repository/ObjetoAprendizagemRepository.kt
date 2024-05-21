@@ -13,6 +13,11 @@ import org.springframework.stereotype.Repository
 interface ObjetoAprendizagemRepository: JpaRepository<ObjetoAprendizagemEntity, Long> {
 
     @Query(
+        "SELECT oa FROM ObjetoAprendizagemEntity oa WHERE oa.id = :id"
+    )
+    fun buscarPorId(@Param("id") id: Long): ObjetoAprendizagemEntity?
+
+    @Query(
             " SELECT distinct oa FROM ObjetoAprendizagemEntity oa " +
                     " LEFT JOIN oa.descritores d " +
                     " LEFT JOIN oa.objetoAprendizagemPlataformas oap " +

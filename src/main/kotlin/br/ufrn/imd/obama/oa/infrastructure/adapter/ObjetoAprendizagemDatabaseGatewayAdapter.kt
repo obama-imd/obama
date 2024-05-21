@@ -2,6 +2,7 @@ package br.ufrn.imd.obama.oa.infrastructure.adapter
 
 import br.ufrn.imd.obama.oa.domain.gateway.ObjetoAprendizagemGateway
 import br.ufrn.imd.obama.oa.domain.model.ObjetoAprendizagem
+import br.ufrn.imd.obama.oa.infrastructure.exception.OANaoEncontradoException
 import br.ufrn.imd.obama.oa.infrastructure.mapper.toModel
 import br.ufrn.imd.obama.oa.infrastructure.repository.ObjetoAprendizagemRepository
 import org.slf4j.LoggerFactory
@@ -19,8 +20,6 @@ class ObjetoAprendizagemDatabaseGatewayAdapter(
         logger.info("method={};", "procurarPorId")
         logger.info("id={};", id)
 
-        return objetoAprendizagemRepository
-                    .findById(id).map { it.toModel() }
-                    .orElseThrow()
+        return (objetoAprendizagemRepository.buscarPorId(id) ?: throw OANaoEncontradoException("OA nao encontrada por ID: " + id)).toModel()
     }
 }
