@@ -2,7 +2,15 @@ package br.ufrn.imd.obama.usuario.infrastructure.entity
 
 import br.ufrn.imd.obama.usuario.domain.enums.Role
 import br.ufrn.imd.obama.usuario.domain.enums.TipoCadastro
-import jakarta.persistence.*
+import jakarta.persistence.Entity
+import jakarta.persistence.GeneratedValue
+import jakarta.persistence.Id
+import jakarta.persistence.Table
+import jakarta.persistence.GenerationType
+import jakarta.persistence.SequenceGenerator
+import jakarta.persistence.Column
+import jakarta.persistence.Enumerated
+import jakarta.persistence.EnumType
 import jakarta.validation.constraints.NotNull
 
 @Entity
