@@ -1,7 +1,7 @@
 package br.ufrn.imd.obama.oa.infrastructure.adapter
 
 import br.ufrn.imd.obama.oa.domain.model.ObjetoAprendizagem
-import br.ufrn.imd.obama.oa.infrastructure.entity.ObjetoAprendizagemEntity
+import br.ufrn.imd.obama.oa.infrastructure.exception.OANaoEncontradoException
 import br.ufrn.imd.obama.oa.infrastructure.mapper.toEntity
 import br.ufrn.imd.obama.oa.infrastructure.repository.ObjetoAprendizagemRepository
 import br.ufrn.imd.obama.oa.util.criarObjetoAprendizagem
@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.test.context.ActiveProfiles
-import java.util.Optional
 
 @ActiveProfiles(profiles = ["test"])
 @SpringBootTest(classes = [
@@ -33,9 +32,9 @@ class ObjetoAprendizagemDatabaseGatewayAdapterTest {
         val resultado = criarObjetoAprendizagem()
 
         `when`(
-            objetoAprendizagemRepository.findById(resultado.id)
+            objetoAprendizagemRepository.buscarPorId(resultado.id)
         ).thenReturn(
-            Optional.of(resultado.toEntity())
+            resultado.toEntity()
         )
 
         var oa: ObjetoAprendizagem? = null
@@ -48,20 +47,18 @@ class ObjetoAprendizagemDatabaseGatewayAdapterTest {
     }
 
     @Test
-    fun `Deve fazer busca no repository e retornar NoSuchElementException`() {
+    fun `Deve fazer busca no repository e retornar OANaoEncontradoException`() {
         val idInexistente = 0L
-        val resultadoNulo = Optional.empty<ObjetoAprendizagemEntity>()
+        val resultadoNulo = null
 
         `when`(
-            objetoAprendizagemRepository.findById(idInexistente)
+            objetoAprendizagemRepository.buscarPorId(idInexistente)
         ).thenReturn(
             resultadoNulo
         )
 
-        var oa: ObjetoAprendizagem? = null
-
-        Assertions.assertThrows(NoSuchElementException::class.java) {
-            oa = gatewayAdapter.procurarPorID(idInexistente)
+        Assertions.assertThrows(OANaoEncontradoException::class.java) {
+            gatewayAdapter.procurarPorID(idInexistente)
         }
     }
 

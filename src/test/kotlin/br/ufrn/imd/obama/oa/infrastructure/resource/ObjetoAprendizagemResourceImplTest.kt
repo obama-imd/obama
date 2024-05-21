@@ -2,6 +2,7 @@ package br.ufrn.imd.obama.oa.infrastructure.resource
 
 import br.ufrn.imd.obama.oa.domain.usecase.ObjetoAprendizagemUseCase
 import br.ufrn.imd.obama.oa.domain.usecase.ObjetoAprendizagemUseCaseImpl
+import br.ufrn.imd.obama.oa.infrastructure.exception.OANaoEncontradoException
 import br.ufrn.imd.obama.oa.infrastructure.handler.ObjetoAprendizagemExceptionHandler
 import br.ufrn.imd.obama.oa.infrastructure.repository.ObjetoAprendizagemRepository
 import br.ufrn.imd.obama.oa.util.criarObjetoAprendizagem
@@ -71,7 +72,7 @@ class ObjetoAprendizagemResourceImplTest {
 
         `when`(
             objetoAprendizagemUseCase.buscarPorId(idInexistente)
-        ).thenThrow(NoSuchElementException::class.java)
+        ).thenThrow(OANaoEncontradoException::class.java)
 
         mockMvc.perform(
             MockMvcRequestBuilders.get("/v1/oa/{id}", idInexistente)

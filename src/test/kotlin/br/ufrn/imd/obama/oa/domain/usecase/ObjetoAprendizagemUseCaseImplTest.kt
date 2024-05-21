@@ -2,6 +2,7 @@ package br.ufrn.imd.obama.oa.domain.usecase
 
 import br.ufrn.imd.obama.oa.domain.model.ObjetoAprendizagem
 import br.ufrn.imd.obama.oa.infrastructure.adapter.ObjetoAprendizagemDatabaseGatewayAdapter
+import br.ufrn.imd.obama.oa.infrastructure.exception.OANaoEncontradoException
 import br.ufrn.imd.obama.oa.util.criarObjetoAprendizagem
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
@@ -44,14 +45,14 @@ class ObjetoAprendizagemUseCaseImplTest {
     }
 
     @Test
-    fun `Deve retornar NoSuchElementException`() {
+    fun `Deve retornar OANaoEncontradoException`() {
         val idInexistente = 0L
 
         `when`(
             objetoAprendizagemDatabaseGatewayAdapter.procurarPorID(idInexistente)
-        ).thenThrow(NoSuchElementException::class.java)
+        ).thenThrow(OANaoEncontradoException::class.java)
 
-        Assertions.assertThrows(NoSuchElementException::class.java) {
+        Assertions.assertThrows(OANaoEncontradoException::class.java) {
             objetoAprendizagemUseCase.buscarPorId(idInexistente)
         }
     }
