@@ -6,17 +6,15 @@ import br.ufrn.imd.obama.oa.domain.usecase.TemaConteudoUseCase
 import br.ufrn.imd.obama.oa.infrastructure.adapter.TemaConteudoDatabaseGatewayAdapter
 import br.ufrn.imd.obama.oa.infrastructure.configuration.TemaConteudoConfig
 import br.ufrn.imd.obama.oa.infrastructure.repository.TemaConteudoRepository
-import br.ufrn.imd.obama.oa.util.criarNivelEnsino
-import br.ufrn.imd.obama.oa.util.criarTemaConteudo
+import br.ufrn.imd.obama.oa.util.criarTemaConteudoBNCC
+import br.ufrn.imd.obama.oa.util.criarTemaConteudoPCN
 import br.ufrn.imd.obama.usuario.infrastructure.adapter.UsuarioDatabaseGatewayAdapter
 import br.ufrn.imd.obama.usuario.infrastructure.configuration.SecurityConfiguration
 import br.ufrn.imd.obama.usuario.infrastructure.configuration.SecurityFilter
 import br.ufrn.imd.obama.usuario.infrastructure.configuration.TokenService
 import br.ufrn.imd.obama.usuario.infrastructure.repository.UsuarioRepository
-import br.ufrn.imd.obama.oa.util.criarTemaConteudoBNCC
-import br.ufrn.imd.obama.oa.util.criarTemaConteudoPCN
 import org.junit.jupiter.api.Test
-import org.mockito.Mockito.anyLong
+import org.mockito.Mockito.anyString
 import org.mockito.Mockito.`when`
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration
@@ -37,15 +35,15 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 @SpringBootTest(
     classes = [
         TemaConteudoConfig::class,
-        TemaConteudoDatabaseGatewayAdapter::class,
         TemaConteudoUseCase::class,
+        TemaConteudoDatabaseGatewayAdapter::class,
         TemaConteudoRepository::class,
         TemaConteudoResourceImpl::class,
         SecurityConfiguration::class,
         SecurityFilter::class,
         TokenService::class,
         UsuarioDatabaseGatewayAdapter::class,
-        UsuarioRepository::class
+        UsuarioRepository::class,
     ]
 )
 @AutoConfigureMockMvc
@@ -118,10 +116,6 @@ class TemaConteudoResourceImplTest {
     fun `Deve retornar ok quando lista tema conteudo e retornar nenhum dado com curriculo PCN`() {
 
         val resultado: Set<TemaConteudo> = setOf(
-                criarTemaConteudo(),
-                criarTemaConteudo()
-            )
-        val resultado: Set<TemaConteudo> = setOf(
             criarTemaConteudoPCN(),
         )
 
@@ -146,7 +140,7 @@ class TemaConteudoResourceImplTest {
         )
 
         `when`(
-            temaConteudoUseCase.listarTemaConteudos(anyLong())
+            temaConteudoUseCase.listarTemaConteudos(anyString())
         ).thenReturn(
             resultado
         )
