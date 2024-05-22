@@ -128,7 +128,7 @@ class TemaConteudoResourceImplTest {
         mockMvc.perform(
             MockMvcRequestBuilders.get("/v1/temaconteudo")
                 .contentType(MediaType.APPLICATION_JSON)
-                .param("idCurriculo", "1")
+                .param("curriculo", Curriculo.PCN.name)
         ).andDo(MockMvcResultHandlers.print())
          .andExpect(MockMvcResultMatchers.status().isOk())
     }
