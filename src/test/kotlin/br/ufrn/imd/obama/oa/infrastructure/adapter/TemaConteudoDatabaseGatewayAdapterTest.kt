@@ -1,11 +1,12 @@
 package br.ufrn.imd.obama.oa.infrastructure.adapter
 
+import br.ufrn.imd.obama.oa.domain.enums.Curriculo
 import br.ufrn.imd.obama.oa.domain.model.TemaConteudo
 import br.ufrn.imd.obama.oa.infrastructure.entity.TemaConteudoEntity
 import br.ufrn.imd.obama.oa.infrastructure.mapper.toEntity
-import br.ufrn.imd.obama.oa.infrastructure.mapper.toResponse
 import br.ufrn.imd.obama.oa.infrastructure.repository.TemaConteudoRepository
-import br.ufrn.imd.obama.oa.util.criarTemaConteudo
+import br.ufrn.imd.obama.oa.util.criarTemaConteudoBNCC
+import br.ufrn.imd.obama.oa.util.criarTemaConteudoPCN
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
@@ -31,13 +32,13 @@ class TemaConteudoDatabaseGatewayAdapterTest {
         val resultado: List<TemaConteudoEntity> = listOf()
 
         `when`(
-            temaConteudoRepository.findAll()
+            temaConteudoRepository.buscarTodosPeloCurriculo(Curriculo.BNCC)
         ).thenReturn(
             resultado
         )
 
         assertDoesNotThrow {
-            gatewayAdapter.listarTemaConteudo(1L)
+            gatewayAdapter.listarTemaConteudo(Curriculo.BNCC)
         }
     }
 
@@ -45,11 +46,11 @@ class TemaConteudoDatabaseGatewayAdapterTest {
     fun `Deve fazer busca no repository e achar algum dado`() {
 
         val resultado: List<TemaConteudoEntity> = listOf(
-            criarTemaConteudo().toEntity()
+            criarTemaConteudoBNCC().toEntity()
         )
 
         `when`(
-            temaConteudoRepository.buscarTodosPeloCurriculo(1L)
+            temaConteudoRepository.buscarTodosPeloCurriculo(Curriculo.BNCC)
         ).thenReturn(
             resultado
         )
@@ -57,7 +58,45 @@ class TemaConteudoDatabaseGatewayAdapterTest {
         var temaConteudos: Set<TemaConteudo> = setOf()
 
         assertDoesNotThrow {
-            temaConteudos = gatewayAdapter.listarTemaConteudo(1L)
+            temaConteudos = gatewayAdapter.listarTemaConteudo(Curriculo.BNCC)
+        }
+
+        Assertions.assertEquals(temaConteudos.isEmpty(), false)
+    }
+
+    @Test
+    fun `Deve fazer busca no repository e achar nenhum dado com curriculo PCN`() {
+
+        val resultado: List<TemaConteudoEntity> = listOf()
+
+        `when`(
+            temaConteudoRepository.buscarTodosPeloCurriculo(Curriculo.PCN)
+        ).thenReturn(
+            resultado
+        )
+
+        assertDoesNotThrow {
+            gatewayAdapter.listarTemaConteudo(Curriculo.PCN)
+        }
+    }
+
+    @Test
+    fun `Deve fazer busca no repository e achar algum dado com curriculo PCN`() {
+
+        val resultado: List<TemaConteudoEntity> = listOf(
+            criarTemaConteudoPCN().toEntity()
+        )
+
+        `when`(
+            temaConteudoRepository.buscarTodosPeloCurriculo(Curriculo.PCN)
+        ).thenReturn(
+            resultado
+        )
+
+        var temaConteudos: Set<TemaConteudo> = setOf()
+
+        assertDoesNotThrow {
+            temaConteudos = gatewayAdapter.listarTemaConteudo(Curriculo.PCN)
         }
 
         Assertions.assertEquals(temaConteudos.isEmpty(), false)

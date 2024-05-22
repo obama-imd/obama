@@ -2,15 +2,15 @@ package br.ufrn.imd.obama.usuario.infrastructure.entity
 
 import br.ufrn.imd.obama.usuario.domain.enums.Papel
 import br.ufrn.imd.obama.usuario.domain.enums.TipoCadastro
-import jakarta.persistence.Column
 import jakarta.persistence.Entity
-import jakarta.persistence.EnumType
-import jakarta.persistence.Enumerated
 import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
-import jakarta.persistence.SequenceGenerator
 import jakarta.persistence.Table
+import jakarta.persistence.GenerationType
+import jakarta.persistence.SequenceGenerator
+import jakarta.persistence.Column
+import jakarta.persistence.Enumerated
+import jakarta.persistence.EnumType
 import jakarta.validation.constraints.NotNull
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
@@ -55,7 +55,7 @@ class UsuarioEntity (
     @NotNull
     val token: String
 ) : UserDetails {
-    
+
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> {
         return if(this.papel == Papel.ADMIN) {
             mutableListOf(SimpleGrantedAuthority("ROLE_ADMIN"), SimpleGrantedAuthority("ROLE_PADRAO"))

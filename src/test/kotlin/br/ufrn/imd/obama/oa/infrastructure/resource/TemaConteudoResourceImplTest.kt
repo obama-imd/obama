@@ -1,14 +1,10 @@
 package br.ufrn.imd.obama.oa.infrastructure.resource
 
-import br.ufrn.imd.obama.oa.domain.model.NivelEnsino
+import br.ufrn.imd.obama.oa.domain.enums.Curriculo
 import br.ufrn.imd.obama.oa.domain.model.TemaConteudo
-import br.ufrn.imd.obama.oa.domain.usecase.NivelEnsinoUseCase
 import br.ufrn.imd.obama.oa.domain.usecase.TemaConteudoUseCase
-import br.ufrn.imd.obama.oa.infrastructure.adapter.NivelEnsinoDatabaseGatewayAdapter
 import br.ufrn.imd.obama.oa.infrastructure.adapter.TemaConteudoDatabaseGatewayAdapter
-import br.ufrn.imd.obama.oa.infrastructure.configuration.NivelEnsinoConfig
 import br.ufrn.imd.obama.oa.infrastructure.configuration.TemaConteudoConfig
-import br.ufrn.imd.obama.oa.infrastructure.repository.NivelEnsinoRepository
 import br.ufrn.imd.obama.oa.infrastructure.repository.TemaConteudoRepository
 import br.ufrn.imd.obama.oa.util.criarNivelEnsino
 import br.ufrn.imd.obama.oa.util.criarTemaConteudo
@@ -17,6 +13,8 @@ import br.ufrn.imd.obama.usuario.infrastructure.configuration.SecurityConfigurat
 import br.ufrn.imd.obama.usuario.infrastructure.configuration.SecurityFilter
 import br.ufrn.imd.obama.usuario.infrastructure.configuration.TokenService
 import br.ufrn.imd.obama.usuario.infrastructure.repository.UsuarioRepository
+import br.ufrn.imd.obama.oa.util.criarTemaConteudoBNCC
+import br.ufrn.imd.obama.oa.util.criarTemaConteudoPCN
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.anyLong
 import org.mockito.Mockito.`when`
@@ -58,6 +56,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 ])
 class TemaConteudoResourceImplTest {
 
+
     @Autowired
     private lateinit var mockMvc: MockMvc
 
@@ -74,15 +73,60 @@ class TemaConteudoResourceImplTest {
     private lateinit var usuarioRepository: UsuarioRepository
 
     @Test
-    fun `Deve retornar uma lista de tema conteúdos`() {
+    fun `Deve retornar ok quando lista tema conteudo com curriculo BNCC`() {
+
+        val resultado: Set<TemaConteudo> = setOf(
+                criarTemaConteudoBNCC(),
+            )
+
+        `when`(
+            temaConteudoUseCase.listarTemaConteudos(Curriculo.BNCC.name)
+        ).thenReturn(
+            resultado
+        )
+
+        mockMvc.perform(
+            MockMvcRequestBuilders.get("/v1/temaconteudo")
+                .param("curriculo", Curriculo.BNCC.name)
+                .contentType(MediaType.APPLICATION_JSON)
+        ).andDo(MockMvcResultHandlers.print())
+         .andExpect(MockMvcResultMatchers.status().isOk())
+    }
+
+    @Test
+    fun `Deve retornar ok quando lista tema conteudo com curriculo PCN`() {
+
+        val resultado: Set<TemaConteudo> = setOf(
+            criarTemaConteudoPCN(),
+        )
+
+        `when`(
+            temaConteudoUseCase.listarTemaConteudos(Curriculo.PCN.name)
+        ).thenReturn(
+            resultado
+        )
+
+        mockMvc.perform(
+            MockMvcRequestBuilders.get("/v1/temaconteudo")
+                .param("curriculo", Curriculo.PCN.name)
+                .contentType(MediaType.APPLICATION_JSON)
+        ).andDo(MockMvcResultHandlers.print())
+            .andExpect(MockMvcResultMatchers.status().isOk())
+    }
+
+    @Test
+    fun `Deve retornar ok quando lista tema conteudo e retornar nenhum dado com curriculo PCN`() {
 
         val resultado: Set<TemaConteudo> = setOf(
                 criarTemaConteudo(),
                 criarTemaConteudo()
             )
+        val resultado: Set<TemaConteudo> = setOf(
+            criarTemaConteudoPCN(),
+        )
 
         `when`(
-            temaConteudoUseCase.listarTemaConteudos(anyLong())
+            temaConteudoUseCase.listarTemaConteudos(Curriculo.BNCC.name)
         ).thenReturn(
             resultado
         )
@@ -109,8 +153,29 @@ class TemaConteudoResourceImplTest {
 
         mockMvc.perform(
             MockMvcRequestBuilders.get("/v1/temaconteudo")
+                .param("curriculo", Curriculo.PCN.name)
                 .contentType(MediaType.APPLICATION_JSON)
-                .param("idCurriculo", "1")
+        ).andDo(MockMvcResultHandlers.print())
+            .andExpect(MockMvcResultMatchers.status().isOk())
+    }
+
+    @Test
+    fun `Deve retornar ok quando lista tema conteudo e retornar nenhum dado com curriculo BNCC`() {
+
+        val resultado: Set<TemaConteudo> = setOf(
+            criarTemaConteudoBNCC(),
+        )
+
+        `when`(
+            temaConteudoUseCase.listarTemaConteudos(Curriculo.PCN.name)
+        ).thenReturn(
+            resultado
+        )
+
+        mockMvc.perform(
+            MockMvcRequestBuilders.get("/v1/temaconteudo")
+                .param("curriculo", Curriculo.BNCC.name)
+                .contentType(MediaType.APPLICATION_JSON)
         ).andDo(MockMvcResultHandlers.print())
             .andExpect(MockMvcResultMatchers.status().isOk())
     }

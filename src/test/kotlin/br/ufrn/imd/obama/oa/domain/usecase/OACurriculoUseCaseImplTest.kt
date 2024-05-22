@@ -1,8 +1,8 @@
 package br.ufrn.imd.obama.oa.domain.usecase
 
-import br.ufrn.imd.obama.oa.domain.model.Descritor
 import br.ufrn.imd.obama.oa.domain.model.ObjetoAprendizagem
 import br.ufrn.imd.obama.oa.infrastructure.adapter.BNCCObjetoAprendizagemDatabaseGatewayAdapter
+import br.ufrn.imd.obama.oa.infrastructure.adapter.ObjetoAprendizagemDatabaseGatewayAdapter
 import br.ufrn.imd.obama.oa.util.NOME_BNCC_CURRICULO
 import br.ufrn.imd.obama.oa.util.NOME_CURRICULO_INVALIDO
 import br.ufrn.imd.obama.oa.util.criarObjetoAprendizagem
@@ -21,13 +21,16 @@ import org.springframework.test.context.ActiveProfiles
 
 @ActiveProfiles(profiles = ["test"])
 @SpringBootTest(classes = [ObjetoAprendizagemUseCaseImpl::class, BNCCObjetoAprendizagemDatabaseGatewayAdapter::class])
-class ObjetoAprendizagemUseCasemplTest {
+class OACurriculoUseCaseImplTest {
 
     @Autowired
     private lateinit var objetoAprendizagemUseCase: ObjetoAprendizagemUseCaseImpl
 
     @MockBean
     private lateinit var databaseGateway: BNCCObjetoAprendizagemDatabaseGatewayAdapter
+
+    @MockBean
+    private lateinit var objetoAprendizagemDatabaseGatewayAdapter: ObjetoAprendizagemDatabaseGatewayAdapter
 
     @Test
     fun `Deve achar algum objeto de aprendizagem quando o curriculo é BNCC`() {

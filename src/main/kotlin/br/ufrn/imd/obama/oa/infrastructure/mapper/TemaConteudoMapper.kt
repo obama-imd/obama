@@ -17,6 +17,6 @@ fun TemaConteudo.toEntity(): TemaConteudoEntity {
         id = this.id,
         nome = this.nome,
         disciplina = this.disciplina.toEntity(),
-        curriculo = this.curriculo.toEntity()
+        curriculo = this.curriculo
     )
 }
