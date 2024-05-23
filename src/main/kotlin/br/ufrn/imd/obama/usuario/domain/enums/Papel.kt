@@ -1,7 +1,7 @@
 package br.ufrn.imd.obama.usuario.domain.enums
 
-enum class Role {
+enum class Papel {
     ADMIN,
     PADRAO,
-    REVisOR
+    REVISOR
 }

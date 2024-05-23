@@ -14,3 +14,8 @@ spring:
 
 server:
   port: 8081
+
+api:
+  security:
+    token:
+      issuer: "obama-api"

@@ -1,6 +1,6 @@
 package br.ufrn.imd.obama.usuario.infrastructure.entity
 
-import br.ufrn.imd.obama.usuario.domain.enums.Role
+import br.ufrn.imd.obama.usuario.domain.enums.Papel
 import br.ufrn.imd.obama.usuario.domain.enums.TipoCadastro
 import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
@@ -12,6 +12,9 @@ import jakarta.persistence.Column
 import jakarta.persistence.Enumerated
 import jakarta.persistence.EnumType
 import jakarta.validation.constraints.NotNull
+import org.springframework.security.core.GrantedAuthority
+import org.springframework.security.core.authority.SimpleGrantedAuthority
+import org.springframework.security.core.userdetails.UserDetails
 
 @Entity
 @Table(name = "usuario")
@@ -38,8 +41,8 @@ class UsuarioEntity (
     val senha: String,
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "role")
-    val role: Role,
+    @Column(name = "papel")
+    val papel: Papel,
 
     @Column(name = "ativo")
     val ativo: Boolean,
@@ -51,4 +54,38 @@ class UsuarioEntity (
     @Column(name = "token")
     @NotNull
     val token: String
-)
+) : UserDetails {
+
+    override fun getAuthorities(): MutableCollection<out GrantedAuthority> {
+        return if(this.papel == Papel.ADMIN) {
+            mutableListOf(SimpleGrantedAuthority("ROLE_ADMIN"), SimpleGrantedAuthority("ROLE_PADRAO"))
+        } else{
+            mutableListOf(SimpleGrantedAuthority("ROLE_PADRAO"))
+        }
+    }
+
+    override fun getPassword(): String {
+        return senha
+    }
+
+    override fun getUsername(): String {
+        return email
+    }
+
+    override fun isAccountNonExpired(): Boolean {
+        return true
+    }
+
+    override fun isAccountNonLocked(): Boolean {
+        return true
+    }
+
+    override fun isCredentialsNonExpired(): Boolean {
+        return true
+    }
+
+    override fun isEnabled(): Boolean {
+        return ativo
+    }
+
+}

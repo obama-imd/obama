@@ -8,7 +8,13 @@ import br.ufrn.imd.obama.oa.infrastructure.configuration.TemaConteudoConfig
 import br.ufrn.imd.obama.oa.infrastructure.repository.TemaConteudoRepository
 import br.ufrn.imd.obama.oa.util.criarTemaConteudoBNCC
 import br.ufrn.imd.obama.oa.util.criarTemaConteudoPCN
+import br.ufrn.imd.obama.usuario.infrastructure.adapter.UsuarioDatabaseGatewayAdapter
+import br.ufrn.imd.obama.usuario.infrastructure.configuration.SecurityConfiguration
+import br.ufrn.imd.obama.usuario.infrastructure.configuration.SecurityFilter
+import br.ufrn.imd.obama.usuario.infrastructure.configuration.TokenService
+import br.ufrn.imd.obama.usuario.infrastructure.repository.UsuarioRepository
 import org.junit.jupiter.api.Test
+import org.mockito.Mockito.anyString
 import org.mockito.Mockito.`when`
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration
@@ -29,10 +35,15 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 @SpringBootTest(
     classes = [
         TemaConteudoConfig::class,
-        TemaConteudoDatabaseGatewayAdapter::class,
         TemaConteudoUseCase::class,
+        TemaConteudoDatabaseGatewayAdapter::class,
         TemaConteudoRepository::class,
         TemaConteudoResourceImpl::class,
+        SecurityConfiguration::class,
+        SecurityFilter::class,
+        TokenService::class,
+        UsuarioDatabaseGatewayAdapter::class,
+        UsuarioRepository::class,
     ]
 )
 @AutoConfigureMockMvc
@@ -55,6 +66,9 @@ class TemaConteudoResourceImplTest {
 
     @MockBean
     private lateinit var temaConteudoRepository: TemaConteudoRepository
+
+    @MockBean
+    private lateinit var usuarioRepository: UsuarioRepository
 
     @Test
     fun `Deve retornar ok quando lista tema conteudo com curriculo BNCC`() {
@@ -107,6 +121,26 @@ class TemaConteudoResourceImplTest {
 
         `when`(
             temaConteudoUseCase.listarTemaConteudos(Curriculo.BNCC.name)
+        ).thenReturn(
+            resultado
+        )
+
+        mockMvc.perform(
+            MockMvcRequestBuilders.get("/v1/temaconteudo")
+                .contentType(MediaType.APPLICATION_JSON)
+                .param("curriculo", Curriculo.PCN.name)
+        ).andDo(MockMvcResultHandlers.print())
+         .andExpect(MockMvcResultMatchers.status().isOk())
+    }
+
+    @Test
+    fun `Não deve retornar uma lista de tema conteúdos`() {
+
+        val resultado: Set<TemaConteudo> = setOf(
+        )
+
+        `when`(
+            temaConteudoUseCase.listarTemaConteudos(anyString())
         ).thenReturn(
             resultado
         )
