@@ -13,7 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails
 class UsuarioEntity (
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "usuario_gen")
-    @SequenceGenerator(name = "usuario_gen", sequenceName = "usuario_seq_id", allocationSize = 1)
+    @SequenceGenerator(name = "usuario_gen", sequenceName = "sq_usuario_id", allocationSize = 1)
     val id: Long,
 
     @Column(name = "nome")
@@ -23,10 +23,6 @@ class UsuarioEntity (
     @Column(name = "sobrenome")
     @NotNull
     val sobrenome: String,
-
-    @Column(name = "username")
-    @NotNull
-    val username: String,
 
     @Column(name = "email")
     @NotNull
@@ -68,7 +64,7 @@ class UsuarioEntity (
     }
 
     override fun getUsername(): String {
-        return this.username
+        return this.email
     }
 
     override fun isAccountNonExpired(): Boolean {
