@@ -8,6 +8,7 @@ import br.ufrn.imd.obama.usuario.infrastructure.repository.UsuarioRepository
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
+import org.mockito.ArgumentMatchers
 import org.mockito.Mockito
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -27,9 +28,9 @@ class UsuarioGatewayAdapterTest {
 
     @Test
     fun `Deve salvar salvar usuario`() {
-        val usuario = criarUsuario()
+        val usuario: Usuario = criarUsuario()
 
-        Mockito.`when`(usuarioRepository.save(usuario.toEnitty())).thenReturn(usuario.toEnitty())
+        Mockito.`when`(usuarioRepository.save(ArgumentMatchers.any() )).thenReturn(usuario.toEnitty())
 
         var usuarioSalvo: Usuario? = null
 
