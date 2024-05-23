@@ -5,7 +5,6 @@ import br.ufrn.imd.obama.oa.infrastructure.entity.HabilidadeEntity
 import br.ufrn.imd.obama.oa.infrastructure.mapper.toEntity
 import br.ufrn.imd.obama.oa.infrastructure.repository.HabilidadeRepository
 import br.ufrn.imd.obama.oa.util.criarHabilidade
-import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
@@ -32,7 +31,7 @@ class HabilidadeGatewayAdapterTest {
     @Test
     fun `Deve fazer busca no repository e encontrar nenhum dado`() {
         val pageable: Pageable = Pageable.ofSize(10)
-        var resultadoVazio: Page<HabilidadeEntity> = Page.empty()
+        val resultadoVazio: Page<HabilidadeEntity> = Page.empty()
 
         `when`(
             habilidadeRepository.buscarHabilidadesPorAnoDeEnsinoIdETemaConteudoId(null, null, pageable)
