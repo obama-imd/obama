@@ -19,7 +19,8 @@ class UsuarioGatewayAdapter (
         return usuarioRepository.save(usuarioEntity).toModel()
     }
 
-    override fun loadUserByUsername(username: String?): UserDetails {
-        return usuarioRepository.findByLogin(username ?: throw IllegalArgumentException("Usuario não pode ser nulo"))
+    override fun loadUserByUsername(username: String?): UserDetails? {
+        if (username == null) return null
+        return usuarioRepository.findByEmail(username)
     }
 }
