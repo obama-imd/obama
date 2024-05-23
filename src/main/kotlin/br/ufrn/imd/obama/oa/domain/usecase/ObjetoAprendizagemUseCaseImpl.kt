@@ -1,6 +1,5 @@
 package br.ufrn.imd.obama.oa.domain.usecase
 
-import br.ufrn.imd.obama.oa.domain.gateway.ObjetoAprendizagemGateway
 import br.ufrn.imd.obama.oa.domain.gateway.CurriculoOADatabaseGateway
 import br.ufrn.imd.obama.oa.domain.model.ObjetoAprendizagem
 import br.ufrn.imd.obama.oa.domain.model.TipoAcesso
@@ -10,8 +9,6 @@ import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.support.AbstractBeanFactory
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
-import org.springframework.http.HttpStatus
-import org.springframework.http.ResponseEntity
 
 
 class ObjetoAprendizagemUseCaseImpl(
@@ -19,15 +16,14 @@ class ObjetoAprendizagemUseCaseImpl(
     private val oaGatewayAdapter: ObjetoAprendizagemDatabaseGatewayAdapter
 ): ObjetoAprendizagemUseCase {
 
-    private val OBJETO_APRENDIZAGEM_DATABASE_GATEWAY_ADAPTER_SUFIXO = "ObjetoAprendizagemDatabaseGatewayAdapter"
+    private val CURRICULO_DATABASE_GATEWAY_ADAPTER_SUFIXO = "OADatabaseGatewayAdapter"
 
     private val logger = LoggerFactory.getLogger(javaClass)
 
     override fun buscarPorId(
         id: Long
     ): ObjetoAprendizagem {
-        logger.info("method={};", "buscarPorId")
-        logger.info("id={};", id)
+        logger.info("method={}; id={};", "buscarPorId", id)
 
         return try {
             oaGatewayAdapter.procurarPorID(id)
@@ -50,17 +46,17 @@ class ObjetoAprendizagemUseCaseImpl(
     ): Page<ObjetoAprendizagem> {
         logger.info("method={};", "buscarPorParametros")
         return (
-                    beanFactory.getBean(
-                        curriculo.plus(OBJETO_APRENDIZAGEM_DATABASE_GATEWAY_ADAPTER_SUFIXO)
-                    ) as CurriculoOADatabaseGateway
-                ).procurarPorCurriculo(
-                        pageable,
-                        nome,
-                        nivelEnsinoId,
-                        temaConteudoId,
-                        descritorId,
-                        habilidadeId,
-                        tipoAcesso
-                )
+            beanFactory.getBean(
+                curriculo.plus(CURRICULO_DATABASE_GATEWAY_ADAPTER_SUFIXO)
+            ) as CurriculoOADatabaseGateway
+        ).procurarPorCurriculo(
+                pageable,
+                nome,
+                nivelEnsinoId,
+                temaConteudoId,
+                descritorId,
+                habilidadeId,
+                tipoAcesso
+        )
     }
 }

@@ -1,12 +1,11 @@
 package br.ufrn.imd.obama.oa.infrastructure.adapter
 
-import br.ufrn.imd.obama.oa.domain.gateway.CurriculoOADatabaseGateway
 import br.ufrn.imd.obama.oa.domain.model.ObjetoAprendizagem
 import br.ufrn.imd.obama.oa.infrastructure.entity.ObjetoAprendizagemEntity
 import br.ufrn.imd.obama.oa.infrastructure.mapper.toEntity
 import br.ufrn.imd.obama.oa.infrastructure.repository.ObjetoAprendizagemRepository
 import br.ufrn.imd.obama.oa.util.criarObjetoAprendizagem
-import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.mockito.Mockito.`when`
@@ -20,13 +19,13 @@ import org.springframework.test.context.ActiveProfiles
 
 @ActiveProfiles(profiles = ["test"])
 @SpringBootTest(classes = [
-    BNCCObjetoAprendizagemDatabaseGatewayAdapter::class,
+    BNCCOADatabaseGatewayAdapter::class,
     ObjetoAprendizagemRepository::class
 ])
-class BNCCObjetoAprendizagemDatabaseGatewayAdapterTest {
+class BNCCOADatabaseGatewayAdapterTest {
 
     @Autowired
-    private lateinit var gatewayAdapter: BNCCObjetoAprendizagemDatabaseGatewayAdapter
+    private lateinit var gatewayAdapter: BNCCOADatabaseGatewayAdapter
 
     @MockBean
     private lateinit var objetoAprendizagemRepository: ObjetoAprendizagemRepository
@@ -40,7 +39,7 @@ class BNCCObjetoAprendizagemDatabaseGatewayAdapterTest {
         var resultado: Page<ObjetoAprendizagemEntity> = Page.empty()
 
         `when`(
-            objetoAprendizagemRepository.buscarTodosAtivoPorNomeETipoAcessoENivelEnsinoIdETemaConteudoIdEDescritorId(
+            objetoAprendizagemRepository.buscarTodosAtivoPorNomeETipoAcessoEAnoEnsinoIdETemaConteudoIdEHabilidadeId(
                 nome,
                 null,
                 null,
@@ -65,7 +64,7 @@ class BNCCObjetoAprendizagemDatabaseGatewayAdapterTest {
                 null,
             )
         }
-        Assertions.assertEquals(oas?.isEmpty, true)
+        assertEquals(oas?.isEmpty, true)
     }
 
     @Test
@@ -81,7 +80,7 @@ class BNCCObjetoAprendizagemDatabaseGatewayAdapterTest {
         )
 
         `when`(
-            objetoAprendizagemRepository.buscarTodosAtivoPorNomeETipoAcessoENivelEnsinoIdETemaConteudoIdEDescritorId(
+            objetoAprendizagemRepository.buscarTodosAtivoPorNomeETipoAcessoEAnoEnsinoIdETemaConteudoIdEHabilidadeId(
                 nome,
                 null,
                 null,
@@ -107,6 +106,6 @@ class BNCCObjetoAprendizagemDatabaseGatewayAdapterTest {
             )
         }
 
-        Assertions.assertEquals(oas?.isEmpty, false)
+        assertEquals(oas?.isEmpty, false)
     }
 }

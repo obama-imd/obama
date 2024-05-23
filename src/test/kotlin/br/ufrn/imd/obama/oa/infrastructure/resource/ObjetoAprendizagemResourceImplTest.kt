@@ -1,8 +1,10 @@
 package br.ufrn.imd.obama.oa.infrastructure.resource
 
+import br.ufrn.imd.obama.oa.domain.enums.Curriculo
 import br.ufrn.imd.obama.oa.domain.model.ObjetoAprendizagem
 import br.ufrn.imd.obama.oa.domain.usecase.ObjetoAprendizagemUseCase
-import br.ufrn.imd.obama.oa.infrastructure.adapter.BNCCObjetoAprendizagemDatabaseGatewayAdapter
+import br.ufrn.imd.obama.oa.infrastructure.adapter.BNCCOADatabaseGatewayAdapter
+import br.ufrn.imd.obama.oa.infrastructure.adapter.PCNOADatabaseGatewayAdapter
 import br.ufrn.imd.obama.oa.infrastructure.configuration.OaConfig
 import br.ufrn.imd.obama.oa.infrastructure.exception.OANaoEncontradoException
 import br.ufrn.imd.obama.oa.infrastructure.handler.ObjetoAprendizagemExceptionHandler
@@ -43,14 +45,15 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers
     ObjetoAprendizagemExceptionHandler::class,
     ObjetoAprendizagemUseCase::class,
     OaConfig::class,
-    BNCCObjetoAprendizagemDatabaseGatewayAdapter::class,
+    BNCCOADatabaseGatewayAdapter::class,
     ObjetoAprendizagemRepository::class,
     ObjetoAprendizagemResourceImpl::class,
     SecurityConfiguration::class,
     SecurityFilter::class,
     TokenService::class,
     UsuarioDatabaseGatewayAdapter::class,
-    UsuarioRepository::class
+    UsuarioRepository::class,
+    PCNOADatabaseGatewayAdapter::class,
 ])
 @AutoConfigureMockMvc
 @EnableAutoConfiguration(exclude = [
@@ -68,7 +71,10 @@ class ObjetoAprendizagemResourceImplTest {
     private  lateinit var objetoAprendizagemUseCase: ObjetoAprendizagemUseCase
 
     @MockBean
-    private lateinit var bnccObjetoAprendizagemDatabaseGatewayAdapter: BNCCObjetoAprendizagemDatabaseGatewayAdapter
+    private lateinit var bnccOADatabaseGatewayAdapter: BNCCOADatabaseGatewayAdapter
+
+    @MockBean
+    private lateinit var pcnOADatabaseGatewayAdapter: PCNOADatabaseGatewayAdapter
 
     @MockBean
     private lateinit var objetoAprendizagemRepository: ObjetoAprendizagemRepository
@@ -112,7 +118,7 @@ class ObjetoAprendizagemResourceImplTest {
 
     @Test
     fun `Deve retornar bad request quando informa um curriculo inválido`() {
-        var pageable: Pageable = Pageable.ofSize(10)
+        val pageable: Pageable = Pageable.ofSize(10)
 
         `when`(
             objetoAprendizagemUseCase.buscarPorParametros(
@@ -140,7 +146,55 @@ class ObjetoAprendizagemResourceImplTest {
     }
 
     @Test
-    fun `Deve retornar retornar lista de objetos com curriculo válido`() {
+    fun `Deve retornar retornar lista de objetos quando o é curriculo BNCC`() {
+        val resultado: Page<ObjetoAprendizagem> = PageImpl(
+            listOf(
+                criarObjetoAprendizagem(),
+                criarObjetoAprendizagem()
+            ),
+        )
+
+        var pageable: Pageable = Pageable.ofSize(10)
+
+        `when`(
+            objetoAprendizagemUseCase.buscarPorParametros(
+                pageable,
+                "Math",
+                null,
+                null,
+                null,
+                null,
+                null,
+                Curriculo.BNCC.name
+            )
+        ).thenReturn(
+            resultado
+        )
+
+        mockMvc.perform (
+            MockMvcRequestBuilders.get("/v1/oa")
+                .param("page", "0")
+                .param("size", "10")
+                .param("nome", "Math")
+                .param("curriculo", Curriculo.BNCC.name)
+        ).andDo(MockMvcResultHandlers.print())
+            .andExpect(MockMvcResultMatchers.status().isOk())
+            .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
+
+        verify(objetoAprendizagemUseCase, times(1)).buscarPorParametros(
+            pageable,
+            "Math",
+            null,
+            null,
+            null,
+            null,
+            null,
+            Curriculo.BNCC.name
+        )
+    }
+
+    @Test
+    fun `Deve retornar retornar lista de objetos quando o é curriculo PCN`() {
         var resultado: Page<ObjetoAprendizagem> = PageImpl(
             listOf(
                 criarObjetoAprendizagem(),
@@ -159,7 +213,7 @@ class ObjetoAprendizagemResourceImplTest {
                 null,
                 null,
                 null,
-                NOME_BNCC_CURRICULO
+                Curriculo.PCN.name
             )
         ).thenReturn(
             resultado
@@ -170,7 +224,7 @@ class ObjetoAprendizagemResourceImplTest {
                 .param("page", "0")
                 .param("size", "10")
                 .param("nome", "Math")
-                .param("curriculo", NOME_BNCC_CURRICULO)
+                .param("curriculo", Curriculo.PCN.name)
         ).andDo(MockMvcResultHandlers.print())
             .andExpect(MockMvcResultMatchers.status().isOk())
             .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
@@ -183,7 +237,7 @@ class ObjetoAprendizagemResourceImplTest {
             null,
             null,
             null,
-            NOME_BNCC_CURRICULO
+            Curriculo.PCN.name
         )
     }
 }
