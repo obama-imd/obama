@@ -32,7 +32,7 @@ class BNCCOADatabaseGatewayAdapter(
            tipoAcesso,
            nivelEnsinoId,
            temaConteudoId,
-           descritorId,
+           habilidadeId,
            pageable
         ).map {
             it.toModel()
