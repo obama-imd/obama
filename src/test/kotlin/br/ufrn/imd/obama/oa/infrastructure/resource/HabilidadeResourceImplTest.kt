@@ -6,6 +6,7 @@ import br.ufrn.imd.obama.oa.infrastructure.adapter.HabilidadeGatewayAdapter
 import br.ufrn.imd.obama.oa.infrastructure.configuration.HabilidadeConfig
 import br.ufrn.imd.obama.oa.infrastructure.repository.HabilidadeRepository
 import br.ufrn.imd.obama.oa.util.criarHabilidade
+import br.ufrn.imd.obama.usuario.infrastructure.adapter.UsuarioGatewayAdapter
 import br.ufrn.imd.obama.usuario.infrastructure.repository.UsuarioRepository
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito
@@ -35,10 +36,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers
         HabilidadeUseCase::class,
         HabilidadeRepository::class,
         HabilidadeResourceImpl::class,
-        SecurityConfiguration::class,
-        SecurityFilter::class,
-        TokenService::class,
-        UsuarioDatabaseGatewayAdapter::class,
+        UsuarioGatewayAdapter::class,
         UsuarioRepository::class
     ]
 )

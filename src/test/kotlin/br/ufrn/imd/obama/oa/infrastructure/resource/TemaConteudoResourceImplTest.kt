@@ -8,6 +8,7 @@ import br.ufrn.imd.obama.oa.infrastructure.configuration.TemaConteudoConfig
 import br.ufrn.imd.obama.oa.infrastructure.repository.TemaConteudoRepository
 import br.ufrn.imd.obama.oa.util.criarTemaConteudoBNCC
 import br.ufrn.imd.obama.oa.util.criarTemaConteudoPCN
+import br.ufrn.imd.obama.usuario.infrastructure.adapter.UsuarioGatewayAdapter
 import br.ufrn.imd.obama.usuario.infrastructure.repository.UsuarioRepository
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.anyString
@@ -35,10 +36,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers
         TemaConteudoDatabaseGatewayAdapter::class,
         TemaConteudoRepository::class,
         TemaConteudoResourceImpl::class,
-        SecurityConfiguration::class,
-        SecurityFilter::class,
-        TokenService::class,
-        UsuarioDatabaseGatewayAdapter::class,
+        UsuarioGatewayAdapter::class,
         UsuarioRepository::class,
     ]
 )

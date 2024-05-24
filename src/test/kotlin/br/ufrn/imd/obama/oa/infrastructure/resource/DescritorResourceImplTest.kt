@@ -6,6 +6,7 @@ import br.ufrn.imd.obama.oa.infrastructure.adapter.DescritorDatabaseGatewayAdapt
 import br.ufrn.imd.obama.oa.infrastructure.configuration.DescritorConfig
 import br.ufrn.imd.obama.oa.infrastructure.repository.DescritorRepository
 import br.ufrn.imd.obama.oa.util.criarDescritor
+import br.ufrn.imd.obama.usuario.infrastructure.adapter.UsuarioGatewayAdapter
 import br.ufrn.imd.obama.usuario.infrastructure.repository.UsuarioRepository
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.`when`
@@ -35,10 +36,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers
         DescritorUseCase::class,
         DescritorRepository::class,
         DescritorResourceImpl::class,
-        SecurityConfiguration::class,
-        SecurityFilter::class,
-        TokenService::class,
-        UsuarioDatabaseGatewayAdapter::class,
+        UsuarioGatewayAdapter::class,
         UsuarioRepository::class
     ]
 )

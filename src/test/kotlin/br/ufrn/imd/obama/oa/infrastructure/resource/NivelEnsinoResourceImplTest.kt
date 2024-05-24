@@ -6,6 +6,7 @@ import br.ufrn.imd.obama.oa.infrastructure.adapter.NivelEnsinoDatabaseGatewayAda
 import br.ufrn.imd.obama.oa.infrastructure.configuration.NivelEnsinoConfig
 import br.ufrn.imd.obama.oa.infrastructure.repository.NivelEnsinoRepository
 import br.ufrn.imd.obama.oa.util.criarNivelEnsino
+import br.ufrn.imd.obama.usuario.infrastructure.adapter.UsuarioGatewayAdapter
 import br.ufrn.imd.obama.usuario.infrastructure.repository.UsuarioRepository
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.`when`
@@ -32,10 +33,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers
         NivelEnsinoUseCase::class,
         NivelEnsinoRepository::class,
         NivelEnsinoResourceImpl::class,
-        SecurityConfiguration::class,
-        SecurityFilter::class,
-        TokenService::class,
-        UsuarioDatabaseGatewayAdapter::class,
+        UsuarioGatewayAdapter::class,
         UsuarioRepository::class
     ]
 )
