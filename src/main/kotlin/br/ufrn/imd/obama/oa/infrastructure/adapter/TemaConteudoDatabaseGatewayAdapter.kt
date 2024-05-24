@@ -1,5 +1,6 @@
 package br.ufrn.imd.obama.oa.infrastructure.adapter
 
+import br.ufrn.imd.obama.oa.domain.enums.Curriculo
 import br.ufrn.imd.obama.oa.domain.gateway.TemaConteudoDatabaseGateway
 import br.ufrn.imd.obama.oa.domain.model.TemaConteudo
 import br.ufrn.imd.obama.oa.infrastructure.mapper.toModel
@@ -11,8 +12,9 @@ class TemaConteudoDatabaseGatewayAdapter(
 ): TemaConteudoDatabaseGateway {
 
 
-    override fun listarTemaConteudo(idCurriculo: Long): Set<TemaConteudo> {
-        val stream = temaConteudoRepository.buscarTodosPeloCurriculo(idCurriculo).stream().map {
+    override fun listarTemaConteudo(curriculo: Curriculo): Set<TemaConteudo> {
+
+        val stream = temaConteudoRepository.buscarTodosPeloCurriculo(curriculo).stream().map {
             it.toModel()
         }
 

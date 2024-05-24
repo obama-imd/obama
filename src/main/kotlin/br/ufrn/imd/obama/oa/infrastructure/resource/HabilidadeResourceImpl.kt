@@ -15,6 +15,10 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/v1/habilidade")
 @Validated
+@Tag(
+    name = "HabilidadeResource",
+    description = "Recurso que lida com habilidades"
+)
 class HabilidadeResourceImpl(
     private val habilidadeUseCase: HabilidadeUseCase
 ):HabilidadeResource {

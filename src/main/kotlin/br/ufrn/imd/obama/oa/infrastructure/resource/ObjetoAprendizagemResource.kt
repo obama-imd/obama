@@ -1,6 +1,7 @@
 package br.ufrn.imd.obama.oa.infrastructure.resource
 
 import br.ufrn.imd.obama.oa.domain.model.TipoAcesso
+import br.ufrn.imd.obama.oa.infrastructure.resource.exchange.BuscarOaIdResponse
 import br.ufrn.imd.obama.oa.infrastructure.resource.exchange.BuscarOaResponse
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.Content
@@ -10,8 +11,37 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.http.MediaType
+import org.springframework.http.ResponseEntity
+import org.springframework.web.ErrorResponse
 
 interface ObjetoAprendizagemResource {
+
+    @Operation(summary = "Endpoint para consulta de objeto de aprendizagem por id")
+    @ApiResponses(value = [
+        ApiResponse(
+            responseCode = "200",
+            description = "Objeto de aprendizagem encontrado",
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = Page::class)
+                )
+            ]
+        ),
+        ApiResponse(
+            responseCode = "404",
+            description = "Objeto de aprendizagem não encontrado",
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
+        )
+    ])
+    fun buscarPorId(
+        id: Long
+    ): ResponseEntity<BuscarOaIdResponse>
 
     @Operation(summary = "Endpoint para consulta de objetos de aprendizagem por parâmetros")
     @ApiResponses(value = [
@@ -36,4 +66,5 @@ interface ObjetoAprendizagemResource {
             tipoAcesso: TipoAcesso?,
             curriculo: String
     ): Page<BuscarOaResponse>
+
 }

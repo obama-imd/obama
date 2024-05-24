@@ -8,6 +8,6 @@ fun TemaConteudoEntity.toModel(): TemaConteudo {
             id = this.id,
             nome = this.nome,
             disciplina = this.disciplina.toModel(),
-            curriculo = this.curriculo.toModel()
+            curriculo = this.curriculo
     )
 }

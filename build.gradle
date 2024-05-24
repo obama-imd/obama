@@ -65,6 +65,13 @@ dependencies {
 
 	implementation("com.github.ben-manes.caffeine:caffeine:2.9.1")
 	implementation("org.springframework.boot:spring-boot-starter-cache")
+
+	//Segurança
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	testImplementation 'org.springframework.security:spring-security-test'
+
+	//JWT
+	implementation 'com.auth0:java-jwt:4.4.0'
 }
 
 dependencyManagement {
@@ -112,9 +119,11 @@ tasks.named("jacocoTestReport") {
 							exclude("**/model/**")
 							exclude("**/entity/**")
 							exclude("**/handler/**")
+							exclude("**/mapper/**")
 							exclude("**/exception/**")
 							exclude("**/configuration/")
 							exclude("**/exchange/**")
+							exclude("**/enums/**")
 						}
 					}
 			)

@@ -1,5 +1,6 @@
 package br.ufrn.imd.obama.oa.infrastructure.adapter
 
+import br.ufrn.imd.obama.oa.domain.gateway.CurriculoOADatabaseGateway
 import br.ufrn.imd.obama.oa.domain.model.ObjetoAprendizagem
 import br.ufrn.imd.obama.oa.infrastructure.entity.ObjetoAprendizagemEntity
 import br.ufrn.imd.obama.oa.infrastructure.mapper.toEntity
@@ -18,7 +19,10 @@ import org.springframework.data.domain.Pageable
 import org.springframework.test.context.ActiveProfiles
 
 @ActiveProfiles(profiles = ["test"])
-@SpringBootTest(classes = [BNCCObjetoAprendizagemDatabaseGatewayAdapter::class, ObjetoAprendizagemRepository::class])
+@SpringBootTest(classes = [
+    BNCCObjetoAprendizagemDatabaseGatewayAdapter::class,
+    ObjetoAprendizagemRepository::class
+])
 class BNCCObjetoAprendizagemDatabaseGatewayAdapterTest {
 
     @Autowired

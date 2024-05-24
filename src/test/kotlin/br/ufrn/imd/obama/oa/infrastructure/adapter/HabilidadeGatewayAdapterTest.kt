@@ -5,7 +5,8 @@ import br.ufrn.imd.obama.oa.infrastructure.entity.HabilidadeEntity
 import br.ufrn.imd.obama.oa.infrastructure.mapper.toEntity
 import br.ufrn.imd.obama.oa.infrastructure.repository.HabilidadeRepository
 import br.ufrn.imd.obama.oa.util.criarHabilidade
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.springframework.beans.factory.annotation.Autowired

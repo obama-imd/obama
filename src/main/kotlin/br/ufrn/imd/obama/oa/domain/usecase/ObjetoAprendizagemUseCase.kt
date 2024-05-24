@@ -6,6 +6,11 @@ import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Page
 
 interface ObjetoAprendizagemUseCase {
+
+    fun buscarPorId(
+        id: Long
+    ): ObjetoAprendizagem
+
     fun buscarPorParametros(
             pageable: Pageable,
             nome: String,
@@ -16,4 +21,5 @@ interface ObjetoAprendizagemUseCase {
             tipoAcesso: TipoAcesso?,
             curriculo: String
     ): Page<ObjetoAprendizagem>
+
 }

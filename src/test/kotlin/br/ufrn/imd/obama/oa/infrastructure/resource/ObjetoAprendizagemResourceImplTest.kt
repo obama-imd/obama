@@ -2,14 +2,19 @@ package br.ufrn.imd.obama.oa.infrastructure.resource
 
 import br.ufrn.imd.obama.oa.domain.model.ObjetoAprendizagem
 import br.ufrn.imd.obama.oa.domain.usecase.ObjetoAprendizagemUseCase
-import br.ufrn.imd.obama.oa.domain.usecase.ObjetoAprendizagemUseCaseImpl
 import br.ufrn.imd.obama.oa.infrastructure.adapter.BNCCObjetoAprendizagemDatabaseGatewayAdapter
 import br.ufrn.imd.obama.oa.infrastructure.configuration.OaConfig
+import br.ufrn.imd.obama.oa.infrastructure.exception.OANaoEncontradoException
 import br.ufrn.imd.obama.oa.infrastructure.handler.ObjetoAprendizagemExceptionHandler
 import br.ufrn.imd.obama.oa.infrastructure.repository.ObjetoAprendizagemRepository
 import br.ufrn.imd.obama.oa.util.NOME_BNCC_CURRICULO
 import br.ufrn.imd.obama.oa.util.NOME_CURRICULO_INVALIDO
 import br.ufrn.imd.obama.oa.util.criarObjetoAprendizagem
+import br.ufrn.imd.obama.usuario.infrastructure.adapter.UsuarioDatabaseGatewayAdapter
+import br.ufrn.imd.obama.usuario.infrastructure.configuration.SecurityConfiguration
+import br.ufrn.imd.obama.usuario.infrastructure.configuration.SecurityFilter
+import br.ufrn.imd.obama.usuario.infrastructure.configuration.TokenService
+import br.ufrn.imd.obama.usuario.infrastructure.repository.UsuarioRepository
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.times
 import org.mockito.Mockito.verify
@@ -41,6 +46,11 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers
     BNCCObjetoAprendizagemDatabaseGatewayAdapter::class,
     ObjetoAprendizagemRepository::class,
     ObjetoAprendizagemResourceImpl::class,
+    SecurityConfiguration::class,
+    SecurityFilter::class,
+    TokenService::class,
+    UsuarioDatabaseGatewayAdapter::class,
+    UsuarioRepository::class
 ])
 @AutoConfigureMockMvc
 @EnableAutoConfiguration(exclude = [
@@ -62,6 +72,43 @@ class ObjetoAprendizagemResourceImplTest {
 
     @MockBean
     private lateinit var objetoAprendizagemRepository: ObjetoAprendizagemRepository
+
+    @MockBean
+    private lateinit var usuarioRepository: UsuarioRepository
+
+    @Test
+    fun `Deve retornar OK quando informado id existente`() {
+        val resultado = criarObjetoAprendizagem()
+
+        `when`(
+            objetoAprendizagemUseCase.buscarPorId(resultado.id)
+        ).thenReturn(
+            resultado
+        )
+
+        mockMvc.perform(
+            MockMvcRequestBuilders.get("/v1/oa/{id}", resultado.id)
+                .contentType(MediaType.APPLICATION_JSON)
+        ).andDo(MockMvcResultHandlers.print())
+            .andExpect(MockMvcResultMatchers.status().isOk())
+            .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
+
+    }
+
+    @Test
+    fun `Deve retornar NOT FOUND quando informado id inexistente`() {
+        val idInexistente = 0L
+
+        `when`(
+            objetoAprendizagemUseCase.buscarPorId(idInexistente)
+        ).thenThrow(OANaoEncontradoException::class.java)
+
+        mockMvc.perform(
+            MockMvcRequestBuilders.get("/v1/oa/{id}", idInexistente)
+                .contentType(MediaType.APPLICATION_JSON)
+        ).andDo(MockMvcResultHandlers.print())
+            .andExpect(MockMvcResultMatchers.status().isNotFound)
+    }
 
     @Test
     fun `Deve retornar bad request quando informa um curriculo inválido`() {
@@ -119,14 +166,14 @@ class ObjetoAprendizagemResourceImplTest {
         )
 
         mockMvc.perform (
-                MockMvcRequestBuilders.get("/v1/oa")
-                    .param("page", "0")
-                    .param("size", "10")
-                    .param("nome", "Math")
-                    .param("curriculo", NOME_BNCC_CURRICULO)
+            MockMvcRequestBuilders.get("/v1/oa")
+                .param("page", "0")
+                .param("size", "10")
+                .param("nome", "Math")
+                .param("curriculo", NOME_BNCC_CURRICULO)
         ).andDo(MockMvcResultHandlers.print())
-        .andExpect(MockMvcResultMatchers.status().isOk())
-        .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(MockMvcResultMatchers.status().isOk())
+            .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
 
         verify(objetoAprendizagemUseCase, times(1)).buscarPorParametros(
             pageable,

@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails
 class UsuarioEntity (
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "usuario_gen")
+
     @SequenceGenerator(name = "usuario_gen", sequenceName = "sq_usuario_id", allocationSize = 1)
     val id: Long,
 
@@ -33,6 +34,7 @@ class UsuarioEntity (
     val senha: String,
 
     @Enumerated(EnumType.STRING)
+
     @Column(name = "role")
     val role: Role,
 
