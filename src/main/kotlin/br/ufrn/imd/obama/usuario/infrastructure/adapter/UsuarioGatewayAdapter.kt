@@ -19,6 +19,7 @@ class UsuarioGatewayAdapter (
         return usuarioRepository.save(usuarioEntity).toModel()
     }
 
+    //método necessário para login
     override fun loadUserByUsername(username: String?): UserDetails? {
         if (username == null) return null
         return usuarioRepository.findByEmail(username)

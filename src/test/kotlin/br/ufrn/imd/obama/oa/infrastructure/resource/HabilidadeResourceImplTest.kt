@@ -6,10 +6,6 @@ import br.ufrn.imd.obama.oa.infrastructure.adapter.HabilidadeGatewayAdapter
 import br.ufrn.imd.obama.oa.infrastructure.configuration.HabilidadeConfig
 import br.ufrn.imd.obama.oa.infrastructure.repository.HabilidadeRepository
 import br.ufrn.imd.obama.oa.util.criarHabilidade
-import br.ufrn.imd.obama.usuario.infrastructure.adapter.UsuarioDatabaseGatewayAdapter
-import br.ufrn.imd.obama.usuario.infrastructure.configuration.SecurityConfiguration
-import br.ufrn.imd.obama.usuario.infrastructure.configuration.SecurityFilter
-import br.ufrn.imd.obama.usuario.infrastructure.configuration.TokenService
 import br.ufrn.imd.obama.usuario.infrastructure.repository.UsuarioRepository
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito

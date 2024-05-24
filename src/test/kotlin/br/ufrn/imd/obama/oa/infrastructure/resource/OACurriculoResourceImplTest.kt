@@ -9,10 +9,6 @@ import br.ufrn.imd.obama.oa.infrastructure.repository.ObjetoAprendizagemReposito
 import br.ufrn.imd.obama.oa.util.NOME_BNCC_CURRICULO
 import br.ufrn.imd.obama.oa.util.NOME_CURRICULO_INVALIDO
 import br.ufrn.imd.obama.oa.util.criarObjetoAprendizagem
-import br.ufrn.imd.obama.usuario.infrastructure.adapter.UsuarioDatabaseGatewayAdapter
-import br.ufrn.imd.obama.usuario.infrastructure.configuration.SecurityConfiguration
-import br.ufrn.imd.obama.usuario.infrastructure.configuration.SecurityFilter
-import br.ufrn.imd.obama.usuario.infrastructure.configuration.TokenService
 import br.ufrn.imd.obama.usuario.infrastructure.repository.UsuarioRepository
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.times
