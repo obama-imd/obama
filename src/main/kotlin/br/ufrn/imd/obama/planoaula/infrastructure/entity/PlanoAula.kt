@@ -20,6 +20,7 @@ import jakarta.persistence.ManyToMany
 import jakarta.persistence.ManyToOne
 import jakarta.persistence.OneToMany
 import jakarta.persistence.OneToOne
+import jakarta.persistence.SequenceGenerator
 import jakarta.persistence.Table
 import java.time.LocalDateTime
 
@@ -27,7 +28,8 @@ import java.time.LocalDateTime
 @Table(name="plano_aula")
 data class PlanoAula(
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "plano_aula_gen")
+    @SequenceGenerator(name = "plano_aula_gen", sequenceName = "sq_plano_aula_id", allocationSize = 1)
     private val id: Long,
 
     @Column(name = "data_cadastro", nullable = true)
