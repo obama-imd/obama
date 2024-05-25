@@ -15,6 +15,7 @@ API para plataforma Objetos de Aprendizagem para Matemática (OBAMA)
 - [Banco de Dados](#banco-de-dados)
 - [Swagger](#swagger)
 - [Jacoco](#jacoco)
+- [Saúde da Aplicação](#saúde-da-aplicação)
 
 ## Pre-requisitos
 * [Java] 1.17+;
@@ -85,7 +86,7 @@ E seleciona o botão Connect
 
 ## Swagger
 
-Swagger está configurado para o link {HOST}/swagger-ui/index.html.
+Swagger está configurado para o link `{HOST}/swagger-ui/index.html`.
 
 ## Jacoco
 
@@ -99,3 +100,7 @@ Você pode verificar os relatórios de cobertura de teste no caminho `/build/rep
 
 
 TODO: Adicionar descrição da necessidade de adicionar uma variável de ambiente chamada JWT_SECRET
+
+## Saúde da aplicação
+
+Para verificar a saúde da aplicação basta acessar `{HOST}/actuator/health` no navegador.
