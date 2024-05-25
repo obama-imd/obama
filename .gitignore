@@ -35,3 +35,7 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### env vars ###
+secret.env
+
