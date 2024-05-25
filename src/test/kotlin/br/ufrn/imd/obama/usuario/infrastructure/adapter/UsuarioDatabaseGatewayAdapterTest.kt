@@ -3,11 +3,17 @@ package br.ufrn.imd.obama.usuario.infrastructure.adapter
 import br.ufrn.imd.obama.usuario.domain.enums.Papel
 import br.ufrn.imd.obama.usuario.domain.enums.TipoCadastro
 import br.ufrn.imd.obama.usuario.domain.exception.UsuarioNaoEncontradoException
+import br.ufrn.imd.obama.usuario.domain.model.Usuario
 import br.ufrn.imd.obama.usuario.infrastructure.entity.UsuarioEntity
+import br.ufrn.imd.obama.usuario.infrastructure.mapper.toEntity
 import br.ufrn.imd.obama.usuario.infrastructure.repository.UsuarioRepository
+import br.ufrn.imd.obama.usuario.util.criarUsuario
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
+import org.mockito.ArgumentMatchers
+import org.mockito.Mockito
 import org.mockito.Mockito.`when`
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -67,4 +73,23 @@ class UsuarioDatabaseGatewayAdapterTest {
             gatewayAdapter.buscarPorEmail(email)
         }
     }
+
+    @Test
+    fun `Deve salvar salvar usuario`() {
+        val usuario: Usuario = criarUsuario()
+
+        Mockito.`when`(usuarioRepository.save(ArgumentMatchers.any() )).thenReturn(usuario.toEntity())
+
+        var usuarioSalvo: Usuario? = null
+
+        assertDoesNotThrow {
+            usuarioSalvo = gatewayAdapter.salvarUsuario(usuario)
+        }
+
+        Assertions.assertEquals(usuarioSalvo!!.nome, usuario.nome)
+        Assertions.assertEquals(usuarioSalvo!!.email, usuario.email)
+        Assertions.assertEquals(usuarioSalvo!!.sobrenome, usuario.sobrenome)
+        Assertions.assertNotNull(usuarioSalvo)
+    }
+
 }
