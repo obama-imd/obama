@@ -31,6 +31,12 @@ class SecurityConfiguration(
             .authorizeHttpRequests{
                 authorize -> authorize
                 .requestMatchers(antMatcher(HttpMethod.POST, "/v1/auth/login")).permitAll()
+                .requestMatchers(antMatcher(HttpMethod.GET,"/v1/temaconteudo**")).permitAll()
+                .requestMatchers(antMatcher(HttpMethod.GET,"/v1/descritor**")).permitAll()
+                .requestMatchers(antMatcher(HttpMethod.GET,"/v1/oa**")).permitAll()
+                .requestMatchers(antMatcher(HttpMethod.GET,"/v1/oa/**")).permitAll()
+                .requestMatchers(antMatcher(HttpMethod.GET,"/v1/nivelensino**")).permitAll()
+                .requestMatchers(antMatcher(HttpMethod.GET,"/v1/habilidade**")).permitAll()
                 .requestMatchers(antMatcher("/swagger-ui/**")).permitAll()
                 .requestMatchers(antMatcher( "/webjars/**")).permitAll()
                 .requestMatchers(antMatcher("/swagger-ui.html")).permitAll()
