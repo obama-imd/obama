@@ -3,7 +3,6 @@ package br.ufrn.imd.obama.oa.infrastructure.adapter
 import br.ufrn.imd.obama.oa.domain.enums.Curriculo
 import br.ufrn.imd.obama.oa.domain.gateway.TemaConteudoDatabaseGateway
 import br.ufrn.imd.obama.oa.domain.model.TemaConteudo
-import br.ufrn.imd.obama.oa.infrastructure.exception.CurriculoNaoEncontradoException
 import br.ufrn.imd.obama.oa.infrastructure.mapper.toModel
 import br.ufrn.imd.obama.oa.infrastructure.repository.TemaConteudoRepository
 import java.util.stream.Collectors

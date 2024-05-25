@@ -6,6 +6,11 @@ import br.ufrn.imd.obama.oa.infrastructure.adapter.HabilidadeGatewayAdapter
 import br.ufrn.imd.obama.oa.infrastructure.configuration.HabilidadeConfig
 import br.ufrn.imd.obama.oa.infrastructure.repository.HabilidadeRepository
 import br.ufrn.imd.obama.oa.util.criarHabilidade
+import br.ufrn.imd.obama.usuario.infrastructure.adapter.UsuarioDatabaseGatewayAdapter
+import br.ufrn.imd.obama.usuario.infrastructure.configuration.SecurityConfiguration
+import br.ufrn.imd.obama.usuario.infrastructure.configuration.SecurityFilter
+import br.ufrn.imd.obama.usuario.infrastructure.configuration.TokenService
+import br.ufrn.imd.obama.usuario.infrastructure.repository.UsuarioRepository
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito
 import org.springframework.beans.factory.annotation.Autowired
@@ -33,7 +38,12 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers
         HabilidadeGatewayAdapter::class,
         HabilidadeUseCase::class,
         HabilidadeRepository::class,
-        HabilidadeResourceImpl::class
+        HabilidadeResourceImpl::class,
+        SecurityConfiguration::class,
+        SecurityFilter::class,
+        TokenService::class,
+        UsuarioDatabaseGatewayAdapter::class,
+        UsuarioRepository::class
     ]
 )
 @AutoConfigureMockMvc
@@ -55,6 +65,9 @@ class HabilidadeResourceImplTest {
 
     @MockBean
     private lateinit var habilidadeRepository: HabilidadeRepository
+
+    @MockBean
+    private lateinit var usuarioRepository: UsuarioRepository
 
     @Test
     fun `Deve retornar ok quando lista habilidades passando os dois parametros corretos`() {

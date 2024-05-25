@@ -12,3 +12,8 @@ spring:
   flyway:
     enabled: true
     baseline-on-migrate: true
+
+api:
+  security:
+    token:
+      secret: ${JWT_SECRET}

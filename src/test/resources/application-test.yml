@@ -15,3 +15,8 @@ spring:
     driverClassName: org.postgresql.Driver
   flyway:
     enabled: false
+
+api:
+  security:
+    token:
+      secret: teste
