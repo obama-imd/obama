@@ -12,7 +12,7 @@ data class PlanoAula(
     val id: Long,
     val dataCadastro: LocalDateTime,
     private var qtdDownload: Int = 0,
-    private val escola: String?,
+    private var escola: String?,
     private var duracaoEmMinutos: Int? = null,
     private var titulo: String? = null,
     private var resumo: String? = null,
