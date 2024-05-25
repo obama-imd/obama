@@ -42,47 +42,47 @@ data class PlanoAulaEntity(
     private val escola: String?,
 
     @Column(name = "duracao_em_minutos", nullable = true)
-    private var duracaoEmMinutos: Int? = null,
+    private var duracaoEmMinutos: Int?,
 
     @Column(name = "titulo", nullable = true)
-    private val titulo: String? = null,
+    private val titulo: String?,
 
     @Column(columnDefinition = "text", nullable = true)
-    private val resumo: String? = null,
+    private val resumo: String?,
 
     @Column(columnDefinition = "text", name = "objetivo_geral", nullable = true)
-    private val objetivoGeral: String? = null,
+    private val objetivoGeral: String?,
 
     @Column(columnDefinition = "text", name = "objetivos_especificos", nullable = true)
-    private val objetivosEspecificos: String? = null,
+    private val objetivosEspecificos: String?,
 
     @Column(columnDefinition = "text", nullable = true)
-    private val metodologia: String? = null,
+    private val metodologia: String?,
 
     @Column(columnDefinition = "text", nullable = true)
-    private val avaliacao: String? = null,
+    private val avaliacao: String?,
 
     @Column(columnDefinition = "text", nullable = true)
-    private val referencias: String? = null,
+    private val referencias: String?,
 
     @Column(columnDefinition = "text", unique = true, nullable = false)
-    private val token: String? = null,
+    private val token: String?,
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
     private val status: StatusPlanoAula,
 
     @ManyToOne(optional = true, fetch = FetchType.EAGER)
-    private val autor: UsuarioEntity? = null,
+    private val autor: UsuarioEntity?,
 
     @ManyToOne(optional = true, fetch = FetchType.EAGER)
-    private var nivelEnsino: NivelEnsinoEntity? = null,
+    private val nivelEnsino: NivelEnsinoEntity?,
 
     @OneToMany(fetch = FetchType.EAGER)
-    private val disciplinasEnvolvidas: List<DisciplinaEntity>? = null,
+    private val disciplinasEnvolvidas: List<DisciplinaEntity>?,
 
     @OneToOne(fetch = FetchType.EAGER, optional = true)
-    private var anoEnsino: AnoEnsinoEntity? = null,
+    private val anoEnsino: AnoEnsinoEntity?,
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -90,7 +90,7 @@ data class PlanoAulaEntity(
         joinColumns = [JoinColumn(name = "plano_aula_id", referencedColumnName = "id")],
         inverseJoinColumns = [JoinColumn(name = "objeto_aprendizagem_id", referencedColumnName = "id")]
     )
-    private val objetosAprendizagem: Set<ObjetoAprendizagemEntity>? = null,
+    private val objetosAprendizagem: Set<ObjetoAprendizagemEntity>?,
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -98,5 +98,5 @@ data class PlanoAulaEntity(
         joinColumns = [JoinColumn(name = "plano_aula_id", referencedColumnName = "id")],
         inverseJoinColumns = [JoinColumn(name = "usuario_id", referencedColumnName = "id")]
     )
-    private val coautores: Set<UsuarioEntity>? = null,
+    private val coautores: Set<UsuarioEntity>?,
 )
