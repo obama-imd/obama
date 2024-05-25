@@ -32,7 +32,7 @@ data class PlanoAula(
     @SequenceGenerator(name = "plano_aula_gen", sequenceName = "sq_plano_aula_id", allocationSize = 1)
     private val id: Long,
 
-    @Column(name = "data_cadastro", nullable = true)
+    @Column(name = "data_cadastro", nullable = false)
     private val dataCadastro: LocalDateTime,
 
     @Column(name = "qtd_downloads", nullable = false)
