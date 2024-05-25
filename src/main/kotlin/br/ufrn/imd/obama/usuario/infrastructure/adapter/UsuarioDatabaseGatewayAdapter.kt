@@ -6,7 +6,9 @@ import br.ufrn.imd.obama.usuario.domain.model.Usuario
 import br.ufrn.imd.obama.usuario.infrastructure.mapper.toEntity
 import br.ufrn.imd.obama.usuario.infrastructure.mapper.toModel
 import br.ufrn.imd.obama.usuario.infrastructure.repository.UsuarioRepository
+import org.springframework.stereotype.Service
 
+@Service
 class UsuarioDatabaseGatewayAdapter(
     private val usuarioRepository: UsuarioRepository
 ): UsuarioDatabaseGateway {
