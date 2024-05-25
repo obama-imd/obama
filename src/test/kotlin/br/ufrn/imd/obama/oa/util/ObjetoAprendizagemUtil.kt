@@ -26,7 +26,7 @@ fun criarObjetoAprendizagem(): ObjetoAprendizagem {
             criarHabilidade()
         ),
         listOf(
-            criarPlataforma()
+            criarOAPlataforma()
         )
     )
 }
