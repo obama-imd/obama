@@ -4,7 +4,7 @@ import br.ufrn.imd.obama.oa.infrastructure.entity.AnoEnsinoEntity
 import br.ufrn.imd.obama.oa.infrastructure.entity.DisciplinaEntity
 import br.ufrn.imd.obama.oa.infrastructure.entity.NivelEnsinoEntity
 import br.ufrn.imd.obama.oa.infrastructure.entity.ObjetoAprendizagemEntity
-import br.ufrn.imd.obama.planoaula.domain.enums.StatusPlanoDeAula
+import br.ufrn.imd.obama.planoaula.domain.enums.StatusPlanoAula
 import br.ufrn.imd.obama.usuario.infrastructure.entity.UsuarioEntity
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
@@ -26,7 +26,7 @@ import java.time.LocalDateTime
 
 @Entity
 @Table(name="plano_aula")
-data class PlanoAula(
+data class PlanoAulaEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "plano_aula_gen")
     @SequenceGenerator(name = "plano_aula_gen", sequenceName = "sq_plano_aula_id", allocationSize = 1)
@@ -70,7 +70,7 @@ data class PlanoAula(
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
-    private val status: StatusPlanoDeAula,
+    private val status: StatusPlanoAula,
 
     @ManyToOne(optional = true, fetch = FetchType.EAGER)
     private val autor: UsuarioEntity? = null,
