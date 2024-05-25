@@ -84,7 +84,7 @@ data class PlanoAula(
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
-        name = "plano_aula_objetoa_prendizagem",
+        name = "plano_aula_objeto_aprendizagem",
         joinColumns = [JoinColumn(name = "plano_aula_id", referencedColumnName = "id")],
         inverseJoinColumns = [JoinColumn(name = "objeto_aprendizagem_id", referencedColumnName = "id")]
     )

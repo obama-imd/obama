@@ -11,7 +11,7 @@ CREATE TABLE plano_aula (
     metodologia TEXT NULL,
     referencias TEXT NULL,
     token TEXT UNIQUE NOT NULL,
-    status ENUM('AGUARDADO_REVISAO', 'NECESSARIO_AJUSTE', 'VALIDADO', 'RASCUNHO', 'REMOVIDO', 'SUGESTAO_REJEITADA'),
+    status ENUM('AGUARDANDO_REVISAO', 'NECESSARIO_AJUSTE', 'VALIDADO', 'RASCUNHO', 'REMOVIDO', 'SUGESTAO_REJEITADA'),
     autor_id int8 NOT NULL,
     ano_ensino_id int8 NULL,
     nivel_ensino_id int8 NULL,
