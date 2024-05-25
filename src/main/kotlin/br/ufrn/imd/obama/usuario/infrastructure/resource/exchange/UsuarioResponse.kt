@@ -12,7 +12,7 @@ class UsuarioResponse (
     val nome: String,
     val sobrenome: String,
     val email: String,
-    val role: Papel,
+    val papel: Papel,
     val ativo: Boolean,
     @JsonProperty("tipo_cadastro")
     val tipoCadastro: TipoCadastro,
