@@ -18,6 +18,6 @@ fun ObjetoAprendizagemEntity.toModel(): ObjetoAprendizagem {
         autoresMantenedores = this.autoresMantenedores.map { it.toModel() }.toSet(),
         descritores = this.descritores.map { it.toModel() }.toSet(),
         habilidades = this.habilidades.map { it.toModel() }.toSet(),
-        plataformas = this.objetoAprendizagemPlataformas.map { it.plataforma.toModel() }
+        plataformas = this.objetoAprendizagemPlataformas.map { it.toModel() }
     )
 }

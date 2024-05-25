@@ -6,7 +6,6 @@ import br.ufrn.imd.obama.oa.infrastructure.entity.ObjetoAprendizagemPlataformaEn
 fun ObjetoAprendizagemPlataformaEntity.toModel(): ObjetoAprendizagemPlataforma {
     return ObjetoAprendizagemPlataforma(
         tipoAcesso = this.tipoAcesso,
-        objetoAprendizagem = this.objetoAprendizagem.toModel(),
         link = this.link,
         plataforma = this.plataforma.toModel()
     )

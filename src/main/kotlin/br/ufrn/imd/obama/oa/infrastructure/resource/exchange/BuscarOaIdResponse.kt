@@ -3,7 +3,7 @@ package br.ufrn.imd.obama.oa.infrastructure.resource.exchange
 import br.ufrn.imd.obama.oa.domain.model.AutorMantenedor
 import br.ufrn.imd.obama.oa.domain.model.Descritor
 import br.ufrn.imd.obama.oa.domain.model.Habilidade
-import br.ufrn.imd.obama.oa.domain.model.Plataforma
+import br.ufrn.imd.obama.oa.domain.model.ObjetoAprendizagemPlataforma
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.PropertyNamingStrategies
 import com.fasterxml.jackson.databind.annotation.JsonNaming
@@ -25,5 +25,5 @@ class BuscarOaIdResponse (
 
     val habilidades: List<Habilidade>,
 
-    val acessos: List<Plataforma>
+    val acessos: List<ObjetoAprendizagemPlataforma>
 )
