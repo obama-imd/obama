@@ -30,11 +30,15 @@ class SecurityConfiguration(
             }
             .authorizeHttpRequests{
                 authorize -> authorize
-//                .requestMatchers(antMatcher(HttpMethod.POST, "/auth/cadastrar")).permitAll()
-//                .requestMatchers(antMatcher(HttpMethod.POST, "/auth/login")).permitAll()
-//                .anyRequest().authenticated()
+                .requestMatchers(antMatcher(HttpMethod.POST, "/v1/auth/login")).permitAll()
+                .requestMatchers(antMatcher("/swagger-ui/**")).permitAll()
+                .requestMatchers(antMatcher( "/webjars/**")).permitAll()
+                .requestMatchers(antMatcher("/swagger-ui.html")).permitAll()
+                .requestMatchers(antMatcher("/swagger-resources/**")).permitAll()
+                .requestMatchers(antMatcher( "/v3/api-docs/**")).permitAll()
                 .requestMatchers(antMatcher(HttpMethod.GET, "/actuator/**")).permitAll()
-                .anyRequest().permitAll()
+                .requestMatchers(antMatcher( "/h2-console/**")).permitAll()
+                .anyRequest().authenticated()
             }
             .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter::class.java)
             .build()
