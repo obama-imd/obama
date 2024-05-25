@@ -33,6 +33,7 @@ class SecurityConfiguration(
 //                .requestMatchers(antMatcher(HttpMethod.POST, "/auth/cadastrar")).permitAll()
 //                .requestMatchers(antMatcher(HttpMethod.POST, "/auth/login")).permitAll()
 //                .anyRequest().authenticated()
+                .requestMatchers(antMatcher(HttpMethod.GET, "/actuator/**")).permitAll()
                 .anyRequest().permitAll()
             }
             .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter::class.java)
