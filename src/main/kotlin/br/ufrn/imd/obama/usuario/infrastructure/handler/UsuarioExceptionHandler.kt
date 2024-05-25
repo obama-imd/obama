@@ -18,4 +18,3 @@ class UsuarioExceptionHandler: ResponseEntityExceptionHandler() {
         return ResponseEntity.badRequest().build()
     }
 }
-
