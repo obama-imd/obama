@@ -6,7 +6,5 @@ class ObjetoAprendizagemPlataforma (
 
     val link: String,
 
-    val objetoAprendizagem: ObjetoAprendizagem,
-
     val plataforma: Plataforma
 )

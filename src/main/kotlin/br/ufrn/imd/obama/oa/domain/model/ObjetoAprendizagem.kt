@@ -31,7 +31,7 @@ class ObjetoAprendizagem(
 
 	val habilidades: Set<Habilidade>,
 
-	val plataformas: List<Plataforma>,
+	val plataformas: List<ObjetoAprendizagemPlataforma>,
 ) {
 	override fun equals(other: Any?): Boolean {
 		return id == (other as ObjetoAprendizagem).id
