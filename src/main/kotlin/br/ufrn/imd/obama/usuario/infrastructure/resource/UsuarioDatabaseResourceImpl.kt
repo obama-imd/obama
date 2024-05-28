@@ -43,8 +43,8 @@ class UsuarioDatabaseResourceImpl(
             token = usuario.token,
         )
 
-        return usuarioDatabaseUseCase.salvarUsuario(obj).let {
-            ResponseEntity.ok(it.toResponse())
-        }
+        val usuarioSalvo = usuarioDatabaseUseCase.salvarUsuario(obj)
+
+        return ResponseEntity.ok(usuarioSalvo.toResponse())
     }
 }
