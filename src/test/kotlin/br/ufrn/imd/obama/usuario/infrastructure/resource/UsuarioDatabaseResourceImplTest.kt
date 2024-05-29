@@ -1,6 +1,5 @@
 package br.ufrn.imd.obama.usuario.infrastructure.resource
 
-import br.ufrn.imd.obama.usuario.domain.model.Usuario
 import br.ufrn.imd.obama.usuario.domain.usecase.UsuarioDatabaseUseCase
 import br.ufrn.imd.obama.usuario.infrastructure.adapter.UsuarioDatabaseGatewayAdapter
 import br.ufrn.imd.obama.usuario.infrastructure.configuration.SecurityConfiguration
@@ -10,9 +9,7 @@ import br.ufrn.imd.obama.usuario.infrastructure.configuration.UsuarioConfig
 import br.ufrn.imd.obama.usuario.infrastructure.repository.UsuarioRepository
 import br.ufrn.imd.obama.usuario.util.criarUsuario
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.junit.jupiter.api.Test
-import org.mockito.ArgumentMatchers
 import org.mockito.Mockito
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration
@@ -67,7 +64,12 @@ class UsuarioDatabaseResourceImplTest {
         val usuario = criarUsuario()
 
         Mockito.`when`(
-            usuarioDatabaseUseCase.salvarUsuario(usuario)
+            usuarioDatabaseUseCase.salvarUsuario(
+                nome = usuario.nome,
+                sobrenome = usuario.sobrenome,
+                email = usuario.email,
+                senha = usuario.senha
+            )
         ).thenReturn(usuario)
 
         val usuarioJson = ObjectMapper().writeValueAsString(usuario)
@@ -80,6 +82,10 @@ class UsuarioDatabaseResourceImplTest {
             .andDo(MockMvcResultHandlers.print())
             .andExpect(MockMvcResultMatchers.status().isOk())
     }
+
+    //Todo: Fazer teste caso o e-mail seja um e-mail inválido pela anotação @Email
+
+    //Todo: Fazer teste caso a senha informada seja menor do que 8 caracteres pela anotação @Senha
 
 //    @Test
 //    fun `Deve retornar erro quando a criação do usuário falha`() {

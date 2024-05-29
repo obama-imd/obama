@@ -1,13 +1,11 @@
 package br.ufrn.imd.obama.usuario.infrastructure.resource
 
-import br.ufrn.imd.obama.usuario.domain.enums.Papel
-import br.ufrn.imd.obama.usuario.domain.model.Usuario
 import br.ufrn.imd.obama.usuario.domain.usecase.UsuarioDatabaseUseCase
 import br.ufrn.imd.obama.usuario.infrastructure.mapper.toResponse
+import br.ufrn.imd.obama.usuario.infrastructure.resource.exchange.CadastrarUsuarioRequest
 import br.ufrn.imd.obama.usuario.infrastructure.resource.exchange.UsuarioResponse
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.ResponseEntity
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -27,23 +25,15 @@ class UsuarioDatabaseResourceImpl(
 
     @PostMapping("/cadastrar")
     override fun salvarUsuario(
-        @RequestBody usuario: Usuario
+        @RequestBody request: CadastrarUsuarioRequest
     ): ResponseEntity<UsuarioResponse> {
-        val encryptPassword: String = BCryptPasswordEncoder().encode(usuario.senha)
 
-        val obj = Usuario(
-            id = 0L,
-            nome = usuario.nome,
-            sobrenome = usuario.sobrenome,
-            email = usuario.email,
-            senha = encryptPassword,
-            papel = Papel.PADRAO,
-            ativo = usuario.ativo,
-            tipoCadastro = usuario.tipoCadastro,
-            token = usuario.token,
+        val usuarioSalvo = usuarioDatabaseUseCase.salvarUsuario(
+            nome = request.nome,
+            senha = request.senha,
+            email = request.email,
+            sobrenome = request.sobrenome
         )
-
-        val usuarioSalvo = usuarioDatabaseUseCase.salvarUsuario(obj)
 
         return ResponseEntity.ok(usuarioSalvo.toResponse())
     }

@@ -2,6 +2,7 @@ package br.ufrn.imd.obama.usuario.infrastructure.resource
 
 import br.ufrn.imd.obama.usuario.domain.model.Usuario
 import br.ufrn.imd.obama.usuario.infrastructure.handler.UsuarioExceptionHandler
+import br.ufrn.imd.obama.usuario.infrastructure.resource.exchange.CadastrarUsuarioRequest
 import br.ufrn.imd.obama.usuario.infrastructure.resource.exchange.UsuarioResponse
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.Content
@@ -35,5 +36,5 @@ interface UsuarioDatabaseResource {
             ]
         )
     ])
-    fun salvarUsuario(usuario: Usuario): ResponseEntity<UsuarioResponse>
+    fun salvarUsuario(request: CadastrarUsuarioRequest): ResponseEntity<UsuarioResponse>
 }
