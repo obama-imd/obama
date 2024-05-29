@@ -1,9 +1,8 @@
 package br.ufrn.imd.obama.oa.domain.usecase
 
-import br.ufrn.imd.obama.oa.infrastructure.resource.exchange.ListarDisciplinaResponse
-import org.springframework.http.ResponseEntity
+import br.ufrn.imd.obama.oa.domain.model.Disciplina
 
 interface DisciplinaUseCase {
 
-    fun listarDisciplinas(): ResponseEntity<ListarDisciplinaResponse>
+    fun listarDisciplinas(): List<Disciplina>
 }
