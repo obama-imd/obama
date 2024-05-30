@@ -14,7 +14,7 @@ spring:
   database:
     driverClassName: org.postgresql.Driver
   flyway:
-    enabled: false
+    enabled: true
 
 api:
   security:
