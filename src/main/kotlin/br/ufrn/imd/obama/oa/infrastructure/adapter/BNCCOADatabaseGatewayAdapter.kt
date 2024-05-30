@@ -10,8 +10,8 @@ import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Page
 import org.springframework.stereotype.Service
 
-@Service("BNCCObjetoAprendizagemDatabaseGatewayAdapter")
-class BNCCObjetoAprendizagemDatabaseGatewayAdapter(
+@Service("BNCCOADatabaseGatewayAdapter")
+class BNCCOADatabaseGatewayAdapter(
     private val objetoAprendizagemRepository: ObjetoAprendizagemRepository
 ): CurriculoOADatabaseGateway {
     private val logger = LoggerFactory.getLogger(javaClass)
@@ -27,12 +27,12 @@ class BNCCObjetoAprendizagemDatabaseGatewayAdapter(
     ): Page<ObjetoAprendizagem> {
         logger.info("method={};", "procurarPorCurriculo")
 
-        return objetoAprendizagemRepository.buscarTodosAtivoPorNomeETipoAcessoENivelEnsinoIdETemaConteudoIdEDescritorId(
+        return objetoAprendizagemRepository.buscarTodosAtivoPorNomeETipoAcessoEAnoEnsinoIdETemaConteudoIdEHabilidadeId(
            nome,
            tipoAcesso,
            nivelEnsinoId,
            temaConteudoId,
-           descritorId,
+           habilidadeId,
            pageable
         ).map {
             it.toModel()
