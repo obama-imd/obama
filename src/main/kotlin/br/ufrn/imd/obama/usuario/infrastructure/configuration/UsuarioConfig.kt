@@ -1,8 +1,8 @@
 package br.ufrn.imd.obama.usuario.infrastructure.configuration
 
 import br.ufrn.imd.obama.usuario.domain.gateway.UsuarioDatabaseGateway
-import br.ufrn.imd.obama.usuario.domain.usecase.UsuarioDatabaseUseCase
-import br.ufrn.imd.obama.usuario.domain.usecase.UsuarioDatabaseUseCaseImpl
+import br.ufrn.imd.obama.usuario.domain.usecase.UsuarioUseCase
+import br.ufrn.imd.obama.usuario.domain.usecase.UsuarioUseCaseImpl
 import br.ufrn.imd.obama.usuario.infrastructure.adapter.UsuarioDatabaseGatewayAdapter
 import br.ufrn.imd.obama.usuario.infrastructure.repository.UsuarioRepository
 import org.springframework.context.annotation.Bean
@@ -20,7 +20,7 @@ class UsuarioConfig {
 
     @Bean
     @Primary
-    fun setUpUsuarioUseCase(usuarioGateway: UsuarioDatabaseGateway): UsuarioDatabaseUseCase {
-        return UsuarioDatabaseUseCaseImpl(usuarioGateway)
+    fun setUpUsuarioUseCase(usuarioGateway: UsuarioDatabaseGateway): UsuarioUseCase {
+        return UsuarioUseCaseImpl(usuarioGateway)
     }
 }

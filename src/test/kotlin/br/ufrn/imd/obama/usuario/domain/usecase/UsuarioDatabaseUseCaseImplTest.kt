@@ -1,14 +1,12 @@
 package br.ufrn.imd.obama.usuario.domain.usecase
 
+import br.ufrn.imd.obama.usuario.domain.gateway.UsuarioDatabaseGateway
 import br.ufrn.imd.obama.usuario.domain.model.Usuario
 import br.ufrn.imd.obama.usuario.infrastructure.adapter.UsuarioDatabaseGatewayAdapter
-import br.ufrn.imd.obama.usuario.util.criarUsuario
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotNull
-import org.junit.jupiter.api.Test
-import org.mockito.Mockito
-import org.junit.jupiter.api.assertDoesNotThrow
+import br.ufrn.imd.obama.usuario.util.criarUsuarioInativo
 import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
 import org.mockito.Mockito.`when`
 import org.springframework.beans.factory.annotation.Autowired
@@ -17,30 +15,26 @@ import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.test.context.ActiveProfiles
 
 @ActiveProfiles(profiles = ["test"])
-@SpringBootTest(classes = [UsuarioDatabaseUseCaseImpl::class, UsuarioDatabaseGatewayAdapter::class])
+@SpringBootTest(classes = [UsuarioUseCaseImpl::class, UsuarioDatabaseGatewayAdapter::class])
 class UsuarioDatabaseUseCaseImplTest {
 
     @Autowired
-    private lateinit var usuarioDatabaseUseCaseImpl: UsuarioDatabaseUseCaseImpl
+    private lateinit var usuarioUseCaseImpl: UsuarioUseCaseImpl
 
     @MockBean
-    private lateinit var usuarioDatabaseGatewayAdapter: UsuarioDatabaseGatewayAdapter
+    private lateinit var usuarioDatabaseGateway: UsuarioDatabaseGateway
 
     @Test
     fun `deve salvar usuario corretamente`() {
-        val usuario = criarUsuario()
+        val usuario = criarUsuarioInativo()
 
-        Mockito.`when`(usuarioDatabaseGatewayAdapter.salvarUsuario(usuario)).thenReturn(usuario)
+       `when`(usuarioDatabaseGateway.salvarUsuario(usuario))
+           .thenReturn(usuario)
 
         var usuarioSalvo: Usuario? = null
 
         assertDoesNotThrow {
-            usuarioSalvo = usuarioDatabaseUseCaseImpl.salvarUsuario(
-                nome = usuario.nome,
-                sobrenome = usuario.sobrenome,
-                senha = usuario.senha,
-                email = usuario.email
-            )
+            usuarioSalvo = usuarioUseCaseImpl.salvarUsuario(usuario)
         }
 
         Assertions.assertEquals(usuarioSalvo!!.nome, usuario.nome)
@@ -51,17 +45,12 @@ class UsuarioDatabaseUseCaseImplTest {
 
     @Test
     fun `deve lançar exceção ao tentar salvar usuário inválido`() {
-        val usuarioInvalido = criarUsuario()
+        val usuarioInvalido = criarUsuarioInativo()
 
-        `when`(usuarioDatabaseGatewayAdapter.salvarUsuario(usuarioInvalido)).thenThrow(RuntimeException::class.java)
+        `when`(usuarioDatabaseGateway.salvarUsuario(usuarioInvalido)).thenThrow(RuntimeException::class.java)
 
         assertThrows<RuntimeException> {
-            usuarioDatabaseUseCaseImpl.salvarUsuario(
-                nome = usuarioInvalido.nome,
-                sobrenome = usuarioInvalido.sobrenome,
-                email = usuarioInvalido.email,
-                usuarioInvalido.sobrenome
-            )
+            usuarioUseCaseImpl.salvarUsuario(usuarioInvalido)
         }
     }
 

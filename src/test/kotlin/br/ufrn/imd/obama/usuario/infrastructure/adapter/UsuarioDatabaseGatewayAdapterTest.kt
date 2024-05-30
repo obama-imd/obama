@@ -7,7 +7,7 @@ import br.ufrn.imd.obama.usuario.domain.model.Usuario
 import br.ufrn.imd.obama.usuario.infrastructure.entity.UsuarioEntity
 import br.ufrn.imd.obama.usuario.infrastructure.mapper.toEntity
 import br.ufrn.imd.obama.usuario.infrastructure.repository.UsuarioRepository
-import br.ufrn.imd.obama.usuario.util.criarUsuario
+import br.ufrn.imd.obama.usuario.util.criarUsuarioInativo
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
@@ -75,7 +75,7 @@ class UsuarioDatabaseGatewayAdapterTest {
 
     @Test
     fun `Deve salvar salvar usuario`() {
-        val usuario: Usuario = criarUsuario()
+        val usuario: Usuario = criarUsuarioInativo()
 
         `when`(usuarioRepository.save(ArgumentMatchers.any() )).thenReturn(usuario.toEntity())
 

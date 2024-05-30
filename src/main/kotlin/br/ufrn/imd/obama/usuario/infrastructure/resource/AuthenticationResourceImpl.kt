@@ -1,19 +1,14 @@
 package br.ufrn.imd.obama.usuario.infrastructure.resource
 
-import br.ufrn.imd.obama.usuario.domain.enums.Papel
-import br.ufrn.imd.obama.usuario.domain.model.Usuario
-import br.ufrn.imd.obama.usuario.domain.usecase.UsuarioDatabaseUseCase
 import br.ufrn.imd.obama.usuario.infrastructure.configuration.TokenService
 import br.ufrn.imd.obama.usuario.infrastructure.entity.UsuarioEntity
 import br.ufrn.imd.obama.usuario.infrastructure.resource.exchange.LoginRequest
 import br.ufrn.imd.obama.usuario.infrastructure.resource.exchange.LoginResponse
-import br.ufrn.imd.obama.usuario.infrastructure.resource.exchange.UsuarioResponse
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
 import org.springframework.http.ResponseEntity
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping

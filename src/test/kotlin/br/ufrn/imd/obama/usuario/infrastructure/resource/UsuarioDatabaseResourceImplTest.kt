@@ -1,86 +1,60 @@
 package br.ufrn.imd.obama.usuario.infrastructure.resource
 
-import br.ufrn.imd.obama.usuario.domain.usecase.UsuarioDatabaseUseCase
-import br.ufrn.imd.obama.usuario.infrastructure.adapter.UsuarioDatabaseGatewayAdapter
-import br.ufrn.imd.obama.usuario.infrastructure.configuration.SecurityConfiguration
-import br.ufrn.imd.obama.usuario.infrastructure.configuration.SecurityFilter
-import br.ufrn.imd.obama.usuario.infrastructure.configuration.TokenService
-import br.ufrn.imd.obama.usuario.infrastructure.configuration.UsuarioConfig
-import br.ufrn.imd.obama.usuario.infrastructure.repository.UsuarioRepository
-import br.ufrn.imd.obama.usuario.util.criarUsuario
+import br.ufrn.imd.obama.usuario.domain.model.Usuario
+import br.ufrn.imd.obama.usuario.domain.usecase.UsuarioUseCase
+import br.ufrn.imd.obama.usuario.infrastructure.resource.exchange.CadastrarUsuarioRequest
+import br.ufrn.imd.obama.usuario.util.criarUsuarioInativo
 import com.fasterxml.jackson.databind.ObjectMapper
+import jakarta.transaction.Transactional
 import org.junit.jupiter.api.Test
-import org.mockito.Mockito
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
-import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration
-import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.http.MediaType
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
-@ActiveProfiles(profiles = ["test"])
-@SpringBootTest(
-    classes = [
-        UsuarioConfig::class,
-        UsuarioDatabaseGatewayAdapter::class,
-        UsuarioDatabaseUseCase::class,
-        UsuarioRepository::class,
-        UsuarioDatabaseResourceImpl::class,
-        SecurityConfiguration::class,
-        SecurityFilter::class,
-        TokenService::class,
-    ]
-)
+@SpringBootTest
 @AutoConfigureMockMvc
-@EnableAutoConfiguration(exclude = [
-    DataSourceAutoConfiguration::class,
-    HibernateJpaAutoConfiguration::class,
-    DataSourceTransactionManagerAutoConfiguration::class
-])
+@ActiveProfiles(profiles = ["test"])
+@Transactional
 class UsuarioDatabaseResourceImplTest {
 
     @Autowired
     private lateinit var mockMvc: MockMvc
 
-    @MockBean
-    private lateinit var usuarioDatabaseUseCase: UsuarioDatabaseUseCase
+    @Autowired
+    private lateinit var usuarioDatabaseUseCase: UsuarioUseCase
 
-    @MockBean
-    private lateinit var usuarioDatabaseGatewayAdapter: UsuarioDatabaseGatewayAdapter
-
-    @MockBean
-    private lateinit var usuarioRepository: UsuarioRepository
+    private val objectMapper = ObjectMapper()
 
     @Test
     fun `Deve retornar ok quando salvar um usuário com dados corretos`() {
-        val usuario = criarUsuario()
+        val usuario = criarUsuarioInativo()
 
-        Mockito.`when`(
-            usuarioDatabaseUseCase.salvarUsuario(
-                nome = usuario.nome,
-                sobrenome = usuario.sobrenome,
-                email = usuario.email,
-                senha = usuario.senha
-            )
-        ).thenReturn(usuario)
+        val request = criarUsuarioRequest(usuario)
 
-        val usuarioJson = ObjectMapper().writeValueAsString(usuario)
+        val usuarioJson = objectMapper.writeValueAsString(request)
 
         mockMvc.perform(
-            MockMvcRequestBuilders.post("/v1/usuario/cadastrar")
+                post("/v1/usuario/cadastrar")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(usuarioJson)
         )
-            .andDo(MockMvcResultHandlers.print())
-            .andExpect(MockMvcResultMatchers.status().isOk())
+            .andDo(print())
+            .andExpect(status().isOk())
+    }
+
+    private fun criarUsuarioRequest(usuario: Usuario): CadastrarUsuarioRequest {
+        return CadastrarUsuarioRequest(
+            nome = usuario.nome,
+            senha = usuario.senha,
+            email = usuario.email,
+            sobrenome = usuario.sobrenome
+        )
     }
 
     //Todo: Fazer teste caso o e-mail seja um e-mail inválido pela anotação @Email

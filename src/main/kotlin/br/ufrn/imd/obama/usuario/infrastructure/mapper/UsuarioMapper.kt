@@ -6,7 +6,7 @@ import br.ufrn.imd.obama.usuario.infrastructure.resource.exchange.UsuarioRespons
 
 fun Usuario.toEntity(): UsuarioEntity {
     return UsuarioEntity(
-        id = this.id,
+        id = this.getId(),
         nome = this.nome,
         sobrenome = this.sobrenome,
         email = this.email,
@@ -20,7 +20,7 @@ fun Usuario.toEntity(): UsuarioEntity {
 
 fun Usuario.toResponse(): UsuarioResponse {
     return UsuarioResponse(
-        id = this.id,
+        id = this.getId(),
         nome = this.nome,
         sobrenome = this.sobrenome,
         email = this.email,

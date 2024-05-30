@@ -11,10 +11,11 @@ spring:
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
       ddl-auto: none
+    show-sql: true
   database:
     driverClassName: org.postgresql.Driver
   flyway:
-    enabled: false
+    enabled: true
 
 api:
   security:
