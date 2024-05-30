@@ -2,25 +2,13 @@ package br.ufrn.imd.obama.oa.infrastructure.resource
 
 import br.ufrn.imd.obama.oa.domain.model.Descritor
 import br.ufrn.imd.obama.oa.domain.usecase.DescritorUseCase
-import br.ufrn.imd.obama.oa.infrastructure.adapter.DescritorDatabaseGatewayAdapter
-import br.ufrn.imd.obama.oa.infrastructure.configuration.DescritorConfig
-import br.ufrn.imd.obama.oa.infrastructure.repository.DescritorRepository
 import br.ufrn.imd.obama.oa.util.criarDescritor
-import br.ufrn.imd.obama.usuario.infrastructure.adapter.UsuarioDatabaseGatewayAdapter
-import br.ufrn.imd.obama.usuario.infrastructure.configuration.SecurityConfiguration
-import br.ufrn.imd.obama.usuario.infrastructure.configuration.SecurityFilter
-import br.ufrn.imd.obama.usuario.infrastructure.configuration.TokenService
-import br.ufrn.imd.obama.usuario.infrastructure.repository.UsuarioRepository
+import jakarta.transaction.Transactional
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.`when`
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
-import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration
-import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.Pageable
@@ -31,62 +19,21 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 
-@ActiveProfiles(profiles = ["test"])
-@SpringBootTest(
-    classes = [
-        DescritorConfig::class,
-        DescritorDatabaseGatewayAdapter::class,
-        DescritorUseCase::class,
-        DescritorRepository::class,
-        DescritorResourceImpl::class,
-        SecurityConfiguration::class,
-        SecurityFilter::class,
-        TokenService::class,
-        UsuarioDatabaseGatewayAdapter::class,
-        UsuarioRepository::class
-    ]
-)
+@SpringBootTest
 @AutoConfigureMockMvc
-@EnableAutoConfiguration(exclude = [
-    DataSourceAutoConfiguration::class,
-    HibernateJpaAutoConfiguration::class,
-    DataSourceTransactionManagerAutoConfiguration::class
-])
+@ActiveProfiles(profiles = ["test"])
+@Transactional
 class DescritorResourceImplTest {
 
 
     @Autowired
     private lateinit var mockMvc: MockMvc
 
-    @MockBean
+    @Autowired
     private  lateinit var descritorUseCase: DescritorUseCase
-
-    @MockBean
-    private lateinit var descritorDatabaseGatewayAdapter: DescritorDatabaseGatewayAdapter
-
-    @MockBean
-    private lateinit var descritorRepository: DescritorRepository
-
-    @MockBean
-    private lateinit var usuarioRepository: UsuarioRepository
 
     @Test
     fun `Deve retornar ok quando lista descritores`() {
-        var pageable: Pageable = Pageable.ofSize(10)
-
-        var resultado: Page<Descritor> = PageImpl(
-            listOf(
-                criarDescritor(),
-            ),
-        )
-
-        `when`(
-            descritorUseCase.listarDescritor(
-                pageable
-            )
-        ).thenReturn(
-            resultado
-        )
 
         mockMvc.perform(
             MockMvcRequestBuilders.get("/v1/descritor")
