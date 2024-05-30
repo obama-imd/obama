@@ -25,13 +25,7 @@ class ObjetoAprendizagemUseCaseImpl(
     ): ObjetoAprendizagem {
         logger.info("method={}; id={};", "buscarPorId", id)
 
-        return try {
-            oaGatewayAdapter.procurarPorID(id)
-        } catch (e: OANaoEncontradoException) {
-            throw OANaoEncontradoException(e.message)
-        } catch (e: Exception) {
-            throw InternalError(e.message)
-        }
+        return oaGatewayAdapter.procurarPorID(id)
     }
 
     override fun buscarPorParametros(
