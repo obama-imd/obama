@@ -8,13 +8,7 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming
 
 @JsonNaming(value= PropertyNamingStrategies.SnakeCaseStrategy::class)
 class UsuarioResponse (
-    val id: Long,
     val nome: String,
     val sobrenome: String,
     val email: String,
-    val papel: Papel,
-    val ativo: Boolean,
-    @JsonProperty("tipo_cadastro")
-    val tipoCadastro: TipoCadastro,
-    val token: String,
 )

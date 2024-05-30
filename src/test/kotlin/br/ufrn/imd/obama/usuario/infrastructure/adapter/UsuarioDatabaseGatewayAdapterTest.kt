@@ -91,4 +91,15 @@ class UsuarioDatabaseGatewayAdapterTest {
         Assertions.assertNotNull(usuarioSalvo)
     }
 
+    @Test
+    fun `deve lançar exceção ao tentar salvar usuário inválido`() {
+        val usuarioInvalido = criarUsuarioInativo()
+
+        `when`(usuarioRepository.save(usuarioInvalido.toEntity())).thenThrow(RuntimeException::class.java)
+
+        assertThrows<RuntimeException> {
+            gatewayAdapter.salvarUsuario(usuarioInvalido)
+        }
+    }
+
 }

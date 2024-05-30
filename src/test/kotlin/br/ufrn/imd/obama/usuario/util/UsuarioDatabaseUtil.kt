@@ -11,7 +11,7 @@ fun criarUsuarioInativo(): Usuario {
         "Teste",
         "Teste",
         "Teste",
-        "Teste",
+        "Teste123123",
         Papel.PADRAO,
         false,
         TipoCadastro.PADRAO,

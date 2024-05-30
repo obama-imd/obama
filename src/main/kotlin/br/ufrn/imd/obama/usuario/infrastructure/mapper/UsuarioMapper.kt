@@ -20,13 +20,9 @@ fun Usuario.toEntity(): UsuarioEntity {
 
 fun Usuario.toResponse(): UsuarioResponse {
     return UsuarioResponse(
-        id = this.getId(),
         nome = this.nome,
         sobrenome = this.sobrenome,
         email = this.email,
-        papel = this.papel,
-        ativo = this.ativo,
-        tipoCadastro = this.tipoCadastro,
-        token = this.token
     )
 }
+

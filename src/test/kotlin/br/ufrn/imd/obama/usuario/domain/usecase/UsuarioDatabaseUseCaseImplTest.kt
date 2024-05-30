@@ -1,5 +1,7 @@
 package br.ufrn.imd.obama.usuario.domain.usecase
 
+import br.ufrn.imd.obama.usuario.domain.exception.UsuarioExistenteException
+import br.ufrn.imd.obama.usuario.domain.exception.UsuarioNaoEncontradoException
 import br.ufrn.imd.obama.usuario.domain.gateway.UsuarioDatabaseGateway
 import br.ufrn.imd.obama.usuario.domain.model.Usuario
 import br.ufrn.imd.obama.usuario.infrastructure.adapter.UsuarioDatabaseGatewayAdapter
@@ -28,8 +30,10 @@ class UsuarioDatabaseUseCaseImplTest {
     fun `deve salvar usuario corretamente`() {
         val usuario = criarUsuarioInativo()
 
-       `when`(usuarioDatabaseGateway.salvarUsuario(usuario))
-           .thenReturn(usuario)
+       `when`(usuarioDatabaseGateway.buscarPorEmail(usuario.email))
+           .thenThrow(UsuarioNaoEncontradoException::class.java)
+        `when`(usuarioDatabaseGateway.salvarUsuario(usuario))
+            .thenReturn(usuario)
 
         var usuarioSalvo: Usuario? = null
 
@@ -54,5 +58,15 @@ class UsuarioDatabaseUseCaseImplTest {
         }
     }
 
-    //TODO: Precisa criar teste para o cenário de um e-mail que já esteja cadastrado no banco de dados e associado a um usuário
+    @Test
+    fun `deve lançar a exceção UsuarioExistenteException ao tentar salvar usuario ja existente`() {
+        val usuarioInvalido = criarUsuarioInativo()
+
+        `when`(usuarioDatabaseGateway.buscarPorEmail(usuarioInvalido.email))
+            .thenReturn(usuarioInvalido)
+
+        assertThrows<UsuarioExistenteException> {
+            usuarioUseCaseImpl.salvarUsuario(usuarioInvalido)
+        }
+    }
 }
