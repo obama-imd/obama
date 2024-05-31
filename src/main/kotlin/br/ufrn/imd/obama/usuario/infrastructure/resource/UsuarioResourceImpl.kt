@@ -2,8 +2,6 @@ package br.ufrn.imd.obama.usuario.infrastructure.resource
 
 import br.ufrn.imd.obama.usuario.domain.enums.Papel
 import br.ufrn.imd.obama.usuario.domain.enums.TipoCadastro
-import br.ufrn.imd.obama.usuario.domain.exception.SenhaInvalidaException
-import br.ufrn.imd.obama.usuario.domain.exception.UsuarioExistenteException
 import br.ufrn.imd.obama.usuario.domain.model.Usuario
 import br.ufrn.imd.obama.usuario.domain.usecase.UsuarioUseCase
 import br.ufrn.imd.obama.usuario.infrastructure.mapper.toResponse
@@ -18,7 +16,6 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-import org.springframework.web.server.ResponseStatusException
 import java.util.*
 
 @RestController
@@ -38,10 +35,6 @@ class UsuarioResourceImpl(
     override fun salvarUsuario(
         @RequestBody request: CadastrarUsuarioRequest
     ): ResponseEntity<UsuarioResponse> {
-
-        if (request.senha.length < 8) {
-            throw SenhaInvalidaException("A senha deve ter pelo menos 8 caracteres")
-        }
 
         val novoUsuario = Usuario(
             nome = request.nome,

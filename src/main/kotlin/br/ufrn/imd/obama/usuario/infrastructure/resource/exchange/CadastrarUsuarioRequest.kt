@@ -12,8 +12,9 @@ data class CadastrarUsuarioRequest(
     @NotBlank
     val sobrenome: String,
 
-    @Email
+    @field:Email(message = "Email inválido")
     val email: String,
-    @Size(min=8)
+
+    @field:Size(min = 8, message = "A senha deve ter pelo menos 8 caracteres")
     val senha: String,
 )

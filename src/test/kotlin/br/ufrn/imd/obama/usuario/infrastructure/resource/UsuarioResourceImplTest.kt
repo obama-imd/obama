@@ -53,24 +53,24 @@ class UsuarioResourceImplTest {
             .andExpect(status().isCreated)
     }
 
-//    @Test
-//    fun `Deve retornar erro 400 quando o e-mail for inválido`() {
-//        val request = CadastrarUsuarioRequest(
-//            nome = "Teste",
-//            sobrenome = "Teste",
-//            email = "email", // E-mail inválido
-//            senha = "Teste12346"
-//        )
-//        val usuarioJson = objectMapper.writeValueAsString(request)
-//
-//        mockMvc.perform(
-//            post("/v1/usuario/cadastrar")
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .content(usuarioJson)
-//        )
-//            .andDo(print())
-//            .andExpect(status().isBadRequest)
-//    }
+    @Test
+    fun `Deve retornar erro 400 quando o e-mail for inválido`() {
+        val request = CadastrarUsuarioRequest(
+            nome = "Teste",
+            sobrenome = "Teste",
+            email = "email", // E-mail inválido
+            senha = "Teste12346"
+        )
+        val usuarioJson = objectMapper.writeValueAsString(request)
+
+        mockMvc.perform(
+            post("/v1/usuario/cadastrar")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(usuarioJson)
+        )
+            .andDo(print())
+            .andExpect(status().isBadRequest)
+    }
 
     @Test
     fun `Deve retornar erro 400 quando a senha tiver menos de 8 caracteres`() {

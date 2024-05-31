@@ -1,6 +1,5 @@
 package br.ufrn.imd.obama.usuario.infrastructure.handler
 
-import br.ufrn.imd.obama.usuario.domain.exception.SenhaInvalidaException
 import br.ufrn.imd.obama.usuario.domain.exception.UsuarioExistenteException
 import br.ufrn.imd.obama.usuario.domain.exception.UsuarioNaoEncontradoException
 import org.springframework.http.ResponseEntity
@@ -23,13 +22,6 @@ class UsuarioExceptionHandler: ResponseEntityExceptionHandler() {
     @ExceptionHandler(UsuarioExistenteException::class)
     protected fun handleUsuarioExistenteException(
         ex: UsuarioExistenteException
-    ):ResponseEntity<Any> {
-        return ResponseEntity.badRequest().build()
-    }
-
-    @ExceptionHandler(SenhaInvalidaException::class)
-    protected fun handleSenhaInvalidaException(
-        ex: SenhaInvalidaException
     ):ResponseEntity<Any> {
         return ResponseEntity.badRequest().build()
     }

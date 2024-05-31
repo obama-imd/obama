@@ -10,7 +10,7 @@ fun criarUsuarioInativo(): Usuario {
     return Usuario(
         "Teste",
         "Teste",
-        "Teste",
+        "Teste123@ufrn.com",
         "Teste123123",
         Papel.PADRAO,
         false,
