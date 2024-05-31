@@ -26,7 +26,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 @AutoConfigureMockMvc
 @ActiveProfiles(profiles = ["test"])
 @Transactional
-class UsuarioDatabaseResourceImplTest {
+class UsuarioResourceImplTest {
 
     @Autowired
     private lateinit var mockMvc: MockMvc

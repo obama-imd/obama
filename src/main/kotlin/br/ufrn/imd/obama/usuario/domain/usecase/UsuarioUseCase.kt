@@ -5,5 +5,4 @@ import br.ufrn.imd.obama.usuario.infrastructure.resource.exchange.CadastrarUsuar
 
 interface UsuarioUseCase {
     fun salvarUsuario(usuario: Usuario): Usuario
-    fun montarNovoUsuario(request: CadastrarUsuarioRequest): Usuario
 }

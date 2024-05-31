@@ -20,17 +20,17 @@ class UsuarioExceptionHandler: ResponseEntityExceptionHandler() {
         return ResponseEntity.badRequest().build()
     }
 
-    @ExceptionHandler
+    @ExceptionHandler(UsuarioExistenteException::class)
     protected fun handleUsuarioExistenteException(
         ex: UsuarioExistenteException
-    ):ResponseEntity<Any?>? {
+    ):ResponseEntity<Any> {
         return ResponseEntity.badRequest().build()
     }
 
-    @ExceptionHandler
+    @ExceptionHandler(SenhaInvalidaException::class)
     protected fun handleSenhaInvalidaException(
         ex: SenhaInvalidaException
-    ):ResponseEntity<Any?>? {
+    ):ResponseEntity<Any> {
         return ResponseEntity.badRequest().build()
     }
 

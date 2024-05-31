@@ -26,20 +26,4 @@ class UsuarioUseCaseImpl(
         }
     }
 
-    override fun montarNovoUsuario(request: CadastrarUsuarioRequest): Usuario {
-        if (request.senha.length < 8) {
-            throw SenhaInvalidaException("A senha deve ter pelo menos 8 caracteres")
-        }
-
-        return Usuario(
-            nome = request.nome,
-            sobrenome = request.sobrenome,
-            email = request.email,
-            senha = PasswordEncoderFactories.createDelegatingPasswordEncoder().encode(request.senha),
-            papel = Papel.PADRAO,
-            ativo = false,
-            tipoCadastro = TipoCadastro.PADRAO,
-            token = UUID.randomUUID().toString()
-        )
-    }
 }

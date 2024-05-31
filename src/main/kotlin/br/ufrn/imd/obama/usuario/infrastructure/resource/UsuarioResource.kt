@@ -12,7 +12,7 @@ import jakarta.validation.Valid
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 
-interface UsuarioDatabaseResource {
+interface UsuarioResource {
     @Operation(summary = "Endpoint para salvar um usuário")
     @ApiResponses(value = [
         ApiResponse(

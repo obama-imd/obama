@@ -10,17 +10,16 @@ import br.ufrn.imd.obama.usuario.infrastructure.mapper.toResponse
 import br.ufrn.imd.obama.usuario.infrastructure.resource.exchange.CadastrarUsuarioRequest
 import br.ufrn.imd.obama.usuario.infrastructure.resource.exchange.UsuarioResponse
 import io.swagger.v3.oas.annotations.tags.Tag
-import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
-import java.util.*
 import org.springframework.http.ResponseEntity
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
+import org.springframework.security.crypto.factory.PasswordEncoderFactories
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.server.ResponseStatusException
+import java.util.*
 
 @RestController
 @RequestMapping(
@@ -31,24 +30,30 @@ import org.springframework.web.server.ResponseStatusException
     name = "UsuarioResource",
     description = "Recurso que lida com a manipução do usuário no banco de dados"
 )
-class UsuarioDatabaseResourceImpl(
+class UsuarioResourceImpl(
     private val usuarioDatabaseUseCase: UsuarioUseCase
-):UsuarioDatabaseResource {
+):UsuarioResource {
 
     @PostMapping("/cadastrar")
     override fun salvarUsuario(
         @RequestBody request: CadastrarUsuarioRequest
     ): ResponseEntity<UsuarioResponse> {
 
-        try {
-            val novoUsuario = usuarioDatabaseUseCase.montarNovoUsuario(request)
-            return ResponseEntity.status(HttpStatus.CREATED).body(usuarioDatabaseUseCase.salvarUsuario(novoUsuario).toResponse())
+        if (request.senha.length < 8) {
+            throw SenhaInvalidaException("A senha deve ter pelo menos 8 caracteres")
         }
-        catch (e: UsuarioExistenteException) {
-            throw ResponseStatusException(HttpStatus.BAD_REQUEST, e.message, e)
-        }
-        catch (e: Exception) {
-            throw ResponseStatusException(HttpStatus.BAD_REQUEST, e.message, e)
-        }
+
+        val novoUsuario = Usuario(
+            nome = request.nome,
+            sobrenome = request.sobrenome,
+            email = request.email,
+            senha = PasswordEncoderFactories.createDelegatingPasswordEncoder().encode(request.senha),
+            papel = Papel.PADRAO,
+            ativo = false,
+            tipoCadastro = TipoCadastro.PADRAO,
+            token = UUID.randomUUID().toString()
+        )
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(usuarioDatabaseUseCase.salvarUsuario(novoUsuario).toResponse())
     }
 }
