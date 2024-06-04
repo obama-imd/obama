@@ -6,10 +6,10 @@ import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.Size
 
 data class CadastrarUsuarioRequest(
-    @NotBlank
+    @field:NotBlank(message = "Campo obrigatório")
     val nome: String,
 
-    @NotBlank
+    @field:NotBlank(message = "Campo obrigatório")
     val sobrenome: String,
 
     @field:Email(message = "Email inválido")
