@@ -30,59 +30,59 @@ data class PlanoAulaEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "plano_aula_gen")
     @SequenceGenerator(name = "plano_aula_gen", sequenceName = "sq_plano_aula_id", allocationSize = 1)
-    private val id: Long,
+    val id: Long,
 
     @Column(name = "data_cadastro", nullable = false)
-    private val dataCadastro: LocalDateTime,
+    val dataCadastro: LocalDateTime,
 
     @Column(name = "qtd_downloads", nullable = false)
-    private val qtdDownload: Int = 0,
+    val qtdDownload: Int = 0,
 
     @Column(name = "escola", nullable = true)
-    private val escola: String?,
+    val escola: String?,
 
     @Column(name = "duracao_em_minutos", nullable = true)
-    private var duracaoEmMinutos: Int?,
+    var duracaoEmMinutos: Int?,
 
     @Column(name = "titulo", nullable = true)
-    private val titulo: String?,
+    val titulo: String?,
 
     @Column(columnDefinition = "text", nullable = true)
-    private val resumo: String?,
+    val resumo: String?,
 
     @Column(columnDefinition = "text", name = "objetivo_geral", nullable = true)
-    private val objetivoGeral: String?,
+    val objetivoGeral: String?,
 
     @Column(columnDefinition = "text", name = "objetivos_especificos", nullable = true)
-    private val objetivosEspecificos: String?,
+    val objetivosEspecificos: String?,
 
     @Column(columnDefinition = "text", nullable = true)
-    private val metodologia: String?,
+    val metodologia: String?,
 
     @Column(columnDefinition = "text", nullable = true)
-    private val avaliacao: String?,
+    val avaliacao: String?,
 
     @Column(columnDefinition = "text", nullable = true)
-    private val referencias: String?,
+    val referencias: String?,
 
     @Column(columnDefinition = "text", unique = true, nullable = false)
-    private val token: String?,
+    val token: String?,
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
-    private val status: StatusPlanoAula,
+    val status: StatusPlanoAula,
 
     @ManyToOne(optional = true, fetch = FetchType.EAGER)
-    private val autor: UsuarioEntity?,
+    val autor: UsuarioEntity?,
 
     @ManyToOne(optional = true, fetch = FetchType.EAGER)
-    private val nivelEnsino: NivelEnsinoEntity?,
+    val nivelEnsino: NivelEnsinoEntity?,
 
     @OneToMany(fetch = FetchType.EAGER)
-    private val disciplinasEnvolvidas: List<DisciplinaEntity>?,
+    val disciplinasEnvolvidas: List<DisciplinaEntity>?,
 
     @OneToOne(fetch = FetchType.EAGER, optional = true)
-    private val anoEnsino: AnoEnsinoEntity?,
+    val anoEnsino: AnoEnsinoEntity?,
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -90,7 +90,7 @@ data class PlanoAulaEntity(
         joinColumns = [JoinColumn(name = "plano_aula_id", referencedColumnName = "id")],
         inverseJoinColumns = [JoinColumn(name = "objeto_aprendizagem_id", referencedColumnName = "id")]
     )
-    private val objetosAprendizagem: Set<ObjetoAprendizagemEntity>?,
+    val objetosAprendizagem: Set<ObjetoAprendizagemEntity>?,
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -98,5 +98,5 @@ data class PlanoAulaEntity(
         joinColumns = [JoinColumn(name = "plano_aula_id", referencedColumnName = "id")],
         inverseJoinColumns = [JoinColumn(name = "usuario_id", referencedColumnName = "id")]
     )
-    private val coautores: Set<UsuarioEntity>?,
+    val coautores: Set<UsuarioEntity>?,
 )
