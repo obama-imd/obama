@@ -1,5 +1,7 @@
 package br.ufrn.imd.obama.planoaula.domain.gateway
 
+import br.ufrn.imd.obama.planoaula.domain.model.PlanoAula
+
 interface PlanoAulaGateway {
 
     fun salvarPlanoAula(
@@ -14,5 +16,5 @@ interface PlanoAulaGateway {
         objetivoGeral: String?,
         avaliacao: String?,
         referencias: String?
-    ): Long
+    ): PlanoAula
 }
