@@ -36,4 +36,24 @@ interface ObjetoAprendizagemRepository: JpaRepository<ObjetoAprendizagemEntity, 
             @Param("descritorId") descritorId: Long?,
             pageable: Pageable
     ): Page<ObjetoAprendizagemEntity>
+
+    @Query(
+        " SELECT distinct oa FROM ObjetoAprendizagemEntity oa " +
+                " LEFT JOIN oa.habilidades h " +
+                " LEFT JOIN oa.objetoAprendizagemPlataformas oap " +
+                " WHERE oa.nome like upper(CONCAT('%',:nome,'%'))" +
+                " AND oa.ativo = true" +
+                " AND (:tipoAcesso IS NULL OR oap.tipoAcesso = :tipoAcesso) " +
+                " AND (:anoEnsinoId IS NULL OR h.anoEnsino.id = :anoEnsinoId) " +
+                " AND (:temaConteudoId IS NULL OR h.temaConteudo.id = :temaConteudoId) " +
+                " AND (:habilidadeId IS NULL OR h.id = :habilidadeId) ",
+    )
+    fun buscarTodosAtivoPorNomeETipoAcessoEAnoEnsinoIdETemaConteudoIdEHabilidadeId(
+        @Param("nome") nome: String,
+        @Param("tipoAcesso") tipoAcesso: TipoAcesso?,
+        @Param("anoEnsinoId") anoEnsinoId: Long?,
+        @Param("temaConteudoId") temaConteudoId: Long?,
+        @Param("habilidadeId") habilidadeId: Long?,
+        pageable: Pageable
+    ): Page<ObjetoAprendizagemEntity>
 }
