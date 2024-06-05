@@ -4,6 +4,8 @@ import br.ufrn.imd.obama.oa.domain.usecase.DisciplinaUseCase
 import br.ufrn.imd.obama.oa.infrastructure.mapper.toResponse
 import br.ufrn.imd.obama.oa.infrastructure.resource.exchange.ListarDisciplinaResponse
 import io.swagger.v3.oas.annotations.tags.Tag
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.http.MediaType
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.GetMapping
@@ -22,7 +24,9 @@ class DisciplinaResourceImpl(
 ) : DisciplinaResource {
 
     @GetMapping(produces = [MediaType.APPLICATION_JSON_VALUE])
-    override fun listarDisciplinas(): List<ListarDisciplinaResponse> {
-        return disciplinaUseCase.listarDisciplinas().map { it.toResponse() }
+    override fun listarDisciplinas(
+        pageable: Pageable
+    ): Page<ListarDisciplinaResponse> {
+        return disciplinaUseCase.listarDisciplinas(pageable).map { it.toResponse() }
     }
 }
