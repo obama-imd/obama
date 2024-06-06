@@ -4,6 +4,7 @@ import br.ufrn.imd.obama.oa.domain.usecase.DisciplinaUseCase
 import br.ufrn.imd.obama.oa.infrastructure.mapper.toResponse
 import br.ufrn.imd.obama.oa.infrastructure.resource.exchange.ListarDisciplinaResponse
 import io.swagger.v3.oas.annotations.tags.Tag
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.http.MediaType
@@ -23,6 +24,7 @@ class DisciplinaResourceImpl(
     private val disciplinaUseCase: DisciplinaUseCase
 ) : DisciplinaResource {
 
+    @Cacheable(cacheNames = ["disciplinas"])
     @GetMapping(produces = [MediaType.APPLICATION_JSON_VALUE])
     override fun listarDisciplinas(
         pageable: Pageable
