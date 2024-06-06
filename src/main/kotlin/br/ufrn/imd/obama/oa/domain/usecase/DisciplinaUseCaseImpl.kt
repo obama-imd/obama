@@ -1,13 +1,12 @@
 package br.ufrn.imd.obama.oa.domain.usecase
 
-import br.ufrn.imd.obama.oa.domain.gateway.DisciplinaGateway
+import br.ufrn.imd.obama.oa.domain.gateway.DisciplinaDatabaseGateway
 import br.ufrn.imd.obama.oa.domain.model.Disciplina
-import br.ufrn.imd.obama.oa.infrastructure.mapper.toResponse
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 
 class DisciplinaUseCaseImpl(
-    private val disciplinaGateway: DisciplinaGateway
+    private val disciplinaGateway: DisciplinaDatabaseGateway
 ) : DisciplinaUseCase {
 
     override fun listarDisciplinas(

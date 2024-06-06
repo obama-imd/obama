@@ -19,13 +19,13 @@ import org.springframework.test.context.ActiveProfiles
 
 @ActiveProfiles(profiles = ["test"])
 @SpringBootTest(classes = [
-    DisciplinaGatewayAdapter::class,
+    DisciplinaDatabaseGatewayAdapter::class,
     DisciplinaRepository::class
 ])
-class DisciplinaGatewayAdapterTest {
+class DisciplinaDatabaseGatewayAdapterTest {
 
     @Autowired
-    private lateinit var disciplinaGatewayAdapter: DisciplinaGatewayAdapter
+    private lateinit var disciplinaGatewayAdapter: DisciplinaDatabaseGatewayAdapter
 
     @MockBean
     private lateinit var disciplinaRepository: DisciplinaRepository

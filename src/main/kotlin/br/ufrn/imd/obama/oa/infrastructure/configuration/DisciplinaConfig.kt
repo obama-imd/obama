@@ -1,6 +1,6 @@
 package br.ufrn.imd.obama.oa.infrastructure.configuration
 
-import br.ufrn.imd.obama.oa.domain.gateway.DisciplinaGateway
+import br.ufrn.imd.obama.oa.domain.gateway.DisciplinaDatabaseGateway
 import br.ufrn.imd.obama.oa.domain.usecase.DisciplinaUseCase
 import br.ufrn.imd.obama.oa.domain.usecase.DisciplinaUseCaseImpl
 import org.springframework.context.annotation.Bean
@@ -11,7 +11,7 @@ class DisciplinaConfig {
 
     @Bean
     fun setUpDisciplinaUseCase(
-        disciplinaGateway: DisciplinaGateway
+        disciplinaGateway: DisciplinaDatabaseGateway
     ): DisciplinaUseCase {
         return DisciplinaUseCaseImpl(disciplinaGateway)
     }

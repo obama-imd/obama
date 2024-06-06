@@ -1,7 +1,7 @@
 package br.ufrn.imd.obama.oa.domain.usecase
 
 import br.ufrn.imd.obama.oa.domain.model.Disciplina
-import br.ufrn.imd.obama.oa.infrastructure.adapter.DisciplinaGatewayAdapter
+import br.ufrn.imd.obama.oa.infrastructure.adapter.DisciplinaDatabaseGatewayAdapter
 import br.ufrn.imd.obama.oa.util.criarDisciplina
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
@@ -19,7 +19,7 @@ import org.springframework.test.context.ActiveProfiles
 @ActiveProfiles(profiles = ["test"])
 @SpringBootTest(classes = [
     DisciplinaUseCaseImpl::class,
-    DisciplinaGatewayAdapter::class
+    DisciplinaDatabaseGatewayAdapter::class
 ])
 class DisciplinaUseCaseImplTest {
 
@@ -27,7 +27,7 @@ class DisciplinaUseCaseImplTest {
     private lateinit var disciplinaUseCase: DisciplinaUseCaseImpl
 
     @MockBean
-    private lateinit var disciplinaGatewayAdapter: DisciplinaGatewayAdapter
+    private lateinit var disciplinaGatewayAdapter: DisciplinaDatabaseGatewayAdapter
 
     @Test
     fun `Deve fazer busca e retornar alguma dado`() {

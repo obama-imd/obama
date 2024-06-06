@@ -4,7 +4,7 @@ import br.ufrn.imd.obama.oa.domain.model.Disciplina
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 
-interface DisciplinaGateway {
+interface DisciplinaDatabaseGateway {
 
     fun listarDisciplinas(pageable: Pageable): Page<Disciplina>
 
