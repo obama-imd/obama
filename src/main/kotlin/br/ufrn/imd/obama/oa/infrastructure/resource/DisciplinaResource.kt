@@ -3,6 +3,7 @@ package br.ufrn.imd.obama.oa.infrastructure.resource
 import br.ufrn.imd.obama.oa.infrastructure.resource.exchange.ListarDisciplinaResponse
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.Content
+import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
 import org.springframework.data.domain.Page
@@ -19,6 +20,7 @@ interface DisciplinaResource {
             content = [
                 Content(
                     mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = Page::class)
                 )
             ]
         )
