@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("v1/anoEnsino")
 @Validated
 @Tag(
-    name = "AnoEnsino",
+    name = "AnoEnsinoResource",
     description = "Recurso que lida com anos de ensino"
 )
 class AnoEnsinoResourceImpl(
