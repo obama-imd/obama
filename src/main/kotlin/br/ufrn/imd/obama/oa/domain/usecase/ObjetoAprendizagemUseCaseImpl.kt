@@ -35,7 +35,7 @@ class ObjetoAprendizagemUseCaseImpl(
     ): Page<ObjetoAprendizagem> {
         logger.info("method={};", "buscarPorParametros")
 
-        return oaGatewayAdapter.procurarPorNomeETipoAcessoENivelEnsinoIdETemaConteudoIdEDescritorId(
+        return oaGatewayAdapter.procurarPorNomeETipoAcessoENivelEnsinoIdETemaConteudoIdEDescritorIdAndHabilidadeId(
             pageable = pageable,
             nome = nome,
             nivelEnsinoId = nivelEnsinoId,

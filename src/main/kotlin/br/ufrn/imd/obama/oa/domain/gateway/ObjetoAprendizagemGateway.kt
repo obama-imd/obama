@@ -12,7 +12,7 @@ interface ObjetoAprendizagemGateway {
         id: Long
     ): ObjetoAprendizagem
 
-    fun procurarPorNomeETipoAcessoENivelEnsinoIdETemaConteudoIdEDescritorId(
+    fun procurarPorNomeETipoAcessoENivelEnsinoIdETemaConteudoIdEDescritorIdAndHabilidadeId(
         pageable: Pageable,
         nome: String?,
         nivelEnsinoId: Long?,

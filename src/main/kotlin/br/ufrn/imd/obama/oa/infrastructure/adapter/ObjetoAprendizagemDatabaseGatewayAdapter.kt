@@ -25,7 +25,7 @@ class ObjetoAprendizagemDatabaseGatewayAdapter(
         return objetoAprendizagemRepository.buscarPorId(id)?.toModel() ?: throw OANaoEncontradoException("OA nao encontrada por ID: " + id)
     }
 
-    override fun procurarPorNomeETipoAcessoENivelEnsinoIdETemaConteudoIdEDescritorId(
+    override fun procurarPorNomeETipoAcessoENivelEnsinoIdETemaConteudoIdEDescritorIdAndHabilidadeId(
         pageable: Pageable,
         nome: String?,
         nivelEnsinoId: Long?,
