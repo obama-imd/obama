@@ -2,7 +2,6 @@ package br.ufrn.imd.obama.oa.infrastructure.resource
 
 import br.ufrn.imd.obama.oa.domain.model.TipoAcesso
 import br.ufrn.imd.obama.oa.domain.usecase.ObjetoAprendizagemUseCase
-import br.ufrn.imd.obama.oa.infrastructure.exception.OANaoEncontradoException
 import br.ufrn.imd.obama.oa.infrastructure.mapper.toBuscarOaIdResponse
 import br.ufrn.imd.obama.oa.infrastructure.mapper.toBuscarOaResponse
 import br.ufrn.imd.obama.oa.infrastructure.resource.exchange.BuscarOaIdResponse
@@ -11,7 +10,6 @@ import io.swagger.v3.oas.annotations.tags.Tag
 import org.slf4j.LoggerFactory
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
-import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
@@ -49,26 +47,24 @@ class ObjetoAprendizagemResourceImpl(
 
     @GetMapping(produces = [MediaType.APPLICATION_JSON_VALUE])
     override fun buscarPorParametros(
-            pageable: Pageable,
-            @RequestParam("nome", required = true) nome: String,
-            @RequestParam("nivelEnsinoId", required = false) nivelEnsinoId: Long?,
-            @RequestParam("temaConteudoId", required = false) temaConteudoId: Long?,
-            @RequestParam("descritorId", required = false) descritorId: Long?,
-            @RequestParam("habilidadeId", required = false) habilidadeId: Long?,
-            @RequestParam("tipoAcesso", required = false) tipoAcesso: TipoAcesso?,
-            @RequestParam("curriculo", required = true) curriculo: String
+        pageable: Pageable,
+        @RequestParam("nome", required = false) nome: String?,
+        @RequestParam("nivelEnsinoId", required = false) nivelEnsinoId: Long?,
+        @RequestParam("temaConteudoId", required = false) temaConteudoId: Long?,
+        @RequestParam("descritorId", required = false) descritorId: Long?,
+        @RequestParam("habilidadeId", required = false) habilidadeId: Long?,
+        @RequestParam("tipoAcesso", required = false) tipoAcesso: TipoAcesso?
     ): Page<BuscarOaResponse> {
         logger.info("method={};", "buscarPorParametros")
 
         return objetoAprendizagemUseCase.buscarPorParametros(
-                pageable,
-                nome,
-                nivelEnsinoId,
-                temaConteudoId,
-                descritorId,
-                habilidadeId,
-                tipoAcesso,
-                curriculo
+            pageable,
+            nome,
+            nivelEnsinoId,
+            temaConteudoId,
+            descritorId,
+            habilidadeId,
+            tipoAcesso
         ).map { it.toBuscarOaResponse() }
     }
 

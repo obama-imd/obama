@@ -26,8 +26,8 @@ interface HabilidadeResource {
         )
     ])
     fun buscarHabilidadesPorAnoDeEnsinoIdETemaConteudoId(
-        anoEnsinoId: Long,
-        temaConteudoId: Long,
+        anoEnsinoId: Long?,
+        temaConteudoId: Long?,
         pageable: Pageable
     ): Page<HabilidadeResponse>
 }

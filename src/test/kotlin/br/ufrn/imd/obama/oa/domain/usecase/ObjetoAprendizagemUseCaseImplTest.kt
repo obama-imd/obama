@@ -2,9 +2,7 @@ package br.ufrn.imd.obama.oa.domain.usecase
 
 import br.ufrn.imd.obama.oa.domain.enums.Curriculo
 import br.ufrn.imd.obama.oa.domain.model.ObjetoAprendizagem
-import br.ufrn.imd.obama.oa.infrastructure.adapter.BNCCOADatabaseGatewayAdapter
 import br.ufrn.imd.obama.oa.infrastructure.adapter.ObjetoAprendizagemDatabaseGatewayAdapter
-import br.ufrn.imd.obama.oa.infrastructure.adapter.PCNOADatabaseGatewayAdapter
 import br.ufrn.imd.obama.oa.infrastructure.exception.OANaoEncontradoException
 import br.ufrn.imd.obama.oa.util.NOME_CURRICULO_INVALIDO
 import br.ufrn.imd.obama.oa.util.criarObjetoAprendizagem
@@ -111,8 +109,7 @@ class ObjetoAprendizagemUseCaseImplTest {
                 null,
                 null,
                 null,
-                null,
-                curriculo
+                null
             )
         }
 
@@ -150,8 +147,7 @@ class ObjetoAprendizagemUseCaseImplTest {
                 null,
                 null,
                 null,
-                null,
-                curriculo
+                null
             )
         }
 
@@ -175,8 +171,7 @@ class ObjetoAprendizagemUseCaseImplTest {
                 null,
                 null,
                 null,
-                null,
-                curriculo
+                null
             )
         }
     }
@@ -217,8 +212,7 @@ class ObjetoAprendizagemUseCaseImplTest {
                 null,
                 null,
                 null,
-                null,
-                curriculo
+                null
             )
         }
 
@@ -256,8 +250,7 @@ class ObjetoAprendizagemUseCaseImplTest {
                 null,
                 null,
                 null,
-                null,
-                curriculo
+                null
             )
         }
 

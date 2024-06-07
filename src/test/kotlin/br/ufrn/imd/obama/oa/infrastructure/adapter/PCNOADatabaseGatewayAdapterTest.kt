@@ -39,13 +39,13 @@ class PCNOADatabaseGatewayAdapterTest {
         var resultado: Page<ObjetoAprendizagemEntity> = Page.empty()
 
         `when`(
-            objetoAprendizagemRepository.buscarTodosAtivoPorNomeETipoAcessoENivelEnsinoIdETemaConteudoIdEDescritorId(
+            objetoAprendizagemRepository.buscarTodosAtivoPorNomeETipoAcessoENivelEnsinoETemaConteudoEDescritorEHabilidade(
                 nome,
                 null,
                 null,
                 null,
                 null,
-                pageable
+                pageable,
             )
         ).thenReturn(
             resultado
@@ -80,13 +80,13 @@ class PCNOADatabaseGatewayAdapterTest {
         )
 
         `when`(
-            objetoAprendizagemRepository.buscarTodosAtivoPorNomeETipoAcessoENivelEnsinoIdETemaConteudoIdEDescritorId(
+            objetoAprendizagemRepository.buscarTodosAtivoPorNomeETipoAcessoENivelEnsinoETemaConteudoEDescritorEHabilidade(
                 nome,
                 null,
                 null,
                 null,
                 null,
-                pageable
+                pageable,
             )
         ).thenReturn(
             resultado
