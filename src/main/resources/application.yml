@@ -11,6 +11,7 @@ spring:
       spec:
         maximumSizes: 10000
         expireAfterAccess: 600
+        initialCapacity: 100
 
 server:
   port: 8081

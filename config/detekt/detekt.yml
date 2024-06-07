@@ -1,0 +1,11 @@
+style:
+  UnusedImports:
+    active: true
+  UnusedPrivateMember:
+    active: true
+  WildcardImport:
+    active: true
+
+complexity:
+  LongParameterList:
+    active: false

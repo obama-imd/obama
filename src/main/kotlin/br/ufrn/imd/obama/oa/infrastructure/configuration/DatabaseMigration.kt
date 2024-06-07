@@ -6,12 +6,7 @@ import org.flywaydb.core.Flyway
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties
-import org.springframework.boot.context.event.ApplicationReadyEvent
-import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.context.event.EventListener
-import org.springframework.core.Ordered
-import org.springframework.core.annotation.Order
 
 @Configuration
 @ConditionalOnProperty(prefix = "spring.flyway", name = ["enabled"], havingValue = "true")
