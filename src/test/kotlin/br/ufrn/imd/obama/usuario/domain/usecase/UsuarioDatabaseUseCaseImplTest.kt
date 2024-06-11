@@ -5,6 +5,7 @@ import br.ufrn.imd.obama.usuario.domain.exception.UsuarioNaoEncontradoException
 import br.ufrn.imd.obama.usuario.domain.gateway.UsuarioDatabaseGateway
 import br.ufrn.imd.obama.usuario.domain.model.Usuario
 import br.ufrn.imd.obama.usuario.infrastructure.adapter.UsuarioDatabaseGatewayAdapter
+import br.ufrn.imd.obama.usuario.util.criarUsuarioAtivo
 import br.ufrn.imd.obama.usuario.util.criarUsuarioInativo
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.test.context.ActiveProfiles
+import java.util.Optional
 
 @ActiveProfiles(profiles = ["test"])
 @SpringBootTest(classes = [UsuarioUseCaseImpl::class, UsuarioDatabaseGatewayAdapter::class])
@@ -69,4 +71,42 @@ class UsuarioDatabaseUseCaseImplTest {
             usuarioUseCaseImpl.salvarUsuario(usuarioInvalido)
         }
     }
+
+    @Test
+    fun `deve retornar usuario quando token é válido`() {
+        val usuario = criarUsuarioInativo()
+
+        `when`(usuarioDatabaseGateway.buscarPorToken(usuario.token))
+            .thenReturn(usuario)
+
+        val usuarioEncontrado = usuarioUseCaseImpl.buscarPorToken(usuario.token)
+
+        Assertions.assertTrue(usuarioEncontrado.isPresent)
+        Assertions.assertEquals(usuarioEncontrado.get().token, usuario.token)
+    }
+
+    @Test
+    fun `deve retornar vazio quando token é inválido`() {
+        val tokenInvalido = "tokenInvalido"
+
+        `when`(usuarioDatabaseGateway.buscarPorToken(tokenInvalido))
+            .thenReturn(null)
+
+        val usuarioEncontrado = usuarioUseCaseImpl.buscarPorToken(tokenInvalido)
+
+        Assertions.assertFalse(usuarioEncontrado.isPresent)
+    }
+
+    @Test
+    fun `deve ativar usuario quando usuario é inativo`() {
+        val usuario = criarUsuarioInativo()
+
+        `when`(usuarioDatabaseGateway.salvarUsuario(usuario))
+            .thenReturn(usuario)
+
+        usuarioUseCaseImpl.ativarUsuario(usuario)
+
+        Assertions.assertTrue(usuario.ativo)
+    }
+
 }

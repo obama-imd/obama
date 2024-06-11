@@ -18,3 +18,17 @@ fun criarUsuarioInativo(): Usuario {
         "teste"
     )
 }
+
+fun criarUsuarioAtivo(): Usuario {
+
+    return Usuario(
+        "Teste",
+        "Teste",
+        "Teste123@ufrn.com",
+        "Teste123123",
+        Papel.PADRAO,
+        true,
+        TipoCadastro.PADRAO,
+        "teste"
+    )
+}
