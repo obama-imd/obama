@@ -22,4 +22,8 @@ class UsuarioDatabaseGatewayAdapter(
     override fun salvarUsuario(usuario: Usuario): Usuario {
         return usuarioRepository.save(usuario.toEntity()).toModel()
     }
+
+    override fun buscarPorToken(token: String): Usuario {
+        return usuarioRepository.findByToken(token)?.toModel() ?: throw UsuarioNaoEncontradoException("Usuário Não encontrado")
+    }
 }
