@@ -2,10 +2,9 @@ package br.ufrn.imd.obama.usuario.infrastructure.resource
 
 import br.ufrn.imd.obama.usuario.domain.enums.Papel
 import br.ufrn.imd.obama.usuario.domain.enums.TipoCadastro
-import br.ufrn.imd.obama.usuario.domain.exception.UsuarioExistenteException
 import br.ufrn.imd.obama.usuario.domain.model.Usuario
 import br.ufrn.imd.obama.usuario.domain.usecase.UsuarioUseCase
-import br.ufrn.imd.obama.usuario.domain.usecase.UsuarioUseCaseImpl
+import br.ufrn.imd.obama.usuario.infrastructure.resource.exchange.AtivarUsuarioRequest
 import br.ufrn.imd.obama.usuario.infrastructure.resource.exchange.CadastrarUsuarioRequest
 import br.ufrn.imd.obama.usuario.util.criarUsuarioInativo
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -14,11 +13,11 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.http.MediaType
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
@@ -96,6 +95,58 @@ class UsuarioResourceImplTest {
             .andExpect(status().isBadRequest)
     }
 
+//    @Test
+//    fun `deve retornar 204 No Content quando usuario não esta ativado e deve ativar o usuario`() {
+//        val token = "validToken"
+//        val usuario = Usuario(
+//            "Nome",
+//            "Sobre",
+//            "teste@teste.com",
+//            BCryptPasswordEncoder().encode("password"),
+//            Papel.PADRAO,
+//            false,
+//            TipoCadastro.PADRAO,
+//            token
+//        )
+//
+//        mockMvc.perform(
+//            patch("/v1/usuario/ativar")
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .content(objectMapper.writeValueAsString(AtivarUsuarioRequest(token)))
+//        )
+//            .andExpect(status().isNoContent)
+//    }
+//
+//    @Test
+//    fun `should return 200 OK when user is already active`() {
+//
+//        val token = "validToken"
+//
+//        val request = criarAtivarUsuarioRequest(token)
+//        val requestJson = objectMapper.writeValueAsString(request)
+//
+//        mockMvc.perform(
+//            patch("/v1/usuario/ativar")
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .content(requestJson)
+//        )
+//            .andDo(print())
+//            .andExpect(status().isOk)
+//    }
+
+    @Test
+    fun `deve retornar 400 bad request quando usario não encontrado por token`() {
+        val token = "invalidToken"
+
+        mockMvc.perform(
+            patch("/v1/usuario/ativar")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(AtivarUsuarioRequest(token)))
+        )
+            .andDo(print())
+            .andExpect(status().isBadRequest)
+    }
+
     private fun criarUsuarioRequest(usuario: Usuario): CadastrarUsuarioRequest {
         return CadastrarUsuarioRequest(
             nome = usuario.nome,
@@ -103,6 +154,10 @@ class UsuarioResourceImplTest {
             email = usuario.email,
             sobrenome = usuario.sobrenome
         )
+    }
+
+    private fun criarAtivarUsuarioRequest(token: String): AtivarUsuarioRequest {
+        return AtivarUsuarioRequest(token)
     }
 
 }
