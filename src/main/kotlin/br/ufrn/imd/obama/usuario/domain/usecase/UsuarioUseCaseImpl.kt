@@ -4,6 +4,7 @@ import br.ufrn.imd.obama.usuario.domain.exception.UsuarioExistenteException
 import br.ufrn.imd.obama.usuario.domain.exception.UsuarioNaoEncontradoException
 import br.ufrn.imd.obama.usuario.domain.gateway.UsuarioDatabaseGateway
 import br.ufrn.imd.obama.usuario.domain.model.Usuario
+import java.util.Optional
 
 class UsuarioUseCaseImpl(
     private val usuarioGateway: UsuarioDatabaseGateway
@@ -19,4 +20,12 @@ class UsuarioUseCaseImpl(
         }
     }
 
+    override fun buscarPorToken(token: String): Optional<Usuario> {
+        return Optional.of(usuarioGateway.buscarPorToken(token))
+    }
+
+    override fun ativarUsuario(usuario: Usuario): Unit {
+        usuario.ativo = true
+        usuarioGateway.salvarUsuario(usuario)
+    }
 }
