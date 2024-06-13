@@ -4,6 +4,7 @@ import br.ufrn.imd.obama.usuario.domain.enums.Papel
 import br.ufrn.imd.obama.usuario.domain.enums.TipoCadastro
 import br.ufrn.imd.obama.usuario.domain.model.Usuario
 import br.ufrn.imd.obama.usuario.domain.usecase.UsuarioUseCase
+import br.ufrn.imd.obama.usuario.infrastructure.mapper.toEntity
 import br.ufrn.imd.obama.usuario.infrastructure.repository.UsuarioRepository
 import br.ufrn.imd.obama.usuario.infrastructure.resource.exchange.AtivarUsuarioRequest
 import br.ufrn.imd.obama.usuario.infrastructure.resource.exchange.CadastrarUsuarioRequest
@@ -106,6 +107,18 @@ class UsuarioResourceImplTest {
     @Test
     fun `deve retornar 204 No Content quando usuario não esta ativado e deve ativar o usuario`() {
 
+        val usuarioInativo = Usuario(
+            "Teste",
+            "Teste",
+            "emailInvalido",
+            "sen",
+            Papel.PADRAO,
+            false,
+            TipoCadastro.PADRAO,
+            tokenTeste
+        )
+        usarioRepository.save(usuarioInativo.toEntity())
+
         mockMvc.perform(
             patch("/v1/usuario/ativar")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -117,6 +130,18 @@ class UsuarioResourceImplTest {
 
     @Test
     fun `should return 200 OK when user is already active`() {
+
+        val usuarioAtivo = Usuario(
+            "Teste",
+            "Teste",
+            "emailInvalido",
+            "sen",
+            Papel.PADRAO,
+            true,
+            TipoCadastro.PADRAO,
+            tokenTeste
+        )
+        usarioRepository.save(usuarioAtivo.toEntity())
 
         val request = criarAtivarUsuarioRequest(tokenTeste)
         val requestJson = objectMapper.writeValueAsString(request)
