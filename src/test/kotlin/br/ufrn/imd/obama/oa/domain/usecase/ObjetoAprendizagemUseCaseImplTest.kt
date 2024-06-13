@@ -2,9 +2,7 @@ package br.ufrn.imd.obama.oa.domain.usecase
 
 import br.ufrn.imd.obama.oa.domain.enums.Curriculo
 import br.ufrn.imd.obama.oa.domain.model.ObjetoAprendizagem
-import br.ufrn.imd.obama.oa.infrastructure.adapter.BNCCOADatabaseGatewayAdapter
 import br.ufrn.imd.obama.oa.infrastructure.adapter.ObjetoAprendizagemDatabaseGatewayAdapter
-import br.ufrn.imd.obama.oa.infrastructure.adapter.PCNOADatabaseGatewayAdapter
 import br.ufrn.imd.obama.oa.infrastructure.exception.OANaoEncontradoException
 import br.ufrn.imd.obama.oa.util.NOME_CURRICULO_INVALIDO
 import br.ufrn.imd.obama.oa.util.criarObjetoAprendizagem
@@ -24,9 +22,7 @@ import org.springframework.test.context.ActiveProfiles
 @ActiveProfiles(profiles = ["test"])
 @SpringBootTest(
     classes = [
-        ObjetoAprendizagemUseCaseImpl::class,
-        BNCCOADatabaseGatewayAdapter::class,
-        PCNOADatabaseGatewayAdapter::class,
+        ObjetoAprendizagemUseCaseImpl::class
     ]
 )
 class ObjetoAprendizagemUseCaseImplTest {
@@ -36,12 +32,6 @@ class ObjetoAprendizagemUseCaseImplTest {
 
     @MockBean
     private lateinit var objetoAprendizagemDatabaseGatewayAdapter: ObjetoAprendizagemDatabaseGatewayAdapter
-
-    @MockBean
-    private lateinit var bnccDatabaseGateway: BNCCOADatabaseGatewayAdapter
-
-    @MockBean
-    private lateinit var pcnDatabaseGateway: PCNOADatabaseGatewayAdapter
 
     @Test
     fun `Deve achar Objeto de Aprendizagem`() {
@@ -76,7 +66,7 @@ class ObjetoAprendizagemUseCaseImplTest {
     }
 
     @Test
-    fun `Deve achar algum objeto de aprendizagem quando o curriculo é BNCC`() {
+    fun `Deve achar algum objeto de aprendizagem`() {
         val curriculo = Curriculo.BNCC.name
         val nome= "Mat"
 
@@ -90,84 +80,6 @@ class ObjetoAprendizagemUseCaseImplTest {
         )
 
         `when`(
-            bnccDatabaseGateway.procurarPorCurriculo(
-                pageable,
-                nome,
-                null,
-                null,
-                null,
-                null,
-                null
-            )
-        ).thenReturn(resultado);
-
-        var paginas: Page<ObjetoAprendizagem>? = null
-
-        assertDoesNotThrow {
-            paginas = objetoAprendizagemUseCase.buscarPorParametros(
-                pageable,
-                nome,
-                null,
-                null,
-                null,
-                null,
-                null,
-                curriculo
-            )
-        }
-
-        Assertions.assertEquals(paginas?.isEmpty, false)
-    }
-
-    @Test
-    fun `Deve achar nenhum objeto de aprendizagem quando o curriculo é BNCC`() {
-        val curriculo = Curriculo.BNCC.name
-        val nome= "Mat"
-
-        val pageable: Pageable = Pageable.ofSize(10)
-
-        var resultado: Page<ObjetoAprendizagem> = Page.empty(pageable)
-
-        `when`(
-            bnccDatabaseGateway.procurarPorCurriculo(
-                pageable,
-                nome,
-                null,
-                null,
-                null,
-                null,
-                null
-            )
-        ).thenReturn(resultado);
-
-        var paginas: Page<ObjetoAprendizagem>? = null
-
-        assertDoesNotThrow {
-            paginas = objetoAprendizagemUseCase.buscarPorParametros(
-                pageable,
-                nome,
-                null,
-                null,
-                null,
-                null,
-                null,
-                curriculo
-            )
-        }
-
-        Assertions.assertEquals(paginas?.isEmpty, true)
-    }
-
-    @Test
-    fun `Deve lançar uma exceção quando o nome do curriculo é inválido`() {
-        val curriculo: String = NOME_CURRICULO_INVALIDO
-        val nome: String = "Mat"
-
-        val pageable: Pageable = Pageable.ofSize(10)
-
-        Assertions.assertThrows(
-            NoSuchBeanDefinitionException::class.java
-        ) {
             objetoAprendizagemUseCase.buscarPorParametros(
                 pageable,
                 nome,
@@ -175,34 +87,6 @@ class ObjetoAprendizagemUseCaseImplTest {
                 null,
                 null,
                 null,
-                null,
-                curriculo
-            )
-        }
-    }
-
-    @Test
-    fun `Deve achar algum objeto de aprendizagem quando o curriculo é PCN`() {
-        val curriculo = Curriculo.PCN.name
-        val nome= "Mat"
-
-        val pageable: Pageable = Pageable.ofSize(10)
-
-        var resultado: Page<ObjetoAprendizagem> = PageImpl(
-            listOf(
-                criarObjetoAprendizagem(),
-                criarObjetoAprendizagem()
-            ),
-        )
-
-        `when`(
-            pcnDatabaseGateway.procurarPorCurriculo(
-                pageable,
-                nome,
-                null,
-                null,
-                null,
-                null,
                 null
             )
         ).thenReturn(resultado);
@@ -217,8 +101,7 @@ class ObjetoAprendizagemUseCaseImplTest {
                 null,
                 null,
                 null,
-                null,
-                curriculo
+                null
             )
         }
 
@@ -226,8 +109,7 @@ class ObjetoAprendizagemUseCaseImplTest {
     }
 
     @Test
-    fun `Deve achar nenhum objeto de aprendizagem quando o curriculo é PCN`() {
-        val curriculo = Curriculo.PCN.name
+    fun `Deve achar nenhum objeto de aprendizagem`() {
         val nome= "Mat"
 
         val pageable: Pageable = Pageable.ofSize(10)
@@ -235,7 +117,7 @@ class ObjetoAprendizagemUseCaseImplTest {
         var resultado: Page<ObjetoAprendizagem> = Page.empty(pageable)
 
         `when`(
-            pcnDatabaseGateway.procurarPorCurriculo(
+            objetoAprendizagemUseCase.buscarPorParametros(
                 pageable,
                 nome,
                 null,
@@ -256,8 +138,7 @@ class ObjetoAprendizagemUseCaseImplTest {
                 null,
                 null,
                 null,
-                null,
-                curriculo
+                null
             )
         }
 

@@ -4,8 +4,7 @@ import br.ufrn.imd.obama.usuario.domain.model.Usuario
 import br.ufrn.imd.obama.usuario.infrastructure.entity.UsuarioEntity
 
 fun UsuarioEntity.toModel(): Usuario {
-    return Usuario(
-        id = this.id,
+    val usuario = Usuario(
         nome = this.nome,
         sobrenome = this.sobrenome,
         email = this.email,
@@ -15,4 +14,8 @@ fun UsuarioEntity.toModel(): Usuario {
         tipoCadastro = this.tipoCadastro,
         token = this.token
     )
+
+    usuario.setId(this.id)
+
+    return usuario
 }
