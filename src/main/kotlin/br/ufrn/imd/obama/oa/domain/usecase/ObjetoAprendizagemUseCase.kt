@@ -12,14 +12,13 @@ interface ObjetoAprendizagemUseCase {
     ): ObjetoAprendizagem
 
     fun buscarPorParametros(
-            pageable: Pageable,
-            nome: String,
-            nivelEnsinoId: Long?,
-            temaConteudoId: Long?,
-            descritorId: Long?,
-            habilidadeId: Long?,
-            tipoAcesso: TipoAcesso?,
-            curriculo: String
+        pageable: Pageable,
+        nome: String?,
+        nivelEnsinoId: Long?,
+        temaConteudoId: Long?,
+        descritorId: Long?,
+        habilidadeId: Long?,
+        tipoAcesso: TipoAcesso?
     ): Page<ObjetoAprendizagem>
 
 }

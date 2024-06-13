@@ -24,13 +24,18 @@ import org.springframework.web.bind.annotation.RestController
 class HabilidadeResourceImpl(
     private val habilidadeUseCase: HabilidadeUseCase
 ):HabilidadeResource {
+
     @GetMapping(produces = [MediaType.APPLICATION_JSON_VALUE])
     override fun buscarHabilidadesPorAnoDeEnsinoIdETemaConteudoId(
-        @RequestParam("anoEnsinoId", required = false) anoEnsinoId: Long,
-        @RequestParam("temaConteudoId", required = false) temaConteudoId: Long,
+        @RequestParam("anoEnsinoId", required = false) anoEnsinoId: Long?,
+        @RequestParam("temaConteudoId", required = false) temaConteudoId: Long?,
         pageable: Pageable
     ): Page<HabilidadeResponse> {
-        return habilidadeUseCase.buscarHabilidadesPorAnoDeEnsinoIdETemaConteudoId(anoEnsinoId, temaConteudoId, pageable)
+        return habilidadeUseCase.buscarHabilidadesPorAnoDeEnsinoIdETemaConteudoId(
+            anoEnsinoId = anoEnsinoId,
+            temaConteudoId = temaConteudoId,
+            pageable
+        )
             .map { it.toResponse() }
     }
 

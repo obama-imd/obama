@@ -9,7 +9,7 @@ import org.springframework.data.domain.Page
 interface CurriculoOADatabaseGateway {
     fun procurarPorCurriculo(
             pageable: Pageable,
-            nome: String,
+            nome: String?,
             nivelEnsinoId: Long?,
             temaConteudoId: Long?,
             descritorId: Long?,

@@ -61,46 +61,16 @@ class ObjetoAprendizagemResourceImplTest {
     }
 
     @Test
-    fun `Deve retornar bad request quando informa um curriculo inválido`() {
-
-        mockMvc.perform(
-            MockMvcRequestBuilders.get("/v1/oa")
-                .contentType(MediaType.APPLICATION_JSON)
-                .param("page", "0")
-                .param("size", "10")
-                .param("nome", "Math")
-                .param("curriculo", NOME_CURRICULO_INVALIDO)
-        ).andDo(MockMvcResultHandlers.print())
-            .andExpect(MockMvcResultMatchers.status().isBadRequest())
-
-    }
-
-    @Test
-    fun `Deve retornar retornar lista de objetos quando o é curriculo BNCC`() {
+    fun `Deve retornar retornar lista de objetos`() {
 
         mockMvc.perform (
             MockMvcRequestBuilders.get("/v1/oa")
                 .param("page", "0")
                 .param("size", "10")
                 .param("nome", "Math")
-                .param("curriculo", Curriculo.BNCC.name)
         ).andDo(MockMvcResultHandlers.print())
             .andExpect(MockMvcResultMatchers.status().isOk())
             .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
 
-    }
-
-    @Test
-    fun `Deve retornar retornar lista de objetos quando o é curriculo PCN`() {
-
-        mockMvc.perform (
-            MockMvcRequestBuilders.get("/v1/oa")
-                .param("page", "0")
-                .param("size", "10")
-                .param("nome", "Math")
-                .param("curriculo", Curriculo.PCN.name)
-        ).andDo(MockMvcResultHandlers.print())
-            .andExpect(MockMvcResultMatchers.status().isOk())
-            .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
     }
 }
