@@ -24,7 +24,7 @@ fun criarUsuarioAtivo(): Usuario {
     return Usuario(
         "Teste",
         "Teste",
-        "Teste123@ufrn.com",
+        "usuario_ativo123@ufrn.com",
         "Teste123123",
         Papel.PADRAO,
         true,
@@ -32,3 +32,4 @@ fun criarUsuarioAtivo(): Usuario {
         "teste"
     )
 }
+

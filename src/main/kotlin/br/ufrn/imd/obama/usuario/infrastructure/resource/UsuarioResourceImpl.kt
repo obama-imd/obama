@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import java.util.*
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 
 @RestController
 @RequestMapping(
@@ -42,7 +43,7 @@ class UsuarioResourceImpl(
             nome = request.nome,
             sobrenome = request.sobrenome,
             email = request.email,
-            senha = PasswordEncoderFactories.createDelegatingPasswordEncoder().encode(request.senha),
+            senha = request.senha,
             papel = Papel.PADRAO,
             ativo = false,
             tipoCadastro = TipoCadastro.PADRAO,
