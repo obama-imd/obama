@@ -1,6 +1,5 @@
 package br.ufrn.imd.obama.usuario.infrastructure.resource.exchange
 
-import jakarta.validation.Valid
 import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.Size
