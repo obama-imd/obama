@@ -25,8 +25,8 @@ class UsuarioUseCaseImpl(
         }
     }
 
-    override fun buscarPorToken(token: String): Optional<Usuario> {
-        return Optional.ofNullable(usuarioGateway.buscarPorToken(token))
+    override fun buscarPorToken(token: String): Usuario {
+        return usuarioGateway.buscarPorToken(token)
     }
 
     override fun ativarUsuario(usuario: Usuario): Unit {

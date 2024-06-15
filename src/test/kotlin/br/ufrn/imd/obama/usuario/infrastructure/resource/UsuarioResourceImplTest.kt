@@ -8,6 +8,7 @@ import br.ufrn.imd.obama.usuario.infrastructure.mapper.toEntity
 import br.ufrn.imd.obama.usuario.infrastructure.repository.UsuarioRepository
 import br.ufrn.imd.obama.usuario.infrastructure.resource.exchange.AtivarUsuarioRequest
 import br.ufrn.imd.obama.usuario.infrastructure.resource.exchange.CadastrarUsuarioRequest
+import br.ufrn.imd.obama.usuario.infrastructure.resource.exchange.LoginRequest
 import br.ufrn.imd.obama.usuario.util.criarUsuarioInativo
 import com.fasterxml.jackson.databind.ObjectMapper
 import jakarta.transaction.Transactional
@@ -129,7 +130,7 @@ class UsuarioResourceImplTest {
     }
 
     @Test
-    fun `should return 200 OK when user is already active`() {
+    fun `deve retornar 204 No Content quando usuario já esta ativado`() {
 
         val usuarioAtivo = Usuario(
             "Teste",
@@ -166,6 +167,46 @@ class UsuarioResourceImplTest {
         )
             .andDo(print())
             .andExpect(status().isBadRequest)
+    }
+
+    @Test
+    fun `deve cadastrar, ativar e fazer login corretamente`() {
+        // Cadastrar novo usuário
+        val usuario = criarUsuarioInativo()
+
+        val mvcResult = mockMvc.perform(
+            post("/v1/usuario/cadastrar")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(criarUsuarioRequest(usuario)))
+        )
+            .andDo(print())
+            .andExpect(status().isCreated)
+
+        //O response não retorna o token
+        val usuarioCriado = usarioRepository.findByEmail(usuario.email)
+
+        // Ativar usuário
+        mockMvc.perform(
+            patch("/v1/usuario/ativar")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(AtivarUsuarioRequest(usuarioCriado!!.token)))
+        )
+            .andDo(print())
+            .andExpect(status().isNoContent)
+
+        // Fazer login
+        val loginRequest = LoginRequest(
+            login = usuario.email,
+            senha = usuario.senha
+        )
+
+        mockMvc.perform(
+            post("/v1/usuario/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(loginRequest))
+        )
+            .andDo(print())
+            .andExpect(status().isOk)
     }
 
     private fun criarUsuarioRequest(usuario: Usuario): CadastrarUsuarioRequest {

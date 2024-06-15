@@ -91,20 +91,23 @@ class UsuarioDatabaseUseCaseImplTest {
 
         val usuarioEncontrado = usuarioUseCaseImpl.buscarPorToken(usuario.token)
 
-        Assertions.assertTrue(usuarioEncontrado.isPresent)
-        Assertions.assertEquals(usuarioEncontrado.get().token, usuario.token)
+        Assertions.assertEquals(usuarioEncontrado.nome, usuario.nome)
+        Assertions.assertEquals(usuarioEncontrado.email, usuario.email)
+        Assertions.assertEquals(usuarioEncontrado.sobrenome, usuario.sobrenome)
+        Assertions.assertEquals(usuarioEncontrado.ativo, usuario.ativo)
+        Assertions.assertEquals(usuarioEncontrado.token, usuario.token)
     }
 
     @Test
-    fun `deve retornar vazio quando token é inválido`() {
+    fun `buscarPorToken deve lançar exceção quando o usario não for encontrado`() {
         val tokenInvalido = "tokenInvalido"
 
         `when`(usuarioDatabaseGateway.buscarPorToken(tokenInvalido))
-            .thenReturn(null)
+            .thenThrow(UsuarioNaoEncontradoException::class.java)
 
-        val usuarioEncontrado = usuarioUseCaseImpl.buscarPorToken(tokenInvalido)
-
-        Assertions.assertFalse(usuarioEncontrado.isPresent)
+        Assertions.assertThrows(UsuarioNaoEncontradoException::class.java) {
+            usuarioUseCaseImpl.buscarPorToken(tokenInvalido)
+        }
     }
 
     @Test
