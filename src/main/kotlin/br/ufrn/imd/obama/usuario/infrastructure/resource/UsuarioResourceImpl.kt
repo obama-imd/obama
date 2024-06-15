@@ -55,12 +55,7 @@ class UsuarioResourceImpl(
     @PatchMapping("/ativar")
     override fun ativarUsuarioPorToken(@RequestBody ativarUsuarioRequest: AtivarUsuarioRequest): ResponseEntity<Void> {
         val obj = usuarioDatabaseUseCase.buscarPorToken(ativarUsuarioRequest.token)
-        if(obj.isPresent && obj.get().ativo){
-            return ResponseEntity.status(HttpStatus.OK).build()
+        usuarioDatabaseUseCase.ativarUsuario(obj)
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build()
         }
-        else {
-            usuarioDatabaseUseCase.ativarUsuario(obj.get())
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build()
-        }
-    }
 }

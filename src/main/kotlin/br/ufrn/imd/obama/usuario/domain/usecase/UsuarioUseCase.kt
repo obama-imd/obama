@@ -9,5 +9,5 @@ interface UsuarioUseCase {
 
     fun ativarUsuario(usuario: Usuario): Unit
 
-    fun buscarPorToken(token: String): Optional<Usuario>
+    fun buscarPorToken(token: String): Usuario
 }

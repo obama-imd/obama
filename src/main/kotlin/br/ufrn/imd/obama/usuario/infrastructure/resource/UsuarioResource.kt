@@ -42,18 +42,8 @@ interface UsuarioResource {
     @Operation(summary = "Endpoint para ativar um usuário por token")
     @ApiResponses(value = [
         ApiResponse(
-            responseCode = "200",
-            description = "Usuário ativado com sucesso",
-            content = [
-                Content(
-                    mediaType = MediaType.APPLICATION_JSON_VALUE,
-                    schema = Schema(implementation = UsuarioResponse::class)
-                )
-            ]
-        ),
-        ApiResponse(
             responseCode = "204",
-            description = "Usuario ja foi ativo ou não existe usuario com o token informado"
+            description = "Ativação do usuário realizada"
         )
     ])
     fun ativarUsuarioPorToken(ativarUsuarioRequest: AtivarUsuarioRequest): ResponseEntity<Void>
