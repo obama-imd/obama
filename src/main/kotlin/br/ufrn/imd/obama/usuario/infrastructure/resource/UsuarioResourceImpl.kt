@@ -58,5 +58,5 @@ class UsuarioResourceImpl(
         val obj = usuarioDatabaseUseCase.buscarPorToken(ativarUsuarioRequest.token)
         usuarioDatabaseUseCase.ativarUsuario(obj)
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build()
-        }
+    }
 }

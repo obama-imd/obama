@@ -122,4 +122,15 @@ class UsuarioDatabaseUseCaseImplTest {
         Assertions.assertTrue(usuario.ativo)
     }
 
+    @Test
+    fun `deve fazer nada quando o ususario ja esta ativo`() {
+        val usuario = criarUsuarioAtivo()
+
+        `when`(usuarioDatabaseGateway.salvarUsuario(usuario))
+            .thenReturn(usuario)
+
+        usuarioUseCaseImpl.ativarUsuario(usuario)
+
+        Assertions.assertTrue(usuario.ativo)
+    }
 }

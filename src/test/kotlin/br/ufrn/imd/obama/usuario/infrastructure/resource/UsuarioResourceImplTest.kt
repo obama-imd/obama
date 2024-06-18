@@ -12,19 +12,18 @@ import br.ufrn.imd.obama.usuario.infrastructure.resource.exchange.LoginRequest
 import br.ufrn.imd.obama.usuario.util.criarUsuarioInativo
 import com.fasterxml.jackson.databind.ObjectMapper
 import jakarta.transaction.Transactional
-import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
-import org.springframework.security.core.token.TokenService
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import java.util.*
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -43,7 +42,7 @@ class UsuarioResourceImplTest {
 
     private val objectMapper = ObjectMapper()
 
-    val tokenTeste = "teste"
+    val tokenTeste = UUID.randomUUID().toString()
 
     @Test
     fun `Deve retornar 201 created quando salvar um usuário com dados corretos`() {
@@ -91,7 +90,7 @@ class UsuarioResourceImplTest {
             Papel.PADRAO,
             false,
             TipoCadastro.PADRAO,
-            "teste"
+            tokenTeste
         )
         val request = criarUsuarioRequest(usuario)
         val usuarioJson = objectMapper.writeValueAsString(request)
@@ -153,7 +152,7 @@ class UsuarioResourceImplTest {
                 .content(requestJson)
         )
             .andDo(print())
-            .andExpect(status().isOk)
+            .andExpect(status().isNoContent)
     }
 
     @Test
@@ -171,7 +170,6 @@ class UsuarioResourceImplTest {
 
     @Test
     fun `deve cadastrar, ativar e fazer login corretamente`() {
-        // Cadastrar novo usuário
         val usuario = criarUsuarioInativo()
 
         val mvcResult = mockMvc.perform(
@@ -185,7 +183,6 @@ class UsuarioResourceImplTest {
         //O response não retorna o token
         val usuarioCriado = usarioRepository.findByEmail(usuario.email)
 
-        // Ativar usuário
         mockMvc.perform(
             patch("/v1/usuario/ativar")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -194,14 +191,13 @@ class UsuarioResourceImplTest {
             .andDo(print())
             .andExpect(status().isNoContent)
 
-        // Fazer login
         val loginRequest = LoginRequest(
             login = usuario.email,
             senha = usuario.senha
         )
 
         mockMvc.perform(
-            post("/v1/usuario/login")
+            post("/v1/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(loginRequest))
         )

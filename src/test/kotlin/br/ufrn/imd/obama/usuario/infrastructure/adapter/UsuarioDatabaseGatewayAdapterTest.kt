@@ -74,7 +74,7 @@ class UsuarioDatabaseGatewayAdapterTest {
     }
 
     @Test
-    fun `Deve salvar salvar usuario`() {
+    fun `Deve salvar usuario`() {
         val usuario: Usuario = criarUsuarioInativo()
 
         `when`(usuarioRepository.save(ArgumentMatchers.any() )).thenReturn(usuario.toEntity())
