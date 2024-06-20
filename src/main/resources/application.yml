@@ -19,3 +19,7 @@ api:
   security:
     token:
       issuer: "obama-api"
+
+app:
+  email-verification-ttl: 900000
+  email-sender: test@test.com

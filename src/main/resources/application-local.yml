@@ -18,6 +18,19 @@ spring:
     baseline-on-migrate: true
   devtools:
     add-properties: false
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${EMAIL_USERNAME}
+    password: ${EMAIL_SENHA}
+    properties:
+      mail:
+        transport:
+          protocol: smtp
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
 api:
   security:

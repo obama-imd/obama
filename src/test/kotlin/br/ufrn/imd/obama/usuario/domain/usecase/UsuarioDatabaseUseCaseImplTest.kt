@@ -2,10 +2,10 @@ package br.ufrn.imd.obama.usuario.domain.usecase
 
 import br.ufrn.imd.obama.usuario.domain.exception.UsuarioExistenteException
 import br.ufrn.imd.obama.usuario.domain.exception.UsuarioNaoEncontradoException
+import br.ufrn.imd.obama.usuario.domain.gateway.EmailGateway
 import br.ufrn.imd.obama.usuario.domain.gateway.UsuarioDatabaseGateway
 import br.ufrn.imd.obama.usuario.domain.model.Usuario
 import br.ufrn.imd.obama.usuario.infrastructure.adapter.UsuarioDatabaseGatewayAdapter
-import br.ufrn.imd.obama.usuario.infrastructure.configuration.SecurityConfiguration
 import br.ufrn.imd.obama.usuario.util.criarUsuarioInativo
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
@@ -31,6 +31,9 @@ class UsuarioDatabaseUseCaseImplTest {
 
     @MockBean
     private lateinit var passwordEncoder: PasswordEncoder
+
+    @MockBean
+    private lateinit var emailGateway: EmailGateway
 
     @Test
     fun `deve salvar usuario corretamente`() {
