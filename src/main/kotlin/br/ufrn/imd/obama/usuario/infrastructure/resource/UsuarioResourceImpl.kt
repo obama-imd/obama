@@ -54,7 +54,7 @@ class UsuarioResourceImpl(
     }
 
     @PatchMapping("/ativar")
-    override fun ativarUsuarioPorToken(@RequestBody ativarUsuarioRequest: AtivarUsuarioRequest): ResponseEntity<Void> {
+    override fun ativarUsuarioPorToken(@RequestBody ativarUsuarioRequest: AtivarUsuarioRequest): ResponseEntity<Unit> {
         val obj = usuarioDatabaseUseCase.buscarPorToken(ativarUsuarioRequest.token)
         usuarioDatabaseUseCase.ativarUsuario(obj)
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build()

@@ -46,5 +46,5 @@ interface UsuarioResource {
             description = "Ativação do usuário realizada"
         )
     ])
-    fun ativarUsuarioPorToken(ativarUsuarioRequest: AtivarUsuarioRequest): ResponseEntity<Void>
+    fun ativarUsuarioPorToken(ativarUsuarioRequest: AtivarUsuarioRequest): ResponseEntity<Unit>
 }
