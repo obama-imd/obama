@@ -5,15 +5,18 @@ import br.ufrn.imd.obama.usuario.domain.exception.UsuarioNaoEncontradoException
 import br.ufrn.imd.obama.usuario.domain.gateway.UsuarioDatabaseGateway
 import br.ufrn.imd.obama.usuario.domain.model.Usuario
 import br.ufrn.imd.obama.usuario.infrastructure.adapter.UsuarioDatabaseGatewayAdapter
+import br.ufrn.imd.obama.usuario.infrastructure.configuration.SecurityConfiguration
 import br.ufrn.imd.obama.usuario.util.criarUsuarioInativo
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
+import org.mockito.Mockito.anyString
 import org.mockito.Mockito.`when`
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.mock.mockito.MockBean
+import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.test.context.ActiveProfiles
 
 @ActiveProfiles(profiles = ["test"])
@@ -26,6 +29,9 @@ class UsuarioDatabaseUseCaseImplTest {
     @MockBean
     private lateinit var usuarioDatabaseGateway: UsuarioDatabaseGateway
 
+    @MockBean
+    private lateinit var passwordEncoder: PasswordEncoder
+
     @Test
     fun `deve salvar usuario corretamente`() {
         val usuario = criarUsuarioInativo()
@@ -34,6 +40,8 @@ class UsuarioDatabaseUseCaseImplTest {
            .thenThrow(UsuarioNaoEncontradoException::class.java)
         `when`(usuarioDatabaseGateway.salvarUsuario(usuario))
             .thenReturn(usuario)
+
+        `when`(passwordEncoder.encode(anyString())).thenReturn("ibdfhru210ru0yehvibe0320")
 
         var usuarioSalvo: Usuario? = null
 
@@ -61,6 +69,8 @@ class UsuarioDatabaseUseCaseImplTest {
     @Test
     fun `deve lançar a exceção UsuarioExistenteException ao tentar salvar usuario ja existente`() {
         val usuarioInvalido = criarUsuarioInativo()
+
+        `when`(passwordEncoder.encode(anyString())).thenReturn("ibdfhru210ru0yehvibe0320")
 
         `when`(usuarioDatabaseGateway.buscarPorEmail(usuarioInvalido.email))
             .thenReturn(usuarioInvalido)
