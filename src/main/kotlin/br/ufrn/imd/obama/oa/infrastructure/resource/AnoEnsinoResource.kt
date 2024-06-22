@@ -21,7 +21,7 @@ interface AnoEnsinoResource {
             content = [
                 Content(
                     mediaType = MediaType.APPLICATION_JSON_VALUE,
-                    schema = Schema(implementation = Set::class)
+                    schema = Schema(implementation = Page::class)
                 )
             ]
         )
