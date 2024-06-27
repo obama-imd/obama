@@ -156,7 +156,7 @@ class UsuarioResourceImplTest {
     }
 
     @Test
-    fun `deve retornar 400 bad request quando usario não encontrado por token`() {
+    fun `deve retornar 204 quando usario não é encontrado por token`() {
         val token = "invalidToken"
 
         mockMvc.perform(
@@ -165,7 +165,7 @@ class UsuarioResourceImplTest {
                 .content(objectMapper.writeValueAsString(AtivarUsuarioRequest(token)))
         )
             .andDo(print())
-            .andExpect(status().isBadRequest)
+            .andExpect(status().isNoContent)
     }
 
     @Test

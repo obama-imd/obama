@@ -2,6 +2,7 @@ package br.ufrn.imd.obama.usuario.infrastructure.resource
 
 import br.ufrn.imd.obama.usuario.domain.enums.Papel
 import br.ufrn.imd.obama.usuario.domain.enums.TipoCadastro
+import br.ufrn.imd.obama.usuario.domain.exception.UsuarioNaoEncontradoException
 import br.ufrn.imd.obama.usuario.domain.model.Usuario
 import br.ufrn.imd.obama.usuario.domain.usecase.UsuarioUseCase
 import br.ufrn.imd.obama.usuario.infrastructure.mapper.toResponse
@@ -55,8 +56,13 @@ class UsuarioResourceImpl(
 
     @PatchMapping("/ativar")
     override fun ativarUsuarioPorToken(@RequestBody ativarUsuarioRequest: AtivarUsuarioRequest): ResponseEntity<Unit> {
-        val obj = usuarioDatabaseUseCase.buscarPorToken(ativarUsuarioRequest.token)
-        usuarioDatabaseUseCase.ativarUsuario(obj)
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build()
+        try {
+            val obj = usuarioDatabaseUseCase.buscarPorToken(ativarUsuarioRequest.token)
+            usuarioDatabaseUseCase.ativarUsuario(obj)
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build()
+        }
+        catch (e: UsuarioNaoEncontradoException) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build()
+        }
     }
 }
