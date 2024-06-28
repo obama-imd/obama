@@ -21,19 +21,22 @@ interface ObjetoAprendizagemRepository: JpaRepository<ObjetoAprendizagemEntity, 
             " SELECT distinct oa FROM ObjetoAprendizagemEntity oa " +
                     " LEFT JOIN oa.descritores d " +
                     " LEFT JOIN oa.objetoAprendizagemPlataformas oap " +
-                    " WHERE oa.nome like upper(CONCAT('%',:nome,'%'))" +
+                    " LEFT JOIN oa.habilidades h " +
+                    " WHERE ( :nome IS NULL OR oa.nome like upper(CONCAT('%',:nome,'%')) )" +
                     " AND oa.ativo = true" +
                     " AND (:tipoAcesso IS NULL OR oap.tipoAcesso = :tipoAcesso) " +
                     " AND (:nivelEnsinoId IS NULL OR d.nivelEnsino.id = :nivelEnsinoId) " +
                     " AND (:temaConteudoId IS NULL OR d.temaConteudo.id = :temaConteudoId) " +
-                    " AND (:descritorId IS NULL OR d.id = :descritorId) ",
+                    " AND (:descritorId IS NULL OR d.id = :descritorId) " +
+                    " AND (:habilidadeId IS NULL OR h.id = :habilidadeId) ",
     )
-    fun buscarTodosAtivoPorNomeETipoAcessoENivelEnsinoIdETemaConteudoIdEDescritorId(
-            @Param("nome") nome: String,
-            @Param("tipoAcesso") tipoAcesso: TipoAcesso?,
-            @Param("nivelEnsinoId") nivelEnsinoId: Long?,
-            @Param("temaConteudoId") temaConteudoId: Long?,
-            @Param("descritorId") descritorId: Long?,
-            pageable: Pageable
+    fun buscarTodosAtivoPorNomeETipoAcessoENivelEnsinoETemaConteudoEDescritorEHabilidade(
+        @Param("nome") nome: String?,
+        @Param("tipoAcesso") tipoAcesso: TipoAcesso?,
+        @Param("nivelEnsinoId") nivelEnsinoId: Long?,
+        @Param("temaConteudoId") temaConteudoId: Long?,
+        @Param("descritorId") descritorId: Long?,
+        pageable: Pageable,
+        @Param("habilidadeId") habilidadeId: Long?
     ): Page<ObjetoAprendizagemEntity>
 }
