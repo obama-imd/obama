@@ -4,6 +4,7 @@ import br.ufrn.imd.obama.usuario.domain.exception.UsuarioExistenteException
 import br.ufrn.imd.obama.usuario.domain.exception.UsuarioNaoEncontradoException
 import br.ufrn.imd.obama.usuario.domain.gateway.UsuarioDatabaseGateway
 import br.ufrn.imd.obama.usuario.domain.model.Usuario
+import java.util.Optional
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 
@@ -24,4 +25,12 @@ class UsuarioUseCaseImpl(
         }
     }
 
+    override fun buscarPorToken(token: String): Usuario {
+        return usuarioGateway.buscarPorToken(token)
+    }
+
+    override fun ativarUsuario(usuario: Usuario): Unit {
+        usuario.ativo = true
+        usuarioGateway.salvarUsuario(usuario)
+    }
 }

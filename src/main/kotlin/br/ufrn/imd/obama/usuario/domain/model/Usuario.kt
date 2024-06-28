@@ -9,7 +9,7 @@ data class Usuario (
         val email: String,
         var senha: String,
         val papel: Papel,
-        val ativo: Boolean,
+        var ativo: Boolean,
         val tipoCadastro: TipoCadastro,
         val token: String
 ) {

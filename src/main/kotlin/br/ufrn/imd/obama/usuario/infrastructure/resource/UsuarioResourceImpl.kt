@@ -2,16 +2,19 @@ package br.ufrn.imd.obama.usuario.infrastructure.resource
 
 import br.ufrn.imd.obama.usuario.domain.enums.Papel
 import br.ufrn.imd.obama.usuario.domain.enums.TipoCadastro
+import br.ufrn.imd.obama.usuario.domain.exception.UsuarioNaoEncontradoException
 import br.ufrn.imd.obama.usuario.domain.model.Usuario
 import br.ufrn.imd.obama.usuario.domain.usecase.UsuarioUseCase
 import br.ufrn.imd.obama.usuario.infrastructure.mapper.toResponse
 import br.ufrn.imd.obama.usuario.infrastructure.resource.exchange.CadastrarUsuarioRequest
+import br.ufrn.imd.obama.usuario.infrastructure.resource.exchange.AtivarUsuarioRequest
 import br.ufrn.imd.obama.usuario.infrastructure.resource.exchange.UsuarioResponse
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.crypto.factory.PasswordEncoderFactories
 import org.springframework.validation.annotation.Validated
+import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -49,5 +52,17 @@ class UsuarioResourceImpl(
         )
 
         return ResponseEntity.status(HttpStatus.CREATED).body(usuarioDatabaseUseCase.salvarUsuario(novoUsuario).toResponse())
+    }
+
+    @PatchMapping("/ativar")
+    override fun ativarUsuarioPorToken(@RequestBody ativarUsuarioRequest: AtivarUsuarioRequest): ResponseEntity<Unit> {
+        try {
+            val obj = usuarioDatabaseUseCase.buscarPorToken(ativarUsuarioRequest.token)
+            usuarioDatabaseUseCase.ativarUsuario(obj)
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build()
+        }
+        catch (e: UsuarioNaoEncontradoException) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build()
+        }
     }
 }
