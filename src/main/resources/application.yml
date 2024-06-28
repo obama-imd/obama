@@ -6,7 +6,7 @@ spring:
   jpa:
     open-in-view: false
   cache:
-    cache-names: temaconteudos,niveisensino,disciplinas
+    cache-names: temaconteudos,niveisensino,anosensino,disciplinas
     caffeine:
       spec:
         maximumSizes: 10000
