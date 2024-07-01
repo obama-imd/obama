@@ -60,9 +60,6 @@ data class PlanoAulaEntity(
     private val metodologia: String?,
 
     @Column(columnDefinition = "text", nullable = true)
-    private val avaliacao: String?,
-
-    @Column(columnDefinition = "text", nullable = true)
     private val referencias: String?,
 
     @Column(columnDefinition = "text", unique = true, nullable = false)
@@ -99,4 +96,24 @@ data class PlanoAulaEntity(
         inverseJoinColumns = [JoinColumn(name = "usuario_id", referencedColumnName = "id")]
     )
     private val coautores: Set<UsuarioEntity>?,
-)
+) {
+    fun getId() = id
+    fun getDataCadastro() = dataCadastro
+    fun getQtdDownload() = qtdDownload
+    fun getEscola() = escola
+    fun getDuracaoEmMinutos() = duracaoEmMinutos
+    fun getTitulo() = titulo
+    fun getResumo() = resumo
+    fun getObjetivoGeral() = objetivoGeral
+    fun getObjetivosEspecificos() = objetivosEspecificos
+    fun getMetodologia() = metodologia
+    fun getReferencias() = referencias
+    fun getToken() = token
+    fun getStatus() = status
+    fun getAutor() = autor
+    fun getNivelEnsino() = nivelEnsino
+    fun getDisciplinasEnvolvidas() = disciplinasEnvolvidas
+    fun getAnoEnsino() = anoEnsino
+    fun getObjetosAprendizagem() = objetosAprendizagem
+    fun getCoautores() = coautores
+}
