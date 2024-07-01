@@ -2,7 +2,7 @@ package br.ufrn.imd.obama.oa.infrastructure.adapter
 
 import br.ufrn.imd.obama.oa.domain.model.ObjetoAprendizagem
 import br.ufrn.imd.obama.oa.infrastructure.entity.ObjetoAprendizagemEntity
-import br.ufrn.imd.obama.oa.infrastructure.exception.OANaoEncontradoException
+import br.ufrn.imd.obama.oa.domain.exception.OANaoEncontradoException
 import br.ufrn.imd.obama.oa.infrastructure.mapper.toEntity
 import br.ufrn.imd.obama.oa.infrastructure.repository.ObjetoAprendizagemRepository
 import br.ufrn.imd.obama.oa.util.criarObjetoAprendizagem

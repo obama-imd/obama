@@ -28,11 +28,4 @@ class UsuarioExceptionHandler: ResponseEntityExceptionHandler() {
         return ResponseEntity.badRequest().build()
     }
 
-    @ExceptionHandler(UsuarioNaoAutenticadoException::class)
-    protected fun handleUsuarioNaoAutenticadoException(
-        ex: UsuarioNaoEncontradoException
-    ):ResponseEntity<Any> {
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).build()
-    }
-
 }

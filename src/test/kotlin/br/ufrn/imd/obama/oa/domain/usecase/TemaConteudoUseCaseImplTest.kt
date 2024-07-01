@@ -3,7 +3,7 @@ package br.ufrn.imd.obama.oa.domain.usecase
 import br.ufrn.imd.obama.oa.domain.enums.Curriculo
 import br.ufrn.imd.obama.oa.domain.model.TemaConteudo
 import br.ufrn.imd.obama.oa.infrastructure.adapter.TemaConteudoDatabaseGatewayAdapter
-import br.ufrn.imd.obama.oa.infrastructure.exception.CurriculoNaoEncontradoException
+import br.ufrn.imd.obama.oa.domain.exception.CurriculoNaoEncontradoException
 import br.ufrn.imd.obama.oa.util.NOME_CURRICULO_INVALIDO
 import br.ufrn.imd.obama.oa.util.criarTemaConteudoBNCC
 import br.ufrn.imd.obama.oa.util.criarTemaConteudoPCN

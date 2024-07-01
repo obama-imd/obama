@@ -1,15 +1,14 @@
 package br.ufrn.imd.obama.planoaula.infrastructure.adapter
 
-import br.ufrn.imd.obama.oa.domain.exceptions.AnoEnsinoNaoExistenteException
-import br.ufrn.imd.obama.oa.domain.exceptions.DisciplinaNaoExistenteException
-import br.ufrn.imd.obama.oa.domain.exceptions.NivelEnsinoNaoExistenteException
+import br.ufrn.imd.obama.oa.domain.exception.AnoEnsinoNaoExistenteException
+import br.ufrn.imd.obama.oa.domain.exception.DisciplinaNaoExistenteException
+import br.ufrn.imd.obama.oa.domain.exception.NivelEnsinoNaoExistenteException
 import br.ufrn.imd.obama.oa.domain.gateway.NivelEnsinoDatabaseGateway
-import br.ufrn.imd.obama.oa.domain.model.Disciplina
 import br.ufrn.imd.obama.oa.infrastructure.mapper.toModel
 import br.ufrn.imd.obama.oa.infrastructure.repository.AnoEnsinoRepository
 import br.ufrn.imd.obama.oa.infrastructure.repository.DisciplinaRepository
 import br.ufrn.imd.obama.planoaula.domain.enums.StatusPlanoAula
-import br.ufrn.imd.obama.planoaula.domain.exceptions.DuracaoNegativaException
+import br.ufrn.imd.obama.planoaula.domain.exception.DuracaoNegativaException
 import br.ufrn.imd.obama.planoaula.domain.gateway.PlanoAulaGateway
 import br.ufrn.imd.obama.planoaula.domain.model.PlanoAula
 import br.ufrn.imd.obama.planoaula.infrastructure.mapper.toEntity
