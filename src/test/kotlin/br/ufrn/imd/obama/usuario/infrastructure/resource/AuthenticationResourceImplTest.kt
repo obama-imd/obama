@@ -1,8 +1,11 @@
 package br.ufrn.imd.obama.usuario.infrastructure.resource
 
 import br.ufrn.imd.obama.usuario.domain.model.Usuario
-import br.ufrn.imd.obama.usuario.domain.usecase.UsuarioUseCase
 import br.ufrn.imd.obama.usuario.domain.usecase.UsuarioUseCaseImpl
+import br.ufrn.imd.obama.usuario.infrastructure.configuration.SecurityConfiguration
+import br.ufrn.imd.obama.usuario.infrastructure.configuration.SecurityFilter
+import br.ufrn.imd.obama.usuario.infrastructure.configuration.TokenService
+import br.ufrn.imd.obama.usuario.infrastructure.configuration.UsuarioConfig
 import br.ufrn.imd.obama.usuario.infrastructure.resource.exchange.LoginRequest
 import br.ufrn.imd.obama.usuario.util.criarUsuarioAtivo
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -18,7 +21,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
-@SpringBootTest
+@SpringBootTest(classes = [SecurityConfiguration::class, SecurityFilter::class, TokenService::class, UsuarioConfig::class])
 @AutoConfigureMockMvc
 @ActiveProfiles(profiles = ["test"])
 @Transactional
@@ -29,6 +32,7 @@ class AuthenticationResourceImplTest {
 
     @Autowired
     private lateinit var usuarioUseCase: UsuarioUseCaseImpl
+
 
     private val objectMapper = ObjectMapper()
 

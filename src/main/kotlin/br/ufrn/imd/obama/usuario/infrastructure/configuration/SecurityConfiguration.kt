@@ -2,6 +2,7 @@ package br.ufrn.imd.obama.usuario.infrastructure.configuration
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.Primary
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
@@ -42,7 +43,12 @@ class SecurityConfiguration(
     }
 
     @Bean
-    fun passwordEncoder(): PasswordEncoder {
+    fun setUpOldEnconder(): OldCustomEncoder {
+        return OldCustomEncoder()
+    }
+
+    @Bean
+    fun passwordEncoder(): BCryptPasswordEncoder {
         return BCryptPasswordEncoder()
     }
 }
