@@ -59,7 +59,6 @@ class PlanoAulaDatabaseGatewayAdapter(
             objetivoGeral = request.objetivoGeral,
             objetivosEspecificos = request.objetivosEspecificos,
             metodologia = request.metodologia,
-            avaliacao = request.avaliacao,
             referencias = request.referencias,
             token = null,
             status = StatusPlanoAula.RASCUNHO,

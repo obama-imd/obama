@@ -17,7 +17,6 @@ fun PlanoAulaEntity.toModel(): PlanoAula {
         objetivoGeral = this.objetivoGeral,
         objetivosEspecificos = this.objetivosEspecificos,
         metodologia = this.metodologia,
-        avaliacao = this.avaliacao,
         referencias = this.referencias,
         token = this.token,
         status = this.status,

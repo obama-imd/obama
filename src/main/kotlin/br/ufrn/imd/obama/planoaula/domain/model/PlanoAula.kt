@@ -19,7 +19,6 @@ data class PlanoAula(
     var objetivoGeral: String? = null,
     var objetivosEspecificos: String? = null,
     var metodologia: String? = null,
-    var avaliacao: String? = null,
     var referencias: String? = null,
     var token: String? = null,
     var status: StatusPlanoAula,

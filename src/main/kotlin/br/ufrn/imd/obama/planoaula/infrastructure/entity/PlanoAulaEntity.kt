@@ -60,9 +60,6 @@ data class PlanoAulaEntity(
     val metodologia: String?,
 
     @Column(columnDefinition = "text", nullable = true)
-    val avaliacao: String?,
-
-    @Column(columnDefinition = "text", nullable = true)
     val referencias: String?,
 
     @Column(columnDefinition = "text", unique = true, nullable = false)

@@ -11,6 +11,5 @@ data class PlanoAulaRequest(
     var metodologia: String?,
     var objetivosEspecificos: String?,
     var objetivoGeral: String?,
-    var avaliacao: String?,
     var referencias: String?
 )

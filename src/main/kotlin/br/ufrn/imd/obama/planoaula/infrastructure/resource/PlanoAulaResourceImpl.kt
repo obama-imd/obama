@@ -1,6 +1,5 @@
 package br.ufrn.imd.obama.planoaula.infrastructure.resource
 
-import br.ufrn.imd.obama.planoaula.domain.model.PlanoAula
 import br.ufrn.imd.obama.planoaula.domain.usecase.PlanoAulaUseCase
 import br.ufrn.imd.obama.planoaula.infrastructure.mapper.toResponse
 import br.ufrn.imd.obama.planoaula.infrastructure.resource.exchange.PlanoAulaRequest
@@ -15,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/v1/planoAula")
+@RequestMapping("/v1/planoaula")
 @Validated
 @Tag(
     name = "PlanoAulaResource",
