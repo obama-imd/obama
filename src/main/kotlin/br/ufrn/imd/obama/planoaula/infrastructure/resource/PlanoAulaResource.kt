@@ -27,7 +27,7 @@ interface PlanoAulaResource {
         )
     ])
     fun criarPlanoAula(
-        token: String,
+        header: String,
         planoAula: PlanoAulaRequest
     ): ResponseEntity<PlanoAulaResponse>
 
