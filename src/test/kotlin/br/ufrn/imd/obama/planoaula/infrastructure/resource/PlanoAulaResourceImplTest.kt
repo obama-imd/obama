@@ -14,6 +14,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.http.MediaType
+import org.springframework.security.test.context.support.WithMockUser
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -38,6 +39,7 @@ class PlanoAulaResourceImplTest {
     }
 
     @Test
+    @WithMockUser(username = "user", roles = ["PADRAO"])
     fun `Deve retornar 200 ao passar parametros corretos para listar planos de aula`() {
         mockMvc.perform(
             MockMvcRequestBuilders.get("/v1/plano-aula")
@@ -52,6 +54,7 @@ class PlanoAulaResourceImplTest {
 
 
     @Test
+    @WithMockUser(username = "user", roles = ["PADRAO"])
     fun `Deve retornar 200 ao passar titulo como nulo`() {
         mockMvc.perform(
             MockMvcRequestBuilders.get("/v1/plano-aula")
@@ -62,5 +65,18 @@ class PlanoAulaResourceImplTest {
         )
             .andDo(print())
             .andExpect(status().isOk())
+    }
+
+    @Test
+    fun `Deve retornar 403 quando o usuário não estiver autorizado`() {
+        mockMvc.perform(
+            MockMvcRequestBuilders.get("/v1/plano-aula")
+                .contentType(MediaType.APPLICATION_JSON)
+                .param("titulo", titulo)
+                .param("page", "0")
+                .param("size", "10")
+        )
+            .andDo(print())
+            .andExpect(status().isForbidden)
     }
 }
