@@ -6,25 +6,24 @@ import br.ufrn.imd.obama.usuario.infrastructure.configuration.SecurityConfigurat
 import br.ufrn.imd.obama.usuario.infrastructure.configuration.SecurityFilter
 import br.ufrn.imd.obama.usuario.infrastructure.configuration.TokenService
 import br.ufrn.imd.obama.usuario.infrastructure.configuration.UsuarioConfig
+import br.ufrn.imd.obama.usuario.infrastructure.repository.UsuarioRepository
 import br.ufrn.imd.obama.usuario.infrastructure.resource.exchange.LoginRequest
 import br.ufrn.imd.obama.usuario.util.criarUsuarioAtivo
 import com.fasterxml.jackson.databind.ObjectMapper
-import jakarta.transaction.Transactional
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
-import org.springframework.test.context.ActiveProfiles
+import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
-@SpringBootTest(classes = [SecurityConfiguration::class, SecurityFilter::class, TokenService::class, UsuarioConfig::class])
+@SpringBootTest
+@ContextConfiguration(classes = [SecurityFilter::class, SecurityConfiguration::class, TokenService::class, UsuarioConfig::class])
 @AutoConfigureMockMvc
-@ActiveProfiles(profiles = ["test"])
-@Transactional
 class AuthenticationResourceImplTest {
 
     @Autowired
@@ -32,6 +31,9 @@ class AuthenticationResourceImplTest {
 
     @Autowired
     private lateinit var usuarioUseCase: UsuarioUseCaseImpl
+
+    @Autowired
+    private lateinit var usuarioRepository: UsuarioRepository
 
 
     private val objectMapper = ObjectMapper()

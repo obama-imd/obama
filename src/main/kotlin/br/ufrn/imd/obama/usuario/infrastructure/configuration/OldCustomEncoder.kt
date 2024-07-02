@@ -1,10 +1,9 @@
 package br.ufrn.imd.obama.usuario.infrastructure.configuration
 
 import java.security.MessageDigest
-import java.util.Locale
-import org.springframework.security.crypto.password.PasswordEncoder
+import java.util.*
 
-class OldCustomEncoder: PasswordEncoder {
+class OldCustomEncoder {
 
     companion object {
         private val md: MessageDigest = MessageDigest.getInstance("MD5");
@@ -23,14 +22,14 @@ class OldCustomEncoder: PasswordEncoder {
         return hexOutput
     }
 
-    override fun encode(rawPassword: CharSequence?): String {
+    fun encode(rawPassword: CharSequence?): String {
         if (!rawPassword.isNullOrBlank()) {
             return String(hexCodes(md.digest(rawPassword.toString().toByteArray())))
         }
         return ""
     }
 
-    override fun matches(rawPassword: CharSequence?, encodedPassword: String?): Boolean {
+    fun matches(rawPassword: CharSequence?, encodedPassword: String?): Boolean {
         return encode(rawPassword) == encodedPassword
     }
 }

@@ -5,12 +5,11 @@ import br.ufrn.imd.obama.usuario.domain.exception.UsuarioNaoEncontradoException
 import br.ufrn.imd.obama.usuario.domain.gateway.UsuarioDatabaseGateway
 import br.ufrn.imd.obama.usuario.domain.model.Usuario
 import br.ufrn.imd.obama.usuario.infrastructure.configuration.OldCustomEncoder
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 
 class UsuarioUseCaseImpl(
     private val usuarioGateway: UsuarioDatabaseGateway,
-    private val passwordEncoder: BCryptPasswordEncoder,
+    private val passwordEncoder: PasswordEncoder,
     private val oldCustomEncoder: OldCustomEncoder
 ): UsuarioUseCase {
     override fun salvarUsuario(usuario: Usuario): Usuario {

@@ -14,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 class UsuarioConfig {
 
     @Bean
+    @Primary
     fun usuarioDatabaseGateway(usuarioRepository: UsuarioRepository): UsuarioDatabaseGateway {
         return UsuarioDatabaseGatewayAdapter(usuarioRepository);
     }
