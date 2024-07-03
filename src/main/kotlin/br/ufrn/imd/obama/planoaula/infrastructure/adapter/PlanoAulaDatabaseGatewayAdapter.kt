@@ -15,6 +15,7 @@ import br.ufrn.imd.obama.planoaula.infrastructure.mapper.toEntity
 import br.ufrn.imd.obama.planoaula.infrastructure.mapper.toModel
 import br.ufrn.imd.obama.planoaula.infrastructure.repository.PlanoAulaRepository
 import br.ufrn.imd.obama.planoaula.infrastructure.resource.exchange.PlanoAulaRequest
+import br.ufrn.imd.obama.usuario.domain.model.Usuario
 import br.ufrn.imd.obama.usuario.domain.usecase.UsuarioUseCase
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
@@ -33,7 +34,7 @@ class PlanoAulaDatabaseGatewayAdapter(
     private val tituloPadrao = "Plano sem título"
 
     override fun salvarPlanoAula(
-        token: String,
+        usuario: Usuario,
         request: PlanoAulaRequest
     ): PlanoAula {
 
@@ -62,7 +63,7 @@ class PlanoAulaDatabaseGatewayAdapter(
             referencias = request.referencias,
             token = null,
             status = StatusPlanoAula.RASCUNHO,
-            autor = usuarioUseCase.buscarPorToken(token),
+            autor = usuario,
 
             nivelEnsino = nivelEnsinoGateway.listarNivelEnsino().find
             { it.id == request.idNivelEnsino } ?: throw NivelEnsinoNaoExistenteException(""),

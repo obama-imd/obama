@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
+import org.springframework.security.core.userdetails.UserDetails
 
 
 interface PlanoAulaResource {
@@ -27,7 +28,7 @@ interface PlanoAulaResource {
         )
     ])
     fun criarPlanoAula(
-        header: String,
+        userDetails: UserDetails,
         planoAula: PlanoAulaRequest
     ): ResponseEntity<PlanoAulaResponse>
 

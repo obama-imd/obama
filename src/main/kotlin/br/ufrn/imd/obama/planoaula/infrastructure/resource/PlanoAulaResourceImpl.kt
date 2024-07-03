@@ -4,13 +4,16 @@ import br.ufrn.imd.obama.planoaula.domain.usecase.PlanoAulaUseCase
 import br.ufrn.imd.obama.planoaula.infrastructure.mapper.toResponse
 import br.ufrn.imd.obama.planoaula.infrastructure.resource.exchange.PlanoAulaRequest
 import br.ufrn.imd.obama.planoaula.infrastructure.resource.exchange.PlanoAulaResponse
+import br.ufrn.imd.obama.usuario.infrastructure.entity.UsuarioEntity
+import br.ufrn.imd.obama.usuario.infrastructure.mapper.toModel
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.core.annotation.AuthenticationPrincipal
+import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestHeader
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
@@ -27,14 +30,14 @@ class PlanoAulaResourceImpl(
 
     @PostMapping
     override fun criarPlanoAula(
-        @RequestHeader("Authorization") header: String,
+        @AuthenticationPrincipal userDetails: UserDetails,
         @RequestBody planoAula: PlanoAulaRequest
     ): ResponseEntity<PlanoAulaResponse> {
 
-        val token = header.replace("Bearer ", "")
+        val usuario: UsuarioEntity = userDetails as UsuarioEntity
 
         return ResponseEntity
             .status(HttpStatus.CREATED)
-            .body(planoAulaUseCase.criarPlanoAula(token,planoAula).toResponse())
+            .body(planoAulaUseCase.criarPlanoAula(usuario.toModel(),planoAula).toResponse())
     }
 }
