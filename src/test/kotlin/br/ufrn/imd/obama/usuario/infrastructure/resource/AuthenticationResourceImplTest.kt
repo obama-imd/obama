@@ -2,35 +2,35 @@ package br.ufrn.imd.obama.usuario.infrastructure.resource
 
 import br.ufrn.imd.obama.usuario.domain.model.Usuario
 import br.ufrn.imd.obama.usuario.domain.usecase.UsuarioUseCaseImpl
-import br.ufrn.imd.obama.usuario.infrastructure.configuration.SecurityConfiguration
-import br.ufrn.imd.obama.usuario.infrastructure.configuration.SecurityFilter
-import br.ufrn.imd.obama.usuario.infrastructure.configuration.TokenService
-import br.ufrn.imd.obama.usuario.infrastructure.configuration.UsuarioConfig
+import br.ufrn.imd.obama.usuario.infrastructure.mapper.toEntity
 import br.ufrn.imd.obama.usuario.infrastructure.repository.UsuarioRepository
 import br.ufrn.imd.obama.usuario.infrastructure.resource.exchange.LoginRequest
 import br.ufrn.imd.obama.usuario.util.criarUsuarioAtivo
 import com.fasterxml.jackson.databind.ObjectMapper
+import jakarta.transaction.Transactional
 import org.junit.Ignore
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
 import org.springframework.test.context.ActiveProfiles
-import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import org.springframework.test.web.servlet.setup.MockMvcBuilders
+import org.springframework.web.context.WebApplicationContext
 
 @SpringBootTest
-@ContextConfiguration(classes = [SecurityFilter::class, SecurityConfiguration::class, TokenService::class, UsuarioConfig::class])
-@AutoConfigureMockMvc
 @ActiveProfiles(profiles = ["test"])
+@Transactional
 class AuthenticationResourceImplTest {
 
-    @Autowired
     private lateinit var mockMvc: MockMvc
+
+    @Autowired
+    private lateinit var webApplicationContext: WebApplicationContext
 
     @Autowired
     private lateinit var usuarioUseCase: UsuarioUseCaseImpl
@@ -40,18 +40,20 @@ class AuthenticationResourceImplTest {
 
     private val objectMapper = ObjectMapper()
 
+    @BeforeEach
+    fun setUp() {
+        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build()
+    }
+
     @Test
-    @Ignore
     fun `Usuário deve conseguir logar login e senha`() {
         val usuario = criarUsuarioAtivo()
 
-        val senha = usuario.senha
+        val senha = "Teste123123"
 
         usuarioUseCase.salvarUsuario(usuario)
 
-        usuario.senha = senha
-
-        val request = criarLoginRequest(usuario)
+        val request = criarLoginRequest(usuario.email, senha)
 
         val loginRequestJson = objectMapper.writeValueAsString(request)
 
@@ -65,11 +67,33 @@ class AuthenticationResourceImplTest {
     }
 
 
-    private fun criarLoginRequest(usuario: Usuario): LoginRequest {
+    private fun criarLoginRequest(email: String, senha: String): LoginRequest {
         return LoginRequest(
-            senha = usuario.senha,
-            login = usuario.email
+            senha = senha,
+            login = email
         )
+    }
+
+
+    @Test
+    fun `Usuário com criptografia antiga deve conseguir logar login e senha`() {
+        val usuarioSalvo = criarUsuarioAtivo()
+        usuarioSalvo.senha = "14B6511734F419E33F23AD1CED959F85"
+        usuarioSalvo.usaCriptografiaAntiga = true
+
+        usuarioRepository.save(usuarioSalvo.toEntity())
+
+        val request = criarLoginRequest(usuarioSalvo.email, "4m4nd@")
+
+        val loginRequestJson = objectMapper.writeValueAsString(request)
+
+        mockMvc.perform(
+            post("/v1/auth/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(loginRequestJson)
+        )
+            .andDo(print())
+            .andExpect(status().isOk)
     }
 
 }
