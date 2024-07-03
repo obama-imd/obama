@@ -12,13 +12,13 @@ import org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolv
 @RestControllerAdvice
 @Order(Ordered.HIGHEST_PRECEDENCE)
 class DuracaoNegativaExceptionHandler : DefaultHandlerExceptionResolver() {
-    private val logger = LoggerFactory.getLogger(javaClass)
+    private val log = LoggerFactory.getLogger(javaClass)
 
     @ExceptionHandler(DuracaoNegativaException::class)
     fun handlerDuracaoNegativaException(
         ex: DuracaoNegativaException
     ): ResponseEntity<Any> {
-        logger.error(ex)
+        log.error(ex.message)
         return ResponseEntity.badRequest().build()
     }
 }
