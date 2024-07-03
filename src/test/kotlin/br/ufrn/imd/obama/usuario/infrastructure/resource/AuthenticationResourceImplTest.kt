@@ -2,6 +2,7 @@ package br.ufrn.imd.obama.usuario.infrastructure.resource
 
 import br.ufrn.imd.obama.usuario.domain.model.Usuario
 import br.ufrn.imd.obama.usuario.domain.usecase.UsuarioUseCaseImpl
+import br.ufrn.imd.obama.usuario.infrastructure.configuration.OldCustomEncoder
 import br.ufrn.imd.obama.usuario.infrastructure.mapper.toEntity
 import br.ufrn.imd.obama.usuario.infrastructure.repository.UsuarioRepository
 import br.ufrn.imd.obama.usuario.infrastructure.resource.exchange.LoginRequest
@@ -40,6 +41,8 @@ class AuthenticationResourceImplTest {
 
     private val objectMapper = ObjectMapper()
 
+    private val oldCustomEncoder: OldCustomEncoder = OldCustomEncoder()
+
     @BeforeEach
     fun setUp() {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build()
@@ -77,13 +80,17 @@ class AuthenticationResourceImplTest {
 
     @Test
     fun `Usuário com criptografia antiga deve conseguir logar login e senha`() {
+        val senha = "Teste123123"
+
+        val senhaCriptografada = oldCustomEncoder.encode(senha)
+
         val usuarioSalvo = criarUsuarioAtivo()
-        usuarioSalvo.senha = "14B6511734F419E33F23AD1CED959F85"
+        usuarioSalvo.senha = senhaCriptografada
         usuarioSalvo.usaCriptografiaAntiga = true
 
         usuarioRepository.save(usuarioSalvo.toEntity())
 
-        val request = criarLoginRequest(usuarioSalvo.email, "4m4nd@")
+        val request = criarLoginRequest(usuarioSalvo.email, senha)
 
         val loginRequestJson = objectMapper.writeValueAsString(request)
 
