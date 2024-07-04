@@ -68,7 +68,7 @@ class PlanoAulaResourceImplTest {
     }
 
     @Test
-    fun `Deve retornar 403 quando o usuário não estiver autorizado`() {
+    fun `Deve retornar 403 quando o usuario nao estiver autorizado`() {
         mockMvc.perform(
             MockMvcRequestBuilders.get("/v1/planoaula")
                 .contentType(MediaType.APPLICATION_JSON)
