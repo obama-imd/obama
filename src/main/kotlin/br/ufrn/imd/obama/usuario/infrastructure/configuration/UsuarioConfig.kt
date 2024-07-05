@@ -8,7 +8,7 @@ import br.ufrn.imd.obama.usuario.infrastructure.repository.UsuarioRepository
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Primary
-import org.springframework.security.crypto.password.PasswordEncoder
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 
 @Configuration
 class UsuarioConfig {
@@ -21,7 +21,15 @@ class UsuarioConfig {
 
     @Bean
     @Primary
-    fun setUpUsuarioUseCase(usuarioGateway: UsuarioDatabaseGateway, passwordEncoder: PasswordEncoder): UsuarioUseCase {
-        return UsuarioUseCaseImpl(usuarioGateway, passwordEncoder)
+    fun setUpUsuarioUseCase(
+        usuarioGateway: UsuarioDatabaseGateway,
+        passwordEncoder: BCryptPasswordEncoder,
+        oldCustomEncoder: OldCustomEncoder
+    ): UsuarioUseCase {
+        return UsuarioUseCaseImpl(
+            usuarioGateway = usuarioGateway,
+            passwordEncoder = passwordEncoder,
+            oldCustomEncoder = oldCustomEncoder
+        )
     }
 }

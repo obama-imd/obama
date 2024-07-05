@@ -45,6 +45,11 @@ class SecurityConfiguration(
     }
 
     @Bean
+    fun setUpOldEnconder(): OldCustomEncoder {
+        return OldCustomEncoder()
+    }
+
+    @Bean
     fun passwordEncoder(): PasswordEncoder {
         return BCryptPasswordEncoder()
     }
