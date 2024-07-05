@@ -42,7 +42,7 @@ class PlanoAulaResourceImplTest {
     @WithMockUser(username = "user", roles = ["PADRAO"])
     fun `Deve retornar 200 ao passar parametros corretos para listar planos de aula`() {
         mockMvc.perform(
-            MockMvcRequestBuilders.get("/v1/plano-aula")
+            MockMvcRequestBuilders.get("/v1/planoaula")
                 .contentType(MediaType.APPLICATION_JSON)
                 .param("titulo", titulo)
                 .param("page", "0")
@@ -57,7 +57,7 @@ class PlanoAulaResourceImplTest {
     @WithMockUser(username = "user", roles = ["PADRAO"])
     fun `Deve retornar 200 ao passar titulo como nulo`() {
         mockMvc.perform(
-            MockMvcRequestBuilders.get("/v1/plano-aula")
+            MockMvcRequestBuilders.get("/v1/planoaula")
                 .contentType(MediaType.APPLICATION_JSON)
                 .param("titulo", null)
                 .param("page", "0")
@@ -68,9 +68,9 @@ class PlanoAulaResourceImplTest {
     }
 
     @Test
-    fun `Deve retornar 403 quando o usuário não estiver autorizado`() {
+    fun `Deve retornar 403 quando o usuario nao estiver autorizado`() {
         mockMvc.perform(
-            MockMvcRequestBuilders.get("/v1/plano-aula")
+            MockMvcRequestBuilders.get("/v1/planoaula")
                 .contentType(MediaType.APPLICATION_JSON)
                 .param("titulo", titulo)
                 .param("page", "0")
