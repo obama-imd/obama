@@ -3,7 +3,7 @@ package br.ufrn.imd.obama
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = ["br.ufrn.imd.obama"])
 class ObamaApplication
 
 fun main(args: Array<String>) {

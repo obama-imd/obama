@@ -14,7 +14,8 @@ fun Usuario.toEntity(): UsuarioEntity {
         papel = this.papel,
         ativo = this.ativo,
         tipoCadastro = this.tipoCadastro,
-        token = this.token
+        token = this.token,
+        usaCriptoGrafiaAntiga = this.usaCriptografiaAntiga
     )
 }
 
