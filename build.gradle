@@ -9,8 +9,6 @@ plugins {
 	id 'org.jetbrains.kotlin.plugin.jpa' version '1.8.22'
 	id 'jacoco'
 	id "io.freefair.lombok" version "5.3.0"
-//	id 'io.gitlab.arturbosch.detekt' version "1.22.0"
-//	id("org.jlleitschuh.gradle.ktlint") version "11.0.0"
 }
 
 group = 'br.ufrn.imd'
@@ -132,46 +130,3 @@ tasks.named("jacocoTestReport") {
 			)
 	)
 }
-
-//detekt {
-//	toolVersion = "1.22.0"
-//	config = files("$rootDir/config/detekt/detekt.yml")
-//	buildUponDefaultConfig = true
-//	source = files("src/main/kotlin")
-//	reports {
-//		html.required.set(true)
-//		xml.required.set(false)
-//		txt.required.set(false)
-//	}
-//}
-//
-////TODO: Matou o report do jacoco
-//tasks.withType(io.gitlab.arturbosch.detekt.Detekt).configureEach {
-//	reports {
-//		html.required.set(true)
-//		xml.required.set(false)
-//		txt.required.set(false)
-//	}
-//}
-
-//ktlint {
-//	version.set("0.45.2")
-//	debug.set(true)
-//	android.set(false)
-//	outputToConsole.set(true)
-//	ignoreFailures.set(false)
-//
-//	filter {
-//		exclude("**/test/**")
-//	}
-//
-//}
-//
-//tasks.named('check') {
-//	dependsOn 'detekt'
-//	dependsOn 'ktlintCheck'
-//}
-
-//tasks.named("ktlintTestSourceSetCheck") {
-//	enabled = false
-//}
