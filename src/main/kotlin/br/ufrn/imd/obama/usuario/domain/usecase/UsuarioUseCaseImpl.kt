@@ -25,7 +25,7 @@ class UsuarioUseCaseImpl(
         } catch (e: UsuarioNaoEncontradoException) {
 
             return usuarioGateway.salvarUsuario(usuario).apply {
-                emailService.sendSimpleMessage(
+                emailService.enviarEmail(
                     to = usuario.email,
                     subject = "OBAMA - Ativação de conta",
                     text = gerarTextoAtivacaoConta(usuario.token)

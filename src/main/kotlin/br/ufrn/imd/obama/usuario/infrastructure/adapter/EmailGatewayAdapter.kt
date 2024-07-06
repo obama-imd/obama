@@ -18,7 +18,7 @@ class EmailGatewayAdapter(
 
     private val logger = LoggerFactory.getLogger(javaClass)
 
-    override fun sendSimpleMessage(to: String, subject: String, text: String) {
+    override fun enviarEmail(to: String, subject: String, text: String) {
         logger.info("method={} started", "sendSimpleMessage")
 
         val message = SimpleMailMessage()

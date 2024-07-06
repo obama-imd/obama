@@ -18,7 +18,7 @@ class MockEmailGatewayAdapter(
 
     private val logger = LoggerFactory.getLogger(javaClass)
 
-    override fun sendSimpleMessage(to: String, subject: String, text: String) {
+    override fun enviarEmail(to: String, subject: String, text: String) {
         logger.info("method={}; to={}; subject={}; text={};", "sendSimpleMessage mockado", to, subject, text)
     }
 }
