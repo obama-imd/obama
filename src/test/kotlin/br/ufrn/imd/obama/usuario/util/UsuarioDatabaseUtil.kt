@@ -15,6 +15,21 @@ fun criarUsuarioInativo(): Usuario {
         Papel.PADRAO,
         false,
         TipoCadastro.PADRAO,
-        "teste"
+        UUID.randomUUID().toString()
     )
 }
+
+fun criarUsuarioAtivo(): Usuario {
+
+    return Usuario(
+        "Teste",
+        "Teste",
+        "usuario_ativo123@ufrn.com",
+        "Teste123123",
+        Papel.PADRAO,
+        true,
+        TipoCadastro.PADRAO,
+        UUID.randomUUID().toString()
+    )
+}
+

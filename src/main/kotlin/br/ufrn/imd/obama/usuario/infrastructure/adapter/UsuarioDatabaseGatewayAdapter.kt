@@ -6,11 +6,9 @@ import br.ufrn.imd.obama.usuario.domain.model.Usuario
 import br.ufrn.imd.obama.usuario.infrastructure.mapper.toEntity
 import br.ufrn.imd.obama.usuario.infrastructure.mapper.toModel
 import br.ufrn.imd.obama.usuario.infrastructure.repository.UsuarioRepository
-import java.util.UUID
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
-import org.springframework.stereotype.Service
+import org.springframework.stereotype.Component
 
-@Service
+@Component
 class UsuarioDatabaseGatewayAdapter(
     private val usuarioRepository: UsuarioRepository
 ): UsuarioDatabaseGateway {
@@ -21,5 +19,9 @@ class UsuarioDatabaseGatewayAdapter(
 
     override fun salvarUsuario(usuario: Usuario): Usuario {
         return usuarioRepository.save(usuario.toEntity()).toModel()
+    }
+
+    override fun buscarPorToken(token: String): Usuario {
+        return usuarioRepository.findByToken(token)?.toModel() ?: throw UsuarioNaoEncontradoException("Usuário Não encontrado")
     }
 }

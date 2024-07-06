@@ -9,9 +9,10 @@ data class Usuario (
         val email: String,
         var senha: String,
         val papel: Papel,
-        val ativo: Boolean,
+        var ativo: Boolean,
         val tipoCadastro: TipoCadastro,
-        val token: String
+        val token: String,
+        var usaCriptografiaAntiga: Boolean = true
 ) {
         private var id: Long = 0L
 

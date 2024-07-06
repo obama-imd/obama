@@ -74,7 +74,7 @@ class UsuarioDatabaseGatewayAdapterTest {
     }
 
     @Test
-    fun `Deve salvar salvar usuario`() {
+    fun `Deve salvar usuario`() {
         val usuario: Usuario = criarUsuarioInativo()
 
         `when`(usuarioRepository.save(ArgumentMatchers.any() )).thenReturn(usuario.toEntity())
@@ -100,6 +100,42 @@ class UsuarioDatabaseGatewayAdapterTest {
         assertThrows<RuntimeException> {
             gatewayAdapter.salvarUsuario(usuarioInvalido)
         }
+    }
+
+    @Test
+    fun `deve retornar usuario quando token é válido`() {
+        val usuario = UsuarioEntity(
+            1L,
+            "Nome",
+            "Sobre",
+            "teste@teste.com",
+            BCryptPasswordEncoder().encode("password"),
+            Papel.PADRAO,
+            false,
+            TipoCadastro.PADRAO,
+            "token"
+        )
+
+        `when`(usuarioRepository.findByToken(usuario.token))
+            .thenReturn(usuario)
+
+        val usuarioEncontrado = gatewayAdapter.buscarPorToken(usuario.token)
+
+        Assertions.assertNotNull(usuarioEncontrado)
+        Assertions.assertEquals(usuarioEncontrado.token, usuario.token)
+    }
+
+    @Test
+    fun `deve lançar exceção quando token é inválido`() {
+        val tokenInvalido = "tokenInvalido"
+        `when`(usuarioRepository.findByToken(tokenInvalido))
+            .thenReturn(null)
+
+        val exception = assertThrows<UsuarioNaoEncontradoException> {
+            gatewayAdapter.buscarPorToken(tokenInvalido)
+        }
+
+        Assertions.assertEquals("Usuário Não encontrado", exception.message)
     }
 
 }

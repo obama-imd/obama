@@ -1,5 +1,6 @@
 package br.ufrn.imd.obama.usuario.infrastructure.resource
 
+import br.ufrn.imd.obama.usuario.domain.usecase.UsuarioUseCase
 import br.ufrn.imd.obama.usuario.infrastructure.configuration.TokenService
 import br.ufrn.imd.obama.usuario.infrastructure.entity.UsuarioEntity
 import br.ufrn.imd.obama.usuario.infrastructure.resource.exchange.LoginRequest
@@ -25,13 +26,19 @@ import org.springframework.web.bind.annotation.RestController
 class AuthenticationResourceImpl(
     private val authenticationManager: AuthenticationManager,
 
-    private val tokenService: TokenService
+    private val tokenService: TokenService,
+
+    private val usuarioUseCase: UsuarioUseCase
 ) {
 
     @PostMapping("/login")
     fun login(
         @RequestBody @Valid request: LoginRequest
     ): ResponseEntity<LoginResponse> {
+
+        //TODO: Remover esse método no futuro, porque fluxo está assumindo mais de uma resposabilidade.
+        usuarioUseCase.alterarCriptografiaSenha(email = request.login, senha = request.senha)
+
         val usernamePassword = UsernamePasswordAuthenticationToken(request.login, request.senha)
 
         val auth = authenticationManager.authenticate(usernamePassword)

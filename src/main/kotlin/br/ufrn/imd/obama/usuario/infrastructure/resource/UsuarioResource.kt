@@ -2,6 +2,7 @@ package br.ufrn.imd.obama.usuario.infrastructure.resource
 
 import br.ufrn.imd.obama.usuario.infrastructure.handler.UsuarioExceptionHandler
 import br.ufrn.imd.obama.usuario.infrastructure.resource.exchange.CadastrarUsuarioRequest
+import br.ufrn.imd.obama.usuario.infrastructure.resource.exchange.AtivarUsuarioRequest
 import br.ufrn.imd.obama.usuario.infrastructure.resource.exchange.UsuarioResponse
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.Content
@@ -37,4 +38,13 @@ interface UsuarioResource {
         )
     ])
     fun salvarUsuario(@Valid request: CadastrarUsuarioRequest): ResponseEntity<UsuarioResponse>
+
+    @Operation(summary = "Endpoint para ativar um usuário por token")
+    @ApiResponses(value = [
+        ApiResponse(
+            responseCode = "204",
+            description = "Ativação do usuário realizada"
+        )
+    ])
+    fun ativarUsuarioPorToken(ativarUsuarioRequest: AtivarUsuarioRequest): ResponseEntity<Unit>
 }

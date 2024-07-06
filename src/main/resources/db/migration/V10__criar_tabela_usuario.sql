@@ -7,7 +7,7 @@ CREATE TABLE Usuario (
     papel ENUM('ADMIN', 'PADRAO', 'REVISOR') NOT NULL,
     ativo BOOLEAN NOT NULL,
     tipo_cadastro ENUM('PADRAO', 'GOOGLE', 'FACEBOOK') NOT NULL,
-    token VARCHAR(255) NOT NULL,
+    token VARCHAR(255) NOT NULL UNIQUE,
     CONSTRAINT usuario_pk PRIMARY KEY (id)
 );
 
