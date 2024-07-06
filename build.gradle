@@ -73,6 +73,8 @@ dependencies {
 
 	//Actuator
 	implementation 'org.springframework.boot:spring-boot-starter-actuator:3.2.1'
+
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
 }
 
 dependencyManagement {

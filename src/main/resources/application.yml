@@ -12,6 +12,17 @@ spring:
         maximumSizes: 10000
         expireAfterAccess: 600
         initialCapacity: 100
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: obama@imd.ufrn.br
+    password: ${SENHA_APP_EMAIL}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
 server:
   port: 8081
@@ -20,3 +31,9 @@ api:
   security:
     token:
       issuer: "obama-api"
+      secret: ${JWT_SECRET}
+
+mail:
+  active: false
+
+

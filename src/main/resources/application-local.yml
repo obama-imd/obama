@@ -19,7 +19,11 @@ spring:
   devtools:
     add-properties: false
 
-api:
-  security:
-    token:
-      secret: ${JWT_SECRET}
+logging:
+  level:
+    org:
+      springframework:
+        mail: DEBUG
+
+mail:
+  active: false
