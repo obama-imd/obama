@@ -1,4 +1,4 @@
-version: '3.3'
+version: '3.8'
 
 networks:
   obama_network:
@@ -9,15 +9,22 @@ networks:
 
 
 services:
-  obama_postgres:
-    container_name: obama_postgres
-    image: postgres:13.5
+  obama-app:
+    image: obamaapi:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
-      - "5432:5432"
+      - "8081:8081"
+    environment:
+      - SPRING_PROFILE=local
+      - SPRING_DATASOURCE_URL=jdbc:h2:mem:obama
+      - SPRING_DATASOURCE_USERNAME=sa
+      - SPRING_DATASOURCE_PASSWORD=password
+      - SPRING_H2_CONSOLE_ENABLED=true
+      - SPRING_H2_CONSOLE_PATH=/h2-console
+      - SPRING_H2_CONSOLE_SETTINGS_WEB_ALLOW_OTHERS=true
     networks:
       obama_network:
-        ipv4_address: 170.0.0.2
-    environment:
-      POSTGRES_USER: "OBAMA_ADMIN"
-      POSTGRES_PASSWORD: "OBAMA_LOCAL"
+        ipv4_address: 170.0.0.3
 

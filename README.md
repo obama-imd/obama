@@ -71,6 +71,14 @@ Para rodar a aplicação via terminal basta usar o seguinte comando:
 ./gradlew bootRun --args='--spring.profiles.active=<profile_name>' -DJWT_SECRET=<segredo>
 ```
 
+### Inicializar a aplicação via docker
+
+Para rodar a aplicação via docker basta usar o seguinte comando:
+
+```shell
+docker-compose up -d
+```
+
 ## Banco de dados
 
 ### Configurar base de dados
