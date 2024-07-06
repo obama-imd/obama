@@ -1,6 +1,6 @@
 package br.ufrn.imd.obama.oa.infrastructure.adapter
 
-import br.ufrn.imd.obama.oa.domain.gateway.
+import br.ufrn.imd.obama.oa.domain.gateway.ObjetoAprendizagemGateway
 import br.ufrn.imd.obama.oa.domain.model.ObjetoAprendizagem
 import br.ufrn.imd.obama.oa.domain.model.TipoAcesso
 import br.ufrn.imd.obama.oa.infrastructure.exception.OANaoEncontradoException
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service
 @Service("ObjetoAprendizagemDatabaseGatewayAdapter")
 class ObjetoAprendizagemDatabaseGatewayAdapter(
     private val objetoAprendizagemRepository: ObjetoAprendizagemRepository
-):   {
+): ObjetoAprendizagemGateway {
     private val logger = LoggerFactory.getLogger(javaClass)
 
     override fun procurarPorID(
