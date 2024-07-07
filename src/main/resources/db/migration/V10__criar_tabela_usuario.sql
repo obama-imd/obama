@@ -4,9 +4,9 @@ CREATE TABLE Usuario (
     sobrenome VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
     senha VARCHAR(255) NOT NULL,
-    papel ENUM('ADMIN', 'PADRAO', 'REVISOR') NOT NULL,
+    papel VARCHAR(255) NOT NULL,
     ativo BOOLEAN NOT NULL,
-    tipo_cadastro ENUM('PADRAO', 'GOOGLE', 'FACEBOOK') NOT NULL,
+    tipo_cadastro VARCHAR(255) NOT NULL,
     token VARCHAR(255) NOT NULL UNIQUE,
     CONSTRAINT usuario_pk PRIMARY KEY (id)
 );

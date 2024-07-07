@@ -76,7 +76,7 @@ Para rodar a aplicação via terminal basta usar o seguinte comando:
 Para rodar a aplicação via docker basta usar o seguinte comando:
 
 ```shell
-docker-compose up -d
+docker stack deploy -c docker-compose.yml obama
 ```
 
 ## Banco de dados
