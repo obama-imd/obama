@@ -31,7 +31,7 @@ class TokenService(
                 .sign(algorithm)
 
         } catch (ex: JWTCreationException) {
-            throw RuntimeException("Erro criando o token", ex)
+            throw JWTCreationException("Erro criando o token", ex)
         }
     }
 

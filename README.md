@@ -39,7 +39,7 @@ OBS: Substitua <nome_profile> pelo nome do perfil da aplicação que deseja util
 
 ### Configurar segredo JWT
 
-Para rodar a aplicação é necessário declara qual segredo a aplicação vai utilizar para gerar a criptografia das senhas do usuário. Esse valor é uma variável de ambiente que precisa ser declarada da seguinte maneira:
+Para rodar a aplicação é necessário declarar qual segredo a aplicação vai utilizar para gerar a criptografia das senhas do usuário. Esse valor é uma variável de ambiente que precisa ser declarada da seguinte maneira:
 
 ```
 JWT_SECRET=<segredo>
@@ -49,12 +49,34 @@ OBS: Substitua <segredo> pelo valor do segredo que queira. Por exemplo, `segredo
 
 Essa variável pode ser declarada na configuração de execução do projeto pelo IntelliJ. Vá em `Edit Configurations > Environment variables`.
 
+### Configurar email
+
+Para rodar a aplicação é necessário declarar qual senha a aplicação vai utilizar para enviar o email pelo smtp. Esse valor é uma variável de ambiente que precisa ser declarada da seguinte maneira:
+
+```
+SENHA_APP_EMAIL=<segredo>
+```
+
+OBS: Substitua <segredo> pelo valor do segredo que queira. Por exemplo, `segredo`.
+
+Essa variável pode ser declarada na configuração de execução do projeto pelo IntelliJ. Vá em `Edit Configurations > Environment variables`.
+
+Por padrão a aplicação está configurada para não enviar email pelo smtp do gmail. Caso deseje mudar para outro smtp, basta alterar a configuração `mail.active` no arquivo `application-local.yml` na pasta `src/main/resources`.
+
 ### Inicializar a aplicação via gradle
 
 Para rodar a aplicação via terminal basta usar o seguinte comando:
 
 ```
 ./gradlew bootRun --args='--spring.profiles.active=<profile_name>' -DJWT_SECRET=<segredo>
+```
+
+### Inicializar a aplicação via docker
+
+Para rodar a aplicação via docker basta usar o seguinte comando:
+
+```shell
+docker stack deploy -c docker-compose.yml obama
 ```
 
 ## Banco de dados

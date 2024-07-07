@@ -19,6 +19,9 @@ class CaffeineConfig {
     @Value("\${spring.cache.caffeine.spec.maximumSizes}")
     var maximumSize: Long = 0
 
+    @Value("\${spring.cache.caffeine.spec.initialCapacity}")
+    var initialCapacity: Int = 0
+
     @Bean
     fun cacheManager(): CacheManager {
         val cacheManager = CaffeineCacheManager()
@@ -29,7 +32,7 @@ class CaffeineConfig {
 
     private fun caffeineCacheBuilder(): Caffeine<Any, Any> {
         return Caffeine.newBuilder()
-            .initialCapacity(100)
+            .initialCapacity(initialCapacity)
             .maximumSize(maximumSize)
             .expireAfterAccess(expireAccessAfter, TimeUnit.SECONDS)
             .weakKeys()

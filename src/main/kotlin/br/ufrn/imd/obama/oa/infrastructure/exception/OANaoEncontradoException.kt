@@ -1,4 +1,3 @@
 package br.ufrn.imd.obama.oa.infrastructure.exception
 
-class OANaoEncontradoException(override val message: String?) : RuntimeException() {
-}
+class OANaoEncontradoException(override val message: String?) : RuntimeException()
