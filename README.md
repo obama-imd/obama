@@ -126,3 +126,13 @@ TODO: Adicionar descrição da necessidade de adicionar uma variável de ambient
 ## Saúde da aplicação
 
 Para verificar a saúde da aplicação basta acessar `{HOST}/actuator/health` no navegador.
+
+## Critérios de segurnaça
+
+### Senha
+
+- Pelo menos 8 caracteres.
+- Pelo menos uma letra maiúscula.
+- Pelo menos uma letra minúscula.
+- Conter pelo menos um número.
+- Conter pelo menos um caractere especial (por exemplo, @, #, $, etc.).

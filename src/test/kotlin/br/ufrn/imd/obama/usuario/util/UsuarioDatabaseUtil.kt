@@ -11,7 +11,7 @@ fun criarUsuarioInativo(): Usuario {
         "Teste",
         "Teste",
         "Teste123@ufrn.com",
-        "Teste123123",
+        "Tes@12346",
         Papel.PADRAO,
         false,
         TipoCadastro.PADRAO,
@@ -31,5 +31,13 @@ fun criarUsuarioAtivo(): Usuario {
         TipoCadastro.PADRAO,
         UUID.randomUUID().toString()
     )
+}
+
+fun criaUsuarioSenhaInvalida(): Usuario {
+    val usuario = criarUsuarioInativo()
+
+    usuario.senha = "senha123"
+
+    return  usuario
 }
 
