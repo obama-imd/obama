@@ -73,7 +73,16 @@ Para rodar a aplicação via terminal basta usar o seguinte comando:
 
 ### Inicializar a aplicação via docker
 
+É necessário criar e configurar um arquivo `.env` na raiz do projeto com as variáveis de ambiente necessárias para rodar a aplicação. O arquivo `.env` deve conter as seguintes variáveis descritas no arquivo `.env.example`.
+
 Para rodar a aplicação via docker basta usar o seguinte comando:
+
+```shell
+docker compose up -d
+```
+
+ou 
+
 
 ```shell
 docker stack deploy -c docker-compose.yml obama

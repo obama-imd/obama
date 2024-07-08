@@ -2,11 +2,6 @@ version: '3.8'
 
 networks:
   obama_network:
-    ipam:
-      driver: default
-      config:
-        - subnet: 170.0.0.0/16
-
 
 services:
   obama-app:
@@ -17,15 +12,11 @@ services:
     ports:
       - "8081:8081"
     environment:
-      - DB_URL=${DB_URL}
-      - DB_USERNAME=${DB_USERNAME}
-      - DB_PASSWORD=${DB_PASSWORD}
-#      - SPRING_DATASOURCE_URL=jdbc:h2:mem:obama
-#      - SPRING_DATASOURCE_USERNAME=sa
-#      - SPRING_DATASOURCE_PASSWORD=password
-#      - SPRING_H2_CONSOLE_ENABLED=true
-#      - SPRING_H2_CONSOLE_PATH=/h2-console
-#      - SPRING_H2_CONSOLE_SETTINGS_WEB_ALLOW_OTHERS=true
+      DB_URL: "${DB_URL}"
+      DB_USERNAME: "${DB_USERNAME}"
+      DB_PASSWORD: "${DB_PASSWORD}"
+      JWT_SECRET: "${JWT_SECRET}"
+      SENHA_APP_EMAIL: "${SENHA_APP_EMAIL}"
     networks:
       obama_network:
         ipv4_address: 170.0.0.3
@@ -38,13 +29,14 @@ services:
     container_name: obama_postgres
     image: postgres:13.5
     ports:
-      - "5432:5432"
+      - "5433:5432"
     networks:
       obama_network:
-        ipv4_address: 170.0.0.2
     environment:
-      POSTGRES_USER: "OBA_ADMIN"
-      POSTGRES_PASSWORD: "OBA_LOCAL"
+      POSTGRES_USER: "${DB_USERNAME}"
+      POSTGRES_PASSWORD: "${DB_PASSWORD}"
+      POSTGRES_DB: "${DB_NAME}"
+
 
 
 
