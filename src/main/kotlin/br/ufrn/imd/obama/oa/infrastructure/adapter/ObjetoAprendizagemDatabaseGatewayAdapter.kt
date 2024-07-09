@@ -38,7 +38,7 @@ class ObjetoAprendizagemDatabaseGatewayAdapter(
 
         return objetoAprendizagemRepository.buscarTodosAtivoPorNomeETipoAcessoENivelEnsinoETemaConteudoEDescritorEHabilidade(
             pageable = pageable,
-            nome = nome,
+            nome = nome?.uppercase(),
             nivelEnsinoId = nivelEnsinoId,
             temaConteudoId = temaConteudoId,
             descritorId = descritorId,

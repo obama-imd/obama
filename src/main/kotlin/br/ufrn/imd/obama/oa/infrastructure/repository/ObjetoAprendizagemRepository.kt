@@ -22,7 +22,7 @@ interface ObjetoAprendizagemRepository: JpaRepository<ObjetoAprendizagemEntity, 
                     " LEFT JOIN oa.descritores d " +
                     " LEFT JOIN oa.objetoAprendizagemPlataformas oap " +
                     " LEFT JOIN oa.habilidades h " +
-                    " WHERE ( :nome IS NULL OR oa.nome like upper(CONCAT('%',:nome,'%')) )" +
+                    " WHERE ( :nome IS NULL OR oa.nome like CONCAT('%',:nome,'%'))" +
                     " AND oa.ativo = true" +
                     " AND (:tipoAcesso IS NULL OR oap.tipoAcesso = :tipoAcesso) " +
                     " AND (:nivelEnsinoId IS NULL OR d.nivelEnsino.id = :nivelEnsinoId) " +
