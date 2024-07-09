@@ -24,9 +24,8 @@ services:
       mode: replicated
       replicas: 2
     depends_on:
-      - obama_postgres
-  obama_postgres:
-    container_name: obama_postgres
+      - obama-postgres
+  obama-postgres:
     image: postgres:13.5
     ports:
       - "5433:5432"
