@@ -75,7 +75,7 @@ class ObjetoAprendizagemDatabaseGatewayAdapterTest {
 
         `when`(
             objetoAprendizagemRepository.buscarTodosAtivoPorNomeETipoAcessoENivelEnsinoETemaConteudoEDescritorEHabilidade(
-                nome,
+                nome.uppercase(),
                 null,
                 null,
                 null,
