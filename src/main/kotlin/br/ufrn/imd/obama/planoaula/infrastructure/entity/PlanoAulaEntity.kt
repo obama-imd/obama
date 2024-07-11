@@ -76,6 +76,11 @@ data class PlanoAulaEntity(
     private val nivelEnsino: NivelEnsinoEntity?,
 
     @OneToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+        name = "plano_aula_disciplina",
+        joinColumns = [JoinColumn(name = "plano_aula_id", referencedColumnName = "id")],
+        inverseJoinColumns = [JoinColumn(name = "disciplina_id", referencedColumnName = "id")]
+    )
     private val disciplinasEnvolvidas: List<DisciplinaEntity>?,
 
     @OneToOne(fetch = FetchType.EAGER, optional = true)

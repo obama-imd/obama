@@ -1,5 +1,6 @@
 package br.ufrn.imd.obama.planoaula.infrastructure.repository
 
+import br.ufrn.imd.obama.planoaula.domain.enums.StatusPlanoAula
 import br.ufrn.imd.obama.planoaula.infrastructure.entity.PlanoAulaEntity
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
@@ -10,7 +11,9 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface PlanoAulaRepository: JpaRepository<PlanoAulaEntity, Long> {
+
     @Query("SELECT p FROM PlanoAulaEntity p WHERE " +
-            "(:titulo IS NULL OR p.titulo = :titulo)")
+            "(p.titulo IS NULL OR p.titulo = :titulo)" +
+            "AND p.status <> 'REMOVIDO' ")
     fun buscarPlanosAulaPorTitulo(@Param("titulo") titulo: String?, pageable: Pageable): Page<PlanoAulaEntity>
 }

@@ -15,10 +15,9 @@ class PlanoAulaGatewayAdapter(
     private val planoAulaRepository: PlanoAulaRepository
 ): PlanoAulaGateway {
     override fun buscarPlanosAulaPorTitulo(titulo: String?, pageable: Pageable): Page<PlanoAula> {
-        val planoAulaPage = planoAulaRepository.buscarPlanosAulaPorTitulo(titulo, pageable)
-        val planoAulaListFiltrado = planoAulaPage.filter{it?.getStatus() != StatusPlanoAula.REMOVIDO}.toList()
+        val planoAulaPage = planoAulaRepository.buscarPlanosAulaPorTitulo(titulo, pageable).toList()
 
-        return PageImpl(planoAulaListFiltrado).map {
+        return PageImpl(planoAulaPage).map {
             planoAula -> planoAula?.toModel()
         }
     }
