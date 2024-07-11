@@ -9,6 +9,7 @@ import br.ufrn.imd.obama.usuario.infrastructure.repository.UsuarioRepository
 import br.ufrn.imd.obama.usuario.infrastructure.resource.exchange.AtivarUsuarioRequest
 import br.ufrn.imd.obama.usuario.infrastructure.resource.exchange.CadastrarUsuarioRequest
 import br.ufrn.imd.obama.usuario.infrastructure.resource.exchange.LoginRequest
+import br.ufrn.imd.obama.usuario.util.criaUsuarioSenhaInvalida
 import br.ufrn.imd.obama.usuario.util.criarUsuarioInativo
 import com.fasterxml.jackson.databind.ObjectMapper
 import jakarta.transaction.Transactional
@@ -216,6 +217,23 @@ class UsuarioResourceImplTest {
 
     private fun criarAtivarUsuarioRequest(token: String): AtivarUsuarioRequest {
         return AtivarUsuarioRequest(token)
+    }
+
+    @Test
+    fun `Não deve retornar 201 created quando salvar um usuário com senha inválida`() {
+        val usuario = criaUsuarioSenhaInvalida()
+
+        val request = criarUsuarioRequest(usuario)
+
+        val usuarioJson = objectMapper.writeValueAsString(request)
+
+        mockMvc.perform(
+            post("/v1/usuario/cadastrar")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(usuarioJson)
+        )
+            .andDo(print())
+            .andExpect(status().isBadRequest)
     }
 
 }

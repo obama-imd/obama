@@ -2,6 +2,7 @@ package br.ufrn.imd.obama.usuario.domain.usecase
 
 import br.ufrn.imd.obama.usuario.domain.exception.UsuarioExistenteException
 import br.ufrn.imd.obama.usuario.domain.exception.UsuarioNaoEncontradoException
+import br.ufrn.imd.obama.usuario.domain.gateway.EmailGateway
 import br.ufrn.imd.obama.usuario.domain.gateway.UsuarioDatabaseGateway
 import br.ufrn.imd.obama.usuario.domain.model.Usuario
 import br.ufrn.imd.obama.usuario.infrastructure.adapter.UsuarioDatabaseGatewayAdapter
@@ -44,6 +45,8 @@ class UsuarioDatabaseUseCaseImplTest {
     @MockBean
     private lateinit var oldCustomEncoder: OldCustomEncoder
 
+    @MockBean
+    private lateinit var emailGateway: EmailGateway
 
     @Test
     fun `deve salvar usuario corretamente`() {

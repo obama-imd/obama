@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service
 @Service("ObjetoAprendizagemDatabaseGatewayAdapter")
 class ObjetoAprendizagemDatabaseGatewayAdapter(
     private val objetoAprendizagemRepository: ObjetoAprendizagemRepository
-): ObjetoAprendizagemGateway  {
+): ObjetoAprendizagemGateway {
     private val logger = LoggerFactory.getLogger(javaClass)
 
     override fun procurarPorID(
@@ -38,7 +38,7 @@ class ObjetoAprendizagemDatabaseGatewayAdapter(
 
         return objetoAprendizagemRepository.buscarTodosAtivoPorNomeETipoAcessoENivelEnsinoETemaConteudoEDescritorEHabilidade(
             pageable = pageable,
-            nome = nome,
+            nome = nome?.uppercase(),
             nivelEnsinoId = nivelEnsinoId,
             temaConteudoId = temaConteudoId,
             descritorId = descritorId,
