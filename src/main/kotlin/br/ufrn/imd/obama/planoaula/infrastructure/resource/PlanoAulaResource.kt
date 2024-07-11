@@ -1,6 +1,7 @@
 package br.ufrn.imd.obama.planoaula.infrastructure.resource
 
 import br.ufrn.imd.obama.planoaula.infrastructure.resource.exchange.PlanoAulaResponse
+import br.ufrn.imd.obama.usuario.infrastructure.entity.UsuarioEntity
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.media.Schema
@@ -9,6 +10,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.http.MediaType
+import org.springframework.security.core.userdetails.UserDetails
 
 
 interface PlanoAulaResource {
@@ -29,5 +31,9 @@ interface PlanoAulaResource {
             description = "Usuário não autenticado",
         )
     ])
-    fun buscarPlanosAulaPorTitulo(titulo: String?, pageable: Pageable): Page<PlanoAulaResponse>
+    fun buscarPlanosAulaPorTitulo(
+        usuario: UserDetails,
+        titulo: String?,
+        pageable: Pageable
+    ): Page<PlanoAulaResponse>
 }
