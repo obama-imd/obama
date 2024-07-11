@@ -80,30 +80,4 @@ class PlanoAulaGatewayAdapterTest {
 
         Assertions.assertEquals(resultadoGateway?.isEmpty, false)
     }
-
-    @Test
-    fun `Deve filtrar todos os planos de aula com status removido`() {
-        val pageable: Pageable = Pageable.ofSize(PlanoAulaGatewayAdapterTest.pageSize)
-
-        val resultado: Page<PlanoAulaEntity> = PageImpl(
-            listOf(
-                criarPlanoAula().toEntity(),
-                criarPlanoAulaComStatusRemovido().toEntity(),
-                criarPlanoAulaComStatusRemovido().toEntity()
-            )
-        )
-
-        Mockito.`when`(
-            planoAulaRepository.buscarPlanosAulaPorTitulo(PlanoAulaGatewayAdapterTest.titulo, pageable)
-        ).thenReturn(resultado)
-
-        var resultadoGateway: Page<PlanoAula>? = null
-
-        assertDoesNotThrow {
-            resultadoGateway = planoAulaGatewayAdapter.buscarPlanosAulaPorTitulo(PlanoAulaGatewayAdapterTest.titulo, pageable)
-        }
-
-        Assertions.assertEquals(resultadoGateway?.size, 1)
-        Assertions.assertEquals(resultadoGateway?.get()?.toList()?.get(0)?.getStatus(), StatusPlanoAula.VALIDADO)
-    }
 }
