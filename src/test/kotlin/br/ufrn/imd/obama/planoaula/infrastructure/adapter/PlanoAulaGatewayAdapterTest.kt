@@ -1,16 +1,12 @@
 package br.ufrn.imd.obama.planoaula.infrastructure.adapter
 
-import br.ufrn.imd.obama.oa.domain.model.Habilidade
-import br.ufrn.imd.obama.oa.infrastructure.entity.HabilidadeEntity
-import br.ufrn.imd.obama.oa.infrastructure.mapper.toEntity
-import br.ufrn.imd.obama.oa.util.criarHabilidade
-import br.ufrn.imd.obama.planoaula.domain.enums.StatusPlanoAula
 import br.ufrn.imd.obama.planoaula.domain.model.PlanoAula
 import br.ufrn.imd.obama.planoaula.infrastructure.entity.PlanoAulaEntity
 import br.ufrn.imd.obama.planoaula.infrastructure.mapper.toEntity
 import br.ufrn.imd.obama.planoaula.infrastructure.repository.PlanoAulaRepository
 import br.ufrn.imd.obama.planoaula.util.criarPlanoAula
-import br.ufrn.imd.obama.planoaula.util.criarPlanoAulaComStatusRemovido
+import br.ufrn.imd.obama.usuario.infrastructure.mapper.toEntity
+import br.ufrn.imd.obama.usuario.util.criarUsuarioAtivo
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
@@ -40,16 +36,18 @@ class PlanoAulaGatewayAdapterTest {
     @Test
     fun `Deve fazer busca no repository e encontrar nenhum dado`() {
         val pageable: Pageable = Pageable.ofSize(PlanoAulaGatewayAdapterTest.pageSize)
-        var resultadoVazio: Page<PlanoAulaEntity> = Page.empty()
+        val autor = criarUsuarioAtivo().toEntity()
+
+        val resultadoVazio: Page<PlanoAulaEntity> = Page.empty()
 
         Mockito.`when`(
-            planoAulaRepository.buscarPlanosAulaPorTitulo(null, pageable)
+            planoAulaRepository.buscarPlanosAulaPorTitulo(autor,null, pageable)
         ).thenReturn(resultadoVazio)
 
         var resultadoGateway: Page<PlanoAula>? = null
 
         assertDoesNotThrow {
-            resultadoGateway = planoAulaGatewayAdapter.buscarPlanosAulaPorTitulo(null, pageable)
+            resultadoGateway = planoAulaGatewayAdapter.buscarPlanosAulaPorTitulo(autor,null, pageable)
         }
 
         Assertions.assertTrue(resultadoGateway!!.isEmpty)
@@ -60,6 +58,7 @@ class PlanoAulaGatewayAdapterTest {
     fun `Deve fazer busca no repository e achar algum dado`() {
 
         val pageable: Pageable = Pageable.ofSize(PlanoAulaGatewayAdapterTest.pageSize)
+        val autor = criarUsuarioAtivo().toEntity()
 
         val resultado: Page<PlanoAulaEntity> = PageImpl(
             listOf(
@@ -69,13 +68,13 @@ class PlanoAulaGatewayAdapterTest {
         )
 
         Mockito.`when`(
-            planoAulaRepository.buscarPlanosAulaPorTitulo(PlanoAulaGatewayAdapterTest.titulo, pageable)
+            planoAulaRepository.buscarPlanosAulaPorTitulo(autor,PlanoAulaGatewayAdapterTest.titulo, pageable)
         ).thenReturn(resultado)
 
         var resultadoGateway: Page<PlanoAula>? = null
 
         assertDoesNotThrow {
-            resultadoGateway = planoAulaGatewayAdapter.buscarPlanosAulaPorTitulo(PlanoAulaGatewayAdapterTest.titulo, pageable)
+            resultadoGateway = planoAulaGatewayAdapter.buscarPlanosAulaPorTitulo(autor,PlanoAulaGatewayAdapterTest.titulo, pageable)
         }
 
         Assertions.assertEquals(resultadoGateway?.isEmpty, false)

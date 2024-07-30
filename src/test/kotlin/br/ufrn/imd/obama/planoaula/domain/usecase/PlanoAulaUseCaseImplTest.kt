@@ -3,6 +3,8 @@ package br.ufrn.imd.obama.planoaula.domain.usecase
 import br.ufrn.imd.obama.planoaula.domain.model.PlanoAula
 import br.ufrn.imd.obama.planoaula.infrastructure.adapter.PlanoAulaGatewayAdapter
 import br.ufrn.imd.obama.planoaula.util.criarPlanoAula
+import br.ufrn.imd.obama.usuario.infrastructure.mapper.toEntity
+import br.ufrn.imd.obama.usuario.util.criarUsuarioAtivo
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
@@ -30,8 +32,9 @@ class PlanoAulaUseCaseImplTest {
     fun `Deve achar plano de aula`() {
 
         val pageable: Pageable = Pageable.ofSize(PlanoAulaUseCaseImplTest.pageSize)
+        val autor = criarUsuarioAtivo().toEntity()
 
-        var resultado: Page<PlanoAula> = PageImpl(
+        val resultado: Page<PlanoAula> = PageImpl(
             listOf(
                 criarPlanoAula(),
                 criarPlanoAula()
@@ -40,6 +43,7 @@ class PlanoAulaUseCaseImplTest {
 
         Mockito.`when`(
             planoAulaGatewayAdapter.buscarPlanosAulaPorTitulo(
+                autor,
                 "teste",
                 pageable,
             )
@@ -48,7 +52,7 @@ class PlanoAulaUseCaseImplTest {
         var paginas: Page<PlanoAula> = Page.empty(pageable)
 
         assertDoesNotThrow {
-            paginas = planoAulaUseCase.buscarPlanoAulaPorTitulo("teste", pageable)
+            paginas = planoAulaUseCase.buscarPlanoAulaPorTitulo(autor,"teste", pageable)
         }
 
         Assertions.assertEquals(paginas.isEmpty, false)
@@ -56,12 +60,15 @@ class PlanoAulaUseCaseImplTest {
 
     @Test
     fun `Deve achar nenhum plano de aula`() {
-        val pageable: Pageable = Pageable.ofSize(PlanoAulaUseCaseImplTest.pageSize)
 
-        var resultado: Page<PlanoAula> = Page.empty(pageable)
+        val pageable: Pageable = Pageable.ofSize(PlanoAulaUseCaseImplTest.pageSize)
+        val autor = criarUsuarioAtivo().toEntity()
+
+        val resultado: Page<PlanoAula> = Page.empty(pageable)
 
         Mockito.`when`(
             planoAulaGatewayAdapter.buscarPlanosAulaPorTitulo(
+                autor,
                 "teste",
                 pageable,
             )
@@ -70,7 +77,7 @@ class PlanoAulaUseCaseImplTest {
         var paginas: Page<PlanoAula> = Page.empty(pageable)
 
         assertDoesNotThrow {
-            paginas = planoAulaUseCase.buscarPlanoAulaPorTitulo("teste", pageable)
+            paginas = planoAulaUseCase.buscarPlanoAulaPorTitulo(autor,"teste", pageable)
         }
 
         Assertions.assertEquals(paginas.isEmpty, true)
@@ -78,12 +85,15 @@ class PlanoAulaUseCaseImplTest {
 
     @Test
     fun `Deve achar nenhum plano de aula passando titulo como nulo`() {
-        val pageable: Pageable = Pageable.ofSize(PlanoAulaUseCaseImplTest.pageSize)
 
-        var resultado: Page<PlanoAula> = Page.empty(pageable)
+        val pageable: Pageable = Pageable.ofSize(PlanoAulaUseCaseImplTest.pageSize)
+        val autor = criarUsuarioAtivo().toEntity()
+
+        val resultado: Page<PlanoAula> = Page.empty(pageable)
 
         Mockito.`when`(
             planoAulaGatewayAdapter.buscarPlanosAulaPorTitulo(
+                autor,
                 null,
                 pageable
             )
@@ -92,7 +102,7 @@ class PlanoAulaUseCaseImplTest {
         var paginas: Page<PlanoAula> = Page.empty(pageable)
 
         assertDoesNotThrow {
-            paginas = planoAulaUseCase.buscarPlanoAulaPorTitulo(null, pageable)
+            paginas = planoAulaUseCase.buscarPlanoAulaPorTitulo(autor,null, pageable)
         }
 
         Assertions.assertEquals(paginas.isEmpty, true)
