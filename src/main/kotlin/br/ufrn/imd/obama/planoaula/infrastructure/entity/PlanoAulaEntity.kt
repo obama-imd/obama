@@ -60,9 +60,6 @@ data class PlanoAulaEntity(
     private val metodologia: String?,
 
     @Column(columnDefinition = "text", nullable = true)
-    private val avaliacao: String?,
-
-    @Column(columnDefinition = "text", nullable = true)
     private val referencias: String?,
 
     @Column(columnDefinition = "text", unique = true, nullable = false)
@@ -79,6 +76,11 @@ data class PlanoAulaEntity(
     private val nivelEnsino: NivelEnsinoEntity?,
 
     @OneToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+        name = "plano_aula_disciplina",
+        joinColumns = [JoinColumn(name = "plano_aula_id", referencedColumnName = "id")],
+        inverseJoinColumns = [JoinColumn(name = "disciplina_id", referencedColumnName = "id")]
+    )
     private val disciplinasEnvolvidas: List<DisciplinaEntity>?,
 
     @OneToOne(fetch = FetchType.EAGER, optional = true)
@@ -99,4 +101,24 @@ data class PlanoAulaEntity(
         inverseJoinColumns = [JoinColumn(name = "usuario_id", referencedColumnName = "id")]
     )
     private val coautores: Set<UsuarioEntity>?,
-)
+) {
+    fun getId() = id
+    fun getDataCadastro() = dataCadastro
+    fun getQtdDownload() = qtdDownload
+    fun getEscola() = escola
+    fun getDuracaoEmMinutos() = duracaoEmMinutos
+    fun getTitulo() = titulo
+    fun getResumo() = resumo
+    fun getObjetivoGeral() = objetivoGeral
+    fun getObjetivosEspecificos() = objetivosEspecificos
+    fun getMetodologia() = metodologia
+    fun getReferencias() = referencias
+    fun getToken() = token
+    fun getStatus() = status
+    fun getAutor() = autor
+    fun getNivelEnsino() = nivelEnsino
+    fun getDisciplinasEnvolvidas() = disciplinasEnvolvidas
+    fun getAnoEnsino() = anoEnsino
+    fun getObjetosAprendizagem() = objetosAprendizagem
+    fun getCoautores() = coautores
+}

@@ -19,7 +19,6 @@ data class PlanoAula(
     private var objetivoGeral: String? = null,
     private var objetivosEspecificos: String? = null,
     private var metodologia: String? = null,
-    private var avaliacao: String? = null,
     private var referencias: String? = null,
     private var token: String? = null,
     private var status: StatusPlanoAula,
@@ -29,4 +28,74 @@ data class PlanoAula(
     private var anoEnsino: AnoEnsino? = null,
     private var objetosAprendizagem: Set<ObjetoAprendizagem>? = null,
     private var coautores: Set<Usuario>? = null,
-)
+) {
+
+    fun getQtdDownload(): Int {
+        return qtdDownload
+    }
+
+    fun getEscola(): String? {
+        return escola
+    }
+
+    fun getDuracaoEmMinutos(): Int? {
+        return duracaoEmMinutos
+    }
+
+    fun getTitulo(): String? {
+        return titulo
+    }
+
+    fun getResumo(): String? {
+        return resumo
+    }
+
+    fun getObjetivoGeral(): String? {
+        return objetivoGeral
+    }
+
+    fun getObjetivosEspecificos(): String? {
+        return objetivosEspecificos
+    }
+
+    fun getMetodologia(): String? {
+        return metodologia
+    }
+
+    fun getReferencias(): String? {
+        return referencias
+    }
+
+    fun getToken(): String? {
+        return token
+    }
+
+    fun getStatus(): StatusPlanoAula {
+        return status
+    }
+
+    fun getAutor(): Usuario? {
+        return autor
+    }
+
+    fun getNivelEnsino(): NivelEnsino? {
+        return nivelEnsino
+    }
+
+    fun getCoautores(): Set<Usuario>? {
+        return coautores
+    }
+
+    fun getAnoEnsino(): AnoEnsino? {
+        return anoEnsino
+    }
+
+    fun getDisciplinasEnvolvidas(): List<Disciplina>? {
+        return disciplinasEnvolvidas
+    }
+
+    fun getObjetosAprendizagem(): Set<ObjetoAprendizagem>? {
+        return objetosAprendizagem
+    }
+
+}

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component
 
 @Component
 class UsuarioDatabaseGatewayAdapter(
-    private val usuarioRepository: UsuarioRepository
+    private val usuarioRepository:UsuarioRepository
 ): UsuarioDatabaseGateway {
 
     override fun buscarPorEmail(email: String): Usuario {
