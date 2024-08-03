@@ -21,3 +21,5 @@ api:
   security:
     token:
       secret: teste
+      accessExpiration: 5
+      refreshExpiration: 60

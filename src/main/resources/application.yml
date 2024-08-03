@@ -32,11 +32,11 @@ api:
     token:
       issuer: "obama-api"
       secret: ${JWT_SECRET}
+      accessExpiration: 5
+      refreshExpiration: 60
 
 mail:
   active: false
 
 
-token:
-  accessExpiration: 5
-  refreshExpiration: 60
+

@@ -24,14 +24,14 @@ class UsuarioExceptionHandler: ResponseEntityExceptionHandler() {
     @ExceptionHandler(UsuarioExistenteException::class)
     protected fun handleUsuarioExistenteException(
         ex: UsuarioExistenteException
-    ):ResponseEntity<Any> {
+    ): ResponseEntity<Any> {
         return ResponseEntity.badRequest().build()
     }
 
     @ExceptionHandler(TokenInvalidaException::class)
     protected fun handleUsuarioExistenteException(
         ex: TokenInvalidaException
-    ):ResponseEntity<Any> {
+    ): ResponseEntity<Any> {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build()
     }
 

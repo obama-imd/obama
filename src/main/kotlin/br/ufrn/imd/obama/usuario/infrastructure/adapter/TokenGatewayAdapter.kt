@@ -2,6 +2,7 @@ package br.ufrn.imd.obama.usuario.infrastructure.adapter
 
 import br.ufrn.imd.obama.usuario.domain.gateway.TokenGateway
 import br.ufrn.imd.obama.usuario.domain.model.Usuario
+import br.ufrn.imd.obama.usuario.infrastructure.configuration.TokenConfiguration
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
 import com.auth0.jwt.exceptions.JWTCreationException
@@ -15,24 +16,14 @@ import org.springframework.stereotype.Service
 
 @Service
 class TokenGatewayAdapter(
-    @Value("\${api.security.token.issuer}")
-    private val tokenIssuer: String,
-
-    @Value("\${api.security.token.secret}")
-    private val tokenSecret: String,
-
-    @Value("\${token.accessExpiration}")
-    private val accessTokenExpiration: Long,
-
-    @Value("\${token.refreshExpiration}")
-    private val refreshTokenExpiration: Long
+    private val tokenConfiguration: TokenConfiguration
 ): TokenGateway {
 
     override fun gerarToken(usuario: Usuario, isRefresh: Boolean): String {
         try {
-            val algorithm = Algorithm.HMAC256(tokenSecret)
+            val algorithm = Algorithm.HMAC256(tokenConfiguration.tokenSecret)
 
-            return JWT.create().withIssuer(tokenIssuer)
+            return JWT.create().withIssuer(tokenConfiguration.tokenIssuer)
                 .withSubject(usuario.email)
                 .withExpiresAt(
                     gerarDataExpiracaoToken(
@@ -48,15 +39,17 @@ class TokenGatewayAdapter(
 
     private fun gerarDataExpiracaoToken(isRefresh: Boolean): Instant {
         return LocalDateTime.now().plusMinutes(
-            if(isRefresh) refreshTokenExpiration else accessTokenExpiration
+            if(isRefresh) tokenConfiguration.refreshTokenExpiration
+            else tokenConfiguration.accessTokenExpiration
         ).toInstant(ZoneOffset.of("-03:00"))
     }
 
     override fun validarToken(token: String): String {
         try {
-            val algorithm = Algorithm.HMAC256(tokenSecret)
+            val algorithm = Algorithm.HMAC256(tokenConfiguration.tokenSecret)
 
-            return JWT.require(algorithm).withIssuer(tokenIssuer)
+            return JWT.require(algorithm)
+                .withIssuer(tokenConfiguration.tokenIssuer)
                 .build()
                 .verify(token)
                 .subject
@@ -67,6 +60,7 @@ class TokenGatewayAdapter(
     }
 
     override fun extrairUsernameDoToken(token: String): String {
-        return Jwts.parser().setSigningKey(tokenSecret).parseClaimsJws(token).body.subject
+        return Jwts.parser().setSigningKey(tokenConfiguration.tokenSecret)
+            .parseClaimsJws(token).body.subject
     }
 }

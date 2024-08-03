@@ -3,14 +3,11 @@ package br.ufrn.imd.obama.usuario.domain.usecase
 import br.ufrn.imd.obama.usuario.domain.exception.UsuarioExistenteException
 import br.ufrn.imd.obama.usuario.domain.exception.UsuarioNaoEncontradoException
 import br.ufrn.imd.obama.usuario.domain.gateway.EmailGateway
+import br.ufrn.imd.obama.usuario.domain.gateway.TokenGateway
 import br.ufrn.imd.obama.usuario.domain.gateway.UsuarioDatabaseGateway
 import br.ufrn.imd.obama.usuario.domain.model.Usuario
-import br.ufrn.imd.obama.usuario.infrastructure.adapter.TokenGatewayAdapter
 import br.ufrn.imd.obama.usuario.infrastructure.configuration.OldCustomEncoder
-import br.ufrn.imd.obama.usuario.infrastructure.entity.UsuarioEntity
-import br.ufrn.imd.obama.usuario.infrastructure.mapper.toModel
 import org.springframework.security.authentication.AuthenticationManager
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.crypto.password.PasswordEncoder
 
 class UsuarioUseCaseImpl(
@@ -19,7 +16,7 @@ class UsuarioUseCaseImpl(
     private val oldCustomEncoder: OldCustomEncoder,
     private val emailService: EmailGateway,
     private val authenticationManager: AuthenticationManager,
-    private val tokenGateway: TokenGatewayAdapter,
+    private val tokenGateway: TokenGateway,
 ): UsuarioUseCase {
     override fun salvarUsuario(usuario: Usuario): Usuario {
 

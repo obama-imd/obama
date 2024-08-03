@@ -1,15 +1,13 @@
 package br.ufrn.imd.obama.usuario.infrastructure.resource
 
-import br.ufrn.imd.obama.usuario.domain.model.Usuario
 import br.ufrn.imd.obama.usuario.domain.usecase.UsuarioUseCaseImpl
-import br.ufrn.imd.obama.usuario.infrastructure.configuration.OldCustomEncoder
+import br.ufrn.imd.obama.usuario.infrastructure.configuration.*
 import br.ufrn.imd.obama.usuario.infrastructure.mapper.toEntity
 import br.ufrn.imd.obama.usuario.infrastructure.repository.UsuarioRepository
 import br.ufrn.imd.obama.usuario.infrastructure.resource.exchange.LoginRequest
 import br.ufrn.imd.obama.usuario.util.criarUsuarioAtivo
 import com.fasterxml.jackson.databind.ObjectMapper
 import jakarta.transaction.Transactional
-import org.junit.Ignore
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
