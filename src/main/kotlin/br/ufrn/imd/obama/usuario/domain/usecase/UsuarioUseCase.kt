@@ -10,4 +10,6 @@ interface UsuarioUseCase {
     fun buscarPorToken(token: String): Usuario
 
     fun alterarCriptografiaSenha(email: String, senha: String)
+
+    fun buscarPorEmail(email: String): Usuario
 }

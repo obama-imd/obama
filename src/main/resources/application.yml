@@ -37,3 +37,6 @@ mail:
   active: false
 
 
+token:
+  accessExpiration: 5
+  refreshExpiration: 60

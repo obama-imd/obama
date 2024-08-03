@@ -1,5 +1,6 @@
 package br.ufrn.imd.obama.usuario.infrastructure.configuration
 
+import br.ufrn.imd.obama.usuario.domain.gateway.TokenGateway
 import br.ufrn.imd.obama.usuario.domain.gateway.UsuarioDatabaseGateway
 import br.ufrn.imd.obama.usuario.infrastructure.mapper.toEntity
 import jakarta.servlet.FilterChain
@@ -13,11 +14,9 @@ import org.springframework.web.filter.OncePerRequestFilter
 
 @Component
 class SecurityFilter(
-    private val tokenService: TokenService,
+    private val tokenGateway: TokenGateway,
     private val usuarioDatabaseGateway: UsuarioDatabaseGateway
 ): OncePerRequestFilter() {
-
-
 
     override fun doFilterInternal(
         request: HttpServletRequest,
@@ -27,7 +26,7 @@ class SecurityFilter(
         val token = this.recuperarToken(request)
 
         if(!token.isNullOrBlank()) {
-            val login = tokenService.validarToken(token)
+            val login = tokenGateway.validarToken(token)
 
             val usuario: UserDetails = usuarioDatabaseGateway.buscarPorEmail(login).toEntity()
 

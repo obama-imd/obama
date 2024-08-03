@@ -5,14 +5,21 @@ import br.ufrn.imd.obama.usuario.domain.exception.UsuarioNaoEncontradoException
 import br.ufrn.imd.obama.usuario.domain.gateway.EmailGateway
 import br.ufrn.imd.obama.usuario.domain.gateway.UsuarioDatabaseGateway
 import br.ufrn.imd.obama.usuario.domain.model.Usuario
+import br.ufrn.imd.obama.usuario.infrastructure.adapter.TokenGatewayAdapter
 import br.ufrn.imd.obama.usuario.infrastructure.configuration.OldCustomEncoder
+import br.ufrn.imd.obama.usuario.infrastructure.entity.UsuarioEntity
+import br.ufrn.imd.obama.usuario.infrastructure.mapper.toModel
+import org.springframework.security.authentication.AuthenticationManager
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.crypto.password.PasswordEncoder
 
 class UsuarioUseCaseImpl(
     private val usuarioGateway: UsuarioDatabaseGateway,
     private val passwordEncoder: PasswordEncoder,
     private val oldCustomEncoder: OldCustomEncoder,
-    private val emailService: EmailGateway
+    private val emailService: EmailGateway,
+    private val authenticationManager: AuthenticationManager,
+    private val tokenGateway: TokenGatewayAdapter,
 ): UsuarioUseCase {
     override fun salvarUsuario(usuario: Usuario): Usuario {
 
@@ -58,6 +65,10 @@ class UsuarioUseCaseImpl(
         usuario.usaCriptografiaAntiga = false
 
         usuarioGateway.salvarUsuario(usuario)
+    }
+
+    override fun buscarPorEmail(email: String): Usuario {
+        return usuarioGateway.buscarPorEmail(email)
     }
 
     private fun gerarTextoAtivacaoConta(token: String): String {
