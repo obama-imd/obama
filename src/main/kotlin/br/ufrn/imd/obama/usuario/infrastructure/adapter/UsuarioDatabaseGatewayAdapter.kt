@@ -6,13 +6,11 @@ import br.ufrn.imd.obama.usuario.domain.model.Usuario
 import br.ufrn.imd.obama.usuario.infrastructure.mapper.toEntity
 import br.ufrn.imd.obama.usuario.infrastructure.mapper.toModel
 import br.ufrn.imd.obama.usuario.infrastructure.repository.UsuarioRepository
-import java.util.UUID
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
-import org.springframework.stereotype.Service
+import org.springframework.stereotype.Component
 
-@Service
+@Component
 class UsuarioDatabaseGatewayAdapter(
-    private val usuarioRepository: UsuarioRepository
+    private val usuarioRepository:UsuarioRepository
 ): UsuarioDatabaseGateway {
 
     override fun buscarPorEmail(email: String): Usuario {

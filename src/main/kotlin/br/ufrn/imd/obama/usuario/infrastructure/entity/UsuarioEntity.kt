@@ -55,7 +55,11 @@ class UsuarioEntity (
 
     @Column(name = "token")
     @NotNull
-    val token: String
+    val token: String,
+
+    @Column(name="usa_criptografia_antiga")
+    @NotNull
+    var usaCriptoGrafiaAntiga: Boolean = true
 ) : UserDetails {
 
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> {

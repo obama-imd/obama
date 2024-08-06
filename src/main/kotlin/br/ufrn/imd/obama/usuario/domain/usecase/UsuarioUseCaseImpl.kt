@@ -2,26 +2,35 @@ package br.ufrn.imd.obama.usuario.domain.usecase
 
 import br.ufrn.imd.obama.usuario.domain.exception.UsuarioExistenteException
 import br.ufrn.imd.obama.usuario.domain.exception.UsuarioNaoEncontradoException
+import br.ufrn.imd.obama.usuario.domain.gateway.EmailGateway
 import br.ufrn.imd.obama.usuario.domain.gateway.UsuarioDatabaseGateway
 import br.ufrn.imd.obama.usuario.domain.model.Usuario
-import java.util.Optional
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
+import br.ufrn.imd.obama.usuario.infrastructure.configuration.OldCustomEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 
 class UsuarioUseCaseImpl(
     private val usuarioGateway: UsuarioDatabaseGateway,
-    private val passwordEncoder: PasswordEncoder
+    private val passwordEncoder: PasswordEncoder,
+    private val oldCustomEncoder: OldCustomEncoder,
+    private val emailService: EmailGateway
 ): UsuarioUseCase {
     override fun salvarUsuario(usuario: Usuario): Usuario {
 
         usuario.senha = passwordEncoder.encode(usuario.senha)
+        usuario.usaCriptografiaAntiga = false
 
         try {
             usuarioGateway.buscarPorEmail(usuario.email)
             throw UsuarioExistenteException("Usuario já existente no banco de dados!")
         } catch (e: UsuarioNaoEncontradoException) {
 
-            return usuarioGateway.salvarUsuario(usuario)
+            return usuarioGateway.salvarUsuario(usuario).apply {
+                emailService.enviarEmail(
+                    to = usuario.email,
+                    subject = "OBAMA - Ativação de conta",
+                    text = gerarTextoAtivacaoConta(usuario.token)
+                )
+            }
         }
     }
 
@@ -32,5 +41,26 @@ class UsuarioUseCaseImpl(
     override fun ativarUsuario(usuario: Usuario): Unit {
         usuario.ativo = true
         usuarioGateway.salvarUsuario(usuario)
+    }
+
+    override fun alterarCriptografiaSenha(email: String, senha: String) {
+        val usuario = usuarioGateway.buscarPorEmail(email)
+
+        if(!usuario.usaCriptografiaAntiga) {
+            return
+        }
+
+        if(!oldCustomEncoder.matches(senha, usuario.senha)) {
+            return
+        }
+
+        usuario.senha = passwordEncoder.encode(senha)
+        usuario.usaCriptografiaAntiga = false
+
+        usuarioGateway.salvarUsuario(usuario)
+    }
+
+    private fun gerarTextoAtivacaoConta(token: String): String {
+        return "Sua conta foi cadastrada com sucesso. Use o seguinte $token para ativa-la"
     }
 }

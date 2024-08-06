@@ -16,6 +16,7 @@ fun UsuarioEntity.toModel(): Usuario {
     )
 
     usuario.setId(this.id)
+    usuario.usaCriptografiaAntiga = this.usaCriptoGrafiaAntiga
 
     return usuario
 }

@@ -11,7 +11,8 @@ data class Usuario (
         val papel: Papel,
         var ativo: Boolean,
         val tipoCadastro: TipoCadastro,
-        val token: String
+        val token: String,
+        var usaCriptografiaAntiga: Boolean = true
 ) {
         private var id: Long = 0L
 

@@ -18,17 +18,17 @@ interface ObjetoAprendizagemRepository: JpaRepository<ObjetoAprendizagemEntity, 
     fun buscarPorId(@Param("id") id: Long): ObjetoAprendizagemEntity?
 
     @Query(
-            " SELECT distinct oa FROM ObjetoAprendizagemEntity oa " +
-                    " LEFT JOIN oa.descritores d " +
-                    " LEFT JOIN oa.objetoAprendizagemPlataformas oap " +
-                    " LEFT JOIN oa.habilidades h " +
-                    " WHERE ( :nome IS NULL OR oa.nome like upper(CONCAT('%',:nome,'%')) )" +
-                    " AND oa.ativo = true" +
-                    " AND (:tipoAcesso IS NULL OR oap.tipoAcesso = :tipoAcesso) " +
-                    " AND (:nivelEnsinoId IS NULL OR d.nivelEnsino.id = :nivelEnsinoId) " +
-                    " AND (:temaConteudoId IS NULL OR d.temaConteudo.id = :temaConteudoId) " +
-                    " AND (:descritorId IS NULL OR d.id = :descritorId) " +
-                    " AND (:habilidadeId IS NULL OR h.id = :habilidadeId) ",
+        "SELECT distinct oa FROM ObjetoAprendizagemEntity oa " +
+                "LEFT JOIN oa.descritores d " +
+                "LEFT JOIN oa.objetoAprendizagemPlataformas oap " +
+                "LEFT JOIN oa.habilidades h " +
+                "WHERE (:nome IS NULL OR oa.nome LIKE %:nome%) " +
+                "AND oa.ativo = true " +
+                "AND (:tipoAcesso IS NULL OR oap.tipoAcesso = :tipoAcesso) " +
+                "AND (:nivelEnsinoId IS NULL OR d.nivelEnsino.id = :nivelEnsinoId) " +
+                "AND (:temaConteudoId IS NULL OR d.temaConteudo.id = :temaConteudoId) " +
+                "AND (:descritorId IS NULL OR d.id = :descritorId) " +
+                "AND (:habilidadeId IS NULL OR h.id = :habilidadeId)"
     )
     fun buscarTodosAtivoPorNomeETipoAcessoENivelEnsinoETemaConteudoEDescritorEHabilidade(
         @Param("nome") nome: String?,

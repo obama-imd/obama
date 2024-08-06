@@ -32,6 +32,7 @@ class SecurityConfiguration(
                 authorize -> authorize
                 //Bloquea as rotas que precisam ser autenticadas
                 .requestMatchers(antMatcher(HttpMethod.POST, "/v1/planoaula")).authenticated()
+                .requestMatchers(antMatcher(HttpMethod.GET ,"/v1/planoaula")).authenticated()
                 .anyRequest().permitAll()
             }
             .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter::class.java)
@@ -41,6 +42,11 @@ class SecurityConfiguration(
     @Bean
     fun authenticationManager(authenticationConfiguration: AuthenticationConfiguration): AuthenticationManager {
         return authenticationConfiguration.authenticationManager
+    }
+
+    @Bean
+    fun setUpOldEnconder(): OldCustomEncoder {
+        return OldCustomEncoder()
     }
 
     @Bean

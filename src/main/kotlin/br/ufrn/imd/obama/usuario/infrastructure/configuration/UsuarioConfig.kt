@@ -1,5 +1,6 @@
 package br.ufrn.imd.obama.usuario.infrastructure.configuration
 
+import br.ufrn.imd.obama.usuario.domain.gateway.EmailGateway
 import br.ufrn.imd.obama.usuario.domain.gateway.UsuarioDatabaseGateway
 import br.ufrn.imd.obama.usuario.domain.usecase.UsuarioUseCase
 import br.ufrn.imd.obama.usuario.domain.usecase.UsuarioUseCaseImpl
@@ -21,7 +22,17 @@ class UsuarioConfig {
 
     @Bean
     @Primary
-    fun setUpUsuarioUseCase(usuarioGateway: UsuarioDatabaseGateway, passwordEncoder: PasswordEncoder): UsuarioUseCase {
-        return UsuarioUseCaseImpl(usuarioGateway, passwordEncoder)
+    fun setUpUsuarioUseCase(
+        usuarioGateway: UsuarioDatabaseGateway,
+        passwordEncoder: PasswordEncoder,
+        oldCustomEncoder: OldCustomEncoder,
+        emailService: EmailGateway
+    ): UsuarioUseCase {
+        return UsuarioUseCaseImpl(
+            usuarioGateway = usuarioGateway,
+            passwordEncoder = passwordEncoder,
+            oldCustomEncoder = oldCustomEncoder,
+            emailService = emailService
+        )
     }
 }

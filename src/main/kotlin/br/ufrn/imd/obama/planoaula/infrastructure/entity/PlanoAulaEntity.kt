@@ -30,56 +30,61 @@ data class PlanoAulaEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "plano_aula_gen")
     @SequenceGenerator(name = "plano_aula_gen", sequenceName = "sq_plano_aula_id", allocationSize = 1)
-    val id: Long,
+    private val id: Long,
 
     @Column(name = "data_cadastro", nullable = false)
-    val dataCadastro: LocalDateTime,
+    private val dataCadastro: LocalDateTime,
 
     @Column(name = "qtd_downloads", nullable = false)
-    val qtdDownload: Int = 0,
+    private val qtdDownload: Int = 0,
 
     @Column(name = "escola", nullable = true)
-    val escola: String?,
+    private val escola: String?,
 
     @Column(name = "duracao_em_minutos", nullable = true)
-    var duracaoEmMinutos: Int?,
+    private var duracaoEmMinutos: Int?,
 
     @Column(name = "titulo", nullable = true)
-    val titulo: String?,
+    private val titulo: String?,
 
     @Column(columnDefinition = "text", nullable = true)
-    val resumo: String?,
+    private val resumo: String?,
 
     @Column(columnDefinition = "text", name = "objetivo_geral", nullable = true)
-    val objetivoGeral: String?,
+    private val objetivoGeral: String?,
 
     @Column(columnDefinition = "text", name = "objetivos_especificos", nullable = true)
-    val objetivosEspecificos: String?,
+    private val objetivosEspecificos: String?,
 
     @Column(columnDefinition = "text", nullable = true)
-    val metodologia: String?,
+    private val metodologia: String?,
 
     @Column(columnDefinition = "text", nullable = true)
-    val referencias: String?,
+    private val referencias: String?,
 
     @Column(columnDefinition = "text", unique = true, nullable = false)
-    val token: String?,
+    private val token: String?,
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
-    val status: StatusPlanoAula,
+    private val status: StatusPlanoAula,
 
     @ManyToOne(optional = true, fetch = FetchType.EAGER)
-    val autor: UsuarioEntity?,
+    private val autor: UsuarioEntity?,
 
     @ManyToOne(optional = true, fetch = FetchType.EAGER)
-    val nivelEnsino: NivelEnsinoEntity?,
+    private val nivelEnsino: NivelEnsinoEntity?,
 
     @OneToMany(fetch = FetchType.EAGER)
-    val disciplinasEnvolvidas: List<DisciplinaEntity>?,
+    @JoinTable(
+        name = "plano_aula_disciplina",
+        joinColumns = [JoinColumn(name = "plano_aula_id", referencedColumnName = "id")],
+        inverseJoinColumns = [JoinColumn(name = "disciplina_id", referencedColumnName = "id")]
+    )
+    private val disciplinasEnvolvidas: List<DisciplinaEntity>?,
 
     @OneToOne(fetch = FetchType.EAGER, optional = true)
-    val anoEnsino: AnoEnsinoEntity?,
+    private val anoEnsino: AnoEnsinoEntity?,
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -87,7 +92,7 @@ data class PlanoAulaEntity(
         joinColumns = [JoinColumn(name = "plano_aula_id", referencedColumnName = "id")],
         inverseJoinColumns = [JoinColumn(name = "objeto_aprendizagem_id", referencedColumnName = "id")]
     )
-    val objetosAprendizagem: Set<ObjetoAprendizagemEntity>?,
+    private val objetosAprendizagem: Set<ObjetoAprendizagemEntity>?,
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -95,5 +100,25 @@ data class PlanoAulaEntity(
         joinColumns = [JoinColumn(name = "plano_aula_id", referencedColumnName = "id")],
         inverseJoinColumns = [JoinColumn(name = "usuario_id", referencedColumnName = "id")]
     )
-    val coautores: Set<UsuarioEntity>?,
-)
+    private val coautores: Set<UsuarioEntity>?,
+) {
+    fun getId() = id
+    fun getDataCadastro() = dataCadastro
+    fun getQtdDownload() = qtdDownload
+    fun getEscola() = escola
+    fun getDuracaoEmMinutos() = duracaoEmMinutos
+    fun getTitulo() = titulo
+    fun getResumo() = resumo
+    fun getObjetivoGeral() = objetivoGeral
+    fun getObjetivosEspecificos() = objetivosEspecificos
+    fun getMetodologia() = metodologia
+    fun getReferencias() = referencias
+    fun getToken() = token
+    fun getStatus() = status
+    fun getAutor() = autor
+    fun getNivelEnsino() = nivelEnsino
+    fun getDisciplinasEnvolvidas() = disciplinasEnvolvidas
+    fun getAnoEnsino() = anoEnsino
+    fun getObjetosAprendizagem() = objetosAprendizagem
+    fun getCoautores() = coautores
+}

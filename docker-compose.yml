@@ -1,23 +1,41 @@
-version: '3.3'
+version: '3.8'
 
 networks:
   obama_network:
-    ipam:
-      driver: default
-      config:
-        - subnet: 170.0.0.0/16
-
 
 services:
-  obama_postgres:
-    container_name: obama_postgres
-    image: postgres:13.5
+  obama-app:
+    image: obamaapi:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
-      - "5432:5432"
+      - "8081:8081"
+    environment:
+      DB_URL: "${DB_URL}"
+      DB_USERNAME: "${DB_USERNAME}"
+      DB_PASSWORD: "${DB_PASSWORD}"
+      JWT_SECRET: "${JWT_SECRET}"
+      SENHA_APP_EMAIL: "${SENHA_APP_EMAIL}"
     networks:
       obama_network:
-        ipv4_address: 170.0.0.2
+        ipv4_address: 170.0.0.3
+    deploy:
+      mode: replicated
+      replicas: 2
+    depends_on:
+      - obama-postgres
+  obama-postgres:
+    image: postgres:13.5
+    ports:
+      - "5433:5432"
+    networks:
+      obama_network:
     environment:
-      POSTGRES_USER: "OBAMA_ADMIN"
-      POSTGRES_PASSWORD: "OBAMA_LOCAL"
+      POSTGRES_USER: "${DB_USERNAME}"
+      POSTGRES_PASSWORD: "${DB_PASSWORD}"
+      POSTGRES_DB: "${DB_NAME}"
+
+
+
 

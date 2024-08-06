@@ -17,6 +17,10 @@ import br.ufrn.imd.obama.planoaula.infrastructure.repository.PlanoAulaRepository
 import br.ufrn.imd.obama.planoaula.infrastructure.resource.exchange.PlanoAulaRequest
 import br.ufrn.imd.obama.usuario.domain.model.Usuario
 import br.ufrn.imd.obama.usuario.domain.usecase.UsuarioUseCase
+import br.ufrn.imd.obama.usuario.infrastructure.entity.UsuarioEntity
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageImpl
+import org.springframework.data.domain.Pageable
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
@@ -77,6 +81,19 @@ class PlanoAulaDatabaseGatewayAdapter(
         )
 
         return planoAulaRepository.save(planoAula.toEntity()).toModel()
+    }
+
+    override fun buscarPlanosAulaPorTitulo(
+        autor: UsuarioEntity,
+        titulo: String?,
+        pageable: Pageable
+    ): Page<PlanoAula> {
+
+        val planoAulaPage = planoAulaRepository.buscarPlanosAulaPorTitulo(autor,titulo,pageable).toList()
+
+        return PageImpl(planoAulaPage).map {
+                planoAula -> planoAula?.toModel()
+        }
     }
 
 }
