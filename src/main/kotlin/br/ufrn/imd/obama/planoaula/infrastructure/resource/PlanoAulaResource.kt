@@ -28,6 +28,30 @@ interface PlanoAulaResource {
                     schema = Schema(implementation = PlanoAulaResponse::class)
                 )
             ]
+        ),
+        ApiResponse(
+            responseCode = "400",
+            description = "Inconsistência dos dados informados, isto é: " +
+                    "o ID do nivelEnsino é inválido e/ou " +
+                    "a duração em minutos é menor do que zero e/ou "  +
+                    "o ID de alguma disciplina é inválido e/ou " +
+                    "o ID do anoEnsino é inválido",
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = Exception::class)
+                )
+            ]
+        ),
+        ApiResponse(
+            responseCode = "403",
+            description = "Usuário não autenticado",
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = Exception::class)
+                )
+            ]
         )
     ])
     fun criarPlanoAula(
