@@ -1,6 +1,7 @@
 package br.ufrn.imd.obama.planoaula.domain.usecase
 
 import br.ufrn.imd.obama.planoaula.domain.model.PlanoAula
+import br.ufrn.imd.obama.planoaula.infrastructure.adapter.PlanoAulaDatabaseGatewayAdapter
 import br.ufrn.imd.obama.planoaula.util.criarPlanoAula
 import br.ufrn.imd.obama.usuario.infrastructure.mapper.toEntity
 import br.ufrn.imd.obama.usuario.util.criarUsuarioAtivo
@@ -17,13 +18,13 @@ import org.springframework.data.domain.Pageable
 import org.springframework.test.context.ActiveProfiles
 
 @ActiveProfiles(profiles = ["test"])
-@SpringBootTest(classes = [PlanoAulaUseCaseImpl::class, PlanoAulaGatewayAdapter::class])
+@SpringBootTest(classes = [PlanoAulaUseCaseImpl::class, PlanoAulaDatabaseGatewayAdapter::class])
 class PlanoAulaUseCaseImplTest {
     @Autowired
     private lateinit var planoAulaUseCase: PlanoAulaUseCaseImpl
 
     @MockBean
-    private lateinit var planoAulaGatewayAdapter: PlanoAulaGatewayAdapter
+    private lateinit var planoAulaGatewayAdapter: PlanoAulaDatabaseGatewayAdapter
 
    companion object{ const val pageSize = 10 }
 
