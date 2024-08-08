@@ -1,6 +1,6 @@
 package br.ufrn.imd.obama.planoaula.infrastructure.handler
 
-import br.ufrn.imd.obama.planoaula.infrastructure.exception.PlanoAulaNaoEncontradoException
+import br.ufrn.imd.obama.planoaula.domain.exception.PlanoAulaNaoEncontradoException
 import org.slf4j.LoggerFactory
 import org.springframework.core.Ordered
 import org.springframework.core.annotation.Order

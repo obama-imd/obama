@@ -57,7 +57,7 @@ fun PlanoAula.toPlanoAulaBuscarPorIdResponse(): PlanoAulaBuscarPorIdResponse {
         nivelEnsinoId = this.getNivelEnsino()?.id,
         idDisciplinas = this.getDisciplinasEnvolvidas()?.map { it.id }?.toList() ?: emptyList(),
         anoEnsinoId = this.getAnoEnsino()?.id,
-        emailCoatores = this.getCoautores()?.map { it.email }?.toList() ?: emptyList()
+        emailCoautores = this.getCoautores()?.map { it.email }?.toList() ?: emptyList()
         )
 
     return response

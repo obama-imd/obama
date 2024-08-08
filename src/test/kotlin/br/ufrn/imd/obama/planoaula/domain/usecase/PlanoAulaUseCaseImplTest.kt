@@ -2,7 +2,7 @@ package br.ufrn.imd.obama.planoaula.domain.usecase
 
 import br.ufrn.imd.obama.planoaula.domain.model.PlanoAula
 import br.ufrn.imd.obama.planoaula.infrastructure.adapter.PlanoAulaGatewayAdapter
-import br.ufrn.imd.obama.planoaula.infrastructure.exception.PlanoAulaNaoEncontradoException
+import br.ufrn.imd.obama.planoaula.domain.exception.PlanoAulaNaoEncontradoException
 import br.ufrn.imd.obama.planoaula.util.criarPlanoAula
 import br.ufrn.imd.obama.usuario.infrastructure.mapper.toEntity
 import br.ufrn.imd.obama.usuario.util.criarUsuarioAtivo

@@ -1,9 +1,8 @@
 package br.ufrn.imd.obama.planoaula.infrastructure.adapter
 
-import br.ufrn.imd.obama.planoaula.domain.enums.StatusPlanoAula
 import br.ufrn.imd.obama.planoaula.domain.gateway.PlanoAulaGateway
 import br.ufrn.imd.obama.planoaula.domain.model.PlanoAula
-import br.ufrn.imd.obama.planoaula.infrastructure.exception.PlanoAulaNaoEncontradoException
+import br.ufrn.imd.obama.planoaula.domain.exception.PlanoAulaNaoEncontradoException
 import br.ufrn.imd.obama.planoaula.infrastructure.mapper.toModel
 import br.ufrn.imd.obama.planoaula.infrastructure.repository.PlanoAulaRepository
 import br.ufrn.imd.obama.usuario.infrastructure.entity.UsuarioEntity

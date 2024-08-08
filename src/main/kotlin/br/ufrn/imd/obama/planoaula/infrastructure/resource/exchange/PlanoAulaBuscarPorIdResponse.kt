@@ -17,6 +17,6 @@ class PlanoAulaBuscarPorIdResponse(
     val nivelEnsinoId: Long?,
     val idDisciplinas: List<Long>,
     val anoEnsinoId: Long?,
-    val emailCoatores: List<String>,
+    val emailCoautores: List<String>,
     val idObjetosAprendizagem: List<Long>
 )

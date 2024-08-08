@@ -2,7 +2,7 @@ package br.ufrn.imd.obama.planoaula.infrastructure.adapter
 
 import br.ufrn.imd.obama.planoaula.domain.model.PlanoAula
 import br.ufrn.imd.obama.planoaula.infrastructure.entity.PlanoAulaEntity
-import br.ufrn.imd.obama.planoaula.infrastructure.exception.PlanoAulaNaoEncontradoException
+import br.ufrn.imd.obama.planoaula.domain.exception.PlanoAulaNaoEncontradoException
 import br.ufrn.imd.obama.planoaula.infrastructure.mapper.toEntity
 import br.ufrn.imd.obama.planoaula.infrastructure.repository.PlanoAulaRepository
 import br.ufrn.imd.obama.planoaula.util.criarPlanoAula
