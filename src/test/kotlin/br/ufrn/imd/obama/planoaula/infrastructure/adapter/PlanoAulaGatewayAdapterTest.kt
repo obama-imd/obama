@@ -1,10 +1,15 @@
 package br.ufrn.imd.obama.planoaula.infrastructure.adapter
 
+import br.ufrn.imd.obama.oa.domain.gateway.DisciplinaDatabaseGateway
+import br.ufrn.imd.obama.oa.domain.gateway.NivelEnsinoDatabaseGateway
+import br.ufrn.imd.obama.oa.infrastructure.repository.AnoEnsinoRepository
+import br.ufrn.imd.obama.oa.infrastructure.repository.DisciplinaRepository
 import br.ufrn.imd.obama.planoaula.domain.model.PlanoAula
 import br.ufrn.imd.obama.planoaula.infrastructure.entity.PlanoAulaEntity
 import br.ufrn.imd.obama.planoaula.infrastructure.mapper.toEntity
 import br.ufrn.imd.obama.planoaula.infrastructure.repository.PlanoAulaRepository
 import br.ufrn.imd.obama.planoaula.util.criarPlanoAula
+import br.ufrn.imd.obama.usuario.domain.usecase.UsuarioUseCase
 import br.ufrn.imd.obama.usuario.infrastructure.mapper.toEntity
 import br.ufrn.imd.obama.usuario.util.criarUsuarioAtivo
 import org.junit.jupiter.api.Assertions
@@ -20,10 +25,20 @@ import org.springframework.data.domain.Pageable
 import org.springframework.test.context.ActiveProfiles
 
 @ActiveProfiles(profiles = ["test"])
-@SpringBootTest(classes = [PlanoAulaGatewayAdapter::class, PlanoAulaRepository::class])
+@SpringBootTest(classes = [PlanoAulaDatabaseGatewayAdapter::class, PlanoAulaRepository::class])
 class PlanoAulaGatewayAdapterTest {
+
     @Autowired
-    private lateinit var planoAulaGatewayAdapter: PlanoAulaGatewayAdapter
+    private lateinit var planoAulaGatewayAdapter: PlanoAulaDatabaseGatewayAdapter
+
+    @MockBean
+    private lateinit var nivelEnsinoDatabaseGateway: NivelEnsinoDatabaseGateway
+    @MockBean
+    private lateinit var disciplinaRepository: DisciplinaRepository
+    @MockBean
+    private lateinit var anoEnsinoRepository: AnoEnsinoRepository
+    @MockBean
+    private lateinit var usuarioUseCase: UsuarioUseCase
 
     @MockBean
     private lateinit var planoAulaRepository: PlanoAulaRepository

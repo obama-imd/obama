@@ -1,24 +1,21 @@
 package br.ufrn.imd.obama.planoaula.infrastructure.mapper
 
 import br.ufrn.imd.obama.oa.infrastructure.mapper.toEntity
-import br.ufrn.imd.obama.oa.infrastructure.mapper.toModel
 import br.ufrn.imd.obama.planoaula.domain.model.PlanoAula
 import br.ufrn.imd.obama.planoaula.infrastructure.entity.PlanoAulaEntity
 import br.ufrn.imd.obama.planoaula.infrastructure.resource.exchange.PlanoAulaResponse
 import br.ufrn.imd.obama.usuario.infrastructure.mapper.toEntity
-import br.ufrn.imd.obama.usuario.infrastructure.mapper.toModel
 
 fun PlanoAula.toResponse(): PlanoAulaResponse {
-    val response = PlanoAulaResponse(
+    return PlanoAulaResponse(
         id = this.id,
         titulo = this.getTitulo(),
         status = this.getStatus()
     )
-    return response
 }
 
 fun PlanoAula.toEntity(): PlanoAulaEntity {
-    val entity = PlanoAulaEntity(
+    return PlanoAulaEntity(
         id = this.id,
         dataCadastro = this.dataCadastro,
         qtdDownload = this.getQtdDownload(),
@@ -39,5 +36,4 @@ fun PlanoAula.toEntity(): PlanoAulaEntity {
         objetosAprendizagem = this.getObjetosAprendizagem()?.map { it.toEntity() }?.toSet(),
         coautores = this.getCoautores()?.map { it.toEntity() }?.toSet(),
     )
-    return entity
 }

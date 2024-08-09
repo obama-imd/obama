@@ -12,7 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher
 
 @Configuration
 @EnableWebSecurity
@@ -31,8 +31,8 @@ class SecurityConfiguration(
             .authorizeHttpRequests {
                 authorize -> authorize
                 //Bloquea as rotas que precisam ser autenticadas
-                //.requestMatchers(antMatcher(HttpMethod.POST, "/v1/auth/login")).authenticated()
-                .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.GET ,"/v1/planoaula")).authenticated()
+                .requestMatchers(antMatcher(HttpMethod.POST, "/v1/planoaula")).authenticated()
+                .requestMatchers(antMatcher(HttpMethod.GET ,"/v1/planoaula")).authenticated()
                 .anyRequest().permitAll()
             }
             .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter::class.java)
