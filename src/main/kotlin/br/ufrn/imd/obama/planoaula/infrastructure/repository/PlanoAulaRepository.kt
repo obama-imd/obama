@@ -20,4 +20,7 @@ interface PlanoAulaRepository: JpaRepository<PlanoAulaEntity, Long> {
         @Param("titulo") titulo: String?,
         pageable: Pageable
     ): Page<PlanoAulaEntity>
+
+    @Query("SELECT p FROM PlanoAulaEntity p WHERE p.id = :id")
+    fun buscarPlanoAulaPorId(@Param("id") id: Long): PlanoAulaEntity?
 }

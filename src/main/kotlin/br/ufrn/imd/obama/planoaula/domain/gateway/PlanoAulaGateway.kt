@@ -11,4 +11,6 @@ interface PlanoAulaGateway {
         titulo: String?,
         pageable: Pageable
     ): Page<PlanoAula>
+
+    fun buscarPlanoAulaPorId(id: Long): PlanoAula
 }

@@ -1,7 +1,7 @@
 package br.ufrn.imd.obama.planoaula.infrastructure.resource
 
+import br.ufrn.imd.obama.planoaula.infrastructure.resource.exchange.PlanoAulaBuscarPorIdResponse
 import br.ufrn.imd.obama.planoaula.infrastructure.resource.exchange.PlanoAulaResponse
-import br.ufrn.imd.obama.usuario.infrastructure.entity.UsuarioEntity
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.media.Schema
@@ -36,4 +36,28 @@ interface PlanoAulaResource {
         titulo: String?,
         pageable: Pageable
     ): Page<PlanoAulaResponse>
+
+    @Operation(summary = "Endpoint para buscar planos de aula por id")
+    @ApiResponses(value = [
+        ApiResponse(
+            responseCode = "200",
+            description = "Plano de aula encontrado",
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = PlanoAulaResponse::class)
+                )
+            ]
+        ),
+        ApiResponse(
+            responseCode = "403",
+            description = "Usuário não autenticado; o plano de aula não pertece ao usuário ou usuário não é coator",
+        ),
+        ApiResponse(
+            responseCode = "404",
+            description = "Plano de aula não encontrado",
+        )
+    ])
+    fun buscarPlanoAulaPorId(id: Long): PlanoAulaBuscarPorIdResponse
+
 }
