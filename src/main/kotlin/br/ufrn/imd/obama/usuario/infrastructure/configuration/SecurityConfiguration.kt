@@ -33,6 +33,7 @@ class SecurityConfiguration(
                 //Bloquea as rotas que precisam ser autenticadas
                 //.requestMatchers(antMatcher(HttpMethod.POST, "/v1/auth/login")).authenticated()
                 .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.GET ,"/v1/planoaula")).authenticated()
+                .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.GET ,"/v1/planoaula/{id}")).authenticated()
                 .anyRequest().permitAll()
             }
             .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter::class.java)
