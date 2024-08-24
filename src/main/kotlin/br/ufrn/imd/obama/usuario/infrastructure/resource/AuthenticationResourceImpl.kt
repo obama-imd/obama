@@ -2,17 +2,12 @@ package br.ufrn.imd.obama.usuario.infrastructure.resource
 
 import br.ufrn.imd.obama.usuario.domain.usecase.AuthUseCase
 import br.ufrn.imd.obama.usuario.domain.usecase.UsuarioUseCase
-import br.ufrn.imd.obama.usuario.infrastructure.adapter.TokenGatewayAdapter
-import br.ufrn.imd.obama.usuario.infrastructure.entity.UsuarioEntity
 import br.ufrn.imd.obama.usuario.infrastructure.resource.exchange.LoginRequest
 import br.ufrn.imd.obama.usuario.infrastructure.resource.exchange.LoginResponse
 import br.ufrn.imd.obama.usuario.infrastructure.resource.exchange.RefreshResponse
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
-import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.security.authentication.AuthenticationManager
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.web.bind.annotation.*
 
 @RestController

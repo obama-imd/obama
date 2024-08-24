@@ -1,7 +1,6 @@
 package br.ufrn.imd.obama.usuario.infrastructure.configuration
 
 import br.ufrn.imd.obama.usuario.domain.gateway.EmailGateway
-import br.ufrn.imd.obama.usuario.domain.gateway.TokenGateway
 import br.ufrn.imd.obama.usuario.domain.gateway.UsuarioDatabaseGateway
 import br.ufrn.imd.obama.usuario.domain.usecase.UsuarioUseCase
 import br.ufrn.imd.obama.usuario.domain.usecase.UsuarioUseCaseImpl
@@ -10,7 +9,6 @@ import br.ufrn.imd.obama.usuario.infrastructure.repository.UsuarioRepository
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Primary
-import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 
 @Configuration
@@ -29,17 +27,13 @@ class UsuarioConfig {
         usuarioGateway: UsuarioDatabaseGateway,
         passwordEncoder: BCryptPasswordEncoder,
         oldCustomEncoder: OldCustomEncoder,
-        emailService: EmailGateway,
-        authenticationManager: AuthenticationManager,
-        tokenGateway: TokenGateway
+        emailService: EmailGateway
     ): UsuarioUseCase {
         return UsuarioUseCaseImpl(
             usuarioGateway = usuarioGateway,
             passwordEncoder = passwordEncoder,
             oldCustomEncoder = oldCustomEncoder,
-            emailService = emailService,
-            authenticationManager = authenticationManager,
-            tokenGateway = tokenGateway
+            emailService = emailService
         )
     }
 }

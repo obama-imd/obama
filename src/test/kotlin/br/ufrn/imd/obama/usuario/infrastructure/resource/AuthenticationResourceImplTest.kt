@@ -1,58 +1,65 @@
 package br.ufrn.imd.obama.usuario.infrastructure.resource
 
-import br.ufrn.imd.obama.usuario.domain.usecase.UsuarioUseCaseImpl
-import br.ufrn.imd.obama.usuario.infrastructure.configuration.*
-import br.ufrn.imd.obama.usuario.infrastructure.mapper.toEntity
-import br.ufrn.imd.obama.usuario.infrastructure.repository.UsuarioRepository
+import br.ufrn.imd.obama.usuario.domain.gateway.EmailGateway
+import br.ufrn.imd.obama.usuario.domain.gateway.UsuarioDatabaseGateway
+import br.ufrn.imd.obama.usuario.infrastructure.configuration.OldCustomEncoder
+import br.ufrn.imd.obama.usuario.infrastructure.configuration.SecurityConfiguration
+import br.ufrn.imd.obama.usuario.infrastructure.configuration.TokenConfiguration
 import br.ufrn.imd.obama.usuario.infrastructure.resource.exchange.LoginRequest
 import br.ufrn.imd.obama.usuario.util.criarUsuarioAtivo
 import com.fasterxml.jackson.databind.ObjectMapper
-import jakarta.transaction.Transactional
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.test.mock.mockito.MockBean
+import org.springframework.context.annotation.Import
 import org.springframework.http.MediaType
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
+import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
-import org.springframework.test.web.servlet.setup.MockMvcBuilders
-import org.springframework.web.context.WebApplicationContext
 
 @SpringBootTest
+@Import(value=
+    [
+        TokenConfiguration::class,
+        SecurityConfiguration::class,
+        BCryptPasswordEncoder::class,
+        OldCustomEncoder::class
+    ]
+)
+@AutoConfigureMockMvc
 @ActiveProfiles(profiles = ["test"])
-@Transactional
 class AuthenticationResourceImplTest {
 
+    @Autowired
     private lateinit var mockMvc: MockMvc
 
     @Autowired
-    private lateinit var webApplicationContext: WebApplicationContext
+    private lateinit var usuarioDatabaseGateway: UsuarioDatabaseGateway
 
-    @Autowired
-    private lateinit var usuarioUseCase: UsuarioUseCaseImpl
-
-    @Autowired
-    private lateinit var usuarioRepository: UsuarioRepository
+    @MockBean
+    private lateinit var emailGateway: EmailGateway
 
     private val objectMapper = ObjectMapper()
 
-    private val oldCustomEncoder: OldCustomEncoder = OldCustomEncoder()
+    @Autowired
+    private lateinit var passwordEncoder: PasswordEncoder
 
-    @BeforeEach
-    fun setUp() {
-        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build()
-    }
+    private val oldCustomEncoder: OldCustomEncoder = OldCustomEncoder()
 
     @Test
     fun `Usuário deve conseguir logar login e senha`() {
         val usuario = criarUsuarioAtivo()
 
-        val senha = "Teste123123"
+        val senha = usuario.senha
 
-        usuarioUseCase.salvarUsuario(usuario)
+        usuario.senha = passwordEncoder.encode(usuario.senha)
+        usuarioDatabaseGateway.salvarUsuario(usuario)
 
         val request = criarLoginRequest(usuario.email, senha)
 
@@ -86,7 +93,7 @@ class AuthenticationResourceImplTest {
         usuarioSalvo.senha = senhaCriptografada
         usuarioSalvo.usaCriptografiaAntiga = true
 
-        usuarioRepository.save(usuarioSalvo.toEntity())
+        usuarioDatabaseGateway.salvarUsuario(usuarioSalvo)
 
         val request = criarLoginRequest(usuarioSalvo.email, senha)
 
