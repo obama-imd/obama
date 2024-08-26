@@ -4,7 +4,6 @@ import br.ufrn.imd.obama.usuario.domain.enums.Papel
 import br.ufrn.imd.obama.usuario.domain.enums.TipoCadastro
 import br.ufrn.imd.obama.usuario.domain.model.Usuario
 import br.ufrn.imd.obama.usuario.domain.usecase.UsuarioUseCase
-import br.ufrn.imd.obama.usuario.infrastructure.configuration.OldCustomEncoder
 import br.ufrn.imd.obama.usuario.infrastructure.configuration.SecurityConfiguration
 import br.ufrn.imd.obama.usuario.infrastructure.configuration.TokenConfiguration
 import br.ufrn.imd.obama.usuario.infrastructure.mapper.toEntity
@@ -22,7 +21,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.context.annotation.Import
 import org.springframework.http.MediaType
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch
@@ -35,8 +33,7 @@ import java.util.*
 @Import(value=
     [
         TokenConfiguration::class,
-        SecurityConfiguration::class,
-        BCryptPasswordEncoder::class,
+        SecurityConfiguration::class
     ]
 )
 @AutoConfigureMockMvc
