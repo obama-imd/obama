@@ -1,6 +1,6 @@
 package br.ufrn.imd.obama.usuario.infrastructure.handler
 
-import br.ufrn.imd.obama.usuario.domain.exception.TokenInvalidaException
+import br.ufrn.imd.obama.usuario.domain.exception.TokenInvalidoException
 import br.ufrn.imd.obama.usuario.domain.exception.UsuarioExistenteException
 import br.ufrn.imd.obama.usuario.domain.exception.UsuarioNaoEncontradoException
 import org.springframework.http.HttpStatus
@@ -28,9 +28,9 @@ class UsuarioExceptionHandler: ResponseEntityExceptionHandler() {
         return ResponseEntity.badRequest().build()
     }
 
-    @ExceptionHandler(TokenInvalidaException::class)
+    @ExceptionHandler(TokenInvalidoException::class)
     protected fun handleUsuarioExistenteException(
-        ex: TokenInvalidaException
+        ex: TokenInvalidoException
     ): ResponseEntity<Any> {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build()
     }

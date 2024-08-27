@@ -1,6 +1,6 @@
 package br.ufrn.imd.obama.usuario.domain.usecase
 
-import br.ufrn.imd.obama.usuario.domain.exception.TokenInvalidaException
+import br.ufrn.imd.obama.usuario.domain.exception.TokenInvalidoException
 import br.ufrn.imd.obama.usuario.domain.gateway.TokenGateway
 import br.ufrn.imd.obama.usuario.infrastructure.entity.UsuarioEntity
 import br.ufrn.imd.obama.usuario.infrastructure.mapper.toModel
@@ -37,8 +37,10 @@ class AuthUseCaseImpl(
     }
 
     override fun atualizarAccessToken(accessToken: String): String {
-        if (tokenGateway.validarToken(token = accessToken).isNotBlank()) {
-            val username = tokenGateway.extrairUsernameDoToken(token = accessToken)
+        val accessTokenSanitizado = accessToken.replace("Bearer ", "")
+
+        if (tokenGateway.tokenValido(token = accessTokenSanitizado)) {
+            val username = tokenGateway.extrairUsernameDoToken(token = accessTokenSanitizado)
 
             val novoAccessToken = tokenGateway.gerarToken(
                 usuarioUseCase.buscarPorEmail(email = username),
@@ -47,7 +49,7 @@ class AuthUseCaseImpl(
 
             return novoAccessToken
         }
-        throw TokenInvalidaException()
+        throw TokenInvalidoException()
     }
 
 }

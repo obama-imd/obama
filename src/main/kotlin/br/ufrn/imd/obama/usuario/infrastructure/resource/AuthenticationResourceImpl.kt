@@ -7,6 +7,7 @@ import br.ufrn.imd.obama.usuario.infrastructure.resource.exchange.LoginResponse
 import br.ufrn.imd.obama.usuario.infrastructure.resource.exchange.RefreshResponse
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
+import org.springframework.http.HttpHeaders
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
@@ -47,7 +48,7 @@ class AuthenticationResourceImpl(
 
     @PostMapping("/refresh-token")
     fun refreshToken(
-        @RequestHeader("Authorization") token: String
+        @RequestHeader(HttpHeaders.AUTHORIZATION) token: String
     ): ResponseEntity<RefreshResponse> {
         return ResponseEntity.ok().body(
             RefreshResponse(

@@ -8,4 +8,6 @@ interface TokenGateway {
     fun validarToken(token: String): String
 
     fun extrairUsernameDoToken(token: String): String
+
+    fun tokenValido(token: String): Boolean
 }

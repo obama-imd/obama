@@ -17,11 +17,10 @@ import java.time.ZoneOffset
 class TokenGatewayAdapter(
     private val tokenConfiguration: TokenConfiguration
 ): TokenGateway {
+    val algorithm = Algorithm.HMAC256(tokenConfiguration.tokenSecret)
 
     override fun gerarToken(usuario: Usuario, isRefresh: Boolean): String {
         try {
-            val algorithm = Algorithm.HMAC256(tokenConfiguration.tokenSecret)
-
             return JWT.create().withIssuer(tokenConfiguration.tokenIssuer)
                 .withSubject(usuario.email)
                 .withExpiresAt(
@@ -45,21 +44,29 @@ class TokenGatewayAdapter(
 
     override fun validarToken(token: String): String {
         try {
-            val algorithm = Algorithm.HMAC256(tokenConfiguration.tokenSecret)
-
             return JWT.require(algorithm)
                 .withIssuer(tokenConfiguration.tokenIssuer)
                 .build()
                 .verify(token)
                 .subject
-
         } catch (ex: JWTVerificationException) {
             return ""
         }
     }
 
     override fun extrairUsernameDoToken(token: String): String {
-        return Jwts.parser().setSigningKey(tokenConfiguration.tokenSecret)
-            .parseClaimsJws(token).body.subject
+        return JWT.decode(token).subject
+    }
+
+    override fun tokenValido(token: String): Boolean {
+        return try {
+            val verifier = JWT.require(algorithm)
+                .withIssuer(tokenConfiguration.tokenIssuer)
+                .build()
+            verifier.verify(token)
+            true
+        } catch (e: JWTVerificationException) {
+            false
+        }
     }
 }
