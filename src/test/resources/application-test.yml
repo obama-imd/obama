@@ -17,7 +17,17 @@ spring:
   flyway:
     enabled: true
 
+springdoc:
+  api-docs:
+    enabled: true
+
 api:
   security:
     token:
-      secret: teste
+      issuer: "obama-api"
+      secret: "teste"
+      accessExpiration: 5
+      refreshExpiration: 60
+
+mail:
+  active: false

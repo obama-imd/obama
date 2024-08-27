@@ -17,8 +17,9 @@ class UsuarioConfig {
     @Bean
     @Primary
     fun usuarioDatabaseGateway(usuarioRepository: UsuarioRepository): UsuarioDatabaseGateway {
-        return UsuarioDatabaseGatewayAdapter(usuarioRepository);
+        return UsuarioDatabaseGatewayAdapter(usuarioRepository)
     }
+
 
     @Bean
     @Primary

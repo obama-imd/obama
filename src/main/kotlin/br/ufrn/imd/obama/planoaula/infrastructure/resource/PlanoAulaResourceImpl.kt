@@ -40,7 +40,7 @@ class PlanoAulaResourceImpl(
 
         val autor = usuario as UsuarioEntity
 
-        return planoAulaUseCase.buscarPlanoAulaPorTitulo(autor, titulo, pageable).map { it.toResponse() }
+        return planoAulaUseCase.buscarPlanoAulaPorTitulo(autor, titulo, pageable).map{ it.toResponse() }
     }
 
     @GetMapping(path = ["/{id}"], produces = [MediaType.APPLICATION_JSON_VALUE])
