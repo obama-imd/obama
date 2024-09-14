@@ -6,7 +6,7 @@ import br.ufrn.imd.obama.planoaula.infrastructure.entity.PlanoAulaEntity
 import br.ufrn.imd.obama.usuario.infrastructure.mapper.toModel
 
 fun PlanoAulaEntity.toModel(): PlanoAula {
-    val planoAula = PlanoAula(
+    return PlanoAula(
         id = this.getId(),
         dataCadastro = this.getDataCadastro(),
         qtdDownload = this.getQtdDownload(),
@@ -27,6 +27,4 @@ fun PlanoAulaEntity.toModel(): PlanoAula {
         objetosAprendizagem = this.getObjetosAprendizagem()?.map { it.toModel() }?.toSet(),
         coautores = this.getCoautores()?.map { it.toModel() }?.toSet(),
     )
-
-    return planoAula
 }

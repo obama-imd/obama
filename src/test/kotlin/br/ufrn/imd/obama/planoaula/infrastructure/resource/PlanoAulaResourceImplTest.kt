@@ -61,6 +61,13 @@ class PlanoAulaResourceImplTest {
     @Autowired
     private lateinit var passwordEncoder: PasswordEncoder
 
+    private fun criarLoginRequest(email: String, senha: String): LoginRequest {
+        return LoginRequest(
+            senha = senha,
+            login = email
+        )
+    }
+
     fun pegarAccessToken(): String {
         val usuario = criarUsuarioAtivo()
 
@@ -131,12 +138,5 @@ class PlanoAulaResourceImplTest {
         )
             .andDo(print())
             .andExpect(status().isForbidden)
-    }
-
-    private fun criarLoginRequest(email: String, senha: String): LoginRequest {
-        return LoginRequest(
-            senha = senha,
-            login = email
-        )
     }
 }

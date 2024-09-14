@@ -1,6 +1,6 @@
 package br.ufrn.imd.obama.oa.infrastructure.handler
 
-import br.ufrn.imd.obama.oa.infrastructure.exception.OANaoEncontradoException
+import br.ufrn.imd.obama.oa.domain.exception.OANaoEncontradoException
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.NoSuchBeanDefinitionException
 import org.springframework.core.Ordered

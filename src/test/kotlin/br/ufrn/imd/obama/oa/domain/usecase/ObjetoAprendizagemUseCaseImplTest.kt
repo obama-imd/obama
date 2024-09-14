@@ -3,14 +3,12 @@ package br.ufrn.imd.obama.oa.domain.usecase
 import br.ufrn.imd.obama.oa.domain.enums.Curriculo
 import br.ufrn.imd.obama.oa.domain.model.ObjetoAprendizagem
 import br.ufrn.imd.obama.oa.infrastructure.adapter.ObjetoAprendizagemDatabaseGatewayAdapter
-import br.ufrn.imd.obama.oa.infrastructure.exception.OANaoEncontradoException
-import br.ufrn.imd.obama.oa.util.NOME_CURRICULO_INVALIDO
+import br.ufrn.imd.obama.oa.domain.exception.OANaoEncontradoException
 import br.ufrn.imd.obama.oa.util.criarObjetoAprendizagem
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.mockito.Mockito.`when`
-import org.springframework.beans.factory.NoSuchBeanDefinitionException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.mock.mockito.MockBean
