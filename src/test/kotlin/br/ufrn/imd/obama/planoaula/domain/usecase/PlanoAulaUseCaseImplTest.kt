@@ -1,13 +1,15 @@
 package br.ufrn.imd.obama.planoaula.domain.usecase
 
-import br.ufrn.imd.obama.planoaula.domain.model.PlanoAula
+import br.ufrn.imd.obama.planoaula.domain.exception.PlanoAulaNaoEncontradoException
 import br.ufrn.imd.obama.planoaula.infrastructure.adapter.PlanoAulaDatabaseGatewayAdapter
+import br.ufrn.imd.obama.planoaula.domain.model.PlanoAula
 import br.ufrn.imd.obama.planoaula.util.criarPlanoAula
 import br.ufrn.imd.obama.usuario.infrastructure.mapper.toEntity
 import br.ufrn.imd.obama.usuario.util.criarUsuarioAtivo
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
+import org.junit.jupiter.api.assertThrows
 import org.mockito.Mockito
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -108,5 +110,22 @@ class PlanoAulaUseCaseImplTest {
         Assertions.assertEquals(paginas.isEmpty, true)
     }
 
+    @Test
+    fun `Deve achar plano de aula passando id`() {
+        Mockito.`when`(planoAulaGatewayAdapter.buscarPlanoAulaPorId(1)).thenReturn(criarPlanoAula())
 
+        val planoAula = planoAulaUseCase.buscarPlanoAulaPorId(1)
+
+        Assertions.assertNotNull(planoAula)
+        Assertions.assertEquals(1, planoAula.id)
+    }
+
+    @Test
+    fun `Deve achar nenhum plano de aula passando id inexistente`() {
+        Mockito.`when`(planoAulaGatewayAdapter.buscarPlanoAulaPorId(1)).thenThrow(PlanoAulaNaoEncontradoException("Plano de aula não encontrado por ID: 1"))
+
+        assertThrows<PlanoAulaNaoEncontradoException> {
+            val planoAula = planoAulaUseCase.buscarPlanoAulaPorId(1)
+        }
+    }
 }

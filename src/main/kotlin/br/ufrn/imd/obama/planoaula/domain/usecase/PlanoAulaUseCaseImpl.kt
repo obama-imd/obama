@@ -26,4 +26,8 @@ class PlanoAulaUseCaseImpl(
     ): Page<PlanoAula> {
         return planoAulaGateway.buscarPlanosAulaPorTitulo(autor,titulo,pageable)
     }
+
+    override fun buscarPlanoAulaPorId(id: Long): PlanoAula {
+        return planoAulaGateway.buscarPlanoAulaPorId(id)
+    }
 }

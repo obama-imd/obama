@@ -3,6 +3,7 @@ package br.ufrn.imd.obama.planoaula.infrastructure.mapper
 import br.ufrn.imd.obama.oa.infrastructure.mapper.toEntity
 import br.ufrn.imd.obama.planoaula.domain.model.PlanoAula
 import br.ufrn.imd.obama.planoaula.infrastructure.entity.PlanoAulaEntity
+import br.ufrn.imd.obama.planoaula.infrastructure.resource.exchange.PlanoAulaBuscarPorIdResponse
 import br.ufrn.imd.obama.planoaula.infrastructure.resource.exchange.PlanoAulaResponse
 import br.ufrn.imd.obama.usuario.infrastructure.mapper.toEntity
 
@@ -37,3 +38,24 @@ fun PlanoAula.toEntity(): PlanoAulaEntity {
         coautores = this.getCoautores()?.map { it.toEntity() }?.toSet(),
     )
 }
+
+fun PlanoAula.toPlanoAulaBuscarPorIdResponse(): PlanoAulaBuscarPorIdResponse {
+    val response = PlanoAulaBuscarPorIdResponse(
+        id = this.id,
+        escola = this.getEscola(),
+        titulo = this.getTitulo(),
+        resumo = this.getResumo(),
+        objetivoGeral = this.getObjetivoGeral(),
+        objetivosEspecificos = this.getObjetivosEspecificos(),
+        metodologia = this.getMetodologia(),
+        referencias = this.getReferencias(),
+        idObjetosAprendizagem = this.getObjetosAprendizagem()?.map { it.id }?.toList() ?: emptyList(),
+        nivelEnsinoId = this.getNivelEnsino()?.id,
+        idDisciplinas = this.getDisciplinasEnvolvidas()?.map { it.id }?.toList() ?: emptyList(),
+        anoEnsinoId = this.getAnoEnsino()?.id,
+        emailCoautores = this.getCoautores()?.map { it.email }?.toList() ?: emptyList()
+        )
+
+    return response
+}
+

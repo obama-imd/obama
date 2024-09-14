@@ -1,7 +1,9 @@
 package br.ufrn.imd.obama.planoaula.infrastructure.resource
 
 import br.ufrn.imd.obama.planoaula.domain.usecase.PlanoAulaUseCase
+import br.ufrn.imd.obama.planoaula.infrastructure.mapper.toPlanoAulaBuscarPorIdResponse
 import br.ufrn.imd.obama.planoaula.infrastructure.mapper.toResponse
+import br.ufrn.imd.obama.planoaula.infrastructure.resource.exchange.PlanoAulaBuscarPorIdResponse
 import br.ufrn.imd.obama.planoaula.infrastructure.resource.exchange.PlanoAulaRequest
 import br.ufrn.imd.obama.planoaula.infrastructure.resource.exchange.PlanoAulaResponse
 import br.ufrn.imd.obama.usuario.infrastructure.entity.UsuarioEntity
@@ -52,6 +54,11 @@ class PlanoAulaResourceImpl(
 
         val autor = usuario as UsuarioEntity
 
-        return planoAulaUseCase.buscarPlanoAulaPorTitulo(autor, titulo, pageable).map { it.toResponse() }
+        return planoAulaUseCase.buscarPlanoAulaPorTitulo(autor, titulo, pageable).map{ it.toResponse() }
+    }
+
+    @GetMapping(path = ["/{id}"], produces = [MediaType.APPLICATION_JSON_VALUE])
+    override fun buscarPlanoAulaPorId(@PathVariable("id", required = true) id: Long): PlanoAulaBuscarPorIdResponse {
+        return planoAulaUseCase.buscarPlanoAulaPorId(id).toPlanoAulaBuscarPorIdResponse()
     }
 }

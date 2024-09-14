@@ -2,7 +2,7 @@ package br.ufrn.imd.obama.usuario.infrastructure.resource.exchange
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
-data class LoginResponse(
+data class RefreshResponse(
     @JsonProperty("access_token")
     val accessToken: String,
 

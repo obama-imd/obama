@@ -12,7 +12,7 @@ class UsuarioUseCaseImpl(
     private val usuarioGateway: UsuarioDatabaseGateway,
     private val passwordEncoder: PasswordEncoder,
     private val oldCustomEncoder: OldCustomEncoder,
-    private val emailService: EmailGateway
+    private val emailService: EmailGateway,
 ): UsuarioUseCase {
     override fun salvarUsuario(usuario: Usuario): Usuario {
 
@@ -58,6 +58,10 @@ class UsuarioUseCaseImpl(
         usuario.usaCriptografiaAntiga = false
 
         usuarioGateway.salvarUsuario(usuario)
+    }
+
+    override fun buscarPorEmail(email: String): Usuario {
+        return usuarioGateway.buscarPorEmail(email)
     }
 
     private fun gerarTextoAtivacaoConta(token: String): String {

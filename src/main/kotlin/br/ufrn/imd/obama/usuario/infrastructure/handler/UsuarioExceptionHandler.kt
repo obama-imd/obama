@@ -1,5 +1,6 @@
 package br.ufrn.imd.obama.usuario.infrastructure.handler
 
+import br.ufrn.imd.obama.usuario.domain.exception.TokenInvalidoException
 import br.ufrn.imd.obama.usuario.domain.exception.UsuarioExistenteException
 import br.ufrn.imd.obama.usuario.domain.exception.UsuarioNaoAutenticadoException
 import br.ufrn.imd.obama.usuario.domain.exception.UsuarioNaoEncontradoException
@@ -24,8 +25,15 @@ class UsuarioExceptionHandler: ResponseEntityExceptionHandler() {
     @ExceptionHandler(UsuarioExistenteException::class)
     protected fun handleUsuarioExistenteException(
         ex: UsuarioExistenteException
-    ):ResponseEntity<Any> {
+    ): ResponseEntity<Any> {
         return ResponseEntity.badRequest().build()
+    }
+
+    @ExceptionHandler(TokenInvalidoException::class)
+    protected fun handleUsuarioExistenteException(
+        ex: TokenInvalidoException
+    ): ResponseEntity<Any> {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build()
     }
 
 }

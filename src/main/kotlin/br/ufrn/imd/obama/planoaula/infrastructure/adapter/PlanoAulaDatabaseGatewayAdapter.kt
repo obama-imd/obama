@@ -9,6 +9,7 @@ import br.ufrn.imd.obama.oa.infrastructure.repository.AnoEnsinoRepository
 import br.ufrn.imd.obama.oa.infrastructure.repository.DisciplinaRepository
 import br.ufrn.imd.obama.planoaula.domain.enums.StatusPlanoAula
 import br.ufrn.imd.obama.planoaula.domain.exception.DuracaoNegativaException
+import br.ufrn.imd.obama.planoaula.domain.exception.PlanoAulaNaoEncontradoException
 import br.ufrn.imd.obama.planoaula.domain.gateway.PlanoAulaGateway
 import br.ufrn.imd.obama.planoaula.domain.model.PlanoAula
 import br.ufrn.imd.obama.planoaula.infrastructure.mapper.toEntity
@@ -18,6 +19,7 @@ import br.ufrn.imd.obama.planoaula.infrastructure.resource.exchange.PlanoAulaReq
 import br.ufrn.imd.obama.usuario.domain.model.Usuario
 import br.ufrn.imd.obama.usuario.domain.usecase.UsuarioUseCase
 import br.ufrn.imd.obama.usuario.infrastructure.entity.UsuarioEntity
+import org.slf4j.LoggerFactory
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.Pageable
@@ -35,6 +37,7 @@ class PlanoAulaDatabaseGatewayAdapter(
     private val usuarioUseCase: UsuarioUseCase,
 ): PlanoAulaGateway {
 
+    private val logger = LoggerFactory.getLogger(javaClass)
     private val tituloPadrao = "Plano sem título"
 
     override fun salvarPlanoAula(
@@ -96,4 +99,9 @@ class PlanoAulaDatabaseGatewayAdapter(
         }
     }
 
+    override fun buscarPlanoAulaPorId(id: Long): PlanoAula {
+        logger.info("method={}; id={};", "buscarPlanoAulaPorId", id)
+
+        return planoAulaRepository.buscarPlanoAulaPorId(id)?.toModel() ?: throw PlanoAulaNaoEncontradoException("Plano de aula não encontrado por ID: $id")
+    }
 }

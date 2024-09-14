@@ -6,6 +6,7 @@ import br.ufrn.imd.obama.oa.infrastructure.repository.AnoEnsinoRepository
 import br.ufrn.imd.obama.oa.infrastructure.repository.DisciplinaRepository
 import br.ufrn.imd.obama.planoaula.domain.model.PlanoAula
 import br.ufrn.imd.obama.planoaula.infrastructure.entity.PlanoAulaEntity
+import br.ufrn.imd.obama.planoaula.domain.exception.PlanoAulaNaoEncontradoException
 import br.ufrn.imd.obama.planoaula.infrastructure.mapper.toEntity
 import br.ufrn.imd.obama.planoaula.infrastructure.repository.PlanoAulaRepository
 import br.ufrn.imd.obama.planoaula.util.criarPlanoAula
@@ -15,6 +16,7 @@ import br.ufrn.imd.obama.usuario.util.criarUsuarioAtivo
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
+import org.junit.jupiter.api.assertThrows
 import org.mockito.Mockito
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -43,7 +45,7 @@ class PlanoAulaGatewayAdapterTest {
     @MockBean
     private lateinit var planoAulaRepository: PlanoAulaRepository
 
-    companion object{
+    companion object {
         const val pageSize = 10
         const val titulo = "teste"
     }
@@ -56,13 +58,13 @@ class PlanoAulaGatewayAdapterTest {
         val resultadoVazio: Page<PlanoAulaEntity> = Page.empty()
 
         Mockito.`when`(
-            planoAulaRepository.buscarPlanosAulaPorTitulo(autor,null, pageable)
+            planoAulaRepository.buscarPlanosAulaPorTitulo(autor, null, pageable)
         ).thenReturn(resultadoVazio)
 
         var resultadoGateway: Page<PlanoAula>? = null
 
         assertDoesNotThrow {
-            resultadoGateway = planoAulaGatewayAdapter.buscarPlanosAulaPorTitulo(autor,null, pageable)
+            resultadoGateway = planoAulaGatewayAdapter.buscarPlanosAulaPorTitulo(autor, null, pageable)
         }
 
         Assertions.assertTrue(resultadoGateway!!.isEmpty)
@@ -83,15 +85,38 @@ class PlanoAulaGatewayAdapterTest {
         )
 
         Mockito.`when`(
-            planoAulaRepository.buscarPlanosAulaPorTitulo(autor,PlanoAulaGatewayAdapterTest.titulo, pageable)
+            planoAulaRepository.buscarPlanosAulaPorTitulo(autor, PlanoAulaGatewayAdapterTest.titulo, pageable)
         ).thenReturn(resultado)
 
         var resultadoGateway: Page<PlanoAula>? = null
 
         assertDoesNotThrow {
-            resultadoGateway = planoAulaGatewayAdapter.buscarPlanosAulaPorTitulo(autor,PlanoAulaGatewayAdapterTest.titulo, pageable)
+            resultadoGateway =
+                planoAulaGatewayAdapter.buscarPlanosAulaPorTitulo(autor, PlanoAulaGatewayAdapterTest.titulo, pageable)
         }
 
         Assertions.assertEquals(resultadoGateway?.isEmpty, false)
+    }
+
+    @Test
+    fun `Deve buscar plano de aula por id e encontrar`() {
+        val planoAula = criarPlanoAula()
+        val planoAulaEntity = planoAula.toEntity()
+
+        Mockito.`when`(planoAulaRepository.buscarPlanoAulaPorId(1)).thenReturn(planoAulaEntity)
+
+        val resultado = planoAulaGatewayAdapter.buscarPlanoAulaPorId(1)
+
+        Assertions.assertEquals(planoAula, resultado)
+    }
+
+    @Test
+    fun `Não deve encontrar plano de aula por id`() {
+        Mockito.`when`(planoAulaRepository.buscarPlanoAulaPorId(1)).thenReturn(null)
+
+        assertThrows<PlanoAulaNaoEncontradoException> {
+            val resultado = planoAulaGatewayAdapter.buscarPlanoAulaPorId(1)
+        }
+
     }
 }

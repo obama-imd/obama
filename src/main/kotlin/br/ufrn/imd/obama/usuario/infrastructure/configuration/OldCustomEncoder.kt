@@ -1,7 +1,7 @@
 package br.ufrn.imd.obama.usuario.infrastructure.configuration
 
 import java.security.MessageDigest
-import java.util.*
+import java.util.Locale
 
 class OldCustomEncoder {
 

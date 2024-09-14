@@ -1,21 +1,14 @@
 package br.ufrn.imd.obama.oa.infrastructure.resource
 
 import br.ufrn.imd.obama.oa.domain.enums.Curriculo
-import br.ufrn.imd.obama.oa.domain.model.TemaConteudo
 import br.ufrn.imd.obama.oa.domain.usecase.TemaConteudoUseCase
-import br.ufrn.imd.obama.oa.infrastructure.adapter.TemaConteudoDatabaseGatewayAdapter
-import br.ufrn.imd.obama.oa.infrastructure.repository.TemaConteudoRepository
-import br.ufrn.imd.obama.oa.util.criarTemaConteudoBNCC
-import br.ufrn.imd.obama.oa.util.criarTemaConteudoPCN
-import br.ufrn.imd.obama.usuario.infrastructure.repository.UsuarioRepository
-import jakarta.transaction.Transactional
+import br.ufrn.imd.obama.usuario.infrastructure.configuration.SecurityConfiguration
+import br.ufrn.imd.obama.usuario.infrastructure.configuration.TokenConfiguration
 import org.junit.jupiter.api.Test
-import org.mockito.Mockito.anyString
-import org.mockito.Mockito.`when`
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.test.mock.mockito.MockBean
+import org.springframework.context.annotation.Import
 import org.springframework.http.MediaType
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.web.servlet.MockMvc
@@ -24,9 +17,14 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 
 @SpringBootTest
+@Import(value=
+    [
+        TokenConfiguration::class,
+        SecurityConfiguration::class
+    ]
+)
 @AutoConfigureMockMvc
 @ActiveProfiles(profiles = ["test"])
-@Transactional
 class TemaConteudoResourceImplTest {
 
 
