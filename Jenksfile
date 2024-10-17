@@ -3,6 +3,15 @@
 node {
     def gradle = "./gradlew"
 
+    environment {
+        DB_URL = credentials('DB_URL')
+        DB_USERNAME = credentials('DB_USERNAME')
+        DB_PASSWORD = credentials('DB_PASSWORD')
+        SENHA_APP_EMAIL = credentials('SENHA_APP_EMAIL')
+        JWT_SECRET = credentials('JWT_SECRET')
+        DB_NAME = credentials('DB_NAME')
+    }
+
     try {
         stage("Clone the project") {
             git branch: 'main', url: 'https://github.com/obama-imd/obama.git'
