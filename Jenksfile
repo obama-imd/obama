@@ -8,6 +8,19 @@ node {
             git branch: 'main', url: 'https://github.com/obama-imd/obama.git'
         }
 
+        stage("Create .env file") {
+            script {
+                writeFile file: './.env', text: """
+                DB_URL=${env.DB_URL}
+                DB_USERNAME=${env.DB_USERNAME}
+                DB_PASSWORD=${env.DB_PASSWORD}
+                SENHA_APP_EMAIL=${env.SENHA_APP_EMAIL}
+                JWT_SECRET=${env.JWT_SECRET}
+                DB_NAME=${env.DB_NAME}
+                """
+            }
+        }
+
         stage("Checkout") {
             checkout scm
         }
