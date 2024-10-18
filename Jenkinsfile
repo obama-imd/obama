@@ -61,5 +61,7 @@ node {
     } catch(Exception e) {
         echo "Deployment error. Cause: ${e}"
         throw e
-    }
+    } finally {
+        deleteDir()
+     }
 }
