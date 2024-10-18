@@ -10,29 +10,6 @@ node {
             git branch: 'main', url: 'https://github.com/obama-imd/obama.git'
         }
 
-        stage("Create .env file") {
-            withCredentials([
-                string(credentialsId: 'DB_URL', variable: 'DB_URL'),
-                string(credentialsId: 'DB_USERNAME', variable: 'DB_USERNAME'),
-                string(credentialsId: 'DB_PASSWORD', variable: 'DB_PASSWORD'),
-                string(credentialsId: 'SENHA_APP_EMAIL', variable: 'SENHA_APP_EMAIL'),
-                string(credentialsId: 'JWT_SECRET', variable: 'JWT_SECRET'),
-                string(credentialsId: 'DB_NAME', variable: 'DB_NAME')
-            ]) {
-
-                script {
-                    writeFile file: './.env', text: """
-                    DB_URL=${DB_URL}
-                    DB_USERNAME=${DB_USERNAME}
-                    DB_PASSWORD=${DB_PASSWORD}
-                    SENHA_APP_EMAIL=${SENHA_APP_EMAIL}
-                    JWT_SECRET=${JWT_SECRET}
-                    DB_NAME=${DB_NAME}
-                    """
-                }
-            }
-        }
-
         stage("Checkout") {
             checkout scm
         }
@@ -55,11 +32,36 @@ node {
         }
 
         stage("Running the app") {
-            sh "sudo docker compose stop obama-app"
-            sh "sudo docker compose up -d"
+            withCredentials([
+                string(credentialsId: 'DB_URL', variable: 'DB_URL'),
+                string(credentialsId: 'DB_USERNAME', variable: 'DB_USERNAME'),
+                string(credentialsId: 'DB_PASSWORD', variable: 'DB_PASSWORD'),
+                string(credentialsId: 'SENHA_APP_EMAIL', variable: 'SENHA_APP_EMAIL'),
+                string(credentialsId: 'JWT_SECRET', variable: 'JWT_SECRET'),
+                string(credentialsId: 'DB_NAME', variable: 'DB_NAME')
+            ]) {
+
+                steps {
+                    script {
+                        sh """
+                        docker run -d \
+                          --name obama-app \
+                          -e DB_URL=${DB_URL} \
+                          -e DB_USERNAME=${DB_USERNAME} \
+                          -e DB_PASSWORD=${DB_PASSWORD} \
+                          -e JWT_SECRET=${JWT_SECRET} \
+                          -e SENHA_APP_EMAIL=${SENHA_APP_EMAIL} \
+                          -p 8081:8081 \
+                          obamaapi:latest
+                        """
+                    }
+                }
+            }
         }
     } catch(Exception e) {
         echo "Deployment error. Cause: ${e}"
         throw e
-    }
+    } finally {
+        deleteDir()
+     }
 }
