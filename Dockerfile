@@ -9,4 +9,4 @@ ENV DB_USERNAME=test
 ENV DB_PASSWORD=test
 
 EXPOSE 8081
-ENTRYPOINT ["java","-Dspring.profiles.active=dev","-jar", "/app.jar"]
+ENTRYPOINT ["java","-Dspring.profiles.active=prod","-jar", "/app.jar"]
