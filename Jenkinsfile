@@ -1,6 +1,8 @@
 #!groovy
 
 node {
+    env.JAVA_HOME = tool(name: 'JDK 17', type: 'jdk')
+    env.PATH = "${env.JAVA_HOME}/bin:${env.PATH}"
     def gradle = "./gradlew"
 
     environment {
