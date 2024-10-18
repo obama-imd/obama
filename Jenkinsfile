@@ -5,30 +5,31 @@ node {
     env.PATH = "${env.JAVA_HOME}/bin:${env.PATH}"
     def gradle = "./gradlew"
 
-    environment {
-        DB_URL = credentials('DB_URL')
-        DB_USERNAME = credentials('DB_USERNAME')
-        DB_PASSWORD = credentials('DB_PASSWORD')
-        SENHA_APP_EMAIL = credentials('SENHA_APP_EMAIL')
-        JWT_SECRET = credentials('JWT_SECRET')
-        DB_NAME = credentials('DB_NAME')
-    }
-
     try {
         stage("Clone the project") {
             git branch: 'main', url: 'https://github.com/obama-imd/obama.git'
         }
 
         stage("Create .env file") {
-            script {
-                writeFile file: './.env', text: """
-                DB_URL=${env.DB_URL}
-                DB_USERNAME=${env.DB_USERNAME}
-                DB_PASSWORD=${env.DB_PASSWORD}
-                SENHA_APP_EMAIL=${env.SENHA_APP_EMAIL}
-                JWT_SECRET=${env.JWT_SECRET}
-                DB_NAME=${env.DB_NAME}
-                """
+            withCredentials([
+                string(credentialsId: 'DB_URL', variable: 'DB_URL'),
+                string(credentialsId: 'DB_USERNAME', variable: 'DB_USERNAME'),
+                string(credentialsId: 'DB_PASSWORD', variable: 'DB_PASSWORD'),
+                string(credentialsId: 'SENHA_APP_EMAIL', variable: 'SENHA_APP_EMAIL'),
+                string(credentialsId: 'JWT_SECRET', variable: 'JWT_SECRET'),
+                string(credentialsId: 'DB_NAME', variable: 'DB_NAME')
+            ]) {
+
+                script {
+                    writeFile file: './.env', text: """
+                    DB_URL=${DB_URL}
+                    DB_USERNAME=${DB_USERNAME}
+                    DB_PASSWORD=${DB_PASSWORD}
+                    SENHA_APP_EMAIL=${SENHA_APP_EMAIL}
+                    JWT_SECRET=${JWT_SECRET}
+                    DB_NAME=${DB_NAME}
+                    """
+                }
             }
         }
 
