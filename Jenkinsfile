@@ -35,6 +35,7 @@ node {
         }
 
         stage("Build Application") {
+            sh "chmod +x ./gradlew"
             sh "${gradle} clean build -x test"
         }
 
