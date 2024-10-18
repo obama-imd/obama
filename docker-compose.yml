@@ -19,7 +19,6 @@ services:
       SENHA_APP_EMAIL: "${SENHA_APP_EMAIL}"
     networks:
       obama_network:
-        ipv4_address: 170.0.0.3
     depends_on:
       - obama-postgres
   obama-postgres:
