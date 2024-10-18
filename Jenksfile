@@ -35,23 +35,24 @@ node {
         }
 
         stage("Build Application") {
-            bat "${gradle} clean build -x test"
+            sh "${gradle} clean build -x test"
         }
 
         stage("Test") {
-            bat "${gradle} test"
+            sh "${gradle} test"
         }
 
         stage("Jacoco") {
-            bat "${gradle} jacocoTestReport"
+            sh "${gradle} jacocoTestReport"
         }
 
         stage("Docker build") {
-            bat "docker build -t obamaapi ."
+            sh "docker build -t obamaapi ."
         }
 
         stage("Running the app") {
-            bat "docker-compose up -d"
+            sh "docker-compose stop obama-app"
+            sh "docker-compose up -d"
         }
     } catch(Exception e) {
         echo "Deployment error. Cause: ${e}"
