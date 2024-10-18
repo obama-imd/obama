@@ -40,22 +40,17 @@ node {
                 string(credentialsId: 'JWT_SECRET', variable: 'JWT_SECRET'),
                 string(credentialsId: 'DB_NAME', variable: 'DB_NAME')
             ]) {
-
-                steps {
-                    script {
-                        sh """
-                        docker run -d \
-                          --name obama-app \
-                          -e DB_URL=${DB_URL} \
-                          -e DB_USERNAME=${DB_USERNAME} \
-                          -e DB_PASSWORD=${DB_PASSWORD} \
-                          -e JWT_SECRET=${JWT_SECRET} \
-                          -e SENHA_APP_EMAIL=${SENHA_APP_EMAIL} \
-                          -p 8081:8081 \
-                          obamaapi:latest
-                        """
-                    }
-                }
+                sh """
+                docker run -d \
+                  --name obama-app \
+                  -e DB_URL=${DB_URL} \
+                  -e DB_USERNAME=${DB_USERNAME} \
+                  -e DB_PASSWORD=${DB_PASSWORD} \
+                  -e JWT_SECRET=${JWT_SECRET} \
+                  -e SENHA_APP_EMAIL=${SENHA_APP_EMAIL} \
+                  -p 8081:8081 \
+                  obamaapi:latest
+                """
             }
         }
     } catch(Exception e) {
