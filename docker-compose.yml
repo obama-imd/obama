@@ -20,9 +20,6 @@ services:
     networks:
       obama_network:
         ipv4_address: 170.0.0.3
-    deploy:
-      mode: replicated
-      replicas: 2
     depends_on:
       - obama-postgres
   obama-postgres:
