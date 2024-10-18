@@ -50,12 +50,12 @@ node {
         }
 
         stage("Docker build") {
-            sh "docker build -t obamaapi ."
+            sh "sudo docker build -t obamaapi ."
         }
 
         stage("Running the app") {
-            sh "docker-compose stop obama-app"
-            sh "docker-compose up -d"
+            sh "sudo docker-compose stop obama-app"
+            sh "sudo docker-compose up -d"
         }
     } catch(Exception e) {
         echo "Deployment error. Cause: ${e}"
