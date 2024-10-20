@@ -2,6 +2,7 @@ package br.ufrn.imd.obama.usuario.infrastructure.handler
 
 import br.ufrn.imd.obama.usuario.domain.exception.TokenInvalidoException
 import br.ufrn.imd.obama.usuario.domain.exception.UsuarioExistenteException
+import br.ufrn.imd.obama.usuario.domain.exception.UsuarioNaoAutenticadoException
 import br.ufrn.imd.obama.usuario.domain.exception.UsuarioNaoEncontradoException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
