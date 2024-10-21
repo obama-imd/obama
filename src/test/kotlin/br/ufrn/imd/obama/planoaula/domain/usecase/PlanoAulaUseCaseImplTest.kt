@@ -1,8 +1,8 @@
 package br.ufrn.imd.obama.planoaula.domain.usecase
 
+import br.ufrn.imd.obama.planoaula.domain.exception.PlanoAulaNaoEncontradoException
 import br.ufrn.imd.obama.planoaula.domain.model.PlanoAula
 import br.ufrn.imd.obama.planoaula.infrastructure.adapter.PlanoAulaGatewayAdapter
-import br.ufrn.imd.obama.planoaula.domain.exception.PlanoAulaNaoEncontradoException
 import br.ufrn.imd.obama.planoaula.util.criarPlanoAula
 import br.ufrn.imd.obama.usuario.infrastructure.mapper.toEntity
 import br.ufrn.imd.obama.usuario.util.criarUsuarioAtivo
@@ -28,7 +28,9 @@ class PlanoAulaUseCaseImplTest {
     @MockBean
     private lateinit var planoAulaGatewayAdapter: PlanoAulaGatewayAdapter
 
-   companion object{ const val pageSize = 10 }
+    companion object {
+        const val pageSize = 10
+    }
 
     @Test
     fun `Deve achar plano de aula`() {
@@ -54,7 +56,7 @@ class PlanoAulaUseCaseImplTest {
         var paginas: Page<PlanoAula> = Page.empty(pageable)
 
         assertDoesNotThrow {
-            paginas = planoAulaUseCase.buscarPlanoAulaPorTitulo(autor,"teste", pageable)
+            paginas = planoAulaUseCase.buscarPlanoAulaPorTitulo(autor, "teste", pageable)
         }
 
         Assertions.assertEquals(paginas.isEmpty, false)
@@ -79,7 +81,7 @@ class PlanoAulaUseCaseImplTest {
         var paginas: Page<PlanoAula> = Page.empty(pageable)
 
         assertDoesNotThrow {
-            paginas = planoAulaUseCase.buscarPlanoAulaPorTitulo(autor,"teste", pageable)
+            paginas = planoAulaUseCase.buscarPlanoAulaPorTitulo(autor, "teste", pageable)
         }
 
         Assertions.assertEquals(paginas.isEmpty, true)
@@ -104,7 +106,7 @@ class PlanoAulaUseCaseImplTest {
         var paginas: Page<PlanoAula> = Page.empty(pageable)
 
         assertDoesNotThrow {
-            paginas = planoAulaUseCase.buscarPlanoAulaPorTitulo(autor,null, pageable)
+            paginas = planoAulaUseCase.buscarPlanoAulaPorTitulo(autor, null, pageable)
         }
 
         Assertions.assertEquals(paginas.isEmpty, true)
@@ -122,10 +124,36 @@ class PlanoAulaUseCaseImplTest {
 
     @Test
     fun `Deve achar nenhum plano de aula passando id inexistente`() {
-        Mockito.`when`(planoAulaGatewayAdapter.buscarPlanoAulaPorId(1)).thenThrow(PlanoAulaNaoEncontradoException("Plano de aula não encontrado por ID: 1"))
+        Mockito.`when`(planoAulaGatewayAdapter.buscarPlanoAulaPorId(1))
+            .thenThrow(PlanoAulaNaoEncontradoException("Plano de aula não encontrado por ID: 1"))
 
         assertThrows<PlanoAulaNaoEncontradoException> {
             val planoAula = planoAulaUseCase.buscarPlanoAulaPorId(1)
         }
+    }
+
+    @Test
+    fun `Deve achar nenhum plano passando usuário que não é coautor de nada`() {
+        val pageable = Pageable.ofSize(pageSize)
+        val coautor = criarUsuarioAtivo().toEntity()
+        val resultado: Page<PlanoAula> = Page.empty(pageable)
+
+        Mockito.`when`(
+            planoAulaGatewayAdapter.buscarPlanosAulaPorCoautor(
+                coautor,
+                null,
+                pageable
+            )
+        ).thenReturn(resultado)
+
+        var paginas: Page<PlanoAula> = Page.empty()
+        assertDoesNotThrow {
+            paginas = planoAulaGatewayAdapter.buscarPlanosAulaPorCoautor(
+                coautor, null, pageable
+            )
+        }
+
+        Assertions.assertEquals(paginas.isEmpty, true)
+
     }
 }
