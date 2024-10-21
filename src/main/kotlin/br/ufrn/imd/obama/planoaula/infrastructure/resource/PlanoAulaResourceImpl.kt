@@ -14,11 +14,7 @@ import org.springframework.http.MediaType
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.validation.annotation.Validated
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("v1/planoaula")
@@ -29,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController
 )
 class PlanoAulaResourceImpl(
     private val planoAulaUseCase: PlanoAulaUseCase
-): PlanoAulaResource {
+) : PlanoAulaResource {
     @Cacheable(cacheNames = ["planosaula"])
     @GetMapping(produces = [MediaType.APPLICATION_JSON_VALUE])
     override fun buscarPlanosAulaPorTitulo(
@@ -40,11 +36,21 @@ class PlanoAulaResourceImpl(
 
         val autor = usuario as UsuarioEntity
 
-        return planoAulaUseCase.buscarPlanoAulaPorTitulo(autor, titulo, pageable).map{ it.toResponse() }
+        return planoAulaUseCase.buscarPlanoAulaPorTitulo(autor, titulo, pageable).map { it.toResponse() }
     }
 
     @GetMapping(path = ["/{id}"], produces = [MediaType.APPLICATION_JSON_VALUE])
     override fun buscarPlanoAulaPorId(@PathVariable("id", required = true) id: Long): PlanoAulaBuscarPorIdResponse {
         return planoAulaUseCase.buscarPlanoAulaPorId(id).toPlanoAulaBuscarPorIdResponse()
+    }
+
+    @GetMapping(path = ["/buscarPorCoautor"], produces = [MediaType.APPLICATION_JSON_VALUE])
+    override fun buscarPlanosAulaPorCoautor(
+        @AuthenticationPrincipal usuario: UserDetails,
+        @RequestParam(value = "titulo", required = false) titulo: String?,
+        pageable: Pageable
+    ): Page<PlanoAulaResponse> {
+        val coautor = usuario as UsuarioEntity
+        return planoAulaUseCase.buscarPlanosAulaPorCoautor(coautor, titulo, pageable).map { it.toResponse() }
     }
 }
