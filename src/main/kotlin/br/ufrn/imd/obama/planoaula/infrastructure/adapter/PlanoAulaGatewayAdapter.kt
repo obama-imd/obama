@@ -1,8 +1,8 @@
 package br.ufrn.imd.obama.planoaula.infrastructure.adapter
 
+import br.ufrn.imd.obama.planoaula.domain.exception.PlanoAulaNaoEncontradoException
 import br.ufrn.imd.obama.planoaula.domain.gateway.PlanoAulaGateway
 import br.ufrn.imd.obama.planoaula.domain.model.PlanoAula
-import br.ufrn.imd.obama.planoaula.domain.exception.PlanoAulaNaoEncontradoException
 import br.ufrn.imd.obama.planoaula.infrastructure.mapper.toModel
 import br.ufrn.imd.obama.planoaula.infrastructure.repository.PlanoAulaRepository
 import br.ufrn.imd.obama.usuario.infrastructure.entity.UsuarioEntity
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service
 @Service
 class PlanoAulaGatewayAdapter(
     private val planoAulaRepository: PlanoAulaRepository
-): PlanoAulaGateway {
+) : PlanoAulaGateway {
     private val logger = LoggerFactory.getLogger(javaClass)
 
     override fun buscarPlanosAulaPorTitulo(
@@ -24,16 +24,29 @@ class PlanoAulaGatewayAdapter(
         pageable: Pageable
     ): Page<PlanoAula> {
 
-        val planoAulaPage = planoAulaRepository.buscarPlanosAulaPorTitulo(autor,titulo,pageable).toList()
+        val planoAulaPage = planoAulaRepository.buscarPlanosAulaPorTitulo(autor, titulo, pageable).toList()
 
-        return PageImpl(planoAulaPage).map {
-            planoAula -> planoAula?.toModel()
+        return PageImpl(planoAulaPage).map { planoAula ->
+            planoAula?.toModel()
         }
     }
 
     override fun buscarPlanoAulaPorId(id: Long): PlanoAula {
         logger.info("method={}; id={};", "buscarPlanoAulaPorId", id)
 
-        return planoAulaRepository.buscarPlanoAulaPorId(id)?.toModel() ?: throw PlanoAulaNaoEncontradoException("Plano de aula não encontrado por ID: $id")
+        return planoAulaRepository.buscarPlanoAulaPorId(id)?.toModel()
+            ?: throw PlanoAulaNaoEncontradoException("Plano de aula não encontrado por ID: $id")
+    }
+
+    override fun buscarPlanosAulaPorCoautor(
+        coautor: UsuarioEntity,
+        titulo: String?,
+        pageable: Pageable
+    ): Page<PlanoAula> {
+        val planoAulaPage = planoAulaRepository.buscarPlanosAulaPorCoautor(coautor.email, titulo, pageable)
+
+        return PageImpl(planoAulaPage.toList()).map { planoAula ->
+            planoAula?.toModel()
+        }
     }
 }
