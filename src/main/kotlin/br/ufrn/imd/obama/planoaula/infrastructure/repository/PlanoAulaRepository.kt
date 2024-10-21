@@ -10,11 +10,13 @@ import org.springframework.data.repository.query.Param
 import org.springframework.stereotype.Repository
 
 @Repository
-interface PlanoAulaRepository: JpaRepository<PlanoAulaEntity, Long> {
+interface PlanoAulaRepository : JpaRepository<PlanoAulaEntity, Long> {
 
-    @Query("SELECT p FROM PlanoAulaEntity p WHERE " +
-            "(p.titulo IS NULL AND p.status <> 'REMOVIDO' AND p.autor = :autor) OR " +
-            "(p.titulo = :titulo AND p.status <> 'REMOVIDO' AND p.autor = :autor)")
+    @Query(
+        "SELECT p FROM PlanoAulaEntity p WHERE " +
+                "(p.titulo IS NULL AND p.status <> 'REMOVIDO' AND p.autor = :autor) OR " +
+                "(p.titulo = :titulo AND p.status <> 'REMOVIDO' AND p.autor = :autor)"
+    )
     fun buscarPlanosAulaPorTitulo(
         @Param("autor") autor: UsuarioEntity,
         @Param("titulo") titulo: String?,
@@ -23,4 +25,17 @@ interface PlanoAulaRepository: JpaRepository<PlanoAulaEntity, Long> {
 
     @Query("SELECT p FROM PlanoAulaEntity p WHERE p.id = :id")
     fun buscarPlanoAulaPorId(@Param("id") id: Long): PlanoAulaEntity?
+
+    @Query(
+        "SELECT DISTINCT p FROM PlanoAulaEntity p " +
+                "INNER JOIN p.coautores c " +
+                "WHERE c.email = :coautor " +
+                "AND p.status <> 'REMOVIDO' AND (:titulo IS NULL OR p.titulo = :titulo) " +
+                "ORDER BY LOWER(p.titulo) "
+    )
+    fun buscarPlanosAulaPorCoautor(
+        @Param("coautor") emailCoautor: String,
+        @Param("titulo") titulo: String?,
+        pageable: Pageable
+    ): Page<PlanoAulaEntity>
 }
