@@ -28,6 +28,7 @@ data class PlanoAula(
     private var anoEnsino: AnoEnsino? = null,
     private var objetosAprendizagem: Set<ObjetoAprendizagem>? = null,
     private var coautores: Set<Usuario>? = null,
+    private var avaliacao: String? = null,
 ) {
 
     fun getQtdDownload(): Int {
@@ -96,6 +97,10 @@ data class PlanoAula(
 
     fun getObjetosAprendizagem(): Set<ObjetoAprendizagem>? {
         return objetosAprendizagem
+    }
+
+    fun getAvaliacao(): String? {
+        return avaliacao
     }
 
 }

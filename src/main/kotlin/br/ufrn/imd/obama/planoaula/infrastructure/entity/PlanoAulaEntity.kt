@@ -45,7 +45,7 @@ data class PlanoAulaEntity(
     private var duracaoEmMinutos: Int?,
 
     @Column(name = "titulo", nullable = true)
-    private val titulo: String?,
+    private var titulo: String?,
 
     @Column(columnDefinition = "text", nullable = true)
     private val resumo: String?,
@@ -75,6 +75,9 @@ data class PlanoAulaEntity(
     @ManyToOne(optional = true, fetch = FetchType.EAGER)
     private val nivelEnsino: NivelEnsinoEntity?,
 
+    @Column(columnDefinition = "text", nullable = true)
+    private val avaliacao: String?,
+
     @OneToMany(fetch = FetchType.EAGER)
     @JoinTable(
         name = "plano_aula_disciplina",
@@ -84,7 +87,7 @@ data class PlanoAulaEntity(
     private val disciplinasEnvolvidas: List<DisciplinaEntity>?,
 
     @OneToOne(fetch = FetchType.EAGER, optional = true)
-    private val anoEnsino: AnoEnsinoEntity?,
+    private var anoEnsino: AnoEnsinoEntity?,
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -121,4 +124,14 @@ data class PlanoAulaEntity(
     fun getAnoEnsino() = anoEnsino
     fun getObjetosAprendizagem() = objetosAprendizagem
     fun getCoautores() = coautores
+
+    fun getAvaliacao() = avaliacao
+
+    fun setTitulo(titulo: String) {
+        this.titulo = titulo
+    }
+
+    fun setIdanoEnsino(anoEnsino: AnoEnsinoEntity) {
+        this.anoEnsino = anoEnsino
+    }
 }
