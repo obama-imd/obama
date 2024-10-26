@@ -11,12 +11,13 @@ import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.SequenceGenerator
 import jakarta.persistence.Table
-import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotNull
-import jakarta.validation.constraints.Size
+import org.hibernate.annotations.CreationTimestamp
+import org.hibernate.annotations.UpdateTimestamp
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
+import java.time.LocalDateTime
 
 @Entity
 @Table(name = "usuario")
@@ -59,7 +60,15 @@ class UsuarioEntity (
 
     @Column(name="usa_criptografia_antiga")
     @NotNull
-    var usaCriptoGrafiaAntiga: Boolean = true
+    var usaCriptoGrafiaAntiga: Boolean = true,
+
+    @CreationTimestamp
+    @Column(name = "data_cadastro")
+    val dataCriacao: LocalDateTime? = null,
+
+    @UpdateTimestamp
+    @Column(name = "data_atualizacao")
+    val dataAtualizacao: LocalDateTime? = null
 ) : UserDetails {
 
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> {
