@@ -1,5 +1,8 @@
 package br.ufrn.imd.obama.planoaula.infrastructure.adapter
 
+import br.ufrn.imd.obama.oa.domain.exception.AnoEnsinoNaoEncontradoException
+import br.ufrn.imd.obama.oa.domain.exception.DisciplinaNaoEncontradoException
+import br.ufrn.imd.obama.oa.domain.exception.NivelEnsinoNaoEncontradoException
 import br.ufrn.imd.obama.oa.infrastructure.entity.AnoEnsinoEntity
 import br.ufrn.imd.obama.oa.infrastructure.entity.DisciplinaEntity
 import br.ufrn.imd.obama.oa.infrastructure.entity.NivelEnsinoEntity
@@ -7,6 +10,7 @@ import br.ufrn.imd.obama.oa.infrastructure.repository.AnoEnsinoRepository
 import br.ufrn.imd.obama.oa.infrastructure.repository.DisciplinaRepository
 import br.ufrn.imd.obama.oa.infrastructure.repository.NivelEnsinoRepository
 import br.ufrn.imd.obama.planoaula.domain.enums.StatusPlanoAula
+import br.ufrn.imd.obama.planoaula.domain.exception.PlanoAulaDuracaoNegativaException
 import br.ufrn.imd.obama.planoaula.domain.model.PlanoAula
 import br.ufrn.imd.obama.planoaula.infrastructure.entity.PlanoAulaEntity
 import br.ufrn.imd.obama.planoaula.domain.exception.PlanoAulaNaoEncontradoException
@@ -28,7 +32,6 @@ import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.Pageable
 import org.springframework.test.context.ActiveProfiles
 import java.util.Optional
-import org.mockito.ArgumentMatchers.any
 import java.time.LocalDateTime
 
 
@@ -162,7 +165,7 @@ class PlanoAulaGatewayAdapterTest {
             coautores = setOf()
         )
 
-        Mockito.`when`(planoAulaRepository.save(any (PlanoAulaEntity::class.java))).thenReturn(planoAulaEntity)
+        Mockito.`when`(planoAulaRepository.save(any(PlanoAulaEntity::class.java))).thenReturn(planoAulaEntity)
 
         // Execution
         val resultado = planoAulaGatewayAdapter.salvarPlanoAula(
@@ -187,5 +190,114 @@ class PlanoAulaGatewayAdapterTest {
         Assertions.assertEquals("Objetivo Geral Teste", resultado.getObjetivoGeral())
         Assertions.assertNotNull(resultado.getNivelEnsino())
     }
+
+    @Test
+    fun `Deve lançar NivelEnsinoNaoEncontradoException`() {
+        val usuario = criarUsuarioAtivo()
+
+        Mockito.`when`(nivelEnsinoRepository.findById(1L)).thenReturn(Optional.empty())
+
+        assertThrows<NivelEnsinoNaoEncontradoException> {
+            planoAulaGatewayAdapter.salvarPlanoAula(
+                usuario,
+                "Escola Teste",
+                1L,
+                listOf(1L),
+                1L,
+                60,
+                "Título Teste",
+                "Metodologia Teste",
+                "Objetivos Específicos Teste",
+                "Objetivo Geral Teste",
+                "avaliação teste",
+                "Referências Teste"
+            )
+        }
+    }
+
+    @Test
+    fun `Deve lançar AnoEnsinoNaoEncontradoException`() {
+        val usuario = criarUsuarioAtivo()
+        val nivelEnsino = NivelEnsinoEntity(id = 1L, nome = "Ensino Fundamental", nomeAbreviado = "EF")
+
+        Mockito.`when`(nivelEnsinoRepository.findById(1L)).thenReturn(Optional.of(nivelEnsino))
+        Mockito.`when`(anoEnsinoRepository.findById(1L)).thenReturn(Optional.empty())
+
+        assertThrows<AnoEnsinoNaoEncontradoException> {
+            planoAulaGatewayAdapter.salvarPlanoAula(
+                usuario,
+                "Escola Teste",
+                1L,
+                listOf(1L),
+                1L,
+                60,
+                "Título Teste",
+                "Metodologia Teste",
+                "Objetivos Específicos Teste",
+                "Objetivo Geral Teste",
+                "avaliação teste",
+                "Referências Teste"
+            )
+        }
+    }
+
+    @Test
+    fun `Deve lançar DisciplinaNaoEncontradoException`() {
+        val usuario = criarUsuarioAtivo()
+        val nivelEnsino = NivelEnsinoEntity(id = 1L, nome = "Ensino Fundamental", nomeAbreviado = "EF")
+        val anoEnsino = AnoEnsinoEntity(id = 1L, nome = "teste", nivelEnsino = nivelEnsino)
+
+        Mockito.`when`(nivelEnsinoRepository.findById(1L)).thenReturn(Optional.of(nivelEnsino))
+        Mockito.`when`(anoEnsinoRepository.findById(1L)).thenReturn(Optional.of(anoEnsino))
+        Mockito.`when`(disciplinaRepository.findById(1L)).thenReturn(Optional.empty())
+
+        assertThrows<DisciplinaNaoEncontradoException> {
+            planoAulaGatewayAdapter.salvarPlanoAula(
+                usuario,
+                "Escola Teste",
+                1L,
+                listOf(1L),
+                1L,
+                60,
+                "Título Teste",
+                "Metodologia Teste",
+                "Objetivos Específicos Teste",
+                "Objetivo Geral Teste",
+                "avaliação teste",
+                "Referências Teste"
+            )
+        }
+    }
+
+    @Test
+    fun `Deve lançar PlanoAulaDuracaoNegativaException`() {
+        val usuario = criarUsuarioAtivo()
+        val nivelEnsino = NivelEnsinoEntity(id = 1L, nome = "Ensino Fundamental", nomeAbreviado = "EF")
+        val anoEnsino = AnoEnsinoEntity(id = 1L, nome = "teste", nivelEnsino = nivelEnsino)
+        val disciplina = DisciplinaEntity(id = 1L, nome = "Matemática")
+
+        Mockito.`when`(nivelEnsinoRepository.findById(1L)).thenReturn(Optional.of(nivelEnsino))
+        Mockito.`when`(anoEnsinoRepository.findById(1L)).thenReturn(Optional.of(anoEnsino))
+        Mockito.`when`(disciplinaRepository.findById(1L)).thenReturn(Optional.of(disciplina))
+
+        assertThrows<PlanoAulaDuracaoNegativaException> {
+            planoAulaGatewayAdapter.salvarPlanoAula(
+                usuario,
+                "Escola Teste",
+                1L,
+                listOf(1L),
+                1L,
+                -10,
+                "Título Teste",
+                "Metodologia Teste",
+                "Objetivos Específicos Teste",
+                "Objetivo Geral Teste",
+                "avaliação teste",
+                "Referências Teste"
+            )
+        }
+    }
+
+    private fun <T> any(type: Class<T>): T = Mockito.any<T>(type)
 
 }
