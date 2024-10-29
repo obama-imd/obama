@@ -25,10 +25,12 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 
 @SpringBootTest
-@Import(value=
+@Import(
+    value =
     [
         TokenConfiguration::class,
         SecurityConfiguration::class
@@ -50,7 +52,7 @@ class PlanoAulaResourceImplTest {
 
     private val objectMapper = ObjectMapper()
 
-    companion object{
+    companion object {
         const val pageSize = 10
         const val titulo = "teste"
     }
@@ -124,6 +126,48 @@ class PlanoAulaResourceImplTest {
     fun `Deve retornar 403 quando o usuario nao estiver autorizado`() {
         mockMvc.perform(
             get("/v1/planoaula")
+                .contentType(MediaType.APPLICATION_JSON)
+                .param("titulo", titulo)
+                .param("page", "0")
+                .param("size", "10")
+        )
+            .andDo(print())
+            .andExpect(status().isForbidden)
+    }
+
+    @Test
+    fun `Deve retornar 200 ao buscar planos por coautor`() {
+        val token = "Bearer ${pegarAccessToken()}";
+
+        mockMvc.perform(
+            get("/v1/planoaula/buscarPorCoautor")
+                .header(HttpHeaders.AUTHORIZATION, token)
+                .contentType(MediaType.APPLICATION_JSON)
+        )
+            .andDo(print())
+            .andExpect(status().isOk())
+    }
+
+    @Test
+    fun `Deve retornar 200 ao buscar planos por coautor passando todos os parâmetros`() {
+        val token = "Bearer ${pegarAccessToken()}";
+
+        mockMvc.perform(
+            get("/v1/planoaula/buscarPorCoautor")
+                .header(HttpHeaders.AUTHORIZATION, token)
+                .contentType(MediaType.APPLICATION_JSON)
+                .param("titulo", titulo)
+                .param("page", "0")
+                .param("size", "10")
+        )
+            .andDo(print())
+            .andExpect(status().isOk())
+    }
+
+    @Test
+    fun `Deve retornar 403 ao buscar planos por coautor quando usuario nao estiver autorizado`() {
+        mockMvc.perform(
+            get("/v1/planoaula/buscarPorCoautor")
                 .contentType(MediaType.APPLICATION_JSON)
                 .param("titulo", titulo)
                 .param("page", "0")
