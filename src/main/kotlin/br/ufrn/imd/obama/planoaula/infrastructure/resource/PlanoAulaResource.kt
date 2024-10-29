@@ -73,13 +73,13 @@ interface PlanoAulaResource {
                 content = [
                     Content(
                         mediaType = MediaType.APPLICATION_JSON_VALUE,
-                        schema = Schema(implementation = PlanoAulaResponse::class)
+                        schema = Schema(implementation = Page::class)
                     )
                 ]
             ),
             ApiResponse(
                 responseCode = "403",
-                description = "Usuário não autenticado; o plano de aula não pertece ao usuário ou usuário não é coautor",
+                description = "Usuário não autenticado",
             )
         ]
     )
