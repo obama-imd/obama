@@ -80,15 +80,7 @@ interface PlanoAulaResource {
         ),
         ApiResponse(
             responseCode = "400",
-            description = "Id do nível ensino inválido",
-        ),
-        ApiResponse(
-            responseCode = "400",
-            description = "A duração em minutos é menor do que 0",
-        ),
-        ApiResponse(
-            responseCode = "400",
-            description = "Algum dos ids da lista de ids das disciplinas envolvidas é inválido",
+            description = "Id do nível ensino inválido; A duração em minutos é menor do que 0; Algum dos ids da lista de ids das disciplinas envolvidas é inválido; Id do ano ensino inválido",
         ),
         ApiResponse(
             responseCode = "400",
