@@ -22,6 +22,8 @@ import jakarta.persistence.OneToMany
 import jakarta.persistence.OneToOne
 import jakarta.persistence.SequenceGenerator
 import jakarta.persistence.Table
+import org.hibernate.annotations.CreationTimestamp
+import org.hibernate.annotations.UpdateTimestamp
 import java.time.LocalDateTime
 
 @Entity
@@ -32,8 +34,13 @@ data class PlanoAulaEntity(
     @SequenceGenerator(name = "plano_aula_gen", sequenceName = "sq_plano_aula_id", allocationSize = 1)
     private val id: Long,
 
+    @CreationTimestamp
     @Column(name = "data_cadastro", nullable = false)
     private val dataCadastro: LocalDateTime,
+
+    @UpdateTimestamp
+    @Column(name = "data_atualizacao")
+    val dataAtualizacao: LocalDateTime? = null,
 
     @Column(name = "qtd_downloads", nullable = false)
     private val qtdDownload: Int = 0,

@@ -35,8 +35,8 @@ jobs:
           min-coverage-changed-files: 80
           title: 'Relatório de cobertura'
           update-comment: true
-      - name: Informa que a PR tem falha quando a cobvertura é menor que 80%
-        if: ${{ steps.jacoco.outputs.coverage-overall < 80.0 }}
+      - name: Informa que a PR tem falha quando a cobvertura é menor que 90%
+        if: ${{ steps.jacoco.outputs.coverage-overall < 90.0 }}
         uses: actions/github-script@v6
         with:
           script: |
