@@ -4,6 +4,7 @@ import br.ufrn.imd.obama.planoaula.domain.exception.PlanoAulaNaoEncontradoExcept
 import br.ufrn.imd.obama.planoaula.domain.model.PlanoAula
 import br.ufrn.imd.obama.planoaula.infrastructure.adapter.PlanoAulaGatewayAdapter
 import br.ufrn.imd.obama.planoaula.util.criarPlanoAula
+import br.ufrn.imd.obama.planoaula.util.criarPlanoAulaComCoautores
 import br.ufrn.imd.obama.usuario.infrastructure.mapper.toEntity
 import br.ufrn.imd.obama.usuario.util.criarUsuarioAtivo
 import org.junit.jupiter.api.Assertions
@@ -155,5 +156,53 @@ class PlanoAulaUseCaseImplTest {
 
         Assertions.assertEquals(paginas.isEmpty, true)
 
+    }
+
+    @Test
+    fun `Deve achar planos passando coautor existente`() {
+        val pageable = Pageable.ofSize(pageSize)
+        val coautor = criarUsuarioAtivo().toEntity()
+        val resultado: Page<PlanoAula> = PageImpl(
+            listOf(criarPlanoAulaComCoautores())
+        )
+
+        Mockito.`when`(
+            planoAulaGatewayAdapter.buscarPlanosAulaPorCoautor(
+                coautor, null, pageable
+            )
+        ).thenReturn(resultado)
+
+        var paginas: Page<PlanoAula> = Page.empty(pageable);
+
+        assertDoesNotThrow {
+            paginas = planoAulaUseCase.buscarPlanosAulaPorCoautor(
+                coautor, null, pageable
+            )
+        }
+        Assertions.assertFalse(paginas::isEmpty)
+        Assertions.assertNotNull(paginas.first().getCoautores())
+        Assertions.assertEquals(paginas.first().getCoautores()!!.first().email, coautor.email)
+    }
+
+    @Test
+    fun `Deve achar planos passando coautor existente e título`() {
+        val pageable = Pageable.ofSize(pageSize)
+        val coautor = criarUsuarioAtivo().toEntity()
+        val resultado = PageImpl(
+            listOf(criarPlanoAulaComCoautores(), criarPlanoAulaComCoautores())
+        )
+
+        Mockito.`when`(
+            planoAulaGatewayAdapter.buscarPlanosAulaPorCoautor(
+                coautor, "teste", pageable
+            )
+        ).thenReturn(resultado)
+
+        var paginas : Page<PlanoAula> = Page.empty();
+        assertDoesNotThrow {
+            paginas = planoAulaUseCase.buscarPlanosAulaPorCoautor(
+                coautor, "teste", pageable
+            )
+        }
     }
 }
