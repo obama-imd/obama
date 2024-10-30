@@ -1,6 +1,6 @@
 package br.ufrn.imd.obama.planoaula.infrastructure.handler
 
-import br.ufrn.imd.obama.planoaula.domain.exception.PlanoAulaNaoEncontradoException
+import br.ufrn.imd.obama.planoaula.domain.exception.PlanoAulaDuracaoNegativaException
 import org.slf4j.LoggerFactory
 import org.springframework.core.Ordered
 import org.springframework.core.annotation.Order
@@ -10,14 +10,13 @@ import org.springframework.web.bind.annotation.RestControllerAdvice
 
 @RestControllerAdvice
 @Order(Ordered.HIGHEST_PRECEDENCE)
-class PlanoAulaNaoEncontradoExceptionHandler {
+class PlanoAulaDuracaoNegativaExceptionHandler {
     private val logger = LoggerFactory.getLogger(javaClass)
 
-    @ExceptionHandler(PlanoAulaNaoEncontradoException::class)
-    fun handlePlanoAulaNaoEncontradoException(ex: PlanoAulaNaoEncontradoException): ResponseEntity<Any> {
+    @ExceptionHandler(PlanoAulaDuracaoNegativaException::class)
+    fun handlePlanoAulaDuracaoNegativaException(ex: PlanoAulaDuracaoNegativaException): ResponseEntity<Any> {
         logger.error(ex.message)
 
-        return ResponseEntity.notFound().build()
+        return ResponseEntity.badRequest().build()
     }
-
 }

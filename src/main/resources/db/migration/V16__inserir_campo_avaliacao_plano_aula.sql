@@ -1,0 +1,1 @@
+ALTER TABLE plano_aula ADD COLUMN avaliacao TEXT DEFAULT NULL;

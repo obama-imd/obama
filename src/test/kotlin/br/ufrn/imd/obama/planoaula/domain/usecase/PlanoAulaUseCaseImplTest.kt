@@ -1,5 +1,8 @@
 package br.ufrn.imd.obama.planoaula.domain.usecase
 
+import br.ufrn.imd.obama.oa.domain.exception.AnoEnsinoNaoEncontradoException
+import br.ufrn.imd.obama.oa.domain.exception.DisciplinaNaoEncontradoException
+import br.ufrn.imd.obama.oa.domain.exception.NivelEnsinoNaoEncontradoException
 import br.ufrn.imd.obama.planoaula.domain.model.PlanoAula
 import br.ufrn.imd.obama.planoaula.infrastructure.adapter.PlanoAulaGatewayAdapter
 import br.ufrn.imd.obama.planoaula.domain.exception.PlanoAulaNaoEncontradoException
@@ -126,6 +129,164 @@ class PlanoAulaUseCaseImplTest {
 
         assertThrows<PlanoAulaNaoEncontradoException> {
             val planoAula = planoAulaUseCase.buscarPlanoAulaPorId(1)
+        }
+    }
+
+    @Test
+    fun `Deve salvar plano de aula com sucesso`() {
+        val usuario = criarUsuarioAtivo()
+        val titulo = "teste"
+        val planoAula = criarPlanoAula()
+
+        Mockito.`when`(
+            planoAulaGatewayAdapter.salvarPlanoAula(
+                usuario,
+                null,
+                null,
+                null,
+                1,
+                null,
+                titulo,
+                null,
+                null,
+                null,
+                null,
+                null
+            )
+        ).thenReturn(planoAula)
+
+        val planoAulaSalvo = assertDoesNotThrow {
+            planoAulaUseCase.salvarPlanoAula(
+                usuario,
+                null,
+                null,
+                null,
+                1,
+                null,
+                titulo,
+                null,
+                null,
+                null,
+                null,
+                null
+            )
+        }
+
+        Assertions.assertNotNull(planoAulaSalvo)
+        Assertions.assertEquals(planoAula.getTitulo(), planoAulaSalvo.getTitulo())
+    }
+
+    @Test
+    fun `Deve lançar exceção ao passar um nivel de ensino inexistente`() {
+        val usuario = criarUsuarioAtivo()
+        val titulo = "teste"
+
+        Mockito.`when`(planoAulaGatewayAdapter.salvarPlanoAula(
+            usuario,
+            null,
+            1,
+            null,
+            1,
+            null,
+            titulo,
+            null,
+            null,
+            null,
+            null,
+            null
+        )).thenThrow(NivelEnsinoNaoEncontradoException("Nível de ensino não encontrado por ID: 1"))
+
+        assertThrows<NivelEnsinoNaoEncontradoException> {
+            val planoAulaSalvo = planoAulaUseCase.salvarPlanoAula(
+                usuario,
+                null,
+                1,
+                null,
+                1,
+                null,
+                titulo,
+                null,
+                null,
+                null,
+                null,
+                null
+            )
+        }
+    }
+
+    @Test
+    fun `Deve lançar exceção ao passar um ano de ensino inexistente`() {
+        val usuario = criarUsuarioAtivo()
+        val titulo = "teste"
+
+        Mockito.`when`(planoAulaGatewayAdapter.salvarPlanoAula(
+            usuario,
+            null,
+            null,
+            null,
+            1,
+            null,
+            titulo,
+            null,
+            null,
+            null,
+            null,
+            null
+        )).thenThrow(AnoEnsinoNaoEncontradoException("Ano de ensino não encontrado por ID: 1"))
+
+        assertThrows<AnoEnsinoNaoEncontradoException> {
+            val planoAulaSalvo = planoAulaUseCase.salvarPlanoAula(
+                usuario,
+                null,
+                null,
+                null,
+                1,
+                null,
+                titulo,
+                null,
+                null,
+                null,
+                null,
+                null
+            )
+        }
+    }
+
+    @Test
+    fun `Deve lançar exceção ao passar um disciplina inexistente`() {
+        val usuario = criarUsuarioAtivo()
+        val titulo = "teste"
+
+        Mockito.`when`(planoAulaGatewayAdapter.salvarPlanoAula(
+            usuario,
+            null,
+            null,
+            null,
+            1,
+            null,
+            titulo,
+            null,
+            null,
+            null,
+            null,
+            null
+        )).thenThrow(DisciplinaNaoEncontradoException("Disciplina não encontrada por ID: 1"))
+
+        assertThrows<DisciplinaNaoEncontradoException> {
+            val planoAulaSalvo = planoAulaUseCase.salvarPlanoAula(
+                usuario,
+                null,
+                null,
+                null,
+                1,
+                null,
+                titulo,
+                null,
+                null,
+                null,
+                null,
+                null
+            )
         }
     }
 }
