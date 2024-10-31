@@ -22,6 +22,7 @@ fun PlanoAulaEntity.toModel(): PlanoAula {
         status = this.getStatus(),
         autor = this.getAutor()?.toModel(),
         nivelEnsino = this.getNivelEnsino()?.toModel(),
+        avaliacao = this.getAvaliacao(),
         disciplinasEnvolvidas = this.getDisciplinasEnvolvidas()?.map { it.toModel() }?.toList(),
         anoEnsino = this.getAnoEnsino()?.toModel(),
         objetosAprendizagem = this.getObjetosAprendizagem()?.map { it.toModel() }?.toSet(),

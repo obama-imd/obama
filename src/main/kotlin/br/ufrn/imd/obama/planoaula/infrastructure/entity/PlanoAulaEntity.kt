@@ -22,6 +22,8 @@ import jakarta.persistence.OneToMany
 import jakarta.persistence.OneToOne
 import jakarta.persistence.SequenceGenerator
 import jakarta.persistence.Table
+import org.hibernate.annotations.CreationTimestamp
+import org.hibernate.annotations.UpdateTimestamp
 import java.time.LocalDateTime
 
 @Entity
@@ -32,8 +34,13 @@ data class PlanoAulaEntity(
     @SequenceGenerator(name = "plano_aula_gen", sequenceName = "sq_plano_aula_id", allocationSize = 1)
     private val id: Long,
 
+    @CreationTimestamp
     @Column(name = "data_cadastro", nullable = false)
     private val dataCadastro: LocalDateTime,
+
+    @UpdateTimestamp
+    @Column(name = "data_atualizacao")
+    val dataAtualizacao: LocalDateTime? = null,
 
     @Column(name = "qtd_downloads", nullable = false)
     private val qtdDownload: Int = 0,
@@ -45,7 +52,7 @@ data class PlanoAulaEntity(
     private var duracaoEmMinutos: Int?,
 
     @Column(name = "titulo", nullable = true)
-    private val titulo: String?,
+    private var titulo: String?,
 
     @Column(columnDefinition = "text", nullable = true)
     private val resumo: String?,
@@ -75,6 +82,9 @@ data class PlanoAulaEntity(
     @ManyToOne(optional = true, fetch = FetchType.EAGER)
     private val nivelEnsino: NivelEnsinoEntity?,
 
+    @Column(columnDefinition = "text", nullable = true)
+    private val avaliacao: String?,
+
     @OneToMany(fetch = FetchType.EAGER)
     @JoinTable(
         name = "plano_aula_disciplina",
@@ -84,7 +94,7 @@ data class PlanoAulaEntity(
     private val disciplinasEnvolvidas: List<DisciplinaEntity>?,
 
     @OneToOne(fetch = FetchType.EAGER, optional = true)
-    private val anoEnsino: AnoEnsinoEntity?,
+    private var anoEnsino: AnoEnsinoEntity?,
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -121,4 +131,14 @@ data class PlanoAulaEntity(
     fun getAnoEnsino() = anoEnsino
     fun getObjetosAprendizagem() = objetosAprendizagem
     fun getCoautores() = coautores
+
+    fun getAvaliacao() = avaliacao
+
+    fun setTitulo(titulo: String) {
+        this.titulo = titulo
+    }
+
+    fun setIdanoEnsino(anoEnsino: AnoEnsinoEntity) {
+        this.anoEnsino = anoEnsino
+    }
 }

@@ -1,5 +1,11 @@
 package br.ufrn.imd.obama.planoaula.infrastructure.resource
 
+import br.ufrn.imd.obama.oa.infrastructure.entity.AnoEnsinoEntity
+import br.ufrn.imd.obama.oa.infrastructure.entity.DisciplinaEntity
+import br.ufrn.imd.obama.oa.infrastructure.entity.NivelEnsinoEntity
+import br.ufrn.imd.obama.oa.infrastructure.repository.AnoEnsinoRepository
+import br.ufrn.imd.obama.oa.infrastructure.repository.DisciplinaRepository
+import br.ufrn.imd.obama.oa.infrastructure.repository.NivelEnsinoRepository
 import br.ufrn.imd.obama.planoaula.domain.usecase.PlanoAulaUseCase
 import br.ufrn.imd.obama.planoaula.infrastructure.repository.PlanoAulaRepository
 import br.ufrn.imd.obama.usuario.infrastructure.configuration.SecurityConfiguration
@@ -59,6 +65,12 @@ class PlanoAulaResourceImplTest {
 
     @Autowired
     private lateinit var usuarioRepository: UsuarioRepository
+    @Autowired
+    private lateinit var nivelEnsinoRepository: NivelEnsinoRepository
+    @Autowired
+    private lateinit var anoEnsinoRepository: AnoEnsinoRepository
+    @Autowired
+    private lateinit var disciplinaRepository: DisciplinaRepository
 
     @Autowired
     private lateinit var passwordEncoder: PasswordEncoder
