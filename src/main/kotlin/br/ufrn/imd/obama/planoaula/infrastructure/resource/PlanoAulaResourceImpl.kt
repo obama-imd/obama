@@ -62,6 +62,8 @@ class PlanoAulaResourceImpl(
     ): Page<PlanoAulaResponse> {
         val coautor = usuario as UsuarioEntity
         return planoAulaUseCase.buscarPlanosAulaPorCoautor(coautor, titulo, pageable).map { it.toResponse() }
+    }
+
     @PostMapping(path = ["/salvar"], produces = [MediaType.APPLICATION_JSON_VALUE])
     override fun salvarPlanoAula(
         @AuthenticationPrincipal usuarioDetails: UserDetails,

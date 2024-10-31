@@ -1,5 +1,16 @@
 package br.ufrn.imd.obama.planoaula.infrastructure.adapter
 
+import br.ufrn.imd.obama.oa.domain.exception.AnoEnsinoNaoEncontradoException
+import br.ufrn.imd.obama.oa.domain.exception.DisciplinaNaoEncontradoException
+import br.ufrn.imd.obama.oa.domain.exception.NivelEnsinoNaoEncontradoException
+import br.ufrn.imd.obama.oa.infrastructure.entity.AnoEnsinoEntity
+import br.ufrn.imd.obama.oa.infrastructure.entity.DisciplinaEntity
+import br.ufrn.imd.obama.oa.infrastructure.entity.NivelEnsinoEntity
+import br.ufrn.imd.obama.oa.infrastructure.repository.AnoEnsinoRepository
+import br.ufrn.imd.obama.oa.infrastructure.repository.DisciplinaRepository
+import br.ufrn.imd.obama.oa.infrastructure.repository.NivelEnsinoRepository
+import br.ufrn.imd.obama.planoaula.domain.enums.StatusPlanoAula
+import br.ufrn.imd.obama.planoaula.domain.exception.PlanoAulaDuracaoNegativaException
 import br.ufrn.imd.obama.planoaula.domain.exception.PlanoAulaNaoEncontradoException
 import br.ufrn.imd.obama.planoaula.domain.model.PlanoAula
 import br.ufrn.imd.obama.planoaula.infrastructure.entity.PlanoAulaEntity

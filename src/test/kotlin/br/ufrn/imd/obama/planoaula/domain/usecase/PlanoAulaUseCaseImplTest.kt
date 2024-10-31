@@ -1,8 +1,6 @@
 package br.ufrn.imd.obama.planoaula.domain.usecase
 
-import br.ufrn.imd.obama.oa.domain.exception.AnoEnsinoNaoEncontradoException
-import br.ufrn.imd.obama.oa.domain.exception.DisciplinaNaoEncontradoException
-import br.ufrn.imd.obama.oa.domain.exception.NivelEnsinoNaoEncontradoException
+import br.ufrn.imd.obama.planoaula.domain.exception.PlanoAulaNaoEncontradoException
 import br.ufrn.imd.obama.planoaula.domain.model.PlanoAula
 import br.ufrn.imd.obama.planoaula.infrastructure.adapter.PlanoAulaGatewayAdapter
 import br.ufrn.imd.obama.planoaula.util.criarPlanoAula
@@ -125,36 +123,7 @@ class PlanoAulaUseCaseImplTest {
         Assertions.assertEquals(1, planoAula.id)
     }
 
-    @Tes@Operation(summary = "Endpoint para salvar plano de aula")
-    @ApiResponses(value = [
-        ApiResponse(
-            responseCode = "201",
-            description = "Plano de aula salvo",
-            content = [
-                Content(
-                    mediaType = MediaType.APPLICATION_JSON_VALUE,
-                    schema = Schema(implementation = PlanoAulaResponse::class)
-                )
-            ]
-        ),
-        ApiResponse(
-            responseCode = "403",
-            description = "Usuário não autenticado",
-        ),
-        ApiResponse(
-            responseCode = "400",
-            description = "Id do nível ensino inválido; A duração em minutos é menor do que 0; Algum dos ids da lista de ids das disciplinas envolvidas é inválido; Id do ano ensino inválido",
-        ),
-        ApiResponse(
-            responseCode = "400",
-            description = "Id do ano ensino inválido",
-        )
-    ])
-
-    fun salvarPlanoAula(
-        usuarioDetails: UserDetails,
-        planoAulaSalvarRequest: PlanoAulaSalvarRequest
-        ): ResponseEntity<PlanoAulaResponse>t
+    @Test
     fun `Deve achar nenhum plano de aula passando id inexistente`() {
         Mockito.`when`(planoAulaGatewayAdapter.buscarPlanoAulaPorId(1))
             .thenThrow(PlanoAulaNaoEncontradoException("Plano de aula não encontrado por ID: 1"))

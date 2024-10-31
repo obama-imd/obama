@@ -40,5 +40,6 @@ interface PlanoAulaRepository : JpaRepository<PlanoAulaEntity, Long> {
         @Param("titulo") titulo: String?,
         pageable: Pageable
     ): Page<PlanoAulaEntity>
+
     fun save(planoAula: PlanoAulaEntity): PlanoAulaEntity
 }

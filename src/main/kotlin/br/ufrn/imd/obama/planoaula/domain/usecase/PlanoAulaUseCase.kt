@@ -20,6 +20,7 @@ interface PlanoAulaUseCase {
         titulo: String?,
         pageable: Pageable
     ): Page<PlanoAula>
+
     fun salvarPlanoAula(
         usuario: Usuario,
         escola: String?,

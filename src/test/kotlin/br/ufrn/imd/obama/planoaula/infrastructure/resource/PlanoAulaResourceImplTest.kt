@@ -189,6 +189,211 @@ class PlanoAulaResourceImplTest {
             .andExpect(status().isForbidden)
     }
 
+    @Test
+    fun `Deve retornar 201 ao salvar plano de aula com sucesso`() {
+        val token = "Bearer ${pegarAccessToken()}"
+
+        val nivelEnsino = nivelEnsinoRepository .save(NivelEnsinoEntity(id = 1L, nome = "Ensino Fundamental", nomeAbreviado = "EF"))
+        val anoEnsino = anoEnsinoRepository.save(AnoEnsinoEntity(id = 1L, nome = "teste", nivelEnsino = nivelEnsino))
+        val disciplina1 = disciplinaRepository.save(DisciplinaEntity(id = 1L, nome = "Matemática"))
+        val disciplina2 = disciplinaRepository.save(DisciplinaEntity(id = 2L, nome = "Português"))
+
+        val requestBody = mapOf(
+            "escola" to "Escola Teste",
+            "id_nivel_ensino" to nivelEnsino.id,
+            "disciplinas_envolvidas" to listOf(disciplina1.id, disciplina2.id),
+            "id_ano_ensino" to anoEnsino.id,
+            "duracao_em_minutos" to 60,
+            "titulo" to "Título Teste",
+            "metodologia" to "Metodologia Teste",
+            "objetivos_especificos" to "Objetivos Específicos Teste",
+            "objetivo_geral" to "Objetivo Geral Teste",
+            "avaliacao" to "Avaliação Teste",
+            "referencias" to "Referências Teste"
+        )
+
+        val requestJson = objectMapper.writeValueAsString(requestBody)
+
+        mockMvc.perform(
+            post("/v1/planoaula/salvar")
+                .header(HttpHeaders.AUTHORIZATION, token)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestJson)
+        )
+            .andDo(print())
+            .andExpect(status().isCreated)
+    }
+
+    @Test
+    fun `Deve retornar 403 quanto o usuario não estiver autenticado`() {
+        val nivelEnsino = nivelEnsinoRepository.save(NivelEnsinoEntity(id = 1L, nome = "Ensino Fundamental", nomeAbreviado = "EF"))
+        val anoEnsino = anoEnsinoRepository.save(AnoEnsinoEntity(id = 1L, nome = "teste", nivelEnsino = nivelEnsino))
+        val disciplina1 = disciplinaRepository.save(DisciplinaEntity(id = 1L, nome = "Matemática"))
+        val disciplina2 = disciplinaRepository.save(DisciplinaEntity(id = 2L, nome = "Português"))
+
+        val requestBody = mapOf(
+            "escola" to "Escola Teste",
+            "id_nivel_ensino" to nivelEnsino.id,
+            "disciplinas_envolvidas" to listOf(disciplina1.id, disciplina2.id),
+            "id_ano_ensino" to anoEnsino.id,
+            "duracao_em_minutos" to 60,
+            "titulo" to "Título Teste",
+            "metodologia" to "Metodologia Teste",
+            "objetivos_especificos" to "Objetivos Específicos Teste",
+            "objetivo_geral" to "Objetivo Geral Teste",
+            "avaliacao" to "Avaliação Teste",
+            "referencias" to "Referências Teste"
+        )
+
+        val requestJson = objectMapper.writeValueAsString(requestBody)
+
+        mockMvc.perform(
+            post("/v1/planoaula/salvar")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestJson)
+        )
+            .andDo(print())
+            .andExpect(status().isForbidden)
+    }
+
+    @Test
+    fun `Deve retornar 400 quando id do nivel ensino for invalido`() {
+        val token = "Bearer ${pegarAccessToken()}"
+
+        val nivelEnsino = nivelEnsinoRepository.save(NivelEnsinoEntity(id = 1L, nome = "Ensino Fundamental", nomeAbreviado = "EF"))
+        val anoEnsino = anoEnsinoRepository.save(AnoEnsinoEntity(id = 1L, nome = "teste", nivelEnsino = nivelEnsino))
+        val disciplina1 = disciplinaRepository.save(DisciplinaEntity(id = 1L, nome = "Matemática"))
+        val disciplina2 = disciplinaRepository.save(DisciplinaEntity(id = 2L, nome = "Português"))
+
+        val requestBody = mapOf(
+            "escola" to "Escola Teste",
+            "id_nivel_ensino" to 999L,
+            "disciplinas_envolvidas" to listOf(disciplina1.id, disciplina2.id),
+            "id_ano_ensino" to anoEnsino.id,
+            "duracao_em_minutos" to 60,
+            "titulo" to "Título Teste",
+            "metodologia" to "Metodologia Teste",
+            "objetivos_especificos" to "Objetivos Específicos Teste",
+            "objetivo_geral" to "Objetivo Geral Teste",
+            "avaliacao" to "Avaliação Teste",
+            "referencias" to "Referências Teste"
+        )
+
+        val requestJson = objectMapper.writeValueAsString(requestBody)
+
+        mockMvc.perform(
+            post("/v1/planoaula/salvar")
+                .header(HttpHeaders.AUTHORIZATION, token)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestJson)
+        )
+            .andDo(print())
+            .andExpect(status().isBadRequest)
+    }
+
+    @Test
+    fun `Deve retornar 400 quando algum id da lista de ids das disciplinas envolvidas for invalido`() {
+        val token = "Bearer ${pegarAccessToken()}"
+
+        val nivelEnsino = nivelEnsinoRepository.save(NivelEnsinoEntity(id = 1L, nome = "Ensino Fundamental", nomeAbreviado = "EF"))
+        val anoEnsino = anoEnsinoRepository.save(AnoEnsinoEntity(id = 1L, nome = "teste", nivelEnsino = nivelEnsino))
+        val disciplina1 = disciplinaRepository.save(DisciplinaEntity(id = 1L, nome = "Matemática"))
+
+        val requestBody = mapOf(
+            "escola" to "Escola Teste",
+            "id_nivel_ensino" to nivelEnsino.id,
+            "disciplinas_envolvidas" to listOf(disciplina1.id, 999L),
+            "id_ano_ensino" to anoEnsino.id,
+            "duracao_em_minutos" to 60,
+            "titulo" to "Título Teste",
+            "metodologia" to "Metodologia Teste",
+            "objetivos_especificos" to "Objetivos Específicos Teste",
+            "objetivo_geral" to "Objetivo Geral Teste",
+            "avaliacao" to "Avaliação Teste",
+            "referencias" to "Referências Teste"
+        )
+
+        val requestJson = objectMapper.writeValueAsString(requestBody)
+
+        mockMvc.perform(
+            post("/v1/planoaula/salvar")
+                .header(HttpHeaders.AUTHORIZATION, token)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestJson)
+        )
+            .andDo(print())
+            .andExpect(status().isBadRequest)
+    }
+
+    @Test
+    fun `Deve retornar 400 quando id do ano ensino for invalido`() {
+        val token = "Bearer ${pegarAccessToken()}"
+
+        val nivelEnsino = nivelEnsinoRepository.save(NivelEnsinoEntity(id = 1L, nome = "Ensino Fundamental", nomeAbreviado = "EF"))
+        anoEnsinoRepository.save(AnoEnsinoEntity(id = 1L, nome = "teste", nivelEnsino = nivelEnsino))
+        val disciplina1 = disciplinaRepository.save(DisciplinaEntity(id = 1L, nome = "Matemática"))
+
+        val requestBody = mapOf(
+            "escola" to "Escola Teste",
+            "id_nivel_ensino" to nivelEnsino.id,
+            "disciplinas_envolvidas" to listOf(disciplina1.id),
+            "id_ano_ensino" to 999L,
+            "duracao_em_minutos" to 60,
+            "titulo" to "Título Teste",
+            "metodologia" to "Metodologia Teste",
+            "objetivos_especificos" to "Objetivos Específicos Teste",
+            "objetivo_geral" to "Objetivo Geral Teste",
+            "avaliacao" to "Avaliação Teste",
+            "referencias" to "Referências Teste"
+        )
+
+        val requestJson = objectMapper.writeValueAsString(requestBody)
+
+        mockMvc.perform(
+            post("/v1/planoaula/salvar")
+                .header(HttpHeaders.AUTHORIZATION, token)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestJson)
+        )
+            .andDo(print())
+            .andExpect(status().isBadRequest)
+    }
+
+    @Test
+    fun `Deve retornar 400 quando duracao em minutos for menor do que 0`() {
+        val token = "Bearer ${pegarAccessToken()}"
+
+        val nivelEnsino = nivelEnsinoRepository.save(NivelEnsinoEntity(id = 1L, nome = "Ensino Fundamental", nomeAbreviado = "EF"))
+        val anoEnsino = anoEnsinoRepository.save(AnoEnsinoEntity(id = 1L, nome = "teste", nivelEnsino = nivelEnsino))
+        val disciplina1 = disciplinaRepository.save(DisciplinaEntity(id = 1L, nome = "Matemática"))
+        val disciplina2 = disciplinaRepository.save(DisciplinaEntity(id = 2L, nome = "Português"))
+
+        val requestBody = mapOf(
+            "escola" to "Escola Teste",
+            "id_nivel_ensino" to nivelEnsino.id,
+            "disciplinas_envolvidas" to listOf(disciplina1.id, disciplina2.id),
+            "id_ano_ensino" to anoEnsino.id,
+            "duracao_em_minutos" to -10,
+            "titulo" to "Título Teste",
+            "metodologia" to "Metodologia Teste",
+            "objetivos_especificos" to "Objetivos Específicos Teste",
+            "objetivo_geral" to "Objetivo Geral Teste",
+            "avaliacao" to "Avaliação Teste",
+            "referencias" to "Referências Teste"
+        )
+
+        val requestJson = objectMapper.writeValueAsString(requestBody)
+
+        mockMvc.perform(
+            post("/v1/planoaula/salvar")
+                .header(HttpHeaders.AUTHORIZATION, token)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestJson)
+        )
+            .andDo(print())
+            .andExpect(status().isBadRequest)
+    }
+
     private fun criarLoginRequest(email: String, senha: String): LoginRequest {
         return LoginRequest(
             senha = senha,

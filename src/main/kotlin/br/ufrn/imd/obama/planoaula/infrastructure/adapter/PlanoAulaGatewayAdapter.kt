@@ -1,8 +1,5 @@
 package br.ufrn.imd.obama.planoaula.infrastructure.adapter
 
-import br.ufrn.imd.obama.planoaula.domain.exception.PlanoAulaNaoEncontradoException
-import br.ufrn.imd.obama.planoaula.domain.gateway.PlanoAulaGateway
-import br.ufrn.imd.obama.planoaula.domain.model.PlanoAula
 import br.ufrn.imd.obama.oa.domain.exception.AnoEnsinoNaoEncontradoException
 import br.ufrn.imd.obama.oa.domain.exception.DisciplinaNaoEncontradoException
 import br.ufrn.imd.obama.oa.domain.exception.NivelEnsinoNaoEncontradoException
@@ -29,13 +26,10 @@ import java.time.LocalDateTime
 
 @Service
 class PlanoAulaGatewayAdapter(
-    private val planoAulaRepository: PlanoAulaRepository
-) : PlanoAulaGateway {
     private val planoAulaRepository: PlanoAulaRepository,
     private val nivelEnsinoRepository: NivelEnsinoRepository,
     private val anoEnsinoRepository: AnoEnsinoRepository,
     private val disciplinaRepository: DisciplinaRepository
-
 ): PlanoAulaGateway {
     private val logger = LoggerFactory.getLogger(javaClass)
 

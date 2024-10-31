@@ -29,6 +29,7 @@ class PlanoAulaUseCaseImpl(
     ): Page<PlanoAula> {
         return planoAulaGateway.buscarPlanosAulaPorCoautor(coautor, titulo, pageable);
     }
+
     override fun salvarPlanoAula(
         usuario: Usuario,
         escola: String?,
@@ -58,5 +59,4 @@ class PlanoAulaUseCaseImpl(
             referencias
         )
     }
-
 }
