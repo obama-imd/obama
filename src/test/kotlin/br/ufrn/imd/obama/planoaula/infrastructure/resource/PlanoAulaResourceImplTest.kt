@@ -7,7 +7,11 @@ import br.ufrn.imd.obama.oa.infrastructure.repository.AnoEnsinoRepository
 import br.ufrn.imd.obama.oa.infrastructure.repository.DisciplinaRepository
 import br.ufrn.imd.obama.oa.infrastructure.repository.NivelEnsinoRepository
 import br.ufrn.imd.obama.planoaula.domain.usecase.PlanoAulaUseCase
+import br.ufrn.imd.obama.planoaula.infrastructure.entity.PlanoAulaEntity
+import br.ufrn.imd.obama.planoaula.infrastructure.mapper.toEntity
 import br.ufrn.imd.obama.planoaula.infrastructure.repository.PlanoAulaRepository
+import br.ufrn.imd.obama.planoaula.infrastructure.resource.exchange.PlanoAulaCompartilharRequest
+import br.ufrn.imd.obama.planoaula.util.criarPlanoAula
 import br.ufrn.imd.obama.usuario.infrastructure.configuration.SecurityConfiguration
 import br.ufrn.imd.obama.usuario.infrastructure.configuration.TokenConfiguration
 import br.ufrn.imd.obama.usuario.infrastructure.mapper.toEntity
@@ -348,6 +352,30 @@ class PlanoAulaResourceImplTest {
         )
             .andDo(print())
             .andExpect(status().isBadRequest)
+    }
+
+    @Test
+    @DirtiesContext
+    fun `Deve compartilhar plano de aula com sucesso`() {
+        val token = "Bearer ${pegarAccessToken()}"
+
+        val planoAulaEntity = criarPlanoAula().toEntity()
+        planoAulaRepository.save(planoAulaEntity)
+
+        // Salvar usuários no repositório
+        val usuario1 = criarUsuarioAtivo().toEntity()
+        usuarioRepository.save(usuario1)
+
+        val request = PlanoAulaCompartilharRequest(idPlanoAula = 1L, emailUsuarios = listOf("usuario_ativo123@ufrn.com"))
+        val requestJson = objectMapper.writeValueAsString(request)
+
+        mockMvc.perform(
+            post("/v1/planoaula/compartilhar")
+                .header(HttpHeaders.AUTHORIZATION, token)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestJson)
+        )
+            .andExpect(status().isNoContent)
     }
 
     private fun criarLoginRequest(email: String, senha: String): LoginRequest {

@@ -7,12 +7,15 @@ import br.ufrn.imd.obama.planoaula.domain.model.PlanoAula
 import br.ufrn.imd.obama.planoaula.infrastructure.adapter.PlanoAulaGatewayAdapter
 import br.ufrn.imd.obama.planoaula.domain.exception.PlanoAulaNaoEncontradoException
 import br.ufrn.imd.obama.planoaula.util.criarPlanoAula
+import br.ufrn.imd.obama.usuario.domain.exception.UsuarioInativoException
 import br.ufrn.imd.obama.usuario.infrastructure.mapper.toEntity
 import br.ufrn.imd.obama.usuario.util.criarUsuarioAtivo
+import br.ufrn.imd.obama.usuario.util.criarUsuarioInativo
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
+import org.mockito.ArgumentMatchers
 import org.mockito.Mockito
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -289,4 +292,47 @@ class PlanoAulaUseCaseImplTest {
             )
         }
     }
+
+    @Test
+    fun `Deve compartilhar plano de aula com sucesso`() {
+        val idPlanoAula = 1L
+        val emails = listOf("usuario1@example.com", "usuario2@example.com")
+
+        Mockito.`when`(planoAulaGatewayAdapter.compartilharPlanoAula(idPlanoAula, emails)).thenAnswer{
+            Unit
+        }
+
+        assertDoesNotThrow {
+            planoAulaUseCase.compartilharPlanoAula(idPlanoAula, emails)
+        }
+    }
+
+    @Test
+    fun `Deve lançar exceção ao tentar compartilhar plano de aula inexistente`() {
+        val idPlanoAula = 999L
+        val emails = listOf("usuario1@example.com")
+
+        Mockito.`when`(planoAulaGatewayAdapter.compartilharPlanoAula(idPlanoAula, emails)).thenThrow(
+            PlanoAulaNaoEncontradoException("Plano de aula não encontrado por ID: $idPlanoAula")
+        )
+
+        assertThrows<PlanoAulaNaoEncontradoException> {
+            planoAulaUseCase.compartilharPlanoAula(idPlanoAula, emails)
+        }
+    }
+
+    @Test
+    fun `Deve lançar exceção ao tentar compartilhar com usuário inativo`() {
+        val idPlanoAula = 1L
+        val emails = listOf("usuarioInativo@example.com")
+
+        Mockito.`when`(planoAulaGatewayAdapter.compartilharPlanoAula(idPlanoAula, emails)).thenThrow(
+            UsuarioInativoException("Usuário inativo: ${emails[0]}")
+        )
+
+        assertThrows<UsuarioInativoException> {
+            planoAulaUseCase.compartilharPlanoAula(idPlanoAula, emails)
+        }
+    }
+
 }

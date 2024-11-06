@@ -18,6 +18,7 @@ import br.ufrn.imd.obama.planoaula.infrastructure.mapper.toEntity
 import br.ufrn.imd.obama.planoaula.infrastructure.repository.PlanoAulaRepository
 import br.ufrn.imd.obama.planoaula.util.criarPlanoAula
 import br.ufrn.imd.obama.usuario.infrastructure.mapper.toEntity
+import br.ufrn.imd.obama.usuario.infrastructure.repository.UsuarioRepository
 import br.ufrn.imd.obama.usuario.util.criarUsuarioAtivo
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
@@ -297,6 +298,26 @@ class PlanoAulaGatewayAdapterTest {
             )
         }
     }
+
+//    @Test
+//    fun `Deve compartilhar plano de aula com sucesso`() {
+//        val idPlanoAula = 1L
+//        val emailUsuarios = listOf("usuario1@example.com", "usuario2@example.com")
+//        val usuarioAtivoEntity1 = criarUsuarioAtivo().toEntity()
+//        val usuarioAtivoEntity2 = criarUsuarioAtivo().toEntity()
+//        val planoAulaEntity = criarPlanoAula().toEntity()
+//
+//        Mockito.`when`(planoAulaRepository.findById(idPlanoAula)).thenReturn(Optional.of(planoAulaEntity))
+//        Mockito.`when`(usuarioRepository.findByEmail(emailUsuarios[0])).thenReturn(usuarioAtivoEntity1)
+//        Mockito.`when`(usuarioRepository.findByEmail(emailUsuarios[1])).thenReturn(usuarioAtivoEntity2)
+//
+//        assertDoesNotThrow {
+//            planoAulaGatewayAdapter.compartilharPlanoAula(idPlanoAula, emailUsuarios)
+//        }
+//
+//        assert(planoAulaEntity.getCoautores()?.size == 2)
+//        //verificar as outras chamdas no repository do adpater e o adpaterEmail
+//    }
 
     private fun <T> any(type: Class<T>): T = Mockito.any<T>(type)
 
