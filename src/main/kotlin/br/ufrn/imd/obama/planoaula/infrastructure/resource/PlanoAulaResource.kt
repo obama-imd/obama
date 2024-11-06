@@ -1,6 +1,7 @@
 package br.ufrn.imd.obama.planoaula.infrastructure.resource
 
 import br.ufrn.imd.obama.planoaula.infrastructure.resource.exchange.PlanoAulaBuscarPorIdResponse
+import br.ufrn.imd.obama.planoaula.infrastructure.resource.exchange.PlanoAulaCompartilharRequest
 import br.ufrn.imd.obama.planoaula.infrastructure.resource.exchange.PlanoAulaResponse
 import br.ufrn.imd.obama.planoaula.infrastructure.resource.exchange.PlanoAulaSalvarRequest
 import io.swagger.v3.oas.annotations.Operation
@@ -87,9 +88,31 @@ interface PlanoAulaResource {
             description = "Id do ano ensino inválido",
         )
     ])
-
     fun salvarPlanoAula(
         usuarioDetails: UserDetails,
         planoAulaSalvarRequest: PlanoAulaSalvarRequest
         ): ResponseEntity<PlanoAulaResponse>
+
+    @Operation(summary = "Endpoint para compartilhar plano de aula")
+    @ApiResponses(value = [
+        ApiResponse(
+            responseCode = "204",
+            description = "Plano de aula compartilhado com sucesso",
+        ),
+        ApiResponse(
+            responseCode = "403",
+            description = "Usuário não autenticado ou o plano de aula não pertece ao usuário",
+        ),
+        ApiResponse(
+            responseCode = "404",
+            description = "Plano de aula não encontrado",
+        ),
+        ApiResponse(
+            responseCode = "400",
+            description = "Algum dos emails dos usuários é inválido ou usuários inativos",
+        )
+    ])
+    fun compartilharPlanoAula(
+        planoAulaCompartilharRequest: PlanoAulaCompartilharRequest
+    ): ResponseEntity<Unit>
 }

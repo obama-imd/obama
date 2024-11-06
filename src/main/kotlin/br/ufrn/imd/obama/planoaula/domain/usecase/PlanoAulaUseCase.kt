@@ -29,4 +29,9 @@ interface PlanoAulaUseCase {
         avaliacao: String?,
         referencias: String?,
     ): PlanoAula
+
+    fun compartilharPlanoAula(
+        idPlanoAula: Long,
+        emailUsuarios: List<String>
+    ): Unit
 }

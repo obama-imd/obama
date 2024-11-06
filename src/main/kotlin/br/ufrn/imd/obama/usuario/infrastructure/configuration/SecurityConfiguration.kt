@@ -35,6 +35,7 @@ class SecurityConfiguration(
                 .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.GET ,"/v1/planoaula")).authenticated()
                 .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.GET ,"/v1/planoaula/{id}")).authenticated()
                 .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.POST, "/v1/planoaula/salvar")).authenticated()
+                .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.POST, "/v1/planoaula/compartilhar")).authenticated()
                 .anyRequest().permitAll()
             }
             .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter::class.java)

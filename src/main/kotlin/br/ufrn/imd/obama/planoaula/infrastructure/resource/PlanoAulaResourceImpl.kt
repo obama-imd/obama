@@ -4,6 +4,7 @@ import br.ufrn.imd.obama.planoaula.domain.usecase.PlanoAulaUseCase
 import br.ufrn.imd.obama.planoaula.infrastructure.mapper.toPlanoAulaBuscarPorIdResponse
 import br.ufrn.imd.obama.planoaula.infrastructure.mapper.toResponse
 import br.ufrn.imd.obama.planoaula.infrastructure.resource.exchange.PlanoAulaBuscarPorIdResponse
+import br.ufrn.imd.obama.planoaula.infrastructure.resource.exchange.PlanoAulaCompartilharRequest
 import br.ufrn.imd.obama.planoaula.infrastructure.resource.exchange.PlanoAulaResponse
 import br.ufrn.imd.obama.planoaula.infrastructure.resource.exchange.PlanoAulaSalvarRequest
 import br.ufrn.imd.obama.usuario.infrastructure.entity.UsuarioEntity
@@ -77,5 +78,11 @@ class PlanoAulaResourceImpl(
         )
 
         return ResponseEntity.status(HttpStatus.CREATED).body(planoAula.toResponse())
+    }
+
+    @PostMapping(path = ["/compartilhar"], produces = [MediaType.APPLICATION_JSON_VALUE])
+    override fun compartilharPlanoAula(@RequestBody planoAulaCompartilharRequest: PlanoAulaCompartilharRequest): ResponseEntity<Unit> {
+        planoAulaUseCase.compartilharPlanoAula(planoAulaCompartilharRequest.idPlanoAula, planoAulaCompartilharRequest.emailUsuarios)
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build()
     }
 }

@@ -14,9 +14,12 @@ import br.ufrn.imd.obama.planoaula.domain.exception.PlanoAulaNaoEncontradoExcept
 import br.ufrn.imd.obama.planoaula.infrastructure.entity.PlanoAulaEntity
 import br.ufrn.imd.obama.planoaula.infrastructure.mapper.toModel
 import br.ufrn.imd.obama.planoaula.infrastructure.repository.PlanoAulaRepository
+import br.ufrn.imd.obama.usuario.domain.exception.UsuarioInativoException
 import br.ufrn.imd.obama.usuario.domain.model.Usuario
+import br.ufrn.imd.obama.usuario.infrastructure.adapter.EmailGatewayAdapter
 import br.ufrn.imd.obama.usuario.infrastructure.entity.UsuarioEntity
 import br.ufrn.imd.obama.usuario.infrastructure.mapper.toEntity
+import br.ufrn.imd.obama.usuario.infrastructure.repository.UsuarioRepository
 import org.slf4j.LoggerFactory
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageImpl
@@ -29,7 +32,10 @@ class PlanoAulaGatewayAdapter(
     private val planoAulaRepository: PlanoAulaRepository,
     private val nivelEnsinoRepository: NivelEnsinoRepository,
     private val anoEnsinoRepository: AnoEnsinoRepository,
-    private val disciplinaRepository: DisciplinaRepository
+    private val disciplinaRepository: DisciplinaRepository,
+    private val usuarioRepository: UsuarioRepository,
+
+    private val emailGatewayAdapter: EmailGatewayAdapter
 
 ): PlanoAulaGateway {
     private val logger = LoggerFactory.getLogger(javaClass)
@@ -112,5 +118,31 @@ class PlanoAulaGatewayAdapter(
         if (titulo == null) planoAulaEntity.setTitulo("Plano de aula sem título")
 
         return planoAulaRepository.save(planoAulaEntity).toModel()
+    }
+
+    override fun compartilharPlanoAula(idPlanoAula: Long, emailUsuarios: List<String>) {
+        logger.info("method={}; idPlanoAula={}; emailUsuarios={};", "compartilharPlanoAula", idPlanoAula, emailUsuarios)
+
+        val planoAulaEntity = planoAulaRepository.findById(idPlanoAula)
+            .orElseThrow{PlanoAulaNaoEncontradoException("Plano de aula não encontrado por ID: $idPlanoAula")}
+
+        val usuarios = emailUsuarios.map { email ->
+            usuarioRepository.findByEmail(email) ?: throw PlanoAulaNaoEncontradoException("Usuário não encontrado por email: $email")
+        }
+
+        usuarios.forEach {usuario ->
+            if (!usuario.ativo) throw UsuarioInativoException("Usuário inativo: ${usuario.email}")
+        }
+
+        planoAulaEntity.getCoautores()?.toMutableSet()?.addAll(usuarios)
+
+        planoAulaRepository.save(planoAulaEntity)
+
+        //enviar email para cada usuario
+        for (email in emailUsuarios){
+            val subject = "Plano de aula compartilhado com você"
+            val message = "Foi compartilhado com você o plano de aula: ${planoAulaEntity.getTitulo()}. Acesse o sistema para visualizar o plano de aula e colaborar com o autor."
+            emailGatewayAdapter.enviarEmail(email, subject, message)
+        }
     }
 }

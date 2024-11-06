@@ -52,4 +52,8 @@ class PlanoAulaUseCaseImpl(
         )
     }
 
+    override fun compartilharPlanoAula(idPlanoAula: Long, emailUsuarios: List<String>) {
+        planoAulaGateway.compartilharPlanoAula(idPlanoAula,emailUsuarios)
+    }
+
 }
