@@ -177,6 +177,20 @@ class PlanoAulaResourceImplTest {
     }
 
     @Test
+    fun `Deve retornar 200 ao buscar planos por coautor e nao encontrar dados`() {
+        val token = "Bearer ${pegarAccessToken()}";
+
+        mockMvc.perform(
+            get("/v1/planoaula/buscarPorCoautor")
+                .header(HttpHeaders.AUTHORIZATION, token)
+                .contentType(MediaType.APPLICATION_JSON)
+        )
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.empty").value(true))
+    }
+
+    @Test
     fun `Deve retornar 403 ao buscar planos por coautor quando usuario nao estiver autorizado`() {
         mockMvc.perform(
             get("/v1/planoaula/buscarPorCoautor")
