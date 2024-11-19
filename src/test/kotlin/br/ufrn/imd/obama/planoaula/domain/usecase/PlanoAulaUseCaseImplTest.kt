@@ -161,7 +161,7 @@ class PlanoAulaUseCaseImplTest {
     @Test
     fun `Deve achar planos passando coautor existente`() {
         val pageable = Pageable.ofSize(pageSize)
-        val coautor = criarUsuarioAtivo().toEntity()
+        val coautor = criarUsuarioAtivo(2L).toEntity()
         val resultado: Page<PlanoAula> = PageImpl(
             listOf(criarPlanoAulaComCoautores())
         )
@@ -181,13 +181,13 @@ class PlanoAulaUseCaseImplTest {
         }
         Assertions.assertFalse(paginas::isEmpty)
         Assertions.assertNotNull(paginas.first().getCoautores())
-        Assertions.assertEquals(paginas.first().getCoautores()!!.first().email, coautor.email)
+        Assertions.assertEquals(paginas.first().getCoautores()!!.first().getId(), coautor.id)
     }
 
     @Test
     fun `Deve achar planos passando coautor existente e título`() {
         val pageable = Pageable.ofSize(pageSize)
-        val coautor = criarUsuarioAtivo().toEntity()
+        val coautor = criarUsuarioAtivo(2L).toEntity()
         val resultado = PageImpl(
             listOf(criarPlanoAulaComCoautores(), criarPlanoAulaComCoautores())
         )
@@ -204,5 +204,6 @@ class PlanoAulaUseCaseImplTest {
                 coautor, "teste", pageable
             )
         }
+        Assertions.assertFalse(paginas.isEmpty)
     }
 }

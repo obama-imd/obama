@@ -5,6 +5,8 @@ import br.ufrn.imd.obama.usuario.domain.enums.TipoCadastro
 import br.ufrn.imd.obama.usuario.domain.model.Usuario
 import java.util.*
 
+const val SENHA_PADRAO = "Teste123123"
+
 fun criarUsuarioInativo(): Usuario {
 
     return Usuario(
@@ -25,12 +27,37 @@ fun criarUsuarioAtivo(): Usuario {
         "Teste",
         "Teste",
         "usuario_ativo123@ufrn.com",
-        "Teste123123",
+        SENHA_PADRAO,
         Papel.PADRAO,
         true,
         TipoCadastro.PADRAO,
         UUID.randomUUID().toString()
     )
+}
+
+fun criarUsuarioAtivo(id: Long) : Usuario {
+    var usuario = criarUsuarioAtivo()
+    usuario.setId(id)
+
+    return usuario
+}
+
+fun criarUsuarioAtivo(nome: String, email: String, id: Long? = null) : Usuario {
+    var usuario = Usuario(
+        nome,
+        "Teste",
+        email,
+        SENHA_PADRAO,
+        Papel.PADRAO,
+        true,
+        TipoCadastro.PADRAO,
+        UUID.randomUUID().toString()
+    )
+
+    if (id != null)
+        usuario.setId(id)
+
+    return usuario
 }
 
 fun criaUsuarioSenhaInvalida(): Usuario {

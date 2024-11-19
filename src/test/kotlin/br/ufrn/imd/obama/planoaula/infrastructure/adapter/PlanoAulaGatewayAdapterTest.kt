@@ -32,8 +32,8 @@ import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.Pageable
 import org.springframework.test.context.ActiveProfiles
-import java.util.Optional
 import java.time.LocalDateTime
+import java.util.*
 
 
 @ActiveProfiles(profiles = ["test"])
@@ -83,7 +83,6 @@ class PlanoAulaGatewayAdapterTest {
 
     @Test
     fun `Deve fazer busca no repository e achar algum dado`() {
-
         val pageable: Pageable = Pageable.ofSize(pageSize)
         val autor = criarUsuarioAtivo().toEntity()
 
@@ -111,17 +110,14 @@ class PlanoAulaGatewayAdapterTest {
     @Test
     fun `Deve fazer busca no repository e achar plano de aula com coautores`() {
         val pageable: Pageable = Pageable.ofSize(pageSize)
-        val coautor = criarUsuarioAtivo().toEntity()
+        val coautor = criarUsuarioAtivo(2L).toEntity()
 
         val resultado: Page<PlanoAulaEntity> = PageImpl(
-            listOf(
-                criarPlanoAulaComCoautores().toEntity(),
-                criarPlanoAulaComCoautores().toEntity()
-            )
+            listOf(criarPlanoAulaComCoautores().toEntity())
         )
 
         Mockito.`when`(
-            planoAulaRepository.buscarPlanosAulaPorCoautor(email, null, pageable)
+            planoAulaRepository.buscarPlanosAulaPorCoautor(coautor.id, null, pageable)
         ).thenReturn(resultado)
 
         var resultadoFinal: Page<PlanoAula> = Page.empty()
@@ -131,17 +127,17 @@ class PlanoAulaGatewayAdapterTest {
 
         Assertions.assertFalse(resultadoFinal.isEmpty)
         Assertions.assertNotNull(resultadoFinal.first()!!.getCoautores())
-        Assertions.assertEquals(resultadoFinal.first()!!.getCoautores()!!.first().email, email)
+        Assertions.assertEquals(resultadoFinal.first()!!.getCoautores()!!.first().getId(), coautor.id)
     }
 
     @Test
-    fun `Deve fazer busca no repository e não achar nenhum plano de aula com coautor específico`(){
+    fun `Deve fazer busca no repository e não achar nenhum plano de aula com coautor específico`() {
         val pageable: Pageable = Pageable.ofSize(pageSize)
-        val coautor = criarUsuarioAtivo().toEntity()
+        val coautor = criarUsuarioAtivo(1L).toEntity()
 
         val resultado: Page<PlanoAulaEntity> = Page.empty()
         Mockito.`when`(
-            planoAulaRepository.buscarPlanosAulaPorCoautor(email, null, pageable)
+            planoAulaRepository.buscarPlanosAulaPorCoautor(coautor.id, null, pageable)
         ).thenReturn(resultado)
 
         var resultadoFinal: Page<PlanoAula> = Page.empty()

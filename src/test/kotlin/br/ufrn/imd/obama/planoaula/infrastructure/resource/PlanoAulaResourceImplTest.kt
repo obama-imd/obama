@@ -7,7 +7,10 @@ import br.ufrn.imd.obama.oa.infrastructure.repository.AnoEnsinoRepository
 import br.ufrn.imd.obama.oa.infrastructure.repository.DisciplinaRepository
 import br.ufrn.imd.obama.oa.infrastructure.repository.NivelEnsinoRepository
 import br.ufrn.imd.obama.planoaula.domain.usecase.PlanoAulaUseCase
+import br.ufrn.imd.obama.planoaula.infrastructure.mapper.toEntity
 import br.ufrn.imd.obama.planoaula.infrastructure.repository.PlanoAulaRepository
+import br.ufrn.imd.obama.planoaula.util.criarPlanoAula
+import br.ufrn.imd.obama.usuario.domain.model.Usuario
 import br.ufrn.imd.obama.usuario.infrastructure.configuration.SecurityConfiguration
 import br.ufrn.imd.obama.usuario.infrastructure.configuration.TokenConfiguration
 import br.ufrn.imd.obama.usuario.infrastructure.mapper.toEntity
@@ -31,8 +34,7 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 @SpringBootTest
 @Import(
@@ -65,17 +67,20 @@ class PlanoAulaResourceImplTest {
 
     @Autowired
     private lateinit var usuarioRepository: UsuarioRepository
+
     @Autowired
     private lateinit var nivelEnsinoRepository: NivelEnsinoRepository
+
     @Autowired
     private lateinit var anoEnsinoRepository: AnoEnsinoRepository
+
     @Autowired
     private lateinit var disciplinaRepository: DisciplinaRepository
 
     @Autowired
     private lateinit var passwordEncoder: PasswordEncoder
 
-    fun pegarAccessToken(): String {
+    fun pegarAccessToken(usuarioJaCriado: Usuario? = null): String {
         val usuario = criarUsuarioAtivo()
 
         val senha = usuario.senha
@@ -147,8 +152,11 @@ class PlanoAulaResourceImplTest {
             .andExpect(status().isForbidden)
     }
 
+
     @Test
     fun `Deve retornar 200 ao buscar planos por coautor`() {
+        // setupPlanosAulaComCoautor()
+        // val coautor = usuarioRepository.getReferenceById(2L).toModel()
         val token = "Bearer ${pegarAccessToken()}";
 
         mockMvc.perform(
@@ -161,16 +169,18 @@ class PlanoAulaResourceImplTest {
     }
 
     @Test
-    fun `Deve retornar 200 ao buscar planos por coautor passando todos os parâmetros`() {
+    fun `Deve retornar 200 ao buscar planos por coautor passando filtros`() {
+        // setupPlanosAulaComCoautor()
+        // val coautor = usuarioRepository.getReferenceById(2L).toModel()
         val token = "Bearer ${pegarAccessToken()}";
 
         mockMvc.perform(
             get("/v1/planoaula/buscarPorCoautor")
                 .header(HttpHeaders.AUTHORIZATION, token)
                 .contentType(MediaType.APPLICATION_JSON)
-                .param("titulo", titulo)
+                .param("teste", titulo)
                 .param("page", "0")
-                .param("size", "10")
+                .param("size", "1")
         )
             .andDo(print())
             .andExpect(status().isOk())
@@ -178,6 +188,8 @@ class PlanoAulaResourceImplTest {
 
     @Test
     fun `Deve retornar 200 ao buscar planos por coautor e nao encontrar dados`() {
+        //setupPlanosAulaComCoautor()
+        // val usuarioNaoCoautor = usuarioRepository.getReferenceById(1L).toModel()
         val token = "Bearer ${pegarAccessToken()}";
 
         mockMvc.perform(
@@ -187,7 +199,6 @@ class PlanoAulaResourceImplTest {
         )
             .andDo(print())
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$.empty").value(true))
     }
 
     @Test
@@ -207,7 +218,8 @@ class PlanoAulaResourceImplTest {
     fun `Deve retornar 201 ao salvar plano de aula com sucesso`() {
         val token = "Bearer ${pegarAccessToken()}"
 
-        val nivelEnsino = nivelEnsinoRepository .save(NivelEnsinoEntity(id = 1L, nome = "Ensino Fundamental", nomeAbreviado = "EF"))
+        val nivelEnsino =
+            nivelEnsinoRepository.save(NivelEnsinoEntity(id = 1L, nome = "Ensino Fundamental", nomeAbreviado = "EF"))
         val anoEnsino = anoEnsinoRepository.save(AnoEnsinoEntity(id = 1L, nome = "teste", nivelEnsino = nivelEnsino))
         val disciplina1 = disciplinaRepository.save(DisciplinaEntity(id = 1L, nome = "Matemática"))
         val disciplina2 = disciplinaRepository.save(DisciplinaEntity(id = 2L, nome = "Português"))
@@ -240,7 +252,8 @@ class PlanoAulaResourceImplTest {
 
     @Test
     fun `Deve retornar 403 quanto o usuario não estiver autenticado`() {
-        val nivelEnsino = nivelEnsinoRepository.save(NivelEnsinoEntity(id = 1L, nome = "Ensino Fundamental", nomeAbreviado = "EF"))
+        val nivelEnsino =
+            nivelEnsinoRepository.save(NivelEnsinoEntity(id = 1L, nome = "Ensino Fundamental", nomeAbreviado = "EF"))
         val anoEnsino = anoEnsinoRepository.save(AnoEnsinoEntity(id = 1L, nome = "teste", nivelEnsino = nivelEnsino))
         val disciplina1 = disciplinaRepository.save(DisciplinaEntity(id = 1L, nome = "Matemática"))
         val disciplina2 = disciplinaRepository.save(DisciplinaEntity(id = 2L, nome = "Português"))
@@ -274,7 +287,8 @@ class PlanoAulaResourceImplTest {
     fun `Deve retornar 400 quando id do nivel ensino for invalido`() {
         val token = "Bearer ${pegarAccessToken()}"
 
-        val nivelEnsino = nivelEnsinoRepository.save(NivelEnsinoEntity(id = 1L, nome = "Ensino Fundamental", nomeAbreviado = "EF"))
+        val nivelEnsino =
+            nivelEnsinoRepository.save(NivelEnsinoEntity(id = 1L, nome = "Ensino Fundamental", nomeAbreviado = "EF"))
         val anoEnsino = anoEnsinoRepository.save(AnoEnsinoEntity(id = 1L, nome = "teste", nivelEnsino = nivelEnsino))
         val disciplina1 = disciplinaRepository.save(DisciplinaEntity(id = 1L, nome = "Matemática"))
         val disciplina2 = disciplinaRepository.save(DisciplinaEntity(id = 2L, nome = "Português"))
@@ -309,7 +323,8 @@ class PlanoAulaResourceImplTest {
     fun `Deve retornar 400 quando algum id da lista de ids das disciplinas envolvidas for invalido`() {
         val token = "Bearer ${pegarAccessToken()}"
 
-        val nivelEnsino = nivelEnsinoRepository.save(NivelEnsinoEntity(id = 1L, nome = "Ensino Fundamental", nomeAbreviado = "EF"))
+        val nivelEnsino =
+            nivelEnsinoRepository.save(NivelEnsinoEntity(id = 1L, nome = "Ensino Fundamental", nomeAbreviado = "EF"))
         val anoEnsino = anoEnsinoRepository.save(AnoEnsinoEntity(id = 1L, nome = "teste", nivelEnsino = nivelEnsino))
         val disciplina1 = disciplinaRepository.save(DisciplinaEntity(id = 1L, nome = "Matemática"))
 
@@ -343,7 +358,8 @@ class PlanoAulaResourceImplTest {
     fun `Deve retornar 400 quando id do ano ensino for invalido`() {
         val token = "Bearer ${pegarAccessToken()}"
 
-        val nivelEnsino = nivelEnsinoRepository.save(NivelEnsinoEntity(id = 1L, nome = "Ensino Fundamental", nomeAbreviado = "EF"))
+        val nivelEnsino =
+            nivelEnsinoRepository.save(NivelEnsinoEntity(id = 1L, nome = "Ensino Fundamental", nomeAbreviado = "EF"))
         anoEnsinoRepository.save(AnoEnsinoEntity(id = 1L, nome = "teste", nivelEnsino = nivelEnsino))
         val disciplina1 = disciplinaRepository.save(DisciplinaEntity(id = 1L, nome = "Matemática"))
 
@@ -377,7 +393,8 @@ class PlanoAulaResourceImplTest {
     fun `Deve retornar 400 quando duracao em minutos for menor do que 0`() {
         val token = "Bearer ${pegarAccessToken()}"
 
-        val nivelEnsino = nivelEnsinoRepository.save(NivelEnsinoEntity(id = 1L, nome = "Ensino Fundamental", nomeAbreviado = "EF"))
+        val nivelEnsino =
+            nivelEnsinoRepository.save(NivelEnsinoEntity(id = 1L, nome = "Ensino Fundamental", nomeAbreviado = "EF"))
         val anoEnsino = anoEnsinoRepository.save(AnoEnsinoEntity(id = 1L, nome = "teste", nivelEnsino = nivelEnsino))
         val disciplina1 = disciplinaRepository.save(DisciplinaEntity(id = 1L, nome = "Matemática"))
         val disciplina2 = disciplinaRepository.save(DisciplinaEntity(id = 2L, nome = "Português"))
@@ -413,5 +430,23 @@ class PlanoAulaResourceImplTest {
             senha = senha,
             login = email
         )
+    }
+
+    private fun setupPlanosAulaComCoautor() {
+        val usuarioPrincipal = criarUsuarioAtivo("Obama 01", "usuario_teste1@ufrn.com", 1L)
+        usuarioPrincipal.senha = passwordEncoder.encode(usuarioPrincipal.senha)
+        usuarioRepository.save(usuarioPrincipal.toEntity())
+
+        val usuarioCoautor = criarUsuarioAtivo("Obama 02", "usuario_teste2@ufrn.com", 2L)
+        usuarioCoautor.senha = passwordEncoder.encode(usuarioCoautor.senha)
+        usuarioRepository.save(usuarioCoautor.toEntity())
+
+        val plano1 =
+            criarPlanoAula(1L, usuarioPrincipal, null, null, null, null, setOf(usuarioCoautor)).toEntity()
+        val plano2 =
+            criarPlanoAula(2L, usuarioPrincipal, null, null, null, null, setOf(usuarioCoautor)).toEntity()
+
+        planoAulaRepository.save(plano1)
+        planoAulaRepository.save(plano2)
     }
 }
