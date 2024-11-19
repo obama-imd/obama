@@ -8,9 +8,9 @@ import br.ufrn.imd.obama.oa.infrastructure.repository.DisciplinaRepository
 import br.ufrn.imd.obama.oa.infrastructure.repository.NivelEnsinoRepository
 import br.ufrn.imd.obama.planoaula.domain.enums.StatusPlanoAula
 import br.ufrn.imd.obama.planoaula.domain.exception.PlanoAulaDuracaoNegativaException
+import br.ufrn.imd.obama.planoaula.domain.exception.PlanoAulaNaoEncontradoException
 import br.ufrn.imd.obama.planoaula.domain.gateway.PlanoAulaGateway
 import br.ufrn.imd.obama.planoaula.domain.model.PlanoAula
-import br.ufrn.imd.obama.planoaula.domain.exception.PlanoAulaNaoEncontradoException
 import br.ufrn.imd.obama.planoaula.infrastructure.entity.PlanoAulaEntity
 import br.ufrn.imd.obama.planoaula.infrastructure.mapper.toModel
 import br.ufrn.imd.obama.planoaula.infrastructure.repository.PlanoAulaRepository
@@ -30,7 +30,7 @@ class PlanoAulaGatewayAdapter(
     private val nivelEnsinoRepository: NivelEnsinoRepository,
     private val anoEnsinoRepository: AnoEnsinoRepository,
     private val disciplinaRepository: DisciplinaRepository
-): PlanoAulaGateway {
+) : PlanoAulaGateway {
     private val logger = LoggerFactory.getLogger(javaClass)
 
     override fun buscarPlanosAulaPorTitulo(
@@ -58,7 +58,7 @@ class PlanoAulaGatewayAdapter(
         titulo: String?,
         pageable: Pageable
     ): Page<PlanoAula> {
-        val planoAulaPage = planoAulaRepository.buscarPlanosAulaPorCoautor(coautor.email, titulo, pageable)
+        val planoAulaPage = planoAulaRepository.buscarPlanosAulaPorCoautor(coautor.id, titulo, pageable)
 
         return PageImpl(planoAulaPage.toList()).map { planoAula ->
             planoAula?.toModel()
@@ -81,24 +81,38 @@ class PlanoAulaGatewayAdapter(
     ): PlanoAula {
         logger.info(
             "method={}; escola={}; idNivelEnsino={}; disciplinasEnvolvidas={}; idAnoEnsino={}; duracaoEmMinutos={}; " +
-            "titulo={}; metodologia={}; objetivosEspecificos={}; objetivoGeral={}; referencias={};", "salvarPlanoAula",
-            escola, idNivelEnsino, disciplinasEnvolvidas, idAnoEnsino, duracaoEmMinutos, titulo, metodologia, objetivosEspecificos, objetivoGeral, referencias
+                    "titulo={}; metodologia={}; objetivosEspecificos={}; objetivoGeral={}; referencias={};",
+            "salvarPlanoAula",
+            escola,
+            idNivelEnsino,
+            disciplinasEnvolvidas,
+            idAnoEnsino,
+            duracaoEmMinutos,
+            titulo,
+            metodologia,
+            objetivosEspecificos,
+            objetivoGeral,
+            referencias
         )
 
-        val nivelEnsino = idNivelEnsino?.let { nivelEnsinoRepository.findById(it)
-            .orElseThrow{NivelEnsinoNaoEncontradoException("Nível de ensino não encontrado por ID: $idNivelEnsino")} }
+        val nivelEnsino = idNivelEnsino?.let {
+            nivelEnsinoRepository.findById(it)
+                .orElseThrow { NivelEnsinoNaoEncontradoException("Nível de ensino não encontrado por ID: $idNivelEnsino") }
+        }
 
         val anoEnsino = anoEnsinoRepository.findById(idAnoEnsino)
-            .orElseThrow{AnoEnsinoNaoEncontradoException("Ano de ensino não encontrado por ID: $idNivelEnsino")}
+            .orElseThrow { AnoEnsinoNaoEncontradoException("Ano de ensino não encontrado por ID: $idNivelEnsino") }
 
-        val disciplinasEnvolvidasList = disciplinasEnvolvidas?.mapNotNull { disciplinaRepository.findById(it)
-            .orElseThrow{DisciplinaNaoEncontradoException("Disciplina não encontrada por ID: $idNivelEnsino")} }
+        val disciplinasEnvolvidasList = disciplinasEnvolvidas?.mapNotNull {
+            disciplinaRepository.findById(it)
+                .orElseThrow { DisciplinaNaoEncontradoException("Disciplina não encontrada por ID: $idNivelEnsino") }
+        }
 
-        if(duracaoEmMinutos != null && duracaoEmMinutos < 0) throw PlanoAulaDuracaoNegativaException("A duração em minutos não pode ser menor que zero")
+        if (duracaoEmMinutos != null && duracaoEmMinutos < 0) throw PlanoAulaDuracaoNegativaException("A duração em minutos não pode ser menor que zero")
 
         val usuarioEntity = usuario.toEntity()
 
-        val planoAulaEntity = PlanoAulaEntity (
+        val planoAulaEntity = PlanoAulaEntity(
             id = 0,
             dataCadastro = LocalDateTime.now(),
             qtdDownload = 0,
