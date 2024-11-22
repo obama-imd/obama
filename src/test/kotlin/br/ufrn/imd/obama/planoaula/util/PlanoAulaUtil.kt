@@ -112,6 +112,7 @@ fun criarPlanoAulaComCoautores(): PlanoAula {
 
 fun criarPlanoAula(
     id: Long,
+    titulo: String? = null,
     autor: Usuario? = null,
     nivelEnsino: NivelEnsino? = null,
     disciplinas: List<Disciplina>? = null,
@@ -125,7 +126,7 @@ fun criarPlanoAula(
         0,
         null,
         null,
-        "teste",
+        titulo ?: "teste",
         null,
         null,
         null,

@@ -3,20 +3,27 @@ package br.ufrn.imd.obama.planoaula.infrastructure.resource
 import br.ufrn.imd.obama.oa.infrastructure.entity.AnoEnsinoEntity
 import br.ufrn.imd.obama.oa.infrastructure.entity.DisciplinaEntity
 import br.ufrn.imd.obama.oa.infrastructure.entity.NivelEnsinoEntity
+import br.ufrn.imd.obama.oa.infrastructure.mapper.toEntity
 import br.ufrn.imd.obama.oa.infrastructure.repository.AnoEnsinoRepository
 import br.ufrn.imd.obama.oa.infrastructure.repository.DisciplinaRepository
 import br.ufrn.imd.obama.oa.infrastructure.repository.NivelEnsinoRepository
+import br.ufrn.imd.obama.oa.infrastructure.repository.ObjetoAprendizagemRepository
+import br.ufrn.imd.obama.oa.util.criarAnoEnsino
+import br.ufrn.imd.obama.oa.util.criarDisciplina
+import br.ufrn.imd.obama.oa.util.criarNivelEnsino
+import br.ufrn.imd.obama.oa.util.criarObjetoAprendizagem
 import br.ufrn.imd.obama.planoaula.domain.usecase.PlanoAulaUseCase
 import br.ufrn.imd.obama.planoaula.infrastructure.mapper.toEntity
 import br.ufrn.imd.obama.planoaula.infrastructure.repository.PlanoAulaRepository
 import br.ufrn.imd.obama.planoaula.util.criarPlanoAula
-import br.ufrn.imd.obama.usuario.domain.model.Usuario
 import br.ufrn.imd.obama.usuario.infrastructure.configuration.SecurityConfiguration
 import br.ufrn.imd.obama.usuario.infrastructure.configuration.TokenConfiguration
 import br.ufrn.imd.obama.usuario.infrastructure.mapper.toEntity
 import br.ufrn.imd.obama.usuario.infrastructure.repository.UsuarioRepository
 import br.ufrn.imd.obama.usuario.infrastructure.resource.exchange.LoginRequest
 import br.ufrn.imd.obama.usuario.infrastructure.resource.exchange.LoginResponse
+import br.ufrn.imd.obama.usuario.util.EMAIL1
+import br.ufrn.imd.obama.usuario.util.EMAIL2
 import br.ufrn.imd.obama.usuario.util.criarUsuarioAtivo
 import com.fasterxml.jackson.databind.ObjectMapper
 import jakarta.transaction.Transactional
@@ -34,6 +41,7 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 @SpringBootTest
@@ -69,6 +77,9 @@ class PlanoAulaResourceImplTest {
     private lateinit var usuarioRepository: UsuarioRepository
 
     @Autowired
+    private lateinit var oaRepository: ObjetoAprendizagemRepository
+
+    @Autowired
     private lateinit var nivelEnsinoRepository: NivelEnsinoRepository
 
     @Autowired
@@ -80,7 +91,7 @@ class PlanoAulaResourceImplTest {
     @Autowired
     private lateinit var passwordEncoder: PasswordEncoder
 
-    fun pegarAccessToken(usuarioJaCriado: Usuario? = null): String {
+    fun pegarAccessToken(): String {
         val usuario = criarUsuarioAtivo()
 
         val senha = usuario.senha
@@ -152,11 +163,9 @@ class PlanoAulaResourceImplTest {
             .andExpect(status().isForbidden)
     }
 
-
     @Test
-    fun `Deve retornar 200 ao buscar planos por coautor`() {
-        // setupPlanosAulaComCoautor()
-        // val coautor = usuarioRepository.getReferenceById(2L).toModel()
+    @DirtiesContext
+    fun `Deve retornar 200 ao buscar planos por coautor e nao houver`() {
         val token = "Bearer ${pegarAccessToken()}";
 
         mockMvc.perform(
@@ -166,39 +175,97 @@ class PlanoAulaResourceImplTest {
         )
             .andDo(print())
             .andExpect(status().isOk())
+            .andExpect(jsonPath("$.content").isEmpty)
     }
 
     @Test
-    fun `Deve retornar 200 ao buscar planos por coautor passando filtros`() {
-        // setupPlanosAulaComCoautor()
-        // val coautor = usuarioRepository.getReferenceById(2L).toModel()
-        val token = "Bearer ${pegarAccessToken()}";
+    fun `Deve retornar 200 ao buscar planos por coautor e houver`() {
+        val token = "Bearer ${pegarAccessToken()}"
+        val coautor = criarUsuarioAtivo(1L, EMAIL1)
+        val autor = criarUsuarioAtivo(2L, EMAIL2)
+
+        usuarioRepository.save(autor.toEntity())
+        oaRepository.save(criarObjetoAprendizagem().toEntity())
+
+        planoAulaRepository.save(
+            criarPlanoAula(
+                1L,
+                autor = autor,
+                nivelEnsino = criarNivelEnsino(),
+                disciplinas = listOf(criarDisciplina()),
+                anoEnsino = criarAnoEnsino(),
+                objetosAprendizagem = setOf(criarObjetoAprendizagem()),
+                coautores = setOf(coautor)
+            ).toEntity()
+        );
+
+        planoAulaRepository.save(
+            criarPlanoAula(
+                2L,
+                titulo = titulo + "2",
+                autor = autor,
+                nivelEnsino = criarNivelEnsino(),
+                disciplinas = listOf(criarDisciplina()),
+                anoEnsino = criarAnoEnsino(),
+                objetosAprendizagem = setOf(criarObjetoAprendizagem()),
+                coautores = setOf(coautor)
+            ).toEntity())
 
         mockMvc.perform(
             get("/v1/planoaula/buscarPorCoautor")
                 .header(HttpHeaders.AUTHORIZATION, token)
                 .contentType(MediaType.APPLICATION_JSON)
-                .param("teste", titulo)
                 .param("page", "0")
-                .param("size", "1")
         )
             .andDo(print())
             .andExpect(status().isOk())
+            .andExpect(jsonPath("$.content").isNotEmpty)
     }
 
     @Test
-    fun `Deve retornar 200 ao buscar planos por coautor e nao encontrar dados`() {
-        //setupPlanosAulaComCoautor()
-        // val usuarioNaoCoautor = usuarioRepository.getReferenceById(1L).toModel()
-        val token = "Bearer ${pegarAccessToken()}";
+    fun `Deve retornar 200 ao buscar planos por coautor e filtrar por titulo`() {
+        val token = "Bearer ${pegarAccessToken()}"
+        val coautor = criarUsuarioAtivo(3L, EMAIL1)
+        val autor = criarUsuarioAtivo(4L, EMAIL2)
+
+        usuarioRepository.save(autor.toEntity())
+        oaRepository.save(criarObjetoAprendizagem().toEntity())
+
+        planoAulaRepository.save(
+            criarPlanoAula(
+                1L,
+                autor = autor,
+                nivelEnsino = criarNivelEnsino(),
+                disciplinas = listOf(criarDisciplina()),
+                anoEnsino = criarAnoEnsino(),
+                objetosAprendizagem = setOf(criarObjetoAprendizagem()),
+                coautores = setOf(coautor)
+            ).toEntity()
+        );
+
+        planoAulaRepository.save(
+            criarPlanoAula(
+                2L,
+                titulo = titulo + "2",
+                autor = autor,
+                nivelEnsino = criarNivelEnsino(),
+                disciplinas = listOf(criarDisciplina()),
+                anoEnsino = criarAnoEnsino(),
+                objetosAprendizagem = setOf(criarObjetoAprendizagem()),
+                coautores = setOf(coautor)
+            ).toEntity())
 
         mockMvc.perform(
             get("/v1/planoaula/buscarPorCoautor")
                 .header(HttpHeaders.AUTHORIZATION, token)
                 .contentType(MediaType.APPLICATION_JSON)
+                .param("page", "0")
+                .param("titulo", titulo + "2")
         )
             .andDo(print())
             .andExpect(status().isOk())
+            .andExpect(jsonPath("$.content").isNotEmpty)
+            .andExpect(jsonPath("$.numberOfElements").value(1))
     }
 
     @Test
@@ -430,23 +497,5 @@ class PlanoAulaResourceImplTest {
             senha = senha,
             login = email
         )
-    }
-
-    private fun setupPlanosAulaComCoautor() {
-        val usuarioPrincipal = criarUsuarioAtivo("Obama 01", "usuario_teste1@ufrn.com", 1L)
-        usuarioPrincipal.senha = passwordEncoder.encode(usuarioPrincipal.senha)
-        usuarioRepository.save(usuarioPrincipal.toEntity())
-
-        val usuarioCoautor = criarUsuarioAtivo("Obama 02", "usuario_teste2@ufrn.com", 2L)
-        usuarioCoautor.senha = passwordEncoder.encode(usuarioCoautor.senha)
-        usuarioRepository.save(usuarioCoautor.toEntity())
-
-        val plano1 =
-            criarPlanoAula(1L, usuarioPrincipal, null, null, null, null, setOf(usuarioCoautor)).toEntity()
-        val plano2 =
-            criarPlanoAula(2L, usuarioPrincipal, null, null, null, null, setOf(usuarioCoautor)).toEntity()
-
-        planoAulaRepository.save(plano1)
-        planoAulaRepository.save(plano2)
     }
 }

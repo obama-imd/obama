@@ -6,6 +6,8 @@ import br.ufrn.imd.obama.usuario.domain.model.Usuario
 import java.util.*
 
 const val SENHA_PADRAO = "Teste123123"
+const val EMAIL1 = "usuario_teste123@ufrn.com"
+const val EMAIL2 = "Teste123@ufrn.com"
 
 fun criarUsuarioInativo(): Usuario {
 
@@ -21,12 +23,12 @@ fun criarUsuarioInativo(): Usuario {
     )
 }
 
-fun criarUsuarioAtivo(): Usuario {
+fun criarUsuarioAtivo(email: String? = null): Usuario {
 
     return Usuario(
         "Teste",
         "Teste",
-        "usuario_ativo123@ufrn.com",
+        email ?: EMAIL1,
         SENHA_PADRAO,
         Papel.PADRAO,
         true,
@@ -35,14 +37,14 @@ fun criarUsuarioAtivo(): Usuario {
     )
 }
 
-fun criarUsuarioAtivo(id: Long) : Usuario {
-    var usuario = criarUsuarioAtivo()
+fun criarUsuarioAtivo(id: Long, email: String? = null): Usuario {
+    var usuario = criarUsuarioAtivo(email)
     usuario.setId(id)
 
     return usuario
 }
 
-fun criarUsuarioAtivo(nome: String, email: String, id: Long? = null) : Usuario {
+fun criarUsuarioAtivo(nome: String, email: String, id: Long? = null): Usuario {
     var usuario = Usuario(
         nome,
         "Teste",
@@ -65,6 +67,6 @@ fun criaUsuarioSenhaInvalida(): Usuario {
 
     usuario.senha = "senha123"
 
-    return  usuario
+    return usuario
 }
 
