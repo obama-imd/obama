@@ -1,5 +1,6 @@
 package br.ufrn.imd.obama.planoaula.infrastructure.resource
 
+import br.ufrn.imd.obama.planoaula.domain.exception.PlanoAulaNaoEncontradoException
 import br.ufrn.imd.obama.planoaula.domain.usecase.PlanoAulaUseCase
 import br.ufrn.imd.obama.planoaula.infrastructure.mapper.toPlanoAulaBuscarPorIdResponse
 import br.ufrn.imd.obama.planoaula.infrastructure.mapper.toResponse
@@ -48,7 +49,7 @@ class PlanoAulaResourceImpl(
         return planoAulaUseCase.buscarPlanoAulaPorId(id).toPlanoAulaBuscarPorIdResponse()
     }
 
-    @GetMapping(path = ["/buscarPorCoautor"], produces = [MediaType.APPLICATION_JSON_VALUE])
+    @GetMapping(path = ["/coautor"], produces = [MediaType.APPLICATION_JSON_VALUE])
     override fun buscarPlanosAulaPorCoautor(
         @AuthenticationPrincipal usuario: UserDetails,
         @RequestParam(value = "titulo", required = false) titulo: String?,

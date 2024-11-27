@@ -169,7 +169,7 @@ class PlanoAulaResourceImplTest {
         val token = "Bearer ${pegarAccessToken()}";
 
         mockMvc.perform(
-            get("/v1/planoaula/buscarPorCoautor")
+            get("/v1/planoaula/coautor")
                 .header(HttpHeaders.AUTHORIZATION, token)
                 .contentType(MediaType.APPLICATION_JSON)
         )
@@ -212,7 +212,7 @@ class PlanoAulaResourceImplTest {
             ).toEntity())
 
         mockMvc.perform(
-            get("/v1/planoaula/buscarPorCoautor")
+            get("/v1/planoaula/coautor")
                 .header(HttpHeaders.AUTHORIZATION, token)
                 .contentType(MediaType.APPLICATION_JSON)
                 .param("page", "0")
@@ -256,7 +256,7 @@ class PlanoAulaResourceImplTest {
             ).toEntity())
 
         mockMvc.perform(
-            get("/v1/planoaula/buscarPorCoautor")
+            get("/v1/planoaula/coautor")
                 .header(HttpHeaders.AUTHORIZATION, token)
                 .contentType(MediaType.APPLICATION_JSON)
                 .param("page", "0")
