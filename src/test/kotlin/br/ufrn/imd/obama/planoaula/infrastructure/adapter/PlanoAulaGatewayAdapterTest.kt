@@ -166,7 +166,7 @@ class PlanoAulaGatewayAdapterTest {
         Mockito.`when`(planoAulaRepository.buscarPlanoAulaPorId(1)).thenReturn(null)
 
         assertThrows<PlanoAulaNaoEncontradoException> {
-            val resultado = planoAulaGatewayAdapter.buscarPlanoAulaPorId(1)
+            planoAulaGatewayAdapter.buscarPlanoAulaPorId(1)
         }
 
     }

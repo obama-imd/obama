@@ -1,0 +1,2 @@
+ALTER TABLE plano_aula DROP COLUMN token;
+ALTER TABLE plano_aula ADD COLUMN token TEXT NULL;
