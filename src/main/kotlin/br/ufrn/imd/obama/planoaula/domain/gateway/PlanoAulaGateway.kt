@@ -16,6 +16,12 @@ interface PlanoAulaGateway {
 
     fun buscarPlanoAulaPorId(id: Long): PlanoAula
 
+    fun buscarPlanosAulaPorCoautor(
+        coautor: UsuarioEntity,
+        titulo: String?,
+        pageable: Pageable
+    ): Page<PlanoAula>
+
     fun salvarPlanoAula(
         usuario: Usuario,
         escola: String?,

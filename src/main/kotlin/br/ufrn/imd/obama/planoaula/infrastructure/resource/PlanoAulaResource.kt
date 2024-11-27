@@ -17,22 +17,24 @@ import org.springframework.security.core.userdetails.UserDetails
 
 interface PlanoAulaResource {
     @Operation(summary = "Endpoint para buscar planos de aula por título")
-    @ApiResponses(value = [
-        ApiResponse(
-            responseCode = "200",
-            description = "Planos de aula encontrados",
-            content = [
-                Content(
-                    mediaType = MediaType.APPLICATION_JSON_VALUE,
-                    schema = Schema(implementation = Page::class)
-                )
-            ]
-        ),
-        ApiResponse(
-            responseCode = "403",
-            description = "Usuário não autenticado",
-        )
-    ])
+    @ApiResponses(
+        value = [
+            ApiResponse(
+                responseCode = "200",
+                description = "Planos de aula encontrados",
+                content = [
+                    Content(
+                        mediaType = MediaType.APPLICATION_JSON_VALUE,
+                        schema = Schema(implementation = Page::class)
+                    )
+                ]
+            ),
+            ApiResponse(
+                responseCode = "403",
+                description = "Usuário não autenticado",
+            )
+        ]
+    )
     fun buscarPlanosAulaPorTitulo(
         usuario: UserDetails,
         titulo: String?,
@@ -40,27 +42,55 @@ interface PlanoAulaResource {
     ): Page<PlanoAulaResponse>
 
     @Operation(summary = "Endpoint para buscar planos de aula por id")
-    @ApiResponses(value = [
-        ApiResponse(
-            responseCode = "200",
-            description = "Plano de aula encontrado",
-            content = [
-                Content(
-                    mediaType = MediaType.APPLICATION_JSON_VALUE,
-                    schema = Schema(implementation = PlanoAulaResponse::class)
-                )
-            ]
-        ),
-        ApiResponse(
-            responseCode = "403",
-            description = "Usuário não autenticado; o plano de aula não pertece ao usuário ou usuário não é coator",
-        ),
-        ApiResponse(
-            responseCode = "404",
-            description = "Plano de aula não encontrado",
-        )
-    ])
+    @ApiResponses(
+        value = [
+            ApiResponse(
+                responseCode = "200",
+                description = "Plano de aula encontrado",
+                content = [
+                    Content(
+                        mediaType = MediaType.APPLICATION_JSON_VALUE,
+                        schema = Schema(implementation = PlanoAulaResponse::class)
+                    )
+                ]
+            ),
+            ApiResponse(
+                responseCode = "403",
+                description = "Usuário não autenticado; o plano de aula não pertece ao usuário ou usuário não é coator",
+            ),
+            ApiResponse(
+                responseCode = "404",
+                description = "Plano de aula não encontrado",
+            )
+        ]
+    )
     fun buscarPlanoAulaPorId(id: Long): PlanoAulaBuscarPorIdResponse
+
+    @Operation(summary = "Endpoint para buscar planos de aula por coautor")
+    @ApiResponses(
+        value = [
+            ApiResponse(
+                responseCode = "200",
+                description = "Planos de aula encontrados",
+                content = [
+                    Content(
+                        mediaType = MediaType.APPLICATION_JSON_VALUE,
+                        schema = Schema(implementation = Page::class)
+                    )
+                ]
+            ),
+            ApiResponse(
+                responseCode = "403",
+                description = "Usuário não autenticado",
+            )
+        ]
+    )
+
+    fun buscarPlanosAulaPorCoautor(
+        usuario: UserDetails,
+        titulo: String?,
+        pageable: Pageable
+    ): Page<PlanoAulaResponse>
 
     @Operation(summary = "Endpoint para salvar plano de aula")
     @ApiResponses(value = [
@@ -91,5 +121,6 @@ interface PlanoAulaResource {
     fun salvarPlanoAula(
         usuarioDetails: UserDetails,
         planoAulaSalvarRequest: PlanoAulaSalvarRequest
-        ): ResponseEntity<PlanoAulaResponse>
+    ): ResponseEntity<PlanoAulaResponse>
+
 }
