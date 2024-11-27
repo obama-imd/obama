@@ -128,7 +128,7 @@ class PlanoAulaUseCaseImplTest {
         Mockito.`when`(planoAulaGatewayAdapter.buscarPlanoAulaPorId(1)).thenThrow(PlanoAulaNaoEncontradoException("Plano de aula não encontrado por ID: 1"))
 
         assertThrows<PlanoAulaNaoEncontradoException> {
-            val planoAula = planoAulaUseCase.buscarPlanoAulaPorId(1)
+            planoAulaUseCase.buscarPlanoAulaPorId(1)
         }
     }
 
@@ -197,7 +197,7 @@ class PlanoAulaUseCaseImplTest {
         )).thenThrow(NivelEnsinoNaoEncontradoException("Nível de ensino não encontrado por ID: 1"))
 
         assertThrows<NivelEnsinoNaoEncontradoException> {
-            val planoAulaSalvo = planoAulaUseCase.salvarPlanoAula(
+            planoAulaUseCase.salvarPlanoAula(
                 usuario,
                 null,
                 1,
@@ -235,7 +235,7 @@ class PlanoAulaUseCaseImplTest {
         )).thenThrow(AnoEnsinoNaoEncontradoException("Ano de ensino não encontrado por ID: 1"))
 
         assertThrows<AnoEnsinoNaoEncontradoException> {
-            val planoAulaSalvo = planoAulaUseCase.salvarPlanoAula(
+            planoAulaUseCase.salvarPlanoAula(
                 usuario,
                 null,
                 null,
@@ -273,7 +273,7 @@ class PlanoAulaUseCaseImplTest {
         )).thenThrow(DisciplinaNaoEncontradoException("Disciplina não encontrada por ID: 1"))
 
         assertThrows<DisciplinaNaoEncontradoException> {
-            val planoAulaSalvo = planoAulaUseCase.salvarPlanoAula(
+            planoAulaUseCase.salvarPlanoAula(
                 usuario,
                 null,
                 null,
