@@ -3,6 +3,7 @@ package br.ufrn.imd.obama.planoaula.infrastructure.resource
 import br.ufrn.imd.obama.planoaula.domain.usecase.PlanoAulaUseCase
 import br.ufrn.imd.obama.planoaula.infrastructure.mapper.toPlanoAulaBuscarPorIdResponse
 import br.ufrn.imd.obama.planoaula.infrastructure.mapper.toResponse
+import br.ufrn.imd.obama.planoaula.infrastructure.resource.exchange.PlanoAulaAssociarOARequest
 import br.ufrn.imd.obama.planoaula.infrastructure.resource.exchange.PlanoAulaBuscarPorIdResponse
 import br.ufrn.imd.obama.planoaula.infrastructure.resource.exchange.PlanoAulaResponse
 import br.ufrn.imd.obama.planoaula.infrastructure.resource.exchange.PlanoAulaSalvarRequest
@@ -18,13 +19,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.validation.annotation.Validated
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("v1/planoaula")
@@ -35,7 +30,7 @@ import org.springframework.web.bind.annotation.RestController
 )
 class PlanoAulaResourceImpl(
     private val planoAulaUseCase: PlanoAulaUseCase
-): PlanoAulaResource {
+) : PlanoAulaResource {
     @Cacheable(cacheNames = ["planosaula"])
     @GetMapping(produces = [MediaType.APPLICATION_JSON_VALUE])
     override fun buscarPlanosAulaPorTitulo(
@@ -46,7 +41,7 @@ class PlanoAulaResourceImpl(
 
         val autor = usuario as UsuarioEntity
 
-        return planoAulaUseCase.buscarPlanoAulaPorTitulo(autor, titulo, pageable).map{ it.toResponse() }
+        return planoAulaUseCase.buscarPlanoAulaPorTitulo(autor, titulo, pageable).map { it.toResponse() }
     }
 
     @GetMapping(path = ["/{id}"], produces = [MediaType.APPLICATION_JSON_VALUE])
@@ -77,5 +72,19 @@ class PlanoAulaResourceImpl(
         )
 
         return ResponseEntity.status(HttpStatus.CREATED).body(planoAula.toResponse())
+    }
+
+    @PostMapping(path = ["/associar"], produces = [MediaType.APPLICATION_JSON_VALUE])
+    override fun associarObjetosEmPlanoAula(
+        @AuthenticationPrincipal usuarioDetails: UserDetails,
+        @RequestBody planoAulaAssociarOARequest: PlanoAulaAssociarOARequest
+    ): ResponseEntity<Void> {
+        val usuario = usuarioDetails as UsuarioEntity
+
+        val (planoId, objetosId) = planoAulaAssociarOARequest;
+
+        planoAulaUseCase.associarOAEmPlanoAula(usuario, planoId, objetosId);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }
