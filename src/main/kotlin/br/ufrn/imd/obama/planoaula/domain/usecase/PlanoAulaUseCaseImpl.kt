@@ -22,6 +22,14 @@ class PlanoAulaUseCaseImpl(
         return planoAulaGateway.buscarPlanoAulaPorId(id)
     }
 
+    override fun buscarPlanosAulaPorCoautor(
+        coautor: UsuarioEntity,
+        titulo: String?,
+        pageable: Pageable
+    ): Page<PlanoAula> {
+        return planoAulaGateway.buscarPlanosAulaPorCoautor(coautor, titulo, pageable);
+    }
+
     override fun salvarPlanoAula(
         usuario: Usuario,
         escola: String?,

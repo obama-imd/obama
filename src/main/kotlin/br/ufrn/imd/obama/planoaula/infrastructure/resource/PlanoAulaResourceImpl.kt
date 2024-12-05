@@ -1,5 +1,6 @@
 package br.ufrn.imd.obama.planoaula.infrastructure.resource
 
+import br.ufrn.imd.obama.planoaula.domain.exception.PlanoAulaNaoEncontradoException
 import br.ufrn.imd.obama.planoaula.domain.usecase.PlanoAulaUseCase
 import br.ufrn.imd.obama.planoaula.infrastructure.mapper.toPlanoAulaBuscarPorIdResponse
 import br.ufrn.imd.obama.planoaula.infrastructure.mapper.toResponse
@@ -47,6 +48,18 @@ class PlanoAulaResourceImpl(
     @GetMapping(path = ["/{id}"], produces = [MediaType.APPLICATION_JSON_VALUE])
     override fun buscarPlanoAulaPorId(@PathVariable("id", required = true) id: Long): PlanoAulaBuscarPorIdResponse {
         return planoAulaUseCase.buscarPlanoAulaPorId(id).toPlanoAulaBuscarPorIdResponse()
+    }
+
+    @GetMapping(path = ["/coautor"], produces = [MediaType.APPLICATION_JSON_VALUE])
+    override fun buscarPlanosAulaPorCoautor(
+        @AuthenticationPrincipal usuario: UserDetails,
+        @RequestParam(value = "titulo", required = false) titulo: String?,
+        pageable: Pageable
+    ): Page<PlanoAulaResponse> {
+
+        val coautor = usuario as UsuarioEntity
+        return planoAulaUseCase.buscarPlanosAulaPorCoautor(coautor, titulo, pageable).map { it.toResponse() }
+
     }
 
     @PostMapping(path = ["/salvar"], produces = [MediaType.APPLICATION_JSON_VALUE])

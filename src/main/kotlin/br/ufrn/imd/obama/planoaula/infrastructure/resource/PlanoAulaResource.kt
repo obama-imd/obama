@@ -67,6 +67,32 @@ interface PlanoAulaResource {
     )
     fun buscarPlanoAulaPorId(id: Long): PlanoAulaBuscarPorIdResponse
 
+    @Operation(summary = "Endpoint para buscar planos de aula por coautor")
+    @ApiResponses(
+        value = [
+            ApiResponse(
+                responseCode = "200",
+                description = "Planos de aula encontrados",
+                content = [
+                    Content(
+                        mediaType = MediaType.APPLICATION_JSON_VALUE,
+                        schema = Schema(implementation = Page::class)
+                    )
+                ]
+            ),
+            ApiResponse(
+                responseCode = "403",
+                description = "Usuário não autenticado",
+            )
+        ]
+    )
+
+    fun buscarPlanosAulaPorCoautor(
+        usuario: UserDetails,
+        titulo: String?,
+        pageable: Pageable
+    ): Page<PlanoAulaResponse>
+
     @Operation(summary = "Endpoint para salvar plano de aula")
     @ApiResponses(
         value = [

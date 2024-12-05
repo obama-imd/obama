@@ -59,6 +59,18 @@ class PlanoAulaGatewayAdapter(
             ?: throw PlanoAulaNaoEncontradoException("Plano de aula não encontrado por ID: $id")
     }
 
+    override fun buscarPlanosAulaPorCoautor(
+        coautor: UsuarioEntity,
+        titulo: String?,
+        pageable: Pageable
+    ): Page<PlanoAula> {
+        val planoAulaPage = planoAulaRepository.buscarPlanosAulaPorCoautor(coautor.id, titulo, pageable)
+
+        return PageImpl(planoAulaPage.toList()).map { planoAula ->
+            planoAula?.toModel()
+        }
+    }
+
     override fun salvarPlanoAula(
         usuario: Usuario,
         escola: String?,
