@@ -29,4 +29,11 @@ interface PlanoAulaUseCase {
         avaliacao: String?,
         referencias: String?,
     ): PlanoAula
+
+    fun associarOAEmPlanoAula(
+        usuario: UsuarioEntity,
+        planoId: Long,
+        objetosId: Set<Long>
+    )
+
 }

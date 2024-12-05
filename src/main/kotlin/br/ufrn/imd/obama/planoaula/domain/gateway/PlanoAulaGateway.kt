@@ -1,7 +1,6 @@
 package br.ufrn.imd.obama.planoaula.domain.gateway
 
 import br.ufrn.imd.obama.planoaula.domain.model.PlanoAula
-import br.ufrn.imd.obama.planoaula.infrastructure.entity.PlanoAulaEntity
 import br.ufrn.imd.obama.usuario.domain.model.Usuario
 import br.ufrn.imd.obama.usuario.infrastructure.entity.UsuarioEntity
 import org.springframework.data.domain.Page
@@ -29,5 +28,11 @@ interface PlanoAulaGateway {
         objetivoGeral: String?,
         avaliacao: String?,
         referencias: String?,
+    ): PlanoAula
+
+    fun associarOAEmPlanoAula(
+        usuario: UsuarioEntity,
+        planoId: Long,
+        objetosId: Set<Long>
     ): PlanoAula
 }
