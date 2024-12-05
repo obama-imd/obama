@@ -31,10 +31,12 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 @SpringBootTest
-@Import(value=
+@Import(
+    value =
     [
         TokenConfiguration::class,
         SecurityConfiguration::class
@@ -56,17 +58,20 @@ class PlanoAulaResourceImplTest {
 
     private val objectMapper = ObjectMapper()
 
-    companion object{
+    companion object {
         const val pageSize = 10
         const val titulo = "teste"
     }
 
     @Autowired
     private lateinit var usuarioRepository: UsuarioRepository
+
     @Autowired
     private lateinit var nivelEnsinoRepository: NivelEnsinoRepository
+
     @Autowired
     private lateinit var anoEnsinoRepository: AnoEnsinoRepository
+
     @Autowired
     private lateinit var disciplinaRepository: DisciplinaRepository
 
@@ -149,7 +154,8 @@ class PlanoAulaResourceImplTest {
     fun `Deve retornar 201 ao salvar plano de aula com sucesso`() {
         val token = "Bearer ${pegarAccessToken()}"
 
-        val nivelEnsino = nivelEnsinoRepository .save(NivelEnsinoEntity(id = 1L, nome = "Ensino Fundamental", nomeAbreviado = "EF"))
+        val nivelEnsino =
+            nivelEnsinoRepository.save(NivelEnsinoEntity(id = 1L, nome = "Ensino Fundamental", nomeAbreviado = "EF"))
         val anoEnsino = anoEnsinoRepository.save(AnoEnsinoEntity(id = 1L, nome = "teste", nivelEnsino = nivelEnsino))
         val disciplina1 = disciplinaRepository.save(DisciplinaEntity(id = 1L, nome = "Matemática"))
         val disciplina2 = disciplinaRepository.save(DisciplinaEntity(id = 2L, nome = "Português"))
@@ -171,10 +177,10 @@ class PlanoAulaResourceImplTest {
         val requestJson = objectMapper.writeValueAsString(requestBody)
 
         mockMvc.perform(
-           post("/v1/planoaula/salvar")
-               .header(HttpHeaders.AUTHORIZATION, token)
-               .contentType(MediaType.APPLICATION_JSON)
-               .content(requestJson)
+            post("/v1/planoaula/salvar")
+                .header(HttpHeaders.AUTHORIZATION, token)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestJson)
         )
             .andDo(print())
             .andExpect(status().isCreated)
@@ -182,7 +188,8 @@ class PlanoAulaResourceImplTest {
 
     @Test
     fun `Deve retornar 403 quanto o usuario não estiver autenticado`() {
-        val nivelEnsino = nivelEnsinoRepository.save(NivelEnsinoEntity(id = 1L, nome = "Ensino Fundamental", nomeAbreviado = "EF"))
+        val nivelEnsino =
+            nivelEnsinoRepository.save(NivelEnsinoEntity(id = 1L, nome = "Ensino Fundamental", nomeAbreviado = "EF"))
         val anoEnsino = anoEnsinoRepository.save(AnoEnsinoEntity(id = 1L, nome = "teste", nivelEnsino = nivelEnsino))
         val disciplina1 = disciplinaRepository.save(DisciplinaEntity(id = 1L, nome = "Matemática"))
         val disciplina2 = disciplinaRepository.save(DisciplinaEntity(id = 2L, nome = "Português"))
@@ -216,7 +223,8 @@ class PlanoAulaResourceImplTest {
     fun `Deve retornar 400 quando id do nivel ensino for invalido`() {
         val token = "Bearer ${pegarAccessToken()}"
 
-        val nivelEnsino = nivelEnsinoRepository.save(NivelEnsinoEntity(id = 1L, nome = "Ensino Fundamental", nomeAbreviado = "EF"))
+        val nivelEnsino =
+            nivelEnsinoRepository.save(NivelEnsinoEntity(id = 1L, nome = "Ensino Fundamental", nomeAbreviado = "EF"))
         val anoEnsino = anoEnsinoRepository.save(AnoEnsinoEntity(id = 1L, nome = "teste", nivelEnsino = nivelEnsino))
         val disciplina1 = disciplinaRepository.save(DisciplinaEntity(id = 1L, nome = "Matemática"))
         val disciplina2 = disciplinaRepository.save(DisciplinaEntity(id = 2L, nome = "Português"))
@@ -251,7 +259,8 @@ class PlanoAulaResourceImplTest {
     fun `Deve retornar 400 quando algum id da lista de ids das disciplinas envolvidas for invalido`() {
         val token = "Bearer ${pegarAccessToken()}"
 
-        val nivelEnsino = nivelEnsinoRepository.save(NivelEnsinoEntity(id = 1L, nome = "Ensino Fundamental", nomeAbreviado = "EF"))
+        val nivelEnsino =
+            nivelEnsinoRepository.save(NivelEnsinoEntity(id = 1L, nome = "Ensino Fundamental", nomeAbreviado = "EF"))
         val anoEnsino = anoEnsinoRepository.save(AnoEnsinoEntity(id = 1L, nome = "teste", nivelEnsino = nivelEnsino))
         val disciplina1 = disciplinaRepository.save(DisciplinaEntity(id = 1L, nome = "Matemática"))
 
@@ -285,7 +294,8 @@ class PlanoAulaResourceImplTest {
     fun `Deve retornar 400 quando id do ano ensino for invalido`() {
         val token = "Bearer ${pegarAccessToken()}"
 
-        val nivelEnsino = nivelEnsinoRepository.save(NivelEnsinoEntity(id = 1L, nome = "Ensino Fundamental", nomeAbreviado = "EF"))
+        val nivelEnsino =
+            nivelEnsinoRepository.save(NivelEnsinoEntity(id = 1L, nome = "Ensino Fundamental", nomeAbreviado = "EF"))
         anoEnsinoRepository.save(AnoEnsinoEntity(id = 1L, nome = "teste", nivelEnsino = nivelEnsino))
         val disciplina1 = disciplinaRepository.save(DisciplinaEntity(id = 1L, nome = "Matemática"))
 
@@ -319,7 +329,8 @@ class PlanoAulaResourceImplTest {
     fun `Deve retornar 400 quando duracao em minutos for menor do que 0`() {
         val token = "Bearer ${pegarAccessToken()}"
 
-        val nivelEnsino = nivelEnsinoRepository.save(NivelEnsinoEntity(id = 1L, nome = "Ensino Fundamental", nomeAbreviado = "EF"))
+        val nivelEnsino =
+            nivelEnsinoRepository.save(NivelEnsinoEntity(id = 1L, nome = "Ensino Fundamental", nomeAbreviado = "EF"))
         val anoEnsino = anoEnsinoRepository.save(AnoEnsinoEntity(id = 1L, nome = "teste", nivelEnsino = nivelEnsino))
         val disciplina1 = disciplinaRepository.save(DisciplinaEntity(id = 1L, nome = "Matemática"))
         val disciplina2 = disciplinaRepository.save(DisciplinaEntity(id = 2L, nome = "Português"))
@@ -348,6 +359,48 @@ class PlanoAulaResourceImplTest {
         )
             .andDo(print())
             .andExpect(status().isBadRequest)
+    }
+
+    @Test
+    fun `Nao deve associar OA a plano aula quando plano nao existir`() {
+        val token = "Bearer ${pegarAccessToken()}"
+
+        val requestBody = mapOf(
+            "plano_id" to "1",
+            "objeto_aprendizagem_ids" to setOf(1)
+        )
+
+        val requestJson = objectMapper.writeValueAsString(requestBody)
+
+        mockMvc.perform(
+            post("/v1/planoaula/associar")
+                .header(HttpHeaders.AUTHORIZATION, token)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestJson)
+        )
+            .andDo(print())
+            .andExpect(status().isNotFound())
+    }
+
+    @Test
+    fun `Nao deve associar OA a plano aula quando id de OA for invalido`() {
+        val token = "Bearer ${pegarAccessToken()}"
+
+        val requestBody = mapOf(
+            "plano_id" to "1",
+            "objeto_aprendizagem_ids" to setOf(1)
+        )
+
+        val requestJson = objectMapper.writeValueAsString(requestBody)
+
+        mockMvc.perform(
+            post("/v1/planoaula/associar")
+                .header(HttpHeaders.AUTHORIZATION, token)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestJson)
+        )
+            .andDo(print())
+            .andExpect(status().isNotFound())
     }
 
     private fun criarLoginRequest(email: String, senha: String): LoginRequest {
