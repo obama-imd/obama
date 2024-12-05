@@ -1,5 +1,6 @@
 package br.ufrn.imd.obama.planoaula.infrastructure.entity
 
+import br.ufrn.imd.obama.oa.domain.model.ObjetoAprendizagem
 import br.ufrn.imd.obama.oa.infrastructure.entity.AnoEnsinoEntity
 import br.ufrn.imd.obama.oa.infrastructure.entity.DisciplinaEntity
 import br.ufrn.imd.obama.oa.infrastructure.entity.NivelEnsinoEntity
@@ -102,7 +103,7 @@ data class PlanoAulaEntity(
         joinColumns = [JoinColumn(name = "plano_aula_id", referencedColumnName = "id")],
         inverseJoinColumns = [JoinColumn(name = "objeto_aprendizagem_id", referencedColumnName = "id")]
     )
-    private val objetosAprendizagem: Set<ObjetoAprendizagemEntity>?,
+    private val objetosAprendizagem: MutableSet<ObjetoAprendizagemEntity>? = mutableSetOf(),
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -140,5 +141,9 @@ data class PlanoAulaEntity(
 
     fun setIdanoEnsino(anoEnsino: AnoEnsinoEntity) {
         this.anoEnsino = anoEnsino
+    }
+
+    fun addOA(oa: ObjetoAprendizagemEntity){
+        this.objetosAprendizagem!!.add(oa);
     }
 }

@@ -38,7 +38,7 @@ fun PlanoAula.toEntity(): PlanoAulaEntity {
         avaliacao = this.getAvaliacao(),
         disciplinasEnvolvidas = this.getDisciplinasEnvolvidas()?.map { it.toEntity() }?.toList(),
         anoEnsino = this.getAnoEnsino()?.toEntity(),
-        objetosAprendizagem = this.getObjetosAprendizagem()?.map { it.toEntity() }?.toSet(),
+        objetosAprendizagem = this.getObjetosAprendizagem()?.map { it.toEntity() }?.toMutableSet(),
         coautores = this.getCoautores()?.map { it.toEntity() }?.toSet(),
     )
     return entity

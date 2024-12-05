@@ -161,7 +161,7 @@ class PlanoAulaGatewayAdapterTest {
             avaliacao = "avaliação teste",
             disciplinasEnvolvidas = listOf(disciplina),
             anoEnsino = anoEnsino,
-            objetosAprendizagem = setOf(),
+            objetosAprendizagem = mutableSetOf(),
             coautores = setOf()
         )
 
