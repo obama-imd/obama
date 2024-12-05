@@ -2,6 +2,7 @@ package br.ufrn.imd.obama.usuario.infrastructure.handler
 
 import br.ufrn.imd.obama.usuario.domain.exception.TokenInvalidoException
 import br.ufrn.imd.obama.usuario.domain.exception.UsuarioExistenteException
+import br.ufrn.imd.obama.usuario.domain.exception.UsuarioNaoAutorException
 import br.ufrn.imd.obama.usuario.domain.exception.UsuarioNaoEncontradoException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -11,7 +12,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 
 @ControllerAdvice
-class UsuarioExceptionHandler: ResponseEntityExceptionHandler() {
+class UsuarioExceptionHandler : ResponseEntityExceptionHandler() {
 
     @ExceptionHandler
     protected fun handleUsuarioNaoEncontradoException(
@@ -31,6 +32,13 @@ class UsuarioExceptionHandler: ResponseEntityExceptionHandler() {
     @ExceptionHandler(TokenInvalidoException::class)
     protected fun handleUsuarioExistenteException(
         ex: TokenInvalidoException
+    ): ResponseEntity<Any> {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build()
+    }
+
+    @ExceptionHandler(UsuarioNaoAutorException::class)
+    protected fun handleUsuarioNaoAutorException(
+        ex: UsuarioNaoAutorException
     ): ResponseEntity<Any> {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build()
     }
