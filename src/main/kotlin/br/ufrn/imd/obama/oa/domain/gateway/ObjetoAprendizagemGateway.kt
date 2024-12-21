@@ -20,4 +20,8 @@ interface ObjetoAprendizagemGateway {
         habilidadeId: Long?,
         tipoAcesso: TipoAcesso?,
     ): Page<ObjetoAprendizagem>
+
+    fun salvar(
+        oa: ObjetoAprendizagem
+    ): ObjetoAprendizagem
 }

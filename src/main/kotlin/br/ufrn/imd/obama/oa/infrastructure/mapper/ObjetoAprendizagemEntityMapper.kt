@@ -2,9 +2,10 @@ package br.ufrn.imd.obama.oa.infrastructure.mapper
 
 import br.ufrn.imd.obama.oa.domain.model.ObjetoAprendizagem
 import br.ufrn.imd.obama.oa.infrastructure.entity.ObjetoAprendizagemEntity
+import br.ufrn.imd.obama.usuario.infrastructure.mapper.toModel
 
 fun ObjetoAprendizagemEntity.toModel(): ObjetoAprendizagem {
-    return ObjetoAprendizagem(
+    val oa = ObjetoAprendizagem(
         id = this.id,
         nome = this.nome,
         descricao =  this.descricao,
@@ -20,4 +21,8 @@ fun ObjetoAprendizagemEntity.toModel(): ObjetoAprendizagem {
         habilidades = this.habilidades.map { it.toModel() }.toSet(),
         plataformas = this.objetoAprendizagemPlataformas.map { it.toModel() }
     )
+
+    oa.usuariosFavoritaram = this.usuariosFavoritaram.map { it.toModel() }.toMutableSet()
+
+    return oa;
 }

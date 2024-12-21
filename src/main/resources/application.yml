@@ -24,8 +24,8 @@ spring:
           starttls:
             enable: true
 
-server:
-  port: 8081
+  server:
+    port: 8081
 
 api:
   security:

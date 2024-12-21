@@ -1,5 +1,6 @@
 package br.ufrn.imd.obama.oa.infrastructure.entity
 
+import br.ufrn.imd.obama.usuario.infrastructure.entity.UsuarioEntity
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.FetchType
@@ -83,4 +84,7 @@ class ObjetoAprendizagemEntity(
 
 	@OneToMany(mappedBy = "objetoAprendizagem", fetch = FetchType.EAGER)
 	val objetoAprendizagemPlataformas: MutableList<ObjetoAprendizagemPlataformaEntity> = mutableListOf()
+
+	@ManyToMany(mappedBy = "oasFavoritos", fetch = FetchType.LAZY)
+	var usuariosFavoritaram: MutableSet<UsuarioEntity> = hashSetOf()
 }

@@ -4,6 +4,7 @@ import br.ufrn.imd.obama.oa.domain.model.ObjetoAprendizagem
 import br.ufrn.imd.obama.oa.infrastructure.entity.ObjetoAprendizagemEntity
 import br.ufrn.imd.obama.oa.infrastructure.resource.exchange.BuscarOaIdResponse
 import br.ufrn.imd.obama.oa.infrastructure.resource.exchange.BuscarOaResponse
+import br.ufrn.imd.obama.usuario.infrastructure.mapper.toEntity
 
 fun ObjetoAprendizagem.toBuscarOaIdResponse(): BuscarOaIdResponse {
     return BuscarOaIdResponse(
@@ -26,7 +27,7 @@ fun ObjetoAprendizagem.toBuscarOaResponse(): BuscarOaResponse {
 }
 
 fun ObjetoAprendizagem.toEntity(): ObjetoAprendizagemEntity {
-    return ObjetoAprendizagemEntity(
+    var oa = ObjetoAprendizagemEntity(
         id = this.id,
         nome = this.nome,
         descricao = this.descricao,
@@ -37,4 +38,8 @@ fun ObjetoAprendizagem.toEntity(): ObjetoAprendizagemEntity {
         ativo = this.ativo,
         tipoLicensaUso = this.tipoLicensaUso?.toEntity()
     )
+
+    oa.usuariosFavoritaram = this.usuariosFavoritaram.map { it.toEntity() }.toMutableSet()
+
+    return oa
 }

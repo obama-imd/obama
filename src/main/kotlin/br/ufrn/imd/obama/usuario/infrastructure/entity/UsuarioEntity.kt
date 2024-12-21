@@ -1,17 +1,11 @@
 package br.ufrn.imd.obama.usuario.infrastructure.entity
 
+import br.ufrn.imd.obama.oa.infrastructure.entity.ObjetoAprendizagemEntity
 import br.ufrn.imd.obama.usuario.domain.enums.Papel
 import br.ufrn.imd.obama.usuario.domain.enums.TipoCadastro
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.EnumType
-import jakarta.persistence.Enumerated
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
-import jakarta.persistence.SequenceGenerator
-import jakarta.persistence.Table
+import jakarta.persistence.*
 import jakarta.validation.constraints.NotNull
+import org.hibernate.Hibernate
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.UpdateTimestamp
 import org.springframework.security.core.GrantedAuthority
@@ -103,4 +97,15 @@ class UsuarioEntity (
         return ativo
     }
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+        name = "usuario_objeto_aprendizagem_favorito",
+        joinColumns = [JoinColumn(name = "usuario_id", referencedColumnName = "id")],
+        inverseJoinColumns = [JoinColumn(name = "objeto_aprendizagem_id", referencedColumnName = "id")]
+    )
+    var oasFavoritos: MutableSet<ObjetoAprendizagemEntity> = hashSetOf()
+
+    fun inicializarOasFavoritos() {
+        Hibernate.initialize(this.oasFavoritos)
+    }
 }

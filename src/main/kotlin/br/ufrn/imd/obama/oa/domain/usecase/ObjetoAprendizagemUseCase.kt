@@ -2,6 +2,8 @@ package br.ufrn.imd.obama.oa.domain.usecase
 
 import br.ufrn.imd.obama.oa.domain.model.ObjetoAprendizagem
 import br.ufrn.imd.obama.oa.domain.model.TipoAcesso
+import br.ufrn.imd.obama.usuario.domain.model.Usuario
+import br.ufrn.imd.obama.usuario.infrastructure.entity.UsuarioEntity
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Page
 
@@ -20,5 +22,10 @@ interface ObjetoAprendizagemUseCase {
         habilidadeId: Long?,
         tipoAcesso: TipoAcesso?
     ): Page<ObjetoAprendizagem>
+
+    fun salverComoFavoritoPorId(
+        usuario: Usuario,
+        oaId: Long
+    )
 
 }

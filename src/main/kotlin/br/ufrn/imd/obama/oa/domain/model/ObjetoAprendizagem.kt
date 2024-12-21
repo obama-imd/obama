@@ -1,5 +1,6 @@
 package br.ufrn.imd.obama.oa.domain.model
 
+import br.ufrn.imd.obama.usuario.domain.model.Usuario
 import java.time.LocalDate
 
 
@@ -33,6 +34,8 @@ class ObjetoAprendizagem(
 
 	val plataformas: List<ObjetoAprendizagemPlataforma>,
 ) {
+	var usuariosFavoritaram: MutableSet<Usuario> = hashSetOf()
+
 	override fun equals(other: Any?): Boolean {
 		return id == (other as ObjetoAprendizagem).id
 	}

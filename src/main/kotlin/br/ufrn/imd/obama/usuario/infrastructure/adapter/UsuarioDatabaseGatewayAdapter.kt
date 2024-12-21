@@ -14,7 +14,12 @@ class UsuarioDatabaseGatewayAdapter(
 ): UsuarioDatabaseGateway {
 
     override fun buscarPorEmail(email: String): Usuario {
-        return usuarioRepository.findByEmail(email)?.toModel() ?: throw UsuarioNaoEncontradoException("Usuário Não encontrado")
+        val usuario = usuarioRepository.findByEmail(email)
+            ?: throw UsuarioNaoEncontradoException("Usuário Não encontrado")
+
+        usuario.inicializarOasFavoritos()
+
+        return usuario.toModel()
     }
 
     override fun salvarUsuario(usuario: Usuario): Usuario {
