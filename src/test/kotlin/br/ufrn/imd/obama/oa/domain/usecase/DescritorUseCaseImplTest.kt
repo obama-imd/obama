@@ -30,7 +30,7 @@ class DescritorUseCaseImplTest {
     private lateinit var databaseGateway: DescritorDatabaseGatewayAdapter
 
     @Test
-    fun `Deve achar algum objeto de aprendizagem quando o curriculo é BNCC`() {
+    fun `Deve achar algum objeto de aprendizagem quando o curriculo eh BNCC`() {
         val curriculo: String = NOME_BNCC_CURRICULO
         val nome: String = "Mat"
 
