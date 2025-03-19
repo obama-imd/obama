@@ -6,7 +6,7 @@ import br.ufrn.imd.obama.oa.domain.model.Habilidade
 import br.ufrn.imd.obama.oa.domain.model.ObjetoAprendizagemPlataforma
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.PropertyNamingStrategies
-import com.fasterxml.jackson.databind.annotation.JsonNaming
+import Não .annotation.JsonNaming
 import java.time.LocalDate
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy::class)

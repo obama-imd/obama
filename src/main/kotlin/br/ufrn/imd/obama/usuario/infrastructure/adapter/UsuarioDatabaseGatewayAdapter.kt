@@ -17,8 +17,6 @@ class UsuarioDatabaseGatewayAdapter(
         val usuario = usuarioRepository.findByEmail(email)
             ?: throw UsuarioNaoEncontradoException("Usuário Não encontrado")
 
-        usuario.inicializarOasFavoritos()
-
         return usuario.toModel()
     }
 

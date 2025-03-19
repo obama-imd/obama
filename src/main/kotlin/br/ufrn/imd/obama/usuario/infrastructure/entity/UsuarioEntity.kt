@@ -104,8 +104,4 @@ class UsuarioEntity (
         inverseJoinColumns = [JoinColumn(name = "objeto_aprendizagem_id", referencedColumnName = "id")]
     )
     var oasFavoritos: MutableSet<ObjetoAprendizagemEntity> = hashSetOf()
-
-    fun inicializarOasFavoritos() {
-        Hibernate.initialize(this.oasFavoritos)
-    }
 }
