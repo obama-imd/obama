@@ -25,8 +25,8 @@ interface ObjetoAprendizagemRepository: JpaRepository<ObjetoAprendizagemEntity, 
                 "WHERE (:nome IS NULL OR oa.nome LIKE %:nome%) " +
                 "AND oa.ativo = true " +
                 "AND (:tipoAcesso IS NULL OR oap.tipoAcesso = :tipoAcesso) " +
-                "AND (:nivelEnsinoId IS NULL OR d.nivelEnsino.id = :nivelEnsinoId) " +
-                "AND (:temaConteudoId IS NULL OR d.temaConteudo.id = :temaConteudoId) " +
+                "OR (:nivelEnsinoId IS NULL OR d.nivelEnsino.id = :nivelEnsinoId) " +
+                "OR (:temaConteudoId IS NULL OR d.temaConteudo.id = :temaConteudoId) " +
                 "AND (:descritorId IS NULL OR d.id = :descritorId) " +
                 "AND (:habilidadeId IS NULL OR h.id = :habilidadeId)"
     )
