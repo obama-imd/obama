@@ -49,22 +49,24 @@ class ObjetoAprendizagemResourceImpl(
     override fun buscarPorParametros(
         pageable: Pageable,
         @RequestParam("nome", required = false) nome: String?,
+        @RequestParam("tipoAcesso", required = false) tipoAcesso: TipoAcesso?,
         @RequestParam("nivelEnsinoId", required = false) nivelEnsinoId: Long?,
         @RequestParam("temaConteudoId", required = false) temaConteudoId: Long?,
         @RequestParam("descritorId", required = false) descritorId: Long?,
-        @RequestParam("habilidadeId", required = false) habilidadeId: Long?,
-        @RequestParam("tipoAcesso", required = false) tipoAcesso: TipoAcesso?
+        @RequestParam("anoEnsinoId", required = false) anoEnsinoId: Long?,
+        @RequestParam("habilidadeId", required = false) habilidadeId: Long?
     ): Page<BuscarOaResponse> {
         logger.info("method={};", "buscarPorParametros")
 
         return objetoAprendizagemUseCase.buscarPorParametros(
             pageable,
             nome,
+            tipoAcesso,
             nivelEnsinoId,
             temaConteudoId,
             descritorId,
-            habilidadeId,
-            tipoAcesso
+            anoEnsinoId,
+            habilidadeId
         ).map { it.toBuscarOaResponse() }
     }
 
