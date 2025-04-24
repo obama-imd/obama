@@ -25,19 +25,21 @@ interface ObjetoAprendizagemRepository: JpaRepository<ObjetoAprendizagemEntity, 
                 "WHERE (:nome IS NULL OR oa.nome LIKE %:nome%) " +
                 "AND oa.ativo = true " +
                 "AND (:tipoAcesso IS NULL OR oap.tipoAcesso = :tipoAcesso) " +
-                "AND (:nivelEnsinoId IS NULL OR d.nivelEnsino.id = :nivelEnsinoId) " +
-                "AND (:temaConteudoId IS NULL OR d.temaConteudo.id = :temaConteudoId) " +
+                "AND (:nivelEnsinoId IS NULL OR d.nivelEnsino.id = :nivelEnsinoId OR h.anoEnsino.nivelEnsino.id = :nivelEnsinoId) " +
+                "AND (:temaConteudoId IS NULL OR d.temaConteudo.id = :temaConteudoId OR h.temaConteudo.id = :temaConteudoId) " +
                 "AND (:descritorId IS NULL OR d.id = :descritorId) " +
-                "AND (:habilidadeId IS NULL OR h.id = :habilidadeId)" +
+                "AND (:anoEnsinoId IS NULL OR h.anoEnsino.id = :anoEnsinoId) " +
+                "AND (:habilidadeId IS NULL OR h.id = :habilidadeId) " +
                 "ORDER BY oa.nome"
     )
-    fun buscarTodosAtivoPorNomeETipoAcessoENivelEnsinoETemaConteudoEDescritorEHabilidade(
+    fun buscarTodosAtivoPorNomeETipoAcessoENivelEnsinoETemaConteudoEDescritorEAnoEnsinoHabilidade(
+        pageable: Pageable,
         @Param("nome") nome: String?,
         @Param("tipoAcesso") tipoAcesso: TipoAcesso?,
         @Param("nivelEnsinoId") nivelEnsinoId: Long?,
         @Param("temaConteudoId") temaConteudoId: Long?,
         @Param("descritorId") descritorId: Long?,
-        pageable: Pageable,
+        @Param("anoEnsinoId") anoEnsinoId: Long?,
         @Param("habilidadeId") habilidadeId: Long?
     ): Page<ObjetoAprendizagemEntity>
 }
