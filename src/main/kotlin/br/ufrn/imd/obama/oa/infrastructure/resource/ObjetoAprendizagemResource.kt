@@ -59,11 +59,12 @@ interface ObjetoAprendizagemResource {
     fun buscarPorParametros(
         pageable: Pageable,
         nome: String?,
+        tipoAcesso: TipoAcesso?,
         nivelEnsinoId: Long?,
         temaConteudoId: Long?,
         descritorId: Long?,
-        habilidadeId: Long?,
-        tipoAcesso: TipoAcesso?
+        anoEnsinoId: Long?,
+        habilidadeId: Long?
     ): Page<BuscarOaResponse>
 
 }
