@@ -27,22 +27,24 @@ class ObjetoAprendizagemUseCaseImpl(
     override fun buscarPorParametros(
         pageable: Pageable,
         nome: String?,
+        tipoAcesso: TipoAcesso?,
         nivelEnsinoId: Long?,
         temaConteudoId: Long?,
         descritorId: Long?,
-        habilidadeId: Long?,
-        tipoAcesso: TipoAcesso?
+        anoEnsinoId: Long?,
+        habilidadeId: Long?
     ): Page<ObjetoAprendizagem> {
         logger.info("method={};", "buscarPorParametros")
 
-        return oaGatewayAdapter.procurarPorNomeETipoAcessoENivelEnsinoIdETemaConteudoIdEDescritorIdAndHabilidadeId(
+        return oaGatewayAdapter.procurarPorNomeETipoAcessoENivelEnsinoIdETemaConteudoIdEDescritorIdEAnoEnsinoIdEHabilidadeId(
             pageable = pageable,
             nome = nome,
+            tipoAcesso = tipoAcesso,
             nivelEnsinoId = nivelEnsinoId,
             temaConteudoId = temaConteudoId,
             descritorId = descritorId,
-            habilidadeId = habilidadeId,
-            tipoAcesso = tipoAcesso
+            anoEnsinoId = anoEnsinoId,
+            habilidadeId = habilidadeId
         )
     }
 }
