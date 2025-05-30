@@ -1,18 +1,30 @@
 package br.ufrn.imd.obama.oa.domain.usecase
 
+import br.ufrn.imd.obama.oa.domain.gateway.AutorMantenedorGateway
+import br.ufrn.imd.obama.oa.domain.gateway.DescritorDatabaseGateway
+import br.ufrn.imd.obama.oa.domain.gateway.HabilidadeGateway
+import br.ufrn.imd.obama.oa.domain.gateway.IdiomaGateway
+import br.ufrn.imd.obama.oa.domain.gateway.ObjetoAprendizagemGateway
+import br.ufrn.imd.obama.oa.domain.gateway.ObjetoAprendizagemPlataformaGateway
+import br.ufrn.imd.obama.oa.domain.gateway.TipoLicensaUsoGateway
 import br.ufrn.imd.obama.oa.domain.model.ObjetoAprendizagem
 import br.ufrn.imd.obama.oa.domain.model.TipoAcesso
-import br.ufrn.imd.obama.oa.infrastructure.adapter.ObjetoAprendizagemDatabaseGatewayAdapter
 import org.slf4j.LoggerFactory
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 
 
 class ObjetoAprendizagemUseCaseImpl(
-    private val oaGatewayAdapter: ObjetoAprendizagemDatabaseGatewayAdapter
+    private val oaGateway: ObjetoAprendizagemGateway,
+    private val autorMantenedorGateway: AutorMantenedorGateway,
+    private val descritorGateway: DescritorDatabaseGateway,
+    private val habilidadeGateway: HabilidadeGateway,
+    private val plataformaGateway: ObjetoAprendizagemPlataformaGateway,
+    private val tipoLicensaUsoGateway: TipoLicensaUsoGateway,
+    private val idiomaGateway: IdiomaGateway
 ): ObjetoAprendizagemUseCase {
 
-    private val CURRICULO_DATABASE_GATEWAY_ADAPTER_SUFIXO = "OADatabaseGatewayAdapter"
+//    private val CURRICULO_DATABASE_GATEWAY_ADAPTER_SUFIXO = "OADatabaseGatewayAdapter"
 
     private val logger = LoggerFactory.getLogger(javaClass)
 
@@ -21,7 +33,7 @@ class ObjetoAprendizagemUseCaseImpl(
     ): ObjetoAprendizagem {
         logger.info("method={}; id={};", "buscarPorId", id)
 
-        return oaGatewayAdapter.procurarPorID(id)
+        return oaGateway.procurarPorID(id)
     }
 
     override fun buscarPorParametros(
@@ -36,7 +48,7 @@ class ObjetoAprendizagemUseCaseImpl(
     ): Page<ObjetoAprendizagem> {
         logger.info("method={};", "buscarPorParametros")
 
-        return oaGatewayAdapter.procurarPorNomeETipoAcessoENivelEnsinoIdETemaConteudoIdEDescritorIdEAnoEnsinoIdEHabilidadeId(
+        return oaGateway.procurarPorNomeETipoAcessoENivelEnsinoIdETemaConteudoIdEDescritorIdEAnoEnsinoIdEHabilidadeId(
             pageable = pageable,
             nome = nome,
             tipoAcesso = tipoAcesso,
