@@ -1,8 +1,11 @@
 package br.ufrn.imd.obama.oa.infrastructure.resource
 
+import br.ufrn.imd.obama.oa.domain.model.ObjetoAprendizagem
 import br.ufrn.imd.obama.oa.domain.model.TipoAcesso
 import br.ufrn.imd.obama.oa.infrastructure.resource.exchange.BuscarOaIdResponse
 import br.ufrn.imd.obama.oa.infrastructure.resource.exchange.BuscarOaResponse
+import br.ufrn.imd.obama.oa.infrastructure.resource.exchange.ObjetoAprendizagemRequest
+import br.ufrn.imd.obama.oa.infrastructure.resource.exchange.ObjetoAprendizagemResponse
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.media.Schema
@@ -66,5 +69,54 @@ interface ObjetoAprendizagemResource {
         anoEnsinoId: Long?,
         habilidadeId: Long?
     ): Page<BuscarOaResponse>
+
+    @Operation(summary = "Endpoint para cadastrar um objeto de aprendizagem")
+    @ApiResponses(
+        value = [
+            ApiResponse(
+                responseCode = "201",
+                description = "Objeto de aprendizagem cadastrado com sucesso",
+                content = [
+                    Content(
+                        mediaType = MediaType.APPLICATION_JSON_VALUE,
+                        schema = Schema(implementation = ObjetoAprendizagemResponse::class)
+                    )
+                ]
+            ),
+            ApiResponse(
+                responseCode = "400",
+                description = "Requisição inválida - dados malformados ou incompletos",
+                content = [
+                    Content(
+                        mediaType = MediaType.APPLICATION_JSON_VALUE,
+                        schema = Schema(implementation = ErrorResponse::class)
+                    )
+                ]
+            ),
+            ApiResponse(
+                responseCode = "404",
+                description = "Não encontrado: algum recurso relacionado (descritor, tema de conteúdo, etc.) não existe",
+                content = [
+                    Content(
+                        mediaType = MediaType.APPLICATION_JSON_VALUE,
+                        schema = Schema(implementation = ErrorResponse::class)
+                    )
+                ]
+            ),
+            ApiResponse(
+                responseCode = "500",
+                description = "Erro interno no servidor",
+                content = [
+                    Content(
+                        mediaType = MediaType.APPLICATION_JSON_VALUE,
+                        schema = Schema(implementation = ErrorResponse::class)
+                    )
+                ]
+            )
+        ]
+    )
+    fun cadastrarObjetoAprendizagem(
+        objetoAprendizagem: ObjetoAprendizagemRequest
+    ): ResponseEntity<ObjetoAprendizagemResponse>
 
 }
