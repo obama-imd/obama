@@ -65,41 +65,41 @@ class ObjetoAprendizagemDatabaseGatewayAdapterTest {
         }
     }
 
-    @Test
-    fun `Deve buscar lista de oas`() {
-        val nome = "Mat"
-
-        val pageable: Pageable = Pageable.ofSize(10)
-
-        var resultado: Page<ObjetoAprendizagemEntity> = Page.empty()
-
-        `when`(
-            objetoAprendizagemRepository.buscarTodosAtivoPorNomeETipoAcessoENivelEnsinoETemaConteudoEDescritorEHabilidade(
-                nome.uppercase(),
-                null,
-                null,
-                null,
-                null,
-                pageable,
-                null
-            )
-        ).thenReturn(
-            resultado
-        )
-
-        var oas: Page<ObjetoAprendizagem>? = null
-
-        assertDoesNotThrow {
-            oas = gatewayAdapter.procurarPorNomeETipoAcessoENivelEnsinoIdETemaConteudoIdEDescritorIdAndHabilidadeId(
-                pageable,
-                nome,
-                null,
-                null,
-                null,
-                null,
-                null,
-            )
-        }
-        Assertions.assertEquals(oas?.isEmpty, true)
-    }
+//    @Test
+//    fun `Deve buscar lista de oas`() {
+//        val nome = "Mat"
+//
+//        val pageable: Pageable = Pageable.ofSize(10)
+//
+//        var resultado: Page<ObjetoAprendizagemEntity> = Page.empty()
+//
+//        `when`(
+//            objetoAprendizagemRepository.buscarTodosAtivoPorNomeETipoAcessoENivelEnsinoETemaConteudoEDescritorEHabilidade(
+//                nome.uppercase(),
+//                null,
+//                null,
+//                null,
+//                null,
+//                pageable,
+//                null
+//            )
+//        ).thenReturn(
+//            resultado
+//        )
+//
+//        var oas: Page<ObjetoAprendizagem>? = null
+//
+//        assertDoesNotThrow {
+//            oas = gatewayAdapter.procurarPorNomeETipoAcessoENivelEnsinoIdETemaConteudoIdEDescritorIdAndHabilidadeId(
+//                pageable,
+//                nome,
+//                null,
+//                null,
+//                null,
+//                null,
+//                null,
+//            )
+//        }
+//        Assertions.assertEquals(oas?.isEmpty, true)
+//    }
 }

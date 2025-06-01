@@ -21,4 +21,8 @@ interface ObjetoAprendizagemGateway {
         anoEnsinoId: Long?,
         habilidadeId: Long?,
     ): Page<ObjetoAprendizagem>
+
+    fun cadastrarObjetoAprendizagem(
+        objetoAprendizagem: ObjetoAprendizagem
+    ): ObjetoAprendizagem
 }

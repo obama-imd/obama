@@ -4,6 +4,7 @@ import br.ufrn.imd.obama.oa.domain.gateway.ObjetoAprendizagemGateway
 import br.ufrn.imd.obama.oa.domain.model.ObjetoAprendizagem
 import br.ufrn.imd.obama.oa.domain.model.TipoAcesso
 import br.ufrn.imd.obama.oa.infrastructure.exception.OANaoEncontradoException
+import br.ufrn.imd.obama.oa.infrastructure.mapper.toEntity
 import br.ufrn.imd.obama.oa.infrastructure.mapper.toModel
 import br.ufrn.imd.obama.oa.infrastructure.repository.ObjetoAprendizagemRepository
 import org.slf4j.LoggerFactory
@@ -47,5 +48,11 @@ class ObjetoAprendizagemDatabaseGatewayAdapter(
             anoEnsinoId = anoEnsinoId,
             habilidadeId = habilidadeId
         ).map { it.toModel() }
+    }
+
+    override fun cadastrarObjetoAprendizagem(objetoAprendizagem: ObjetoAprendizagem): ObjetoAprendizagem {
+        logger.info("method={}; objetoAprendizagem={};", "cadastrarObjetoAprendizagem", objetoAprendizagem)
+
+        return objetoAprendizagemRepository.save(objetoAprendizagem.toEntity()).toModel()
     }
 }
