@@ -21,4 +21,8 @@ class HabilidadeGatewayAdapter(
             habilidade -> habilidade.toModel()
         }
     }
+
+    override fun buscarPorId(id: Long): Habilidade? {
+        return habilidadeRepository.findById(id).orElse(null)?.toModel()
+    }
 }

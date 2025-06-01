@@ -9,4 +9,5 @@ interface HabilidadeGateway {
                                                          temaConteudoId: Long?,
                                                          pageable: Pageable): Page<Habilidade>
 
+    fun buscarPorId(id: Long): Habilidade?
 }
