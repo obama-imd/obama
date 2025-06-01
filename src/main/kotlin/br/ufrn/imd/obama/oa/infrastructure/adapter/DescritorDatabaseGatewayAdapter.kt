@@ -6,11 +6,16 @@ import br.ufrn.imd.obama.oa.infrastructure.mapper.toModel
 import br.ufrn.imd.obama.oa.infrastructure.repository.DescritorRepository
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
+import org.springframework.stereotype.Service
 
 class DescritorDatabaseGatewayAdapter(
     private val descritorRepository: DescritorRepository
 ): DescritorDatabaseGateway {
     override fun listarDescritores(pageable: Pageable): Page<Descritor> {
         return descritorRepository.findAllByOrderByCodigoAsc(pageable).map { it.toModel() }
+    }
+
+    override fun buscarPorId(id: Long): Descritor? {
+        return descritorRepository.findById(id).orElse(null)?.toModel()
     }
 }

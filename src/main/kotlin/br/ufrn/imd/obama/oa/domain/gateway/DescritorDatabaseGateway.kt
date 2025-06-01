@@ -6,4 +6,6 @@ import org.springframework.data.domain.Pageable
 
 interface DescritorDatabaseGateway {
     fun listarDescritores(pageable: Pageable): Page<Descritor>
+
+    fun buscarPorId(id: Long): Descritor?
 }

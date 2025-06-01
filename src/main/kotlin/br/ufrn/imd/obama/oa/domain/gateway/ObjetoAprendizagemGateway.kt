@@ -11,13 +11,18 @@ interface ObjetoAprendizagemGateway {
         id: Long
     ): ObjetoAprendizagem
 
-    fun procurarPorNomeETipoAcessoENivelEnsinoIdETemaConteudoIdEDescritorIdAndHabilidadeId(
+    fun procurarPorNomeETipoAcessoENivelEnsinoIdETemaConteudoIdEDescritorIdEAnoEnsinoIdEHabilidadeId(
         pageable: Pageable,
         nome: String?,
+        tipoAcesso: TipoAcesso?,
         nivelEnsinoId: Long?,
         temaConteudoId: Long?,
         descritorId: Long?,
+        anoEnsinoId: Long?,
         habilidadeId: Long?,
-        tipoAcesso: TipoAcesso?,
     ): Page<ObjetoAprendizagem>
+
+    fun cadastrarObjetoAprendizagem(
+        objetoAprendizagem: ObjetoAprendizagem
+    ): ObjetoAprendizagem
 }

@@ -4,6 +4,7 @@ import br.ufrn.imd.obama.oa.domain.gateway.ObjetoAprendizagemGateway
 import br.ufrn.imd.obama.oa.domain.model.ObjetoAprendizagem
 import br.ufrn.imd.obama.oa.domain.model.TipoAcesso
 import br.ufrn.imd.obama.oa.infrastructure.exception.OANaoEncontradoException
+import br.ufrn.imd.obama.oa.infrastructure.mapper.toEntity
 import br.ufrn.imd.obama.oa.infrastructure.mapper.toModel
 import br.ufrn.imd.obama.oa.infrastructure.repository.ObjetoAprendizagemRepository
 import org.slf4j.LoggerFactory
@@ -25,25 +26,33 @@ class ObjetoAprendizagemDatabaseGatewayAdapter(
         return objetoAprendizagemRepository.buscarPorId(id)?.toModel() ?: throw OANaoEncontradoException("OA nao encontrada por ID: " + id)
     }
 
-    override fun procurarPorNomeETipoAcessoENivelEnsinoIdETemaConteudoIdEDescritorIdAndHabilidadeId(
+    override fun procurarPorNomeETipoAcessoENivelEnsinoIdETemaConteudoIdEDescritorIdEAnoEnsinoIdEHabilidadeId(
         pageable: Pageable,
         nome: String?,
+        tipoAcesso: TipoAcesso?,
         nivelEnsinoId: Long?,
         temaConteudoId: Long?,
         descritorId: Long?,
+        anoEnsinoId: Long?,
         habilidadeId: Long?,
-        tipoAcesso: TipoAcesso?,
     ): Page<ObjetoAprendizagem> {
         logger.info("method={};", "procurarPorNomeETipoAcessoENivelEnsinoIdETemaConteudoIdEDescritorId")
 
-        return objetoAprendizagemRepository.buscarTodosAtivoPorNomeETipoAcessoENivelEnsinoETemaConteudoEDescritorEHabilidade(
+        return objetoAprendizagemRepository.buscarTodosAtivoPorNomeETipoAcessoENivelEnsinoETemaConteudoEDescritorEAnoEnsinoHabilidade(
             pageable = pageable,
             nome = nome?.uppercase(),
+            tipoAcesso = tipoAcesso,
             nivelEnsinoId = nivelEnsinoId,
             temaConteudoId = temaConteudoId,
             descritorId = descritorId,
-            habilidadeId = habilidadeId,
-            tipoAcesso = tipoAcesso
+            anoEnsinoId = anoEnsinoId,
+            habilidadeId = habilidadeId
         ).map { it.toModel() }
+    }
+
+    override fun cadastrarObjetoAprendizagem(objetoAprendizagem: ObjetoAprendizagem): ObjetoAprendizagem {
+        logger.info("method={}; objetoAprendizagem={};", "cadastrarObjetoAprendizagem", objetoAprendizagem)
+
+        return objetoAprendizagemRepository.save(objetoAprendizagem.toEntity()).toModel()
     }
 }
