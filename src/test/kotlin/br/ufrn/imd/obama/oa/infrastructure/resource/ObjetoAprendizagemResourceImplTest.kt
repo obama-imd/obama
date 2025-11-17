@@ -59,7 +59,8 @@ class ObjetoAprendizagemResourceImplTest {
                 nome,
                 caminho_thumbnail,
                 quantidade_acessos,
-                versao
+                versao,
+                tipo_licensa_uso_id
             ) VALUES (
                 :id,
                 :ativo,
@@ -68,8 +69,9 @@ class ObjetoAprendizagemResourceImplTest {
                 :nome,
                 :caminhoThumbnail,
                 :quantidadeAcessos,
-                :versao
-            );
+                :versao,
+                :tipoLicensaUsoId
+            )
         """.trimIndent()
 
         entityManager.createNativeQuery(sql)
@@ -81,7 +83,11 @@ class ObjetoAprendizagemResourceImplTest {
             .setParameter("caminhoThumbnail", resultado.thumbnailPath)
             .setParameter("quantidadeAcessos", resultado.quantidadeAcessos)
             .setParameter("versao", resultado.versao)
+            .setParameter("tipoLicensaUsoId", resultado.tipoLicensaUso?.id)
             .executeUpdate()
+
+        entityManager.flush()
+        entityManager.clear()
 
         return resultado
     }
