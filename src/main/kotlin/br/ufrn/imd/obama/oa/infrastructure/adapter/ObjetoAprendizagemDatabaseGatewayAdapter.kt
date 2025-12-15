@@ -25,25 +25,27 @@ class ObjetoAprendizagemDatabaseGatewayAdapter(
         return objetoAprendizagemRepository.buscarPorId(id)?.toModel() ?: throw OANaoEncontradoException("OA nao encontrada por ID: " + id)
     }
 
-    override fun procurarPorNomeETipoAcessoENivelEnsinoIdETemaConteudoIdEDescritorIdAndHabilidadeId(
+    override fun procurarPorNomeETipoAcessoENivelEnsinoIdETemaConteudoIdEDescritorIdEAnoEnsinoIdEHabilidadeId(
         pageable: Pageable,
         nome: String?,
+        tipoAcesso: TipoAcesso?,
         nivelEnsinoId: Long?,
         temaConteudoId: Long?,
         descritorId: Long?,
+        anoEnsinoId: Long?,
         habilidadeId: Long?,
-        tipoAcesso: TipoAcesso?,
     ): Page<ObjetoAprendizagem> {
         logger.info("method={};", "procurarPorNomeETipoAcessoENivelEnsinoIdETemaConteudoIdEDescritorId")
 
-        return objetoAprendizagemRepository.buscarTodosAtivoPorNomeETipoAcessoENivelEnsinoETemaConteudoEDescritorEHabilidade(
+        return objetoAprendizagemRepository.buscarTodosAtivoPorNomeETipoAcessoENivelEnsinoETemaConteudoEDescritorEAnoEnsinoHabilidade(
             pageable = pageable,
             nome = nome?.uppercase(),
+            tipoAcesso = tipoAcesso,
             nivelEnsinoId = nivelEnsinoId,
             temaConteudoId = temaConteudoId,
             descritorId = descritorId,
-            habilidadeId = habilidadeId,
-            tipoAcesso = tipoAcesso
+            anoEnsinoId = anoEnsinoId,
+            habilidadeId = habilidadeId
         ).map { it.toModel() }
     }
 }
