@@ -74,13 +74,14 @@ class ObjetoAprendizagemDatabaseGatewayAdapterTest {
         var resultado: Page<ObjetoAprendizagemEntity> = Page.empty()
 
         `when`(
-            objetoAprendizagemRepository.buscarTodosAtivoPorNomeETipoAcessoENivelEnsinoETemaConteudoEDescritorEHabilidade(
+            objetoAprendizagemRepository.buscarTodosAtivoPorNomeETipoAcessoENivelEnsinoETemaConteudoEDescritorEAnoEnsinoHabilidade(
+                pageable,
                 nome.uppercase(),
                 null,
                 null,
                 null,
                 null,
-                pageable,
+                null,
                 null
             )
         ).thenReturn(
@@ -90,7 +91,7 @@ class ObjetoAprendizagemDatabaseGatewayAdapterTest {
         var oas: Page<ObjetoAprendizagem>? = null
 
         assertDoesNotThrow {
-            oas = gatewayAdapter.procurarPorNomeETipoAcessoENivelEnsinoIdETemaConteudoIdEDescritorIdAndHabilidadeId(
+            oas = gatewayAdapter.procurarPorNomeETipoAcessoENivelEnsinoIdETemaConteudoIdEDescritorIdEAnoEnsinoIdEHabilidadeId(
                 pageable,
                 nome,
                 null,
@@ -98,6 +99,7 @@ class ObjetoAprendizagemDatabaseGatewayAdapterTest {
                 null,
                 null,
                 null,
+                null
             )
         }
         Assertions.assertEquals(oas?.isEmpty, true)
