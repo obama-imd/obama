@@ -54,7 +54,7 @@ java -version  # Deve ser Java 21+
 
 ## 🏗️ Arquitetura
 
-Este projeto segue os princípios da **Arquitetura Limpa (Clean Architecture)**, garantindo separação de responsabilidades, testabilidade e independência de frameworks.
+Este projeto segue os princípios mesclados da **Arquitetura Limpa (Clean Architecture)** e do Domain Driven Desing(DDD), garantindo separação de responsabilidades, testabilidade e independência de frameworks.
 
 ### Estrutura de Pacotes
 
@@ -70,7 +70,7 @@ O pacote `domain` contém as regras de negócio e abstrações do sistema, **sem
 
 #### 📁 models
 
-Contém classes representativas que servem como objetos de comunicação entre os pacotes `domain` e `infrastructure`, além de possuir regras de negócio (conceitos de DDD).
+Responsáveis por representar conceitos, informações e situações referentes aos negócios além de servirem como objetos de comunicação entre os pacotes `domain` e `infrastructure`.
 
 **Exemplo:**
 ```kotlin
@@ -90,8 +90,14 @@ class ObjetoAprendizagem(
     val habilidades: Set<Habilidade>,
     val plataformas: List<ObjetoAprendizagemPlataforma>
 ) {
-    override fun equals(other: Any?): Boolean {
-        return id == (other as ObjetoAprendizagem).id
+    override fun incrementarVersao(other: Any?): Boolean {
+       val (major, minor, patch) = versao
+          ?.split(".")
+          ?.mapNotNull { it.toIntOrNull() }
+          ?.takeIf { it.size == 3 }
+          ?: listOf(1, 0, 0)
+
+       versao = "$major.$minor.${patch + 1}"
     }
 }
 ```
@@ -118,7 +124,7 @@ interface ObjetoAprendizagemGateway {
 
 #### 📁 usecase
 
-Contém os casos de uso do sistema, separados em interfaces e suas respectivas implementações. Representam as operações de negócio da aplicação.
+Representam as regras de fluxo de operações, ou seja, casos de uso do sistema, separados em interfaces e suas respectivas implementações.
 
 **Exemplo - Interface:**
 ```kotlin
@@ -179,7 +185,7 @@ O pacote `infrastructure` contém as implementações e configurações relacion
 
 #### 📁 adapter
 
-Implementa as interfaces definidas no sub-pacote `gateways` do domain.
+Implementa as interfaces definidas no sub-pacote `gateways` e representam as regras de persistência(dados ou eventos) ou regras de comunicação com aplicações externas.
 
 **Exemplo:**
 ```kotlin
@@ -248,7 +254,7 @@ data class BuscarOaIdResponse(
 
 #### 📁 entity
 
-Sub-pacote que contém classes que representam entidades de banco de dados (JPA).
+Sub-pacote que contém classes de entidades de banco de dados que representam o negócio da aplicação.
 
 **Exemplo:**
 ```kotlin
@@ -282,7 +288,7 @@ class ObjetoAprendizagemEntity(
 
 #### 📁 repository
 
-Define interfaces para a comunicação com base de dados usando Spring Data JPA.
+Define interfaces ou implementações para a comunicação com base de dados.
 
 **Exemplo:**
 ```kotlin
