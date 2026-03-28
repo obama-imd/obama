@@ -16,7 +16,7 @@ class NivelEnsinoExceptionHandler: DefaultHandlerExceptionResolver() {
 
     @ExceptionHandler(NivelEnsinoNaoEncontradoException::class)
     fun handleNivelEnsinoNaoEncontradoException(ex: NivelEnsinoNaoEncontradoException) : ResponseEntity<Any> {
-        logger.error(ex)
+        logger.error(ex.message)
         return ResponseEntity.badRequest().build()
     }
 }

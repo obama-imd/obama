@@ -17,13 +17,13 @@ class ObjetoAprendizagemExceptionHandler: DefaultHandlerExceptionResolver() {
 
     @ExceptionHandler(NoSuchBeanDefinitionException::class)
     fun handlerNoSuchBeanDefinitionException(ex: NoSuchBeanDefinitionException) : ResponseEntity<Any> {
-        logger.error(ex)
+        logger.error(ex.message)
         return ResponseEntity.badRequest().build()
     }
 
     @ExceptionHandler(OANaoEncontradoException::class)
     fun handleOANaoEncontradaException(ex: OANaoEncontradoException) : ResponseEntity<Any> {
-        logger.error(ex)
+        logger.error(ex.message)
         return ResponseEntity.notFound().build()
     }
 

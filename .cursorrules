@@ -1,0 +1,357 @@
+# OBAMA - Regras e Estrutura do Projeto
+
+## Visão Geral
+Projeto Spring Boot 3.5.7 em Kotlin 1.9.24 seguindo **Clean Architecture** e **Domain-Driven Design (DDD)**.
+Aplicação REST para gerenciamento de Objetos de Aprendizagem para Matemática.
+
+## Estrutura de Pacotes Base
+```
+br.ufrn.imd.obama
+├── oa/                    # Contexto: Objetos de Aprendizagem
+├── usuario/               # Contexto: Usuários e Autenticação
+├── planoaula/             # Contexto: Planos de Aula
+└── ObamaApplication.kt    # Classe principal
+```
+
+## Arquitetura por Contexto Delimitado
+
+Cada contexto (`oa`, `usuario`, `planoaula`) segue a mesma estrutura:
+
+### 📁 Domain Layer (Regras de Negócio - SEM dependências de frameworks)
+
+#### `domain/model/`
+- Classes de domínio puro (sem anotações JPA)
+- Contém regras de negócio e validações
+- Exemplo: `Usuario`, `ObjetoAprendizagem`, `PlanoAula`
+- **Nunca** deve importar classes de `infrastructure`
+
+#### `domain/gateway/`
+- Interfaces que definem contratos para comunicação externa
+- Exemplos: `UsuarioGateway`, `ObjetoAprendizagemGateway`, `EmailGateway`
+- Representam portas de saída (output ports) da Clean Architecture
+
+#### `domain/usecase/`
+- Interfaces e implementações de casos de uso
+- Contém a lógica de negócio da aplicação
+- Padrão: `{Nome}UseCase` (interface) e `{Nome}UseCaseImpl` (implementação)
+- **Sempre** recebe adapters via construtor (injeção de dependência)
+- Exemplo: `UsuarioUseCase`, `ObjetoAprendizagemUseCase`
+
+#### `domain/exception/`
+- Exceções customizadas do domínio
+- Padrão de nomenclatura: `{Entidade}NaoEncontradoException`
+- Exemplo: `UsuarioNaoEncontradoException`, `OANaoEncontradoException`
+
+#### `domain/enums/`
+- Enums específicos do domínio
+- Exemplo: `Papel`, `TipoCadastro`, `StatusPlanoAula`
+
+### 📁 Infrastructure Layer (Implementações e Frameworks)
+
+#### `infrastructure/adapter/`
+- Implementações das interfaces `gateway` do domain
+- Padrão de nomenclatura: `{Nome}GatewayAdapter` ou `{Nome}DatabaseGatewayAdapter`
+- Anotado com `@Service` ou `@Component`
+- Converte entre Entity (JPA) e Model (Domain) usando mappers
+- Exemplo: `UsuarioDatabaseGatewayAdapter`, `ObjetoAprendizagemDatabaseGatewayAdapter`
+
+#### `infrastructure/resource/`
+- Controllers REST (Spring `@RestController`)
+- Padrão: `{Nome}Resource` (interface) e `{Nome}ResourceImpl` (implementação)
+- Anotado com `@RestController`, `@RequestMapping`, `@Tag` (Swagger)
+- Usa casos de uso do domain via injeção de dependência
+- **Nunca** acessa diretamente repositories ou entities
+- Exemplo: `UsuarioResource`, `UsuarioResourceImpl`
+
+#### `infrastructure/resource/exchange/`
+- DTOs para requisições e respostas HTTP
+- Padrão: `{Acao}{Entidade}Request` ou `{Entidade}Response`
+- Exemplo: `CadastrarUsuarioRequest`, `UsuarioResponse`, `LoginRequest`
+
+#### `infrastructure/entity/`
+- Entidades JPA para persistência
+- Anotadas com `@Entity`, `@Table`, `@Id`, etc.
+- Padrão: `{Nome}Entity`
+- Exemplo: `UsuarioEntity`, `ObjetoAprendizagemEntity`
+
+#### `infrastructure/repository/`
+- Interfaces Spring Data JPA
+- Estendem `JpaRepository<Entity, ID>`
+- Padrão: `{Nome}Repository`
+- Exemplo: `UsuarioRepository`, `ObjetoAprendizagemRepository`
+
+#### `infrastructure/mapper/`
+- Funções de extensão Kotlin para conversão entre camadas
+- Padrões:
+  - `Entity.toDomain()`: Entity → Model
+  - `Model.toEntity()`: Model → Entity
+  - `Model.toResponse()`: Model → DTO Response
+  - `Request.toModel()`: DTO Request → Model
+- Exemplo: `UsuarioEntity.toDomain()`, `Usuario.toResponse()`
+
+#### `infrastructure/configuration/`
+- Classes de configuração Spring (`@Configuration`)
+- Beans, segurança, cache, etc.
+- Exemplo: `SecurityConfiguration`, `CaffeineConfig`, `SwaggerConfig`
+
+#### `infrastructure/handler/`
+- Tratamento global de exceções (`@RestControllerAdvice`)
+- Padrão: `{Nome}ExceptionHandler`
+- Exemplo: `ObjetoAprendizagemExceptionHandler`
+
+#### `infrastructure/exception/`
+- Exceções específicas da camada de infraestrutura (quando necessário)
+- Geralmente exceções do domain são preferidas
+
+## Convenções de Nomenclatura
+
+### Classes
+- **Models**: `Usuario`, `ObjetoAprendizagem` (sem sufixo)
+- **Entities**: `UsuarioEntity`, `ObjetoAprendizagemEntity`
+- **DTOs**: `UsuarioResponse`, `CadastrarUsuarioRequest`
+- **Use Cases**: `UsuarioUseCase` (interface), `UsuarioUseCaseImpl` (implementação)
+- **Gateways**: `UsuarioGateway` (interface)
+- **Adapters**: `UsuarioDatabaseGatewayAdapter`
+- **Resources**: `UsuarioResource` (interface), `UsuarioResourceImpl` (implementação)
+- **Repositories**: `UsuarioRepository`
+- **Exceptions**: `UsuarioNaoEncontradoException`
+
+### Pacotes
+- Sempre em minúsculas
+- Separados por ponto: `br.ufrn.imd.obama.{contexto}.{layer}.{subpacote}`
+
+### Métodos
+- Português para métodos de negócio: `buscarPorId`, `salvarUsuario`
+- Inglês para métodos técnicos quando apropriado
+- Use cases: verbos de ação (`buscar`, `salvar`, `atualizar`, `deletar`)
+
+## Fluxo de Dados
+
+```
+HTTP Request
+    ↓
+Resource (Controller)
+    ↓
+UseCase (Domain)
+    ↓
+Gateway Interface (Domain)
+    ↓
+Gateway Adapter (Infrastructure)
+    ↓
+Repository (Infrastructure)
+    ↓
+Database
+```
+
+**Direção das dependências**: Infrastructure → Domain (Domain nunca depende de Infrastructure)
+
+## Padrões de Implementação
+
+### 1. Criar um novo Resource
+```kotlin
+// 1. Interface em infrastructure/resource/
+interface UsuarioResource {
+    @PostMapping("/cadastrar")
+    fun salvarUsuario(@RequestBody @Valid request: CadastrarUsuarioRequest): ResponseEntity<UsuarioResponse>
+}
+
+// 2. Implementação em infrastructure/resource/
+@RestController
+@RequestMapping("/v1/usuario")
+@Tag(name = "UsuarioResource", description = "...")
+class UsuarioResourceImpl(
+    private val usuarioUseCase: UsuarioUseCase
+) : UsuarioResource {
+    // Implementação
+}
+```
+
+### 2. Criar um novo Use Case
+```kotlin
+// 1. Interface em domain/usecase/
+interface UsuarioUseCase {
+    fun salvarUsuario(usuario: Usuario): Usuario
+}
+
+// 2. Implementação em domain/usecase/
+class UsuarioUseCaseImpl(
+    private val usuarioGateway: UsuarioGateway
+) : UsuarioUseCase {
+    override fun salvarUsuario(usuario: Usuario): Usuario {
+        // Lógica de negócio
+        return usuarioGateway.salvar(usuario)
+    }
+}
+```
+
+### 3. Criar um novo Gateway Adapter
+```kotlin
+// 1. Interface em domain/gateway/
+interface UsuarioGateway {
+    fun salvar(usuario: Usuario): Usuario
+}
+
+// 2. Implementação em infrastructure/adapter/
+@Service
+class UsuarioDatabaseGatewayAdapter(
+    private val usuarioRepository: UsuarioRepository
+) : UsuarioGateway {
+    override fun salvar(usuario: Usuario): Usuario {
+        val entity = usuario.toEntity()
+        return usuarioRepository.save(entity).toDomain()
+    }
+}
+```
+
+## Tecnologias e Dependências
+
+### Core
+- Java 21
+- Kotlin 1.9.24
+- Spring Boot 3.5.7
+- Gradle 8.9
+
+### Persistência
+- Spring Data JPA
+- PostgreSQL (produção)
+- H2 (desenvolvimento/testes)
+- Flyway (migrações)
+
+### Segurança
+- Spring Security
+- JWT (Auth0)
+- BCrypt
+
+### Documentação
+- SpringDoc OpenAPI 2.8.14
+
+### Cache
+- Caffeine 3.1.8
+
+## Testes
+
+### Estrutura
+- Testes em `src/test/kotlin/` seguindo a mesma estrutura de pacotes
+- Padrão: `{Classe}Test` (ex: `UsuarioResourceImplTest`)
+- Utilitários de teste em `util/` dentro de cada contexto
+
+### Cobertura
+- JaCoCo configurado
+- Exclui: models, entities, mappers, exceptions, enums, exchange, configuration
+
+## Configurações Importantes
+
+### Perfis Spring
+- `local`: H2 em memória
+- `dev`: Desenvolvimento
+- `prod`: Produção
+- `test`: Testes
+
+### Variáveis de Ambiente
+- `JWT_SECRET`: Obrigatório para autenticação
+- `SENHA_APP_EMAIL`: Para envio de emails
+- `DB_URL`, `DB_USERNAME`, `DB_PASSWORD`: Banco de dados
+
+## Regras Importantes
+
+1. **Domain nunca importa Infrastructure**: O pacote `domain` deve ser independente de frameworks
+2. **Use Cases orquestram a lógica**: Toda lógica de negócio deve estar em use cases
+3. **Resources são finos**: Controllers apenas recebem requests, chamam use cases e retornam responses
+4. **Mappers fazem conversões**: Sempre use mappers para converter entre Entity, Model e DTO
+5. **Gateways são interfaces**: Defina contratos no domain, implemente na infrastructure
+6. **Exceções do domain**: Prefira exceções customizadas do domain para erros de negócio
+7. **Logging**: Use SLF4J com padrão: `logger.info("method={}; param={};", "methodName", param)`
+8. **Validação**: Use `@Valid` em DTOs de request e validações Bean Validation
+9. **Swagger**: Sempre documente recursos com `@Tag` e anotações OpenAPI
+10. **Testes**: Mantenha alta cobertura, especialmente em use cases e adapters
+
+## Estrutura de Arquivos por Contexto
+
+Para cada contexto (`oa`, `usuario`, `planoaula`):
+
+```
+{contexto}/
+├── domain/
+│   ├── enums/
+│   ├── exception/
+│   ├── gateway/
+│   ├── model/
+│   └── usecase/
+└── infrastructure/
+    ├── adapter/
+    ├── configuration/  (opcional, pode estar no contexto ou global)
+    ├── entity/
+    ├── exception/      (opcional)
+    ├── handler/
+    ├── mapper/
+    ├── repository/
+    └── resource/
+        └── exchange/
+```
+
+## Exemplos de Código
+
+### Resource Típico
+```kotlin
+@RestController
+@RequestMapping("/v1/usuario")
+@Validated
+@Tag(name = "UsuarioResource", description = "...")
+class UsuarioResourceImpl(
+    private val usuarioUseCase: UsuarioUseCase
+) : UsuarioResource {
+    
+    @PostMapping("/cadastrar")
+    override fun salvarUsuario(
+        @RequestBody @Valid request: CadastrarUsuarioRequest
+    ): ResponseEntity<UsuarioResponse> {
+        val usuario = request.toModel()
+        val usuarioSalvo = usuarioUseCase.salvarUsuario(usuario)
+        return ResponseEntity.status(HttpStatus.CREATED)
+            .body(usuarioSalvo.toResponse())
+    }
+}
+```
+
+### Use Case Típico
+```kotlin
+class UsuarioUseCaseImpl(
+    private val usuarioGateway: UsuarioGateway
+) : UsuarioUseCase {
+    private val logger = LoggerFactory.getLogger(javaClass)
+    
+    override fun salvarUsuario(usuario: Usuario): Usuario {
+        logger.info("method={}; email={};", "salvarUsuario", usuario.email)
+        // Validações de negócio
+        return usuarioGateway.salvar(usuario)
+    }
+}
+```
+
+### Gateway Adapter Típico
+```kotlin
+@Service
+class UsuarioDatabaseGatewayAdapter(
+    private val usuarioRepository: UsuarioRepository
+) : UsuarioGateway {
+    private val logger = LoggerFactory.getLogger(javaClass)
+    
+    override fun salvar(usuario: Usuario): Usuario {
+        logger.info("method={};", "salvar")
+        val entity = usuario.toEntity()
+        return usuarioRepository.save(entity).toDomain()
+    }
+}
+```
+
+## Migrações de Banco
+
+- Localizadas em: `src/main/resources/db/migration/`
+- Formato: `V{versao}__{descricao}.sql`
+- Executadas automaticamente pelo Flyway na inicialização
+
+## Documentação da API
+
+- Swagger UI: `http://localhost:8081/swagger-ui/index.html`
+- Sempre documente endpoints com `@Tag`, `@Operation`, `@ApiResponse`, etc.
+

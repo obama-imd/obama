@@ -87,6 +87,7 @@ class ObjetoAprendizagemUseCaseImplTest {
                 null,
                 null,
                 null,
+                null,
                 null
             )
         ).thenReturn(resultado);
@@ -97,6 +98,7 @@ class ObjetoAprendizagemUseCaseImplTest {
             paginas = objetoAprendizagemUseCase.buscarPorParametros(
                 pageable,
                 nome,
+                null,
                 null,
                 null,
                 null,
@@ -124,6 +126,7 @@ class ObjetoAprendizagemUseCaseImplTest {
                 null,
                 null,
                 null,
+                null,
                 null
             )
         ).thenReturn(resultado);
@@ -134,6 +137,7 @@ class ObjetoAprendizagemUseCaseImplTest {
             paginas = objetoAprendizagemUseCase.buscarPorParametros(
                 pageable,
                 nome,
+                null,
                 null,
                 null,
                 null,

@@ -16,7 +16,7 @@ class AnoEnsinoExceptionHandler: DefaultHandlerExceptionResolver() {
 
     @ExceptionHandler(AnoEnsinoNaoEncontradoException::class)
     fun handleAnoEnsinoNaoEncontradoException(ex: AnoEnsinoNaoEncontradoException): ResponseEntity<Any> {
-        logger.error(ex)
+        logger.error(ex.message)
         return ResponseEntity.badRequest().build()
     }
 }
