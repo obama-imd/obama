@@ -114,7 +114,6 @@ tasks.named("jacocoTestReport") {
 					classDirectories.files.collect {
 						fileTree(it) {
 							exclude("**/obama/ObamaApplication**")
-							exclude("**/model/**")
 							exclude("**/entity/**")
 							exclude("**/handler/**")
 							exclude("**/mapper/**")
