@@ -16,7 +16,7 @@ class CurriculoExceptionHandler: DefaultHandlerExceptionResolver() {
 
     @ExceptionHandler(CurriculoNaoEncontradoException::class)
     fun handlerNoSuchBeanDefinitionException(ex: CurriculoNaoEncontradoException) : ResponseEntity<Any> {
-        logger.error(ex)
+        logger.error(ex.message)
         return ResponseEntity.badRequest().build()
     }
 

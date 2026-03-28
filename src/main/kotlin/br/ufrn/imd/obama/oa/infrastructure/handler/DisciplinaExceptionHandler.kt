@@ -16,7 +16,7 @@ class DisciplinaExceptionHandler: DefaultHandlerExceptionResolver() {
 
     @ExceptionHandler(DisciplinaNaoEncontradoException::class)
     fun handleDisciplinaNaoEncontradaException(ex: DisciplinaNaoEncontradoException) : ResponseEntity<Any> {
-        logger.error(ex)
+        logger.error(ex.message)
         return ResponseEntity.badRequest().build()
     }
 }
